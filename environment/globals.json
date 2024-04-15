@@ -1,0 +1,24 @@
+{
+    "name": "Globals",
+    "values": [
+      {
+        "key": "basicUser",
+        "value": "******",
+        "type": "secret",
+        "enabled": true
+      },
+      {
+        "key": "basicPass",
+        "value": "*****",
+        "type": "secret",
+        "enabled": true
+      },
+      {
+        "key": "serverUrl",
+        "value": "https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql",
+        "type": "default",
+        "enabled": true
+      }
+    ]
+  }
+  

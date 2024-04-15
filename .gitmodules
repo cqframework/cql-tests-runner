@@ -1,0 +1,3 @@
+[submodule "cql-tests"]
+	path = cql-tests
+	url = https://github.com/cqframework/cql-tests
