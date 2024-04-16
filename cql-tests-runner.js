@@ -2,177 +2,188 @@
 
 const fs = require('fs');
 const path = require('path');
-const xmlParser = require('fast-xml-parser');
 const { format } = require('date-fns');
+const loadTests = require('./loadTests');
 const colors = require('colors/safe');
 const currentDate = format(new Date(), 'yyyyMMddhhmm');
 const arguments = process.argv.slice(2);
 
-const apiUrl = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
-const data = {
-    "resourceType": "Parameters",
-    "parameter": [{
-        "name": "expression",
-        "valueString": "2 + 2"
-    }]
-};
+// Environment
 
-const requestOptions = {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-};
-
-fetch(apiUrl, requestOptions)
-  .then(response => {
-    if (!response.ok) {
-        throw new Error('Network response not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log('Response:', JSON.stringify(data));
-  })
-  .catch(error => {
-    console.error('Error:', error); 
-  });
-
-/*
-var directory = '../results'
-var collectionString = '../collections/cqf-measures.postman_collection.json';
-var environmentString = '../collections/workspace.postman_globals.json';
-if(arguments.length > 0){
-    arguments.forEach(arg =>{
-        var prefix = arg.slice(0,4);
-        switch(prefix){
-            case '-cs=':
-                collectionString = arg.slice(4);
+var apiUrl = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
+var environmentPath = './environment/globals.json';
+var outputPath = './results'
+if (arguments.length > 0) {
+    arguments.forEach(arg => {
+        var prefix = arg.slice(0, 4);
+        switch(prefix) {
+            case '-au=':
+                apiUrl = arg.slice(4);
                 break;
-            case '-es=':
-                environmentString = arg.slice(4);
+            case '-ep=':
+                environmentPath = arg.slice(4);
                 break;
             case '-op=':
-                directory = arg.slice(4);
+                outputPath = arg.slice(4);
                 break;
         }
     });
 }
-newman.run({
-    collection: require(collectionString),
-    environment: require(environmentString)
-}).on('beforeDone', (error, data) => {
-    if (error) {
-        console.log(error);
-    }
-    var TestingResults = {"Summary":{},"TestDetails":[]}
-    var jsonTestTemplate = {"Name": "",
-                             "Assertions": []};
-    var jsonAssertionTemplate = {"Assertion": "", 
-                                "Message": "", 
-                                "Result": ""};
-    var failCount = 0;
-    var passCount = 0;
-    var missingCount = 0;
-    var totalTestCount = 0;
-    var totalAssertionCount = 0;
-    
-    var passingTests = [];
-    var failingTests = [];
-    var missingTests = [];
 
-    data.summary.run.executions.forEach(exec => {
-        totalTestCount++;
-        if (exec.assertions) {
-            console.log('Request name:', exec.item.name);
-            console.log('Assertions:');
-            var addedFail = false;
-            var addedPass = false;
-            var newJsonTest = JSON.parse(JSON.stringify(jsonTestTemplate));
-            newJsonTest.Name = exec.item.name;
-            TestingResults.TestDetails.push(newJsonTest);
-            exec.assertions.forEach(assert => {
-                totalAssertionCount++;
-                var newAssertion = JSON.parse(JSON.stringify(jsonAssertionTemplate));
-                newAssertion.Assertion = assert.assertion;
-                if (assert.error) {
-                    console.log('\t', colors.red('FAILED'), ': ', assert.assertion, '\n\t\t  ', colors.yellow(assert.error.message));
-                    failCount++;
-                    if (!addedFail) {
-                        addedFail = true;
-                    }
-                    newAssertion.Result = 'FAIL';
-                    newAssertion.Message = assert.error.message;
+// TODO: Read server-url from environment path...
 
-                }
-                else {
-                    console.log('\t', colors.green('PASSED'), ': ', assert.assertion);
-                    passCount++;
-                    if (!addedPass) {
-                        addedPass = true;
-                    }
-                    newAssertion.Result = 'PASS';
-                }
-                newJsonTest.Assertions.push(newAssertion);
-            });
-            if (addedFail) {
-                failingTests.push(exec.item.name);
+// Setup for running both $cql and Library/$evaluate
+// Expand outputType to allow Parameters representation
+
+// Test Container Structure:
+/*
+class Tests {
+    name: String
+    version: String // The version in which the capability being tested was introduced
+    description: String
+    reference: String // A reference to the section of the spec being tested
+    notes: String
+    group: TestGroup[]
+}
+
+class TestGroup {
+    name: String
+    version: String // The version in which the capability being tested was introduced
+    description: String
+    reference: String // A reference to the section of the spec being tested
+    notes: String
+    test: Test[]
+}
+
+class Test {
+    name: String
+    version: String // The version in which the capability being tested was introduced
+    description: String
+    reference: String // A reference to the section of the spec being tested
+    inputFile: String // Input data, if any
+    predicate: Boolean // True if this test represents a predicate
+    mode: String // strict | loose
+    ordered: Boolean // Whether the results are expected to be ordered, false if not present
+    checkOrderedFunctions: Boolean // Whether to ensure that attempting to use ordered functions with an unordered input should throw (e.g., using .skip() on an unordered list)
+    expression: String | { text: String, invalid: false, semantic, true }
+    output: String([]) | { text: String, type: boolean | code | date | dateTime | decimal | integer | long | quantity | string | time }([])
+}
+*/
+
+class Result {
+    testStatus; // String: pass | fail | skip | error
+    responseStatus; // Integer
+    actual; // String
+    expected; // String
+    error; // Error
+    constructor(testsName, groupName, test) {
+        this.testsName = testsName;
+        this.groupName = groupName;
+        this.testName = test.name;
+
+        if (typeof test.expression !== 'string') {
+            this.invalid = test.expression.invalid;
+            this.expression = test.expression.text;
+        }
+        else {
+            this.invalid = 'false';
+            this.expression = test.expression;
+        }
+
+        // TODO: Turn these into Parameters outputs?
+        if (test.output !== undefined) {
+            if (typeof test.output !== 'string') {
+                // TODO: Structure the result if it can be structured (i.e. is one of the expected types)
+                this.expected = test.output.text;
             }
             else {
-                passingTests.push(exec.item.name);
+                this.expected = test.output;
             }
         }
-        else{
-            console.log('Request name:', exec.item.name);
-            console.log('\t', colors.red('Missing Assertions'), ': ', exec.item.name);
-            missingCount++;
-            missingTests.push(exec.item.name);
+        else {
+            this.testStatus = 'skip';
         }
-    });
-
-    console.log('\n\nSUMMARY\n');
-    console.log('Assertions that passed: ', colors.green(passCount));
-    console.log('Assertions that failed: ', colors.red(failCount));
-    console.log('Total assertions: ', totalAssertionCount);
-    console.log('Tests that are missing assertions: ', colors.red(missingCount));
-    console.log('Total tests: ', totalTestCount);
-    
-    TestingResults.Summary['PassingAssertionsCount'] = passCount;
-    TestingResults.Summary['FailingAssertionsCount'] = failCount;
-    TestingResults.Summary['TotalAssertionCount'] = totalAssertionCount;
-    TestingResults.Summary['MissingAssertionsCount'] = missingCount;
-
-    console.log('Tests that passed');
-    passingTests.forEach(passTest => {
-        console.log('\t', colors.green(passTest));
-    });
-    TestingResults.Summary['TotalTests'] = totalTestCount;
-    TestingResults.Summary['PassingTests'] = passingTests;
-
-    console.log('Tests with failing assertions');
-    failingTests.forEach(failTest => {
-        console.log('\t', colors.red(failTest));
-    });
-    TestingResults.Summary['FailingTests'] = failingTests;
-
-    console.log('Tests with missing assertions');
-    missingTests.forEach(missingTest => {
-        console.log('\t', colors.yellow(missingTest));
-    });
-    TestingResults.Summary['TestsMissingAssertions'] = missingTests;
-
-    var fileName = `testResults_${currentDate}.json`
-
-    if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory, { recursive: true });
     }
-     var testResults = {"TestingResults": TestingResults};
-//     testResults['Tests'] = TestingResults;
+}
 
-    var  filePath = path.join(directory, fileName);
-    fs.writeFile(filePath, JSON.stringify(testResults, null, 2), (error)=>{
-        if(error) throw error;
+// Iterate through tests
+async function main() {
+    await loadTests.tests.forEach(async testSet => {
+        console.log('Container: ' + testSet.name);
+        await testSet.group.forEach(async group => {
+            console.log('    Group: ' + group.name);
+            // results[results.length] = libraryTest(group)
+            if (group.test != null) {
+                await group.test.forEach(async test => {
+                    console.log('        Test: ' + test.name);
+                    var result = await expressionTest(testSet.name, group.name, test);
+                    console.log('        Test: ' + test.name + ' finished');
+                    logResult(result);
+                });
+            };
+        });
     });
-}); 
-*/
+};
+
+main();
+
+async function expressionTest(testsName, groupName, test) {
+    //const apiUrl = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
+    const result = new Result(testsName, groupName, test);
+
+    if (result.testStatus !== 'skip') {
+        const data = {
+            "resourceType": "Parameters",
+            "parameter": [{
+                "name": "expression",
+                "valueString": test.expression
+            }]
+        };
+        
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+        
+        try {
+            console.log('Running test ' + testsName + ':' + groupName + ':' + test.name);
+            const response = await fetch(apiUrl, requestOptions);
+
+            result.responseStatus = response.status;
+
+            const responseBody = await response.json();
+            result.actual = JSON.stringify(responseBody);
+
+            if (invalid === 'true' || invalid === 'semantic') {
+                // TODO: Validate the error message is as expected...
+                testStatus = response.ok ? 'fail' : 'pass';
+            }
+            else {
+                testStatus = response.ok ? 'pass' : 'fail';
+            }
+        }
+        catch (error) {
+            result.testStatus = 'error';
+            result.error = error;
+        };
+    }
+
+    return result;
+};
+
+// Output test results
+
+function logResult(result) {
+    var fileName = `${result.testsName}_${result.groupName}_${result.testName}_${currentDate}_results.json`;
+    if (!fs.existsSync(outputPath)) {
+        fs.mkdirSync(outputPath, { recursive: true });
+    }
+    var filePath = path.join(outputPath, fileName);
+    fs.writeFile(filePath, JSON.stringify(result, null, 2), (error) => {
+        if (error) throw error;
+    });
+}
+
