@@ -106,37 +106,40 @@ class Result {
     }
 }
 
+// Test Setup
+results = [];
+loadTests.tests.forEach(testSet => {
+    console.log('Container: ' + testSet.name);
+    testSet.group.forEach(group => {
+        console.log('    Group: ' + group.name);
+        // TODO: Set up Library Tests here...
+        // results[results.length] = libraryTest(group)
+        if (group.test != null) {
+            group.test.forEach(test => {
+                console.log('        Test: ' + test.name);
+                results[results.length] = new Result(testSet.name, group.name, test);
+            });
+        };
+    });
+});
+
 // Iterate through tests
 async function main() {
-    await loadTests.tests.forEach(async testSet => {
-        console.log('Container: ' + testSet.name);
-        await testSet.group.forEach(async group => {
-            console.log('    Group: ' + group.name);
-            // results[results.length] = libraryTest(group)
-            if (group.test != null) {
-                await group.test.forEach(async test => {
-                    console.log('        Test: ' + test.name);
-                    var result = await expressionTest(testSet.name, group.name, test);
-                    console.log('        Test: ' + test.name + ' finished');
-                    logResult(result);
-                });
-            };
-        });
+    results.forEach(async test => {
+        await runTest(test);
+        logResult(test);
     });
 };
 
 main();
 
-async function expressionTest(testsName, groupName, test) {
-    //const apiUrl = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
-    const result = new Result(testsName, groupName, test);
-
+async function runTest(result) {
     if (result.testStatus !== 'skip') {
         const data = {
             "resourceType": "Parameters",
             "parameter": [{
                 "name": "expression",
-                "valueString": test.expression
+                "valueString": result.expression
             }]
         };
         
@@ -149,7 +152,7 @@ async function expressionTest(testsName, groupName, test) {
         };
         
         try {
-            console.log('Running test ' + testsName + ':' + groupName + ':' + test.name);
+            console.log('Running test ' + result.testsName + ':' + result.groupName + ':' + result.name);
             const response = await fetch(apiUrl, requestOptions);
 
             result.responseStatus = response.status;
@@ -159,10 +162,10 @@ async function expressionTest(testsName, groupName, test) {
 
             if (invalid === 'true' || invalid === 'semantic') {
                 // TODO: Validate the error message is as expected...
-                testStatus = response.ok ? 'fail' : 'pass';
+                result.testStatus = response.ok ? 'fail' : 'pass';
             }
             else {
-                testStatus = response.ok ? 'pass' : 'fail';
+                result.testStatus = response.ok ? 'pass' : 'fail';
             }
         }
         catch (error) {
@@ -171,6 +174,7 @@ async function expressionTest(testsName, groupName, test) {
         };
     }
 
+    console.log('Test ' + result.testsName + ':' + result.groupName + ':' + result.name + ' status: ' + result.testStatus);
     return result;
 };
 
