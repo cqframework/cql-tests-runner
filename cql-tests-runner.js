@@ -6,30 +6,6 @@ const { format } = require('date-fns');
 const loadTests = require('./loadTests');
 const colors = require('colors/safe');
 const currentDate = format(new Date(), 'yyyyMMddhhmm');
-const arguments = process.argv.slice(2);
-
-// Environment
-
-var apiUrl = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
-var environmentPath = './environment/globals.json';
-var outputPath = './results'
-if (arguments.length > 0) {
-    arguments.forEach(arg => {
-        var prefix = arg.slice(0, 4);
-        switch(prefix) {
-            case '-au=':
-                apiUrl = arg.slice(4);
-                break;
-            case '-ep=':
-                environmentPath = arg.slice(4);
-                break;
-            case '-op=':
-                outputPath = arg.slice(4);
-                break;
-        }
-    });
-}
-
 // TODO: Read server-url from environment path...
 
 // Setup for running both $cql and Library/$evaluate
@@ -106,34 +82,56 @@ class Result {
     }
 }
 
-// Test Setup
-results = [];
-loadTests.tests.forEach(testSet => {
-    console.log('Container: ' + testSet.name);
-    testSet.group.forEach(group => {
-        console.log('    Group: ' + group.name);
-        // TODO: Set up Library Tests here...
-        // results[results.length] = libraryTest(group)
-        if (group.test != null) {
-            group.test.forEach(test => {
-                console.log('        Test: ' + test.name);
-                results[results.length] = new Result(testSet.name, group.name, test);
-            });
-        };
-    });
-});
+
 
 // Iterate through tests
 async function main() {
-    results.forEach(async test => {
-        await runTest(test);
-        logResult(test);
-    });
+    const args = process.argv.slice(2);
+    let apiUrl = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
+    let environmentPath = './environment/globals.json';
+    let outputPath = './results'
+    if (args.length > 0) {
+        for (const arg of args) {
+            let prefix = arg.slice(0, 4);
+            switch(prefix) {
+                case '-au=':
+                    apiUrl = arg.slice(4);
+                    break;
+                case '-ep=':
+                    environmentPath = arg.slice(4);
+                    break;
+                case '-op=':
+                    outputPath = arg.slice(4);
+                    break;
+            }
+        };
+    }
+
+    const tests = loadTests.load();
+
+    let results = [];
+    for(const ts of tests) {
+        for (const group of ts.group) {
+            console.log('    Group: ' + group.name);
+            let test = group.test;
+            if (test != undefined) {
+                for (const t of test) {
+                    console.log('        Test: ' + t.name);
+                    results.push(new Result(ts.name, group.name, t));
+                }
+            }
+        }
+    }
+
+    for (let r of results) {
+        await runTest(r, apiUrl);
+        logResult(r, outputPath);
+    }
 };
 
 main();
 
-async function runTest(result) {
+async function runTest(result, apiUrl) {
     if (result.testStatus !== 'skip') {
         const data = {
             "resourceType": "Parameters",
@@ -159,7 +157,8 @@ async function runTest(result) {
 
             const responseBody = await response.json();
             result.actual = JSON.stringify(responseBody);
-
+            
+            const invalid = result.invalid;
             if (invalid === 'true' || invalid === 'semantic') {
                 // TODO: Validate the error message is as expected...
                 result.testStatus = response.ok ? 'fail' : 'pass';
@@ -180,13 +179,13 @@ async function runTest(result) {
 
 // Output test results
 
-function logResult(result) {
-    var fileName = `${result.testsName}_${result.groupName}_${result.testName}_${currentDate}_results.json`;
+function logResult(result, outputPath) {
+    const fileName = `${result.testsName}_${result.groupName}_${result.testName}_${currentDate}_results.json`;
     if (!fs.existsSync(outputPath)) {
         fs.mkdirSync(outputPath, { recursive: true });
     }
-    var filePath = path.join(outputPath, fileName);
-    fs.writeFile(filePath, JSON.stringify(result, null, 2), (error) => {
+    const filePath = path.join(outputPath, fileName);
+    fs.writeFileSync(filePath, JSON.stringify(result, null, 2), (error) => {
         if (error) throw error;
     });
 }
