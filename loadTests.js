@@ -15,7 +15,7 @@ const options = {
     attributeNamePrefix : '',
     parseTagValue : false,
     isArray: (name, jpath, isLeafNode, isAttribute) => { 
-        if(alwaysArray.indexOf(jpath) !== -1) return true;
+        if (alwaysArray.indexOf(jpath) !== -1) return true;
     },
     textNodeName : 'text'
 };
@@ -31,7 +31,6 @@ function load() {
 
     return tests;
 }   
-
 
 module.exports = {
     load
