@@ -125,8 +125,9 @@ async function main() {
 
     for (let r of results) {
         await runTest(r, apiUrl);
-        logResult(r, outputPath);
     }
+
+  logResults();
 };
 
 main();
@@ -190,3 +191,14 @@ function logResult(result, outputPath) {
     });
 }
 
+function logResults() {
+    var fileName = `${currentDate}_results.json`;
+    if (!fs.existsSync(outputPath)) {
+        fs.mkdirSync(outputPath, { recursive: true });
+    }
+    var filePath = path.join(outputPath, fileName);
+    const result = { results: results };
+    fs.writeFile(filePath, JSON.stringify(result, null, 2), (error) => {
+        if (error) throw error;
+    });
+}
