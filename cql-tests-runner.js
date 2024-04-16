@@ -125,10 +125,10 @@ loadTests.tests.forEach(testSet => {
 
 // Iterate through tests
 async function main() {
-    results.forEach(async test => {
-        await runTest(test);
-        logResult(test);
-    });
+    for (let index = 0; index < results.length; index++) {
+        await runTest(results[index]);
+    }
+    logResults();
 };
 
 main();
@@ -191,3 +191,14 @@ function logResult(result) {
     });
 }
 
+function logResults() {
+    var fileName = `${currentDate}_results.json`;
+    if (!fs.existsSync(outputPath)) {
+        fs.mkdirSync(outputPath, { recursive: true });
+    }
+    var filePath = path.join(outputPath, fileName);
+    const result = { results: results };
+    fs.writeFile(filePath, JSON.stringify(result, null, 2), (error) => {
+        if (error) throw error;
+    });
+}
