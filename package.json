@@ -4,14 +4,14 @@
     "description": "Node application for running CQL tests",
     "main": "cql-tests-runner.js",
     "scripts": {
-      "test": "node cql-tests-runner.js"
+        "test": "node cql-tests-runner.js"
     },
     "author": "",
     "license": "Apache-2.0",
     "dependencies": {
-        "date-fns": "^2.23.0",
+        "axios": "^1.6.8",
         "colors": "^1.4.0",
+        "date-fns": "^2.23.0",
         "fast-xml-parser": "^4.3.6"
     }
 }
-  
