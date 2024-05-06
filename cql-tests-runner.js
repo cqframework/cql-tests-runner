@@ -6,6 +6,7 @@ const { format } = require('date-fns');
 const loadTests = require('./loadTests');
 const colors = require('colors/safe');
 const currentDate = format(new Date(), 'yyyyMMddhhmm');
+const axios = require('axios');
 // TODO: Read server-url from environment path...
 
 // Setup for running both $cql and Library/$evaluate
@@ -149,30 +150,26 @@ async function runTest(result, apiUrl) {
             }]
         };
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        };
-
         try {
             console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.name);
-            const response = await fetch(apiUrl, requestOptions);
+            const response = await axios.post(apiUrl, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
 
             result.responseStatus = response.status;
 
-            const responseBody = await response.json();
+            const responseBody = response.data;
             result.actual = extractResult(responseBody);
 
             const invalid = result.invalid;
             if (invalid === 'true' || invalid === 'semantic') {
                 // TODO: Validate the error message is as expected...
-                result.testStatus = response.ok ? 'fail' : 'pass';
+                result.testStatus = response.status === 200 ? 'fail' : 'pass';
             }
             else {
-                if (response.ok) {
+                if (response.status === 200) {
                     result.testStatus = result.expected === result.actual ? 'pass' : 'fail';
                 }
                 else {
@@ -189,6 +186,7 @@ async function runTest(result, apiUrl) {
     console.log('Test %s:%s:%s status: %s expected: %s actual: %s', result.testsName, result.groupName, result.name, result.testStatus, result.expected, result.actual);
     return result;
 };
+
 
 function extractResult(response) {
     var result;
