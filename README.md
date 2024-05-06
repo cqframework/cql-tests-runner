@@ -5,7 +5,7 @@ The application runs all the tests in the repository and outputs the results as 
 
 ## Setting up the Environment
 
-This application requires Node v21 or above (to make use of the `fetch` API). [Node Download](https://nodejs.org/en/download)
+This application requires Node v18 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
 
 Install the application using
 
