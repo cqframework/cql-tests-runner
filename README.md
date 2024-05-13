@@ -13,6 +13,12 @@ Install the application using
 npm install
 ```
 
+### 
+The cql-tests folder has been added as a submodule. After pulling, you'll find a cql-tests folder inside cql-tests-runner. However, when you peek inside that folder, depending on your Git version, you might see nothing. Newer versions of Git will handle this automatically, but older versions may require you to explicitly instruct Git to download the contents of cql-tests.
+```
+git submodule update --init --recursive
+```
+
 ### Environment Variables
 Environment variables are set in the environment/global.json file:
  
