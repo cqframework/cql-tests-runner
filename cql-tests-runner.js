@@ -157,7 +157,7 @@ async function runTest(result, apiUrl) {
         };
 
         try {
-            console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.name);
+            console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.testName);
             const response = await axios.post(apiUrl, data, {
                 headers: {
                     'Content-Type': 'application/json',
