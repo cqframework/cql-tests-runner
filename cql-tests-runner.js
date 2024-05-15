@@ -39,13 +39,13 @@ async function loadAllTests(tmpPath, quickTest) {
     const preparedTests = new CQLTests(tmpPath);
     const tests = loadTests.load();
     for (const ts of tests) {
-        console.log('Tests: ' + ts.name);
+        // console.log('Tests: ' + ts.name);
         for (const group of ts.group) {
-            console.log('    Group: ' + group.name);
+            // console.log('    Group: ' + group.name);
             const test = group.test;
             if (test != undefined) {
                 for (const t of test) {
-                    console.log('        Test: ' + t.name);
+                    // console.log('        Test: ' + t.name);
                     preparedTests.add(new CQLTest(ts.name, group.name, t));
                 }
             }
@@ -56,6 +56,11 @@ async function loadAllTests(tmpPath, quickTest) {
     return preparedTests;
 }
 
+
+const DEFAULT_API_URL = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
+const DEFAULT_ENVIRONMENT_PATH = './environment/globals.json';
+const DEFAULT_OUTPUT_PATH = './results';
+const DEFAULT_TMP_PATH = './tmp';
 /**
  * Main function to execute the CQL test runner.
  */
