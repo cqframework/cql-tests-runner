@@ -191,7 +191,6 @@ class CQLEngine {
     /**
      * Sets the CQL engine version.
      * @param {string} version - The CQL engine version.
-     * @throws {Error} - If the version is not valid.
      */
     set cqlEngineVersion(version) {
         this.info['cqlEngineVersion'] = version;
