@@ -104,7 +104,7 @@ async function main() {
         preparedTests = await loadTestsFromCache(tmpPath, testStatus);
     } else {
         console.log(`Running all tests!!`);
-        const quickTest = false;
+        const quickTest = true;
         preparedTests = await loadAllTests(tmpPath, quickTest);
     }
 
