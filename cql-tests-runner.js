@@ -107,32 +107,44 @@ async function main() {
 
     const tests = loadTests.load();
 
+    var x;
+    await require('./cvl/cvlLoader.js').then(([{ default: cvl }]) => { x = cvl });
+
     // Set this to true to run only the first group of tests
     const quickTest = false;
+    //const onlyTestsName = "CqlArithmeticFunctionsTest";
+    //const onlyGroupName = "Ceiling";
+    //const onlyTestName = "CeilingNeg1D1";
 
     let results = [];
     for (const ts of tests) {
-        console.log('Tests: ' + ts.name);
-        for (const group of ts.group) {
-            console.log('    Group: ' + group.name);
-            let test = group.test;
-            if (test != undefined) {
-                for (const t of test) {
-                    console.log('        Test: ' + t.name);
-                    results.push(new Result(ts.name, group.name, t));
+        if (typeof onlyTestsName === 'undefined' || onlyTestsName === ts.name) {
+            console.log('Tests: ' + ts.name);
+            for (const group of ts.group) {
+                if (typeof onlyGroupName === 'undefined' || onlyGroupName === group.name) {
+                    console.log('    Group: ' + group.name);
+                    let test = group.test;
+                    if (test != undefined) {
+                        for (const t of test) {
+                            if (typeof onlyTestName === 'undefined' || onlyTestName === t.name) {
+                                console.log('        Test: ' + t.name);
+                                results.push(new Result(ts.name, group.name, t));
+                            }
+                        }
+                    }
+                    if (quickTest) {
+                        break; // Only load 1 group for testing
+                    }
                 }
             }
             if (quickTest) {
-                break; // Only load 1 group for testing
+                break; // Only load 1 test set for testing
             }
-        }
-        if (quickTest) {
-            break; // Only load 1 test set for testing
         }
     }
 
     for (let r of results) {
-        await runTest(r, apiUrl);
+        await runTest(r, apiUrl, x);
     }
 
     logResults(results, outputPath);
@@ -140,7 +152,7 @@ async function main() {
 
 main();
 
-async function runTest(result, apiUrl) {
+async function runTest(result, apiUrl, cvl) {
     if (result.testStatus !== 'skip') {
         const data = {
             "resourceType": "Parameters",
@@ -151,7 +163,7 @@ async function runTest(result, apiUrl) {
         };
 
         try {
-            console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.name);
+            console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.testName);
             const response = await axios.post(apiUrl, data, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -170,7 +182,7 @@ async function runTest(result, apiUrl) {
             }
             else {
                 if (response.status === 200) {
-                    result.testStatus = result.expected === result.actual ? 'pass' : 'fail';
+                    result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual) ? 'pass' : 'fail';
                 }
                 else {
                     result.testStatus = 'fail';
@@ -187,6 +199,17 @@ async function runTest(result, apiUrl) {
     return result;
 };
 
+function resultsEqual(expected, actual) {
+    if (expected === undefined && actual === undefined) {
+        return true;
+    }
+    else if (typeof expected === 'number') {
+        return Math.abs(actual - expected) < 0.00000001;
+    }
+    else {
+        return expected === actual
+    }
+}
 
 function extractResult(response) {
     var result;
@@ -195,10 +218,10 @@ function extractResult(response) {
             if (p.name === 'return') {
                 if (result === undefined) {
                     if (p.hasOwnProperty("valueBoolean")) {
-                        result = p.valueBoolean.toString();
+                        result = p.valueBoolean;
                     }
                     else if (p.hasOwnProperty("valueInteger")) {
-                        result = p.valueInteger.toString();
+                        result = p.valueInteger;
                     }
                     else if (p.hasOwnProperty("valueString")) {
                         result = p.valueString;
@@ -207,22 +230,28 @@ function extractResult(response) {
                         result = p.valueDecimal;
                     }
                     else if (p.hasOwnProperty("valueDate")) {
-                        result = p.valueDate;
+                        result = '@' + p.valueDate.toString();
                     }
                     else if (p.hasOwnProperty("valueDateTime")) {
-                        result = p.valueDateTime;
+                        result = '@' + p.valueDateTime.toString();
+                        if (result.length <= 10) {
+                            result = result + 'T';
+                        }
                     }
                     else if (p.hasOwnProperty("valueTime")) {
-                        result = p.valueTime;
+                        result = '@T' + p.valueTime.toString();
                     }
                     else if (p.hasOwnProperty("valueQuantity")) {
-                        result = p.valueQuantity.value.toString() + " '" + p.valueQuantity.code + "'";
+                        result = { value: p.valueQuantity.value, unit: p.valueQuantity.code };
                     }
-
-                    // Any other type isn't handled yet...
+                    else {
+                        result = null;
+                    }
+                    // TODO: Handle other types: Period, Range, Ratio, code, Coding, CodeableConcept
                 }
                 else {
-                    // Can't handle list-valued results yet...
+                    // TODO: Handle lists
+                    // TODO: Handle tuples
                     result = undefined;
                     break;
                 }
