@@ -31,6 +31,19 @@ class CQLEngine {
     ];
 
     /**
+     * List of supported CQL versions.
+     * @type {string[]}
+     */
+    static cqlVersion = [
+        '1.0',
+        '1.1',
+        '1.2',
+        '1.3',
+        '1.4',
+        '1.5'
+    ];
+
+    /**
      * Creates an instance of CQLEngine.
      * @param {string} baseURL - The base URL for the CQL engine.
      * @param {string|null} [cqlPath=null] - The path for the CQL engine (optional).
@@ -181,13 +194,7 @@ class CQLEngine {
      * @throws {Error} - If the version is not valid.
      */
     set cqlEngineVersion(version) {
-        if (version) {
-            if (CQLEngine.engineVersions.includes(version)) {
-                this.info['cqlEngineVersion'] = version;
-            } else {
-                throw new Error(`Not a valid CQL Engine version !!`);
-            }
-        }
+        this.info['cqlEngineVersion'] = version;
     }
 
     /**

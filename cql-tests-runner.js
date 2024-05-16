@@ -90,7 +90,7 @@ async function main() {
     const args = process.argv.slice(2);
     let apiUrl = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
     let cqlEngine = new CQLEngine(apiUrl);
-    cqlEngine.cqlVersion = '2.4.0';
+    cqlEngine.cqlVersion = '1.5';
 
     let environmentPath = './environment/globals.json';
     let outputPath = './results'
