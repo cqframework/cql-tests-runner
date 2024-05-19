@@ -1,5 +1,6 @@
 #!/usr/bin/node
 
+const os = require('os');
 const fs = require('fs');
 const path = require('path');
 const { format } = require('date-fns');
@@ -123,9 +124,11 @@ async function main() {
     //const onlyTestName = "CeilingNeg1D1";
 
     let results = [];
+    let groupResults = [];
     for (const ts of tests) {
         if (typeof onlyTestsName === 'undefined' || onlyTestsName === ts.name) {
             console.log('Tests: ' + ts.name);
+            let groupTests = [];
             for (const group of ts.group) {
                 if (typeof onlyGroupName === 'undefined' || onlyGroupName === group.name) {
                     console.log('    Group: ' + group.name);
@@ -134,7 +137,9 @@ async function main() {
                         for (const t of test) {
                             if (typeof onlyTestName === 'undefined' || onlyTestName === t.name) {
                                 console.log('        Test: ' + t.name);
-                                results.push(new Result(ts.name, group.name, t));
+                                var r = new Result(ts.name, group.name, t);
+                                results.push(r);
+                                groupTests.push(r);
                             }
                         }
                     }
@@ -143,20 +148,55 @@ async function main() {
                     }
                 }
             }
+            groupResults.push(groupTests);
+
             if (quickTest) {
                 break; // Only load 1 test set for testing
             }
         }
     }
 
+    for (let g of groupResults) {
+        await runGroupTest(g, apiUrl, x);
+    }
+
+    /*
     for (let r of results) {
         await runTest(r, cqlEngine.apiUrl, x);
     }
+    */
 
     logResults(cqlEngine, results, outputPath);
 };
 
 main();
+
+async function runGroupTest(group, apiUrl, cvl) {
+    var testsName = '';
+    var body = '';
+    for (let r of group) {
+        if (testsName === '') {
+            testsName = r.testsName;
+        }
+        // TODO: Build a separate library for invalid semantic tests?
+        if (r.invalid !== 'semantic') {
+            body += 'define "' + r.groupName + '.' + r.testName + '": ' + r.expression + os.EOL + os.EOL;
+        }
+    }
+
+    var body = 'library ' + testsName + os.EOL + os.EOL + body;
+
+    const cqlOutputPath = './cql';
+    if (!fs.existsSync(cqlOutputPath)) {
+        fs.mkdirSync(cqlOutputPath, { recursive: true });
+    }
+
+    const fileName = testsName + '.cql';
+    const filePath = path.join(cqlOutputPath, fileName);
+    fs.writeFileSync(filePath, body, (error) => {
+        if (error) throw error;
+    });
+}
 
 async function runTest(result, apiUrl, cvl) {
     if (result.testStatus !== 'skip') {

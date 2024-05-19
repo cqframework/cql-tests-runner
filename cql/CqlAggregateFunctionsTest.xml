@@ -1,0 +1,1117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="urn:hl7-org:elm:r1" xmlns:t="urn:hl7-org:elm-types:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fhir="http://hl7.org/fhir" xmlns:qdm43="urn:healthit-gov:qdm:v4_3" xmlns:qdm53="urn:healthit-gov:qdm:v5_3" xmlns:a="urn:hl7-org:cql-annotations:r1" localId="0">
+   <annotation translatorVersion="3.10.0-SNAPSHOT" translatorOptions="EnableAnnotations,EnableLocators" signatureLevel="Overloads" xsi:type="a:CqlToElmInfo"/>
+   <annotation xsi:type="a:Annotation">
+      <a:s r="779">
+         <a:s>library CqlAggregateFunctionsTest</a:s>
+      </a:s>
+   </annotation>
+   <identifier id="CqlAggregateFunctionsTest"/>
+   <schemaIdentifier id="urn:hl7-org:elm" version="r1"/>
+   <usings>
+      <def localId="1" localIdentifier="System" uri="urn:hl7-org:elm-types:r1"/>
+   </usings>
+   <statements>
+      <def localId="207" locator="3:1-3:53" name="AllTrue.AllTrueAllTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="207">
+               <a:s>define &quot;AllTrue.AllTrueAllTrue&quot;: </a:s>
+               <a:s r="213">
+                  <a:s>AllTrue(</a:s>
+                  <a:s r="208">
+                     <a:s r="209">{true,true}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="213" locator="3:34-3:53" xsi:type="AllTrue">
+            <source localId="208" locator="3:42-3:52" xsi:type="List">
+               <element localId="209" locator="3:43-3:46" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+               <element localId="210" locator="3:48-3:51" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="215" locator="5:1-5:56" name="AllTrue.AllTrueTrueFirst" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="215">
+               <a:s>define &quot;AllTrue.AllTrueTrueFirst&quot;: </a:s>
+               <a:s r="221">
+                  <a:s>AllTrue(</a:s>
+                  <a:s r="216">
+                     <a:s r="217">{true,false}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="221" locator="5:36-5:56" xsi:type="AllTrue">
+            <source localId="216" locator="5:44-5:55" xsi:type="List">
+               <element localId="217" locator="5:45-5:48" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+               <element localId="218" locator="5:50-5:54" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="223" locator="7:1-7:57" name="AllTrue.AllTrueFalseFirst" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="223">
+               <a:s>define &quot;AllTrue.AllTrueFalseFirst&quot;: </a:s>
+               <a:s r="229">
+                  <a:s>AllTrue(</a:s>
+                  <a:s r="224">
+                     <a:s r="225">{false,true}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="229" locator="7:37-7:57" xsi:type="AllTrue">
+            <source localId="224" locator="7:45-7:56" xsi:type="List">
+               <element localId="225" locator="7:46-7:50" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+               <element localId="226" locator="7:52-7:55" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="231" locator="9:1-9:68" name="AllTrue.AllTrueAllTrueFalseTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="231">
+               <a:s>define &quot;AllTrue.AllTrueAllTrueFalseTrue&quot;: </a:s>
+               <a:s r="238">
+                  <a:s>AllTrue(</a:s>
+                  <a:s r="232">
+                     <a:s r="233">{true,false,true}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="238" locator="9:43-9:68" xsi:type="AllTrue">
+            <source localId="232" locator="9:51-9:67" xsi:type="List">
+               <element localId="233" locator="9:52-9:55" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+               <element localId="234" locator="9:57-9:61" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+               <element localId="235" locator="9:63-9:66" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="240" locator="11:1-11:70" name="AllTrue.AllTrueAllFalseTrueFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="240">
+               <a:s>define &quot;AllTrue.AllTrueAllFalseTrueFalse&quot;: </a:s>
+               <a:s r="247">
+                  <a:s>AllTrue(</a:s>
+                  <a:s r="241">
+                     <a:s r="242">{false,true,false}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="247" locator="11:44-11:70" xsi:type="AllTrue">
+            <source localId="241" locator="11:52-11:69" xsi:type="List">
+               <element localId="242" locator="11:53-11:57" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+               <element localId="243" locator="11:59-11:62" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+               <element localId="244" locator="11:64-11:68" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="249" locator="13:1-13:60" name="AllTrue.AllTrueNullFirst" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="249">
+               <a:s>define &quot;AllTrue.AllTrueNullFirst&quot;: </a:s>
+               <a:s r="257">
+                  <a:s>AllTrue(</a:s>
+                  <a:s r="250">
+                     <a:s r="251">{null,true,true}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="257" locator="13:36-13:60" xsi:type="AllTrue">
+            <source localId="250" locator="13:44-13:59" xsi:type="List">
+               <element localId="254" asType="t:Boolean" xsi:type="As">
+                  <operand localId="251" locator="13:45-13:48" xsi:type="Null"/>
+               </element>
+               <element localId="252" locator="13:50-13:53" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+               <element localId="253" locator="13:55-13:58" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="259" locator="15:1-15:46" name="AllTrue.AllTrueEmptyList" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="259">
+               <a:s>define &quot;AllTrue.AllTrueEmptyList&quot;: </a:s>
+               <a:s r="268">
+                  <a:s r="260">AllTrue({})</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="268" locator="15:36-15:46" xsi:type="AllTrue">
+            <source localId="269" xsi:type="Query">
+               <source localId="270" alias="X">
+                  <expression localId="260" locator="15:44-15:45" xsi:type="List"/>
+               </source>
+               <return localId="271" distinct="false">
+                  <expression localId="273" asType="t:Boolean" xsi:type="As">
+                     <operand localId="272" name="X" xsi:type="AliasRef"/>
+                  </expression>
+               </return>
+            </source>
+         </expression>
+      </def>
+      <def localId="275" locator="17:1-17:53" name="AnyTrue.AnyTrueAllTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="275">
+               <a:s>define &quot;AnyTrue.AnyTrueAllTrue&quot;: </a:s>
+               <a:s r="281">
+                  <a:s>AnyTrue(</a:s>
+                  <a:s r="276">
+                     <a:s r="277">{true,true}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="281" locator="17:34-17:53" xsi:type="AnyTrue">
+            <source localId="276" locator="17:42-17:52" xsi:type="List">
+               <element localId="277" locator="17:43-17:46" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+               <element localId="278" locator="17:48-17:51" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="283" locator="19:1-19:56" name="AnyTrue.AnyTrueAllFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="283">
+               <a:s>define &quot;AnyTrue.AnyTrueAllFalse&quot;: </a:s>
+               <a:s r="289">
+                  <a:s>AnyTrue(</a:s>
+                  <a:s r="284">
+                     <a:s r="285">{false,false}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="289" locator="19:35-19:56" xsi:type="AnyTrue">
+            <source localId="284" locator="19:43-19:55" xsi:type="List">
+               <element localId="285" locator="19:44-19:48" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+               <element localId="286" locator="19:50-19:54" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="291" locator="21:1-21:68" name="AnyTrue.AnyTrueAllTrueFalseTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="291">
+               <a:s>define &quot;AnyTrue.AnyTrueAllTrueFalseTrue&quot;: </a:s>
+               <a:s r="298">
+                  <a:s>AnyTrue(</a:s>
+                  <a:s r="292">
+                     <a:s r="293">{true,false,true}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="298" locator="21:43-21:68" xsi:type="AnyTrue">
+            <source localId="292" locator="21:51-21:67" xsi:type="List">
+               <element localId="293" locator="21:52-21:55" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+               <element localId="294" locator="21:57-21:61" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+               <element localId="295" locator="21:63-21:66" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="300" locator="23:1-23:70" name="AnyTrue.AnyTrueAllFalseTrueFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="300">
+               <a:s>define &quot;AnyTrue.AnyTrueAllFalseTrueFalse&quot;: </a:s>
+               <a:s r="307">
+                  <a:s>AnyTrue(</a:s>
+                  <a:s r="301">
+                     <a:s r="302">{false,true,false}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="307" locator="23:44-23:70" xsi:type="AnyTrue">
+            <source localId="301" locator="23:52-23:69" xsi:type="List">
+               <element localId="302" locator="23:53-23:57" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+               <element localId="303" locator="23:59-23:62" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+               <element localId="304" locator="23:64-23:68" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="309" locator="25:1-25:56" name="AnyTrue.AnyTrueTrueFirst" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="309">
+               <a:s>define &quot;AnyTrue.AnyTrueTrueFirst&quot;: </a:s>
+               <a:s r="315">
+                  <a:s>AnyTrue(</a:s>
+                  <a:s r="310">
+                     <a:s r="311">{true,false}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="315" locator="25:36-25:56" xsi:type="AnyTrue">
+            <source localId="310" locator="25:44-25:55" xsi:type="List">
+               <element localId="311" locator="25:45-25:48" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+               <element localId="312" locator="25:50-25:54" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="317" locator="27:1-27:57" name="AnyTrue.AnyTrueFalseFirst" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="317">
+               <a:s>define &quot;AnyTrue.AnyTrueFalseFirst&quot;: </a:s>
+               <a:s r="323">
+                  <a:s>AnyTrue(</a:s>
+                  <a:s r="318">
+                     <a:s r="319">{false,true}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="323" locator="27:37-27:57" xsi:type="AnyTrue">
+            <source localId="318" locator="27:45-27:56" xsi:type="List">
+               <element localId="319" locator="27:46-27:50" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+               <element localId="320" locator="27:52-27:55" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="325" locator="29:1-29:63" name="AnyTrue.AnyTrueNullFirstThenTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="325">
+               <a:s>define &quot;AnyTrue.AnyTrueNullFirstThenTrue&quot;: </a:s>
+               <a:s r="332">
+                  <a:s>AnyTrue(</a:s>
+                  <a:s r="326">
+                     <a:s r="327">{null,true}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="332" locator="29:44-29:63" xsi:type="AnyTrue">
+            <source localId="326" locator="29:52-29:62" xsi:type="List">
+               <element localId="329" asType="t:Boolean" xsi:type="As">
+                  <operand localId="327" locator="29:53-29:56" xsi:type="Null"/>
+               </element>
+               <element localId="328" locator="29:58-29:61" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="334" locator="31:1-31:65" name="AnyTrue.AnyTrueNullFirstThenFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="334">
+               <a:s>define &quot;AnyTrue.AnyTrueNullFirstThenFalse&quot;: </a:s>
+               <a:s r="341">
+                  <a:s>AnyTrue(</a:s>
+                  <a:s r="335">
+                     <a:s r="336">{null,false}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="341" locator="31:45-31:65" xsi:type="AnyTrue">
+            <source localId="335" locator="31:53-31:64" xsi:type="List">
+               <element localId="338" asType="t:Boolean" xsi:type="As">
+                  <operand localId="336" locator="31:54-31:57" xsi:type="Null"/>
+               </element>
+               <element localId="337" locator="31:59-31:63" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="343" locator="33:1-33:46" name="AnyTrue.AnyTrueEmptyList" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="343">
+               <a:s>define &quot;AnyTrue.AnyTrueEmptyList&quot;: </a:s>
+               <a:s r="352">
+                  <a:s r="344">AnyTrue({})</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="352" locator="33:36-33:46" xsi:type="AnyTrue">
+            <source localId="353" xsi:type="Query">
+               <source localId="354" alias="X">
+                  <expression localId="344" locator="33:44-33:45" xsi:type="List"/>
+               </source>
+               <return localId="355" distinct="false">
+                  <expression localId="357" asType="t:Boolean" xsi:type="As">
+                     <operand localId="356" name="X" xsi:type="AliasRef"/>
+                  </expression>
+               </return>
+            </source>
+         </expression>
+      </def>
+      <def localId="359" locator="35:1-35:50" name="Avg.AvgTest1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="359">
+               <a:s>define &quot;Avg.AvgTest1&quot;: </a:s>
+               <a:s r="369">
+                  <a:s>Avg(</a:s>
+                  <a:s r="360">
+                     <a:s r="361">{ 1.0, 2.0, 3.0, 6.0 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="369" locator="35:24-35:50" xsi:type="Avg">
+            <signature localId="370" xsi:type="ListTypeSpecifier">
+               <elementType localId="371" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="360" locator="35:28-35:49" xsi:type="List">
+               <element localId="361" locator="35:30-35:32" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+               <element localId="362" locator="35:35-35:37" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+               <element localId="363" locator="35:40-35:42" valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
+               <element localId="364" locator="35:45-35:47" valueType="t:Decimal" value="6.0" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="373" locator="37:1-37:56" name="Count.CountTest1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="373">
+               <a:s>define &quot;Count.CountTest1&quot;: </a:s>
+               <a:s r="383">
+                  <a:s>Count(</a:s>
+                  <a:s r="374">
+                     <a:s r="375">{ 15, 5, 99, null, 1 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="383" locator="37:28-37:56" xsi:type="Count">
+            <source localId="374" locator="37:34-37:55" xsi:type="List">
+               <element localId="375" locator="37:36-37:37" valueType="t:Integer" value="15" xsi:type="Literal"/>
+               <element localId="376" locator="37:40" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               <element localId="377" locator="37:43-37:44" valueType="t:Integer" value="99" xsi:type="Literal"/>
+               <element localId="380" asType="t:Integer" xsi:type="As">
+                  <operand localId="378" locator="37:47-37:50" xsi:type="Null"/>
+               </element>
+               <element localId="379" locator="37:53" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="385" locator="39:1-39:91" name="Count.CountTestDateTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="385">
+               <a:s>define &quot;Count.CountTestDateTime&quot;: </a:s>
+               <a:s r="403">
+                  <a:s>Count(</a:s>
+                  <a:s r="386">
+                     <a:s>{ </a:s>
+                     <a:s r="390">
+                        <a:s r="387">DateTime(2014)</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="394">
+                        <a:s r="391">DateTime(2001)</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="398">
+                        <a:s r="395">DateTime(2010)</a:s>
+                     </a:s>
+                     <a:s> }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="403" locator="39:35-39:91" xsi:type="Count">
+            <signature localId="404" xsi:type="ListTypeSpecifier">
+               <elementType localId="405" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="386" locator="39:41-39:90" xsi:type="List">
+               <element localId="390" locator="39:43-39:56" xsi:type="DateTime">
+                  <year localId="387" locator="39:52-39:55" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+               </element>
+               <element localId="394" locator="39:59-39:72" xsi:type="DateTime">
+                  <year localId="391" locator="39:68-39:71" valueType="t:Integer" value="2001" xsi:type="Literal"/>
+               </element>
+               <element localId="398" locator="39:75-39:88" xsi:type="DateTime">
+                  <year localId="395" locator="39:84-39:87" valueType="t:Integer" value="2010" xsi:type="Literal"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="407" locator="41:1-41:87" name="Count.CountTestTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="407">
+               <a:s>define &quot;Count.CountTestTime&quot;: </a:s>
+               <a:s r="428">
+                  <a:s>Count(</a:s>
+                  <a:s r="408">
+                     <a:s r="409">{ @T15:59:59.999, @T05:59:59.999, @T20:59:59.999 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="428" locator="41:31-41:87" xsi:type="Count">
+            <signature localId="429" xsi:type="ListTypeSpecifier">
+               <elementType localId="430" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="408" locator="41:37-41:86" xsi:type="List">
+               <element localId="409" locator="41:39-41:52" xsi:type="Time">
+                  <hour localId="410" valueType="t:Integer" value="15" xsi:type="Literal"/>
+                  <minute localId="411" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="412" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="413" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+               <element localId="414" locator="41:55-41:68" xsi:type="Time">
+                  <hour localId="415" valueType="t:Integer" value="5" xsi:type="Literal"/>
+                  <minute localId="416" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="417" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="418" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+               <element localId="419" locator="41:71-41:84" xsi:type="Time">
+                  <hour localId="420" valueType="t:Integer" value="20" xsi:type="Literal"/>
+                  <minute localId="421" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="422" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="423" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="432" locator="43:1-43:39" name="Count.CountTestNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="432">
+               <a:s>define &quot;Count.CountTestNull&quot;: </a:s>
+               <a:s r="438">
+                  <a:s r="433">Count({})</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="438" locator="43:31-43:39" xsi:type="Count">
+            <signature localId="439" xsi:type="ListTypeSpecifier">
+               <elementType localId="440" name="t:Any" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="433" locator="43:37-43:38" xsi:type="List"/>
+         </expression>
+      </def>
+      <def localId="442" locator="45:1-45:64" name="Max.MaxTestInteger" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="442">
+               <a:s>define &quot;Max.MaxTestInteger&quot;: </a:s>
+               <a:s r="456">
+                  <a:s>Max(</a:s>
+                  <a:s r="443">
+                     <a:s r="444">{ 5, 12, 1, 15, 0, 4, 90, 44 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="456" locator="45:30-45:64" xsi:type="Max">
+            <signature localId="457" xsi:type="ListTypeSpecifier">
+               <elementType localId="458" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="443" locator="45:34-45:63" xsi:type="List">
+               <element localId="444" locator="45:36" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               <element localId="445" locator="45:39-45:40" valueType="t:Integer" value="12" xsi:type="Literal"/>
+               <element localId="446" locator="45:43" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <element localId="447" locator="45:46-45:47" valueType="t:Integer" value="15" xsi:type="Literal"/>
+               <element localId="448" locator="45:50" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <element localId="449" locator="45:53" valueType="t:Integer" value="4" xsi:type="Literal"/>
+               <element localId="450" locator="45:56-45:57" valueType="t:Integer" value="90" xsi:type="Literal"/>
+               <element localId="451" locator="45:60-45:61" valueType="t:Integer" value="44" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="460" locator="47:1-47:57" name="Max.MaxTestString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="460">
+               <a:s>define &quot;Max.MaxTestString&quot;: </a:s>
+               <a:s r="469">
+                  <a:s>Max(</a:s>
+                  <a:s r="461">
+                     <a:s>{ </a:s>
+                     <a:s r="462">
+                        <a:s>'hi'</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="463">
+                        <a:s>'bye'</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="464">
+                        <a:s>'zebra'</a:s>
+                     </a:s>
+                     <a:s> }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="469" locator="47:29-47:57" xsi:type="Max">
+            <signature localId="470" xsi:type="ListTypeSpecifier">
+               <elementType localId="471" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="461" locator="47:33-47:56" xsi:type="List">
+               <element localId="462" locator="47:35-47:38" valueType="t:String" value="hi" xsi:type="Literal"/>
+               <element localId="463" locator="47:41-47:45" valueType="t:String" value="bye" xsi:type="Literal"/>
+               <element localId="464" locator="47:48-47:54" valueType="t:String" value="zebra" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="473" locator="49:1-49:105" name="Max.MaxTestDateTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="473">
+               <a:s>define &quot;Max.MaxTestDateTime&quot;: </a:s>
+               <a:s r="497">
+                  <a:s>Max(</a:s>
+                  <a:s r="474">
+                     <a:s>{ </a:s>
+                     <a:s r="480">
+                        <a:s r="475">DateTime(2012, 10, 5)</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="486">
+                        <a:s r="481">DateTime(2012, 9, 5)</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="492">
+                        <a:s r="487">DateTime(2012, 10, 6)</a:s>
+                     </a:s>
+                     <a:s> }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="497" locator="49:31-49:105" xsi:type="Max">
+            <signature localId="498" xsi:type="ListTypeSpecifier">
+               <elementType localId="499" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="474" locator="49:35-49:104" xsi:type="List">
+               <element localId="480" locator="49:37-49:57" xsi:type="DateTime">
+                  <year localId="475" locator="49:46-49:49" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="476" locator="49:52-49:53" valueType="t:Integer" value="10" xsi:type="Literal"/>
+                  <day localId="477" locator="49:56" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               </element>
+               <element localId="486" locator="49:60-49:79" xsi:type="DateTime">
+                  <year localId="481" locator="49:69-49:72" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="482" locator="49:75" valueType="t:Integer" value="9" xsi:type="Literal"/>
+                  <day localId="483" locator="49:78" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               </element>
+               <element localId="492" locator="49:82-49:102" xsi:type="DateTime">
+                  <year localId="487" locator="49:91-49:94" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="488" locator="49:97-49:98" valueType="t:Integer" value="10" xsi:type="Literal"/>
+                  <day localId="489" locator="49:101" valueType="t:Integer" value="6" xsi:type="Literal"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="501" locator="51:1-51:81" name="Max.MaxTestTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="501">
+               <a:s>define &quot;Max.MaxTestTime&quot;: </a:s>
+               <a:s r="522">
+                  <a:s>Max(</a:s>
+                  <a:s r="502">
+                     <a:s r="503">{ @T15:59:59.999, @T05:59:59.999, @T20:59:59.999 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="522" locator="51:27-51:81" xsi:type="Max">
+            <signature localId="523" xsi:type="ListTypeSpecifier">
+               <elementType localId="524" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="502" locator="51:31-51:80" xsi:type="List">
+               <element localId="503" locator="51:33-51:46" xsi:type="Time">
+                  <hour localId="504" valueType="t:Integer" value="15" xsi:type="Literal"/>
+                  <minute localId="505" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="506" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="507" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+               <element localId="508" locator="51:49-51:62" xsi:type="Time">
+                  <hour localId="509" valueType="t:Integer" value="5" xsi:type="Literal"/>
+                  <minute localId="510" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="511" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="512" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+               <element localId="513" locator="51:65-51:78" xsi:type="Time">
+                  <hour localId="514" valueType="t:Integer" value="20" xsi:type="Literal"/>
+                  <minute localId="515" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="516" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="517" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="526" locator="53:1-53:73" name="Median.MedianTestDecimal" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="526">
+               <a:s>define &quot;Median.MedianTestDecimal&quot;: </a:s>
+               <a:s r="538">
+                  <a:s>Median(</a:s>
+                  <a:s r="527">
+                     <a:s r="528">{6.0, 5.0, 4.0, 3.0, 2.0, 1.0}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="538" locator="53:36-53:73" xsi:type="Median">
+            <signature localId="539" xsi:type="ListTypeSpecifier">
+               <elementType localId="540" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="527" locator="53:43-53:72" xsi:type="List">
+               <element localId="528" locator="53:44-53:46" valueType="t:Decimal" value="6.0" xsi:type="Literal"/>
+               <element localId="529" locator="53:49-53:51" valueType="t:Decimal" value="5.0" xsi:type="Literal"/>
+               <element localId="530" locator="53:54-53:56" valueType="t:Decimal" value="4.0" xsi:type="Literal"/>
+               <element localId="531" locator="53:59-53:61" valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
+               <element localId="532" locator="53:64-53:66" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+               <element localId="533" locator="53:69-53:71" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="542" locator="55:1-55:62" name="Min.MinTestInteger" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="542">
+               <a:s>define &quot;Min.MinTestInteger&quot;: </a:s>
+               <a:s r="556">
+                  <a:s>Min(</a:s>
+                  <a:s r="543">
+                     <a:s r="544">{5, 12, 1, 15, 0, 4, 90, 44}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="556" locator="55:30-55:62" xsi:type="Min">
+            <signature localId="557" xsi:type="ListTypeSpecifier">
+               <elementType localId="558" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="543" locator="55:34-55:61" xsi:type="List">
+               <element localId="544" locator="55:35" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               <element localId="545" locator="55:38-55:39" valueType="t:Integer" value="12" xsi:type="Literal"/>
+               <element localId="546" locator="55:42" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <element localId="547" locator="55:45-55:46" valueType="t:Integer" value="15" xsi:type="Literal"/>
+               <element localId="548" locator="55:49" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <element localId="549" locator="55:52" valueType="t:Integer" value="4" xsi:type="Literal"/>
+               <element localId="550" locator="55:55-55:56" valueType="t:Integer" value="90" xsi:type="Literal"/>
+               <element localId="551" locator="55:59-55:60" valueType="t:Integer" value="44" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="560" locator="57:1-57:55" name="Min.MinTestString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="560">
+               <a:s>define &quot;Min.MinTestString&quot;: </a:s>
+               <a:s r="569">
+                  <a:s>Min(</a:s>
+                  <a:s r="561">
+                     <a:s>{</a:s>
+                     <a:s r="562">
+                        <a:s>'hi'</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="563">
+                        <a:s>'bye'</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="564">
+                        <a:s>'zebra'</a:s>
+                     </a:s>
+                     <a:s>}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="569" locator="57:29-57:55" xsi:type="Min">
+            <signature localId="570" xsi:type="ListTypeSpecifier">
+               <elementType localId="571" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="561" locator="57:33-57:54" xsi:type="List">
+               <element localId="562" locator="57:34-57:37" valueType="t:String" value="hi" xsi:type="Literal"/>
+               <element localId="563" locator="57:40-57:44" valueType="t:String" value="bye" xsi:type="Literal"/>
+               <element localId="564" locator="57:47-57:53" valueType="t:String" value="zebra" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="573" locator="59:1-59:105" name="Min.MinTestDateTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="573">
+               <a:s>define &quot;Min.MinTestDateTime&quot;: </a:s>
+               <a:s r="597">
+                  <a:s>Min(</a:s>
+                  <a:s r="574">
+                     <a:s>{ </a:s>
+                     <a:s r="580">
+                        <a:s r="575">DateTime(2012, 10, 5)</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="586">
+                        <a:s r="581">DateTime(2012, 9, 5)</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="592">
+                        <a:s r="587">DateTime(2012, 10, 6)</a:s>
+                     </a:s>
+                     <a:s> }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="597" locator="59:31-59:105" xsi:type="Min">
+            <signature localId="598" xsi:type="ListTypeSpecifier">
+               <elementType localId="599" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="574" locator="59:35-59:104" xsi:type="List">
+               <element localId="580" locator="59:37-59:57" xsi:type="DateTime">
+                  <year localId="575" locator="59:46-59:49" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="576" locator="59:52-59:53" valueType="t:Integer" value="10" xsi:type="Literal"/>
+                  <day localId="577" locator="59:56" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               </element>
+               <element localId="586" locator="59:60-59:79" xsi:type="DateTime">
+                  <year localId="581" locator="59:69-59:72" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="582" locator="59:75" valueType="t:Integer" value="9" xsi:type="Literal"/>
+                  <day localId="583" locator="59:78" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               </element>
+               <element localId="592" locator="59:82-59:102" xsi:type="DateTime">
+                  <year localId="587" locator="59:91-59:94" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="588" locator="59:97-59:98" valueType="t:Integer" value="10" xsi:type="Literal"/>
+                  <day localId="589" locator="59:101" valueType="t:Integer" value="6" xsi:type="Literal"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="601" locator="61:1-61:81" name="Min.MinTestTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="601">
+               <a:s>define &quot;Min.MinTestTime&quot;: </a:s>
+               <a:s r="622">
+                  <a:s>Min(</a:s>
+                  <a:s r="602">
+                     <a:s r="603">{ @T15:59:59.999, @T05:59:59.999, @T20:59:59.999 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="622" locator="61:27-61:81" xsi:type="Min">
+            <signature localId="623" xsi:type="ListTypeSpecifier">
+               <elementType localId="624" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="602" locator="61:31-61:80" xsi:type="List">
+               <element localId="603" locator="61:33-61:46" xsi:type="Time">
+                  <hour localId="604" valueType="t:Integer" value="15" xsi:type="Literal"/>
+                  <minute localId="605" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="606" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="607" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+               <element localId="608" locator="61:49-61:62" xsi:type="Time">
+                  <hour localId="609" valueType="t:Integer" value="5" xsi:type="Literal"/>
+                  <minute localId="610" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="611" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="612" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+               <element localId="613" locator="61:65-61:78" xsi:type="Time">
+                  <hour localId="614" valueType="t:Integer" value="20" xsi:type="Literal"/>
+                  <minute localId="615" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="616" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="617" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="626" locator="63:1-63:63" name="Mode.ModeTestInteger" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="626">
+               <a:s>define &quot;Mode.ModeTestInteger&quot;: </a:s>
+               <a:s r="638">
+                  <a:s>Mode(</a:s>
+                  <a:s r="627">
+                     <a:s r="628">{ 2, 1, 8, 2, 9, 1, 9, 9 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="638" locator="63:32-63:63" xsi:type="Mode">
+            <source localId="627" locator="63:37-63:62" xsi:type="List">
+               <element localId="628" locator="63:39" valueType="t:Integer" value="2" xsi:type="Literal"/>
+               <element localId="629" locator="63:42" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <element localId="630" locator="63:45" valueType="t:Integer" value="8" xsi:type="Literal"/>
+               <element localId="631" locator="63:48" valueType="t:Integer" value="2" xsi:type="Literal"/>
+               <element localId="632" locator="63:51" valueType="t:Integer" value="9" xsi:type="Literal"/>
+               <element localId="633" locator="63:54" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <element localId="634" locator="63:57" valueType="t:Integer" value="9" xsi:type="Literal"/>
+               <element localId="635" locator="63:60" valueType="t:Integer" value="9" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="640" locator="65:1-65:130" name="Mode.ModeTestDateTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="640">
+               <a:s>define &quot;Mode.ModeTestDateTime&quot;: </a:s>
+               <a:s r="670">
+                  <a:s>Mode(</a:s>
+                  <a:s r="641">
+                     <a:s>{ </a:s>
+                     <a:s r="647">
+                        <a:s r="642">DateTime(2012, 10, 5)</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="653">
+                        <a:s r="648">DateTime(2012, 9, 5)</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="659">
+                        <a:s r="654">DateTime(2012, 10, 6)</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s r="665">
+                        <a:s r="660">DateTime(2012, 9, 5)</a:s>
+                     </a:s>
+                     <a:s> }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="670" locator="65:33-65:130" xsi:type="Mode">
+            <signature localId="671" xsi:type="ListTypeSpecifier">
+               <elementType localId="672" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="641" locator="65:38-65:129" xsi:type="List">
+               <element localId="647" locator="65:40-65:60" xsi:type="DateTime">
+                  <year localId="642" locator="65:49-65:52" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="643" locator="65:55-65:56" valueType="t:Integer" value="10" xsi:type="Literal"/>
+                  <day localId="644" locator="65:59" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               </element>
+               <element localId="653" locator="65:63-65:82" xsi:type="DateTime">
+                  <year localId="648" locator="65:72-65:75" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="649" locator="65:78" valueType="t:Integer" value="9" xsi:type="Literal"/>
+                  <day localId="650" locator="65:81" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               </element>
+               <element localId="659" locator="65:85-65:105" xsi:type="DateTime">
+                  <year localId="654" locator="65:94-65:97" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="655" locator="65:100-65:101" valueType="t:Integer" value="10" xsi:type="Literal"/>
+                  <day localId="656" locator="65:104" valueType="t:Integer" value="6" xsi:type="Literal"/>
+               </element>
+               <element localId="665" locator="65:108-65:127" xsi:type="DateTime">
+                  <year localId="660" locator="65:117-65:120" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="661" locator="65:123" valueType="t:Integer" value="9" xsi:type="Literal"/>
+                  <day localId="662" locator="65:126" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="674" locator="67:1-67:100" name="Mode.ModeTestTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="674">
+               <a:s>define &quot;Mode.ModeTestTime&quot;: </a:s>
+               <a:s r="700">
+                  <a:s>Mode(</a:s>
+                  <a:s r="675">
+                     <a:s r="676">{ @T15:59:59.999, @T05:59:59.999, @T20:59:59.999, @T05:59:59.999 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="700" locator="67:29-67:100" xsi:type="Mode">
+            <signature localId="701" xsi:type="ListTypeSpecifier">
+               <elementType localId="702" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="675" locator="67:34-67:99" xsi:type="List">
+               <element localId="676" locator="67:36-67:49" xsi:type="Time">
+                  <hour localId="677" valueType="t:Integer" value="15" xsi:type="Literal"/>
+                  <minute localId="678" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="679" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="680" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+               <element localId="681" locator="67:52-67:65" xsi:type="Time">
+                  <hour localId="682" valueType="t:Integer" value="5" xsi:type="Literal"/>
+                  <minute localId="683" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="684" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="685" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+               <element localId="686" locator="67:68-67:81" xsi:type="Time">
+                  <hour localId="687" valueType="t:Integer" value="20" xsi:type="Literal"/>
+                  <minute localId="688" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="689" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="690" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+               <element localId="691" locator="67:84-67:97" xsi:type="Time">
+                  <hour localId="692" valueType="t:Integer" value="5" xsi:type="Literal"/>
+                  <minute localId="693" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <second localId="694" valueType="t:Integer" value="59" xsi:type="Literal"/>
+                  <millisecond localId="695" valueType="t:Integer" value="999" xsi:type="Literal"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="704" locator="69:1-69:87" name="PopulationStdDev.PopStdDevTest1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="704">
+               <a:s>define &quot;PopulationStdDev.PopStdDevTest1&quot;: </a:s>
+               <a:s r="715">
+                  <a:s>PopulationStdDev(</a:s>
+                  <a:s r="705">
+                     <a:s r="706">{ 1.0, 2.0, 3.0, 4.0, 5.0 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="715" locator="69:43-69:87" xsi:type="PopulationStdDev">
+            <signature localId="716" xsi:type="ListTypeSpecifier">
+               <elementType localId="717" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="705" locator="69:60-69:86" xsi:type="List">
+               <element localId="706" locator="69:62-69:64" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+               <element localId="707" locator="69:67-69:69" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+               <element localId="708" locator="69:72-69:74" valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
+               <element localId="709" locator="69:77-69:79" valueType="t:Decimal" value="4.0" xsi:type="Literal"/>
+               <element localId="710" locator="69:82-69:84" valueType="t:Decimal" value="5.0" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="719" locator="71:1-71:93" name="PopulationVariance.PopVarianceTest1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="719">
+               <a:s>define &quot;PopulationVariance.PopVarianceTest1&quot;: </a:s>
+               <a:s r="730">
+                  <a:s>PopulationVariance(</a:s>
+                  <a:s r="720">
+                     <a:s r="721">{ 1.0, 2.0, 3.0, 4.0, 5.0 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="730" locator="71:47-71:93" xsi:type="PopulationVariance">
+            <signature localId="731" xsi:type="ListTypeSpecifier">
+               <elementType localId="732" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="720" locator="71:66-71:92" xsi:type="List">
+               <element localId="721" locator="71:68-71:70" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+               <element localId="722" locator="71:73-71:75" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+               <element localId="723" locator="71:78-71:80" valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
+               <element localId="724" locator="71:83-71:85" valueType="t:Decimal" value="4.0" xsi:type="Literal"/>
+               <element localId="725" locator="71:88-71:90" valueType="t:Decimal" value="5.0" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="734" locator="73:1-73:64" name="StdDev.StdDevTest1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="734">
+               <a:s>define &quot;StdDev.StdDevTest1&quot;: </a:s>
+               <a:s r="745">
+                  <a:s>StdDev(</a:s>
+                  <a:s r="735">
+                     <a:s r="736">{ 1.0, 2.0, 3.0, 4.0, 5.0 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="745" locator="73:30-73:64" xsi:type="StdDev">
+            <signature localId="746" xsi:type="ListTypeSpecifier">
+               <elementType localId="747" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="735" locator="73:37-73:63" xsi:type="List">
+               <element localId="736" locator="73:39-73:41" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+               <element localId="737" locator="73:44-73:46" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+               <element localId="738" locator="73:49-73:51" valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
+               <element localId="739" locator="73:54-73:56" valueType="t:Decimal" value="4.0" xsi:type="Literal"/>
+               <element localId="740" locator="73:59-73:61" valueType="t:Decimal" value="5.0" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="749" locator="75:1-75:55" name="Sum.SumTest1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="749">
+               <a:s>define &quot;Sum.SumTest1&quot;: </a:s>
+               <a:s r="760">
+                  <a:s>Sum(</a:s>
+                  <a:s r="750">
+                     <a:s r="751">{ 6.0, 2.0, 3.0, 4.0, 5.0 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="760" locator="75:24-75:55" xsi:type="Sum">
+            <signature localId="761" xsi:type="ListTypeSpecifier">
+               <elementType localId="762" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="750" locator="75:28-75:54" xsi:type="List">
+               <element localId="751" locator="75:30-75:32" valueType="t:Decimal" value="6.0" xsi:type="Literal"/>
+               <element localId="752" locator="75:35-75:37" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+               <element localId="753" locator="75:40-75:42" valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
+               <element localId="754" locator="75:45-75:47" valueType="t:Decimal" value="4.0" xsi:type="Literal"/>
+               <element localId="755" locator="75:50-75:52" valueType="t:Decimal" value="5.0" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+      <def localId="764" locator="77:1-77:48" name="Sum.SumTestNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="764">
+               <a:s>define &quot;Sum.SumTestNull&quot;: </a:s>
+               <a:s r="775">
+                  <a:s>Sum(</a:s>
+                  <a:s r="765">
+                     <a:s r="766">{ null, 1, null }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="775" locator="77:27-77:48" xsi:type="Sum">
+            <signature localId="776" xsi:type="ListTypeSpecifier">
+               <elementType localId="777" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="765" locator="77:31-77:47" xsi:type="List">
+               <element localId="769" asType="t:Integer" xsi:type="As">
+                  <operand localId="766" locator="77:33-77:36" xsi:type="Null"/>
+               </element>
+               <element localId="767" locator="77:39" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <element localId="770" asType="t:Integer" xsi:type="As">
+                  <operand localId="768" locator="77:42-77:45" xsi:type="Null"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="779" locator="79:1-79:70" name="Variance.VarianceTest1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="779">
+               <a:s>define &quot;Variance.VarianceTest1&quot;: </a:s>
+               <a:s r="790">
+                  <a:s>Variance(</a:s>
+                  <a:s r="780">
+                     <a:s r="781">{ 1.0, 2.0, 3.0, 4.0, 5.0 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="790" locator="79:34-79:70" xsi:type="Variance">
+            <signature localId="791" xsi:type="ListTypeSpecifier">
+               <elementType localId="792" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <source localId="780" locator="79:43-79:69" xsi:type="List">
+               <element localId="781" locator="79:45-79:47" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+               <element localId="782" locator="79:50-79:52" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+               <element localId="783" locator="79:55-79:57" valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
+               <element localId="784" locator="79:60-79:62" valueType="t:Decimal" value="4.0" xsi:type="Literal"/>
+               <element localId="785" locator="79:65-79:67" valueType="t:Decimal" value="5.0" xsi:type="Literal"/>
+            </source>
+         </expression>
+      </def>
+   </statements>
+</library>
+
+

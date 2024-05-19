@@ -1,0 +1,1973 @@
+{
+   "library" : {
+      "localId" : "0",
+      "annotation" : [ {
+         "translatorVersion" : "3.10.0-SNAPSHOT",
+         "translatorOptions" : "EnableAnnotations,EnableLocators",
+         "signatureLevel" : "Overloads",
+         "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "442",
+            "s" : [ {
+               "value" : [ "","library ValueLiteralsAndSelectors" ]
+            } ]
+         }
+      } ],
+      "identifier" : {
+         "id" : "ValueLiteralsAndSelectors"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localId" : "1",
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "localId" : "207",
+            "locator" : "3:1-3:24",
+            "name" : "Null.Null",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "207",
+                  "s" : [ {
+                     "r" : "208",
+                     "value" : [ "","define ","\"Null.Null\"",": ","null" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "208",
+               "locator" : "3:21-3:24",
+               "type" : "Null"
+            }
+         }, {
+            "localId" : "210",
+            "locator" : "5:1-5:36",
+            "name" : "Boolean.BooleanFalse",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "210",
+                  "s" : [ {
+                     "r" : "211",
+                     "value" : [ "","define ","\"Boolean.BooleanFalse\"",": ","false" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "211",
+               "locator" : "5:32-5:36",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+               "value" : "false",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "213",
+            "locator" : "7:1-7:34",
+            "name" : "Boolean.BooleanTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "213",
+                  "s" : [ {
+                     "r" : "214",
+                     "value" : [ "","define ","\"Boolean.BooleanTrue\"",": ","true" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "214",
+               "locator" : "7:31-7:34",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+               "value" : "true",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "216",
+            "locator" : "9:1-9:31",
+            "name" : "Integer.IntegerZero",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "216",
+                  "s" : [ {
+                     "r" : "217",
+                     "value" : [ "","define ","\"Integer.IntegerZero\"",": ","0" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "217",
+               "locator" : "9:31",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "219",
+            "locator" : "11:1-11:35",
+            "name" : "Integer.IntegerPosZero",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "219",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerPosZero\"",": " ]
+                  }, {
+                     "r" : "220",
+                     "s" : [ {
+                        "r" : "220",
+                        "value" : [ "+","0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "220",
+               "locator" : "11:34-11:35",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "222",
+            "locator" : "13:1-13:35",
+            "name" : "Integer.IntegerNegZero",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "222",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerNegZero\"",": " ]
+                  }, {
+                     "r" : "223",
+                     "s" : [ {
+                        "r" : "224",
+                        "value" : [ "-","0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "223",
+               "locator" : "13:34-13:35",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "225",
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "224",
+                  "locator" : "13:35",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "227",
+            "locator" : "15:1-15:30",
+            "name" : "Integer.IntegerOne",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "227",
+                  "s" : [ {
+                     "r" : "228",
+                     "value" : [ "","define ","\"Integer.IntegerOne\"",": ","1" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "228",
+               "locator" : "15:30",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "1",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "230",
+            "locator" : "17:1-17:34",
+            "name" : "Integer.IntegerPosOne",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "230",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerPosOne\"",": " ]
+                  }, {
+                     "r" : "231",
+                     "s" : [ {
+                        "r" : "231",
+                        "value" : [ "+","1" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "231",
+               "locator" : "17:33-17:34",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "1",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "233",
+            "locator" : "19:1-19:34",
+            "name" : "Integer.IntegerNegOne",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "233",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerNegOne\"",": " ]
+                  }, {
+                     "r" : "234",
+                     "s" : [ {
+                        "r" : "235",
+                        "value" : [ "-","1" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "234",
+               "locator" : "19:33-19:34",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "236",
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "235",
+                  "locator" : "19:34",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "238",
+            "locator" : "21:1-21:30",
+            "name" : "Integer.IntegerTwo",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "238",
+                  "s" : [ {
+                     "r" : "239",
+                     "value" : [ "","define ","\"Integer.IntegerTwo\"",": ","2" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "239",
+               "locator" : "21:30",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "2",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "241",
+            "locator" : "23:1-23:34",
+            "name" : "Integer.IntegerPosTwo",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "241",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerPosTwo\"",": " ]
+                  }, {
+                     "r" : "242",
+                     "s" : [ {
+                        "r" : "242",
+                        "value" : [ "+","2" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "242",
+               "locator" : "23:33-23:34",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "2",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "244",
+            "locator" : "25:1-25:34",
+            "name" : "Integer.IntegerNegTwo",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "244",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerNegTwo\"",": " ]
+                  }, {
+                     "r" : "245",
+                     "s" : [ {
+                        "r" : "246",
+                        "value" : [ "-","2" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "245",
+               "locator" : "25:33-25:34",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "247",
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "246",
+                  "locator" : "25:34",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "249",
+            "locator" : "27:1-27:42",
+            "name" : "Integer.Integer10Pow9",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "249",
+                  "s" : [ {
+                     "r" : "250",
+                     "value" : [ "","define ","\"Integer.Integer10Pow9\"",": ","1000000000" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "250",
+               "locator" : "27:33-27:42",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "1000000000",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "252",
+            "locator" : "29:1-29:46",
+            "name" : "Integer.IntegerPos10Pow9",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "252",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerPos10Pow9\"",": " ]
+                  }, {
+                     "r" : "253",
+                     "s" : [ {
+                        "r" : "253",
+                        "value" : [ "+","1000000000" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "253",
+               "locator" : "29:36-29:46",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "1000000000",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "255",
+            "locator" : "31:1-31:46",
+            "name" : "Integer.IntegerNeg10Pow9",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "255",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerNeg10Pow9\"",": " ]
+                  }, {
+                     "r" : "256",
+                     "s" : [ {
+                        "r" : "257",
+                        "value" : [ "-","1000000000" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "256",
+               "locator" : "31:36-31:46",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "258",
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "257",
+                  "locator" : "31:37-31:46",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1000000000",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "260",
+            "locator" : "33:1-33:64",
+            "name" : "Integer.Integer2Pow31ToZero1IntegerMaxValue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "260",
+                  "s" : [ {
+                     "r" : "261",
+                     "value" : [ "","define ","\"Integer.Integer2Pow31ToZero1IntegerMaxValue\"",": ","2147483647" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "261",
+               "locator" : "33:55-33:64",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "2147483647",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "263",
+            "locator" : "35:1-35:68",
+            "name" : "Integer.IntegerPos2Pow31ToZero1IntegerMaxValue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "263",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerPos2Pow31ToZero1IntegerMaxValue\"",": " ]
+                  }, {
+                     "r" : "264",
+                     "s" : [ {
+                        "r" : "264",
+                        "value" : [ "+","2147483647" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "264",
+               "locator" : "35:58-35:68",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "2147483647",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "266",
+            "locator" : "37:1-37:53",
+            "name" : "Integer.IntegerNeg2Pow31ToZero1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "266",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerNeg2Pow31ToZero1\"",": " ]
+                  }, {
+                     "r" : "267",
+                     "s" : [ {
+                        "r" : "268",
+                        "value" : [ "-","2147483647" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "267",
+               "locator" : "37:43-37:53",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "269",
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "268",
+                  "locator" : "37:44-37:53",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2147483647",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "271",
+            "locator" : "39:1-39:42",
+            "name" : "Integer.Integer2Pow31",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "271",
+                  "s" : [ {
+                     "r" : "272",
+                     "value" : [ "","define ","\"Integer.Integer2Pow31\"",": ","2147483648" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "272",
+               "locator" : "39:33-39:42",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "2147483648",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "274",
+            "locator" : "41:1-41:46",
+            "name" : "Integer.IntegerPos2Pow31",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "274",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerPos2Pow31\"",": " ]
+                  }, {
+                     "r" : "275",
+                     "s" : [ {
+                        "r" : "275",
+                        "value" : [ "+","2147483648" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "275",
+               "locator" : "41:36-41:46",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "2147483648",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "277",
+            "locator" : "43:1-43:61",
+            "name" : "Integer.IntegerNeg2Pow31IntegerMinValue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "277",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerNeg2Pow31IntegerMinValue\"",": " ]
+                  }, {
+                     "r" : "278",
+                     "s" : [ {
+                        "r" : "279",
+                        "value" : [ "-","2147483648" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "278",
+               "locator" : "43:51-43:61",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "280",
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "279",
+                  "locator" : "43:52-43:61",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2147483648",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "282",
+            "locator" : "45:1-45:48",
+            "name" : "Integer.Integer2Pow31ToInf1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "282",
+                  "s" : [ {
+                     "r" : "283",
+                     "value" : [ "","define ","\"Integer.Integer2Pow31ToInf1\"",": ","2147483649" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "283",
+               "locator" : "45:39-45:48",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "2147483649",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "285",
+            "locator" : "47:1-47:52",
+            "name" : "Integer.IntegerPos2Pow31ToInf1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "285",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerPos2Pow31ToInf1\"",": " ]
+                  }, {
+                     "r" : "286",
+                     "s" : [ {
+                        "r" : "286",
+                        "value" : [ "+","2147483649" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "286",
+               "locator" : "47:42-47:52",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+               "value" : "2147483649",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "288",
+            "locator" : "49:1-49:52",
+            "name" : "Integer.IntegerNeg2Pow31ToInf1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "288",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Integer.IntegerNeg2Pow31ToInf1\"",": " ]
+                  }, {
+                     "r" : "289",
+                     "s" : [ {
+                        "r" : "290",
+                        "value" : [ "-","2147483649" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "289",
+               "locator" : "49:42-49:52",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "291",
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "290",
+                  "locator" : "49:43-49:52",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2147483649",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "293",
+            "locator" : "51:1-51:33",
+            "name" : "Decimal.DecimalZero",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "293",
+                  "s" : [ {
+                     "r" : "294",
+                     "value" : [ "","define ","\"Decimal.DecimalZero\"",": ","0.0" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "294",
+               "locator" : "51:31-51:33",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "296",
+            "locator" : "53:1-53:37",
+            "name" : "Decimal.DecimalPosZero",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "296",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPosZero\"",": " ]
+                  }, {
+                     "r" : "297",
+                     "s" : [ {
+                        "r" : "297",
+                        "value" : [ "+","0.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "297",
+               "locator" : "53:34-53:37",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "299",
+            "locator" : "55:1-55:37",
+            "name" : "Decimal.DecimalNegZero",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "299",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNegZero\"",": " ]
+                  }, {
+                     "r" : "300",
+                     "s" : [ {
+                        "r" : "301",
+                        "value" : [ "-","0.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "300",
+               "locator" : "55:34-55:37",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "302",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "301",
+                  "locator" : "55:35-55:37",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "0.0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "304",
+            "locator" : "57:1-57:32",
+            "name" : "Decimal.DecimalOne",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "304",
+                  "s" : [ {
+                     "r" : "305",
+                     "value" : [ "","define ","\"Decimal.DecimalOne\"",": ","1.0" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "305",
+               "locator" : "57:30-57:32",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "1.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "307",
+            "locator" : "59:1-59:36",
+            "name" : "Decimal.DecimalPosOne",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "307",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPosOne\"",": " ]
+                  }, {
+                     "r" : "308",
+                     "s" : [ {
+                        "r" : "308",
+                        "value" : [ "+","1.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "308",
+               "locator" : "59:33-59:36",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "1.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "310",
+            "locator" : "61:1-61:36",
+            "name" : "Decimal.DecimalNegOne",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "310",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNegOne\"",": " ]
+                  }, {
+                     "r" : "311",
+                     "s" : [ {
+                        "r" : "312",
+                        "value" : [ "-","1.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "311",
+               "locator" : "61:33-61:36",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "313",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "312",
+                  "locator" : "61:34-61:36",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "1.0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "315",
+            "locator" : "63:1-63:32",
+            "name" : "Decimal.DecimalTwo",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "315",
+                  "s" : [ {
+                     "r" : "316",
+                     "value" : [ "","define ","\"Decimal.DecimalTwo\"",": ","2.0" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "316",
+               "locator" : "63:30-63:32",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "2.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "318",
+            "locator" : "65:1-65:36",
+            "name" : "Decimal.DecimalPosTwo",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "318",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPosTwo\"",": " ]
+                  }, {
+                     "r" : "319",
+                     "s" : [ {
+                        "r" : "319",
+                        "value" : [ "+","2.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "319",
+               "locator" : "65:33-65:36",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "2.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "321",
+            "locator" : "67:1-67:36",
+            "name" : "Decimal.DecimalNegTwo",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "321",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNegTwo\"",": " ]
+                  }, {
+                     "r" : "322",
+                     "s" : [ {
+                        "r" : "323",
+                        "value" : [ "-","2.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "322",
+               "locator" : "67:33-67:36",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "324",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "323",
+                  "locator" : "67:34-67:36",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "2.0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "326",
+            "locator" : "69:1-69:44",
+            "name" : "Decimal.Decimal10Pow9",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "326",
+                  "s" : [ {
+                     "r" : "327",
+                     "value" : [ "","define ","\"Decimal.Decimal10Pow9\"",": ","1000000000.0" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "327",
+               "locator" : "69:33-69:44",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "1000000000.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "329",
+            "locator" : "71:1-71:48",
+            "name" : "Decimal.DecimalPos10Pow9",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "329",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPos10Pow9\"",": " ]
+                  }, {
+                     "r" : "330",
+                     "s" : [ {
+                        "r" : "330",
+                        "value" : [ "+","1000000000.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "330",
+               "locator" : "71:36-71:48",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "1000000000.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "332",
+            "locator" : "73:1-73:48",
+            "name" : "Decimal.DecimalNeg10Pow9",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "332",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNeg10Pow9\"",": " ]
+                  }, {
+                     "r" : "333",
+                     "s" : [ {
+                        "r" : "334",
+                        "value" : [ "-","1000000000.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "333",
+               "locator" : "73:36-73:48",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "335",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "334",
+                  "locator" : "73:37-73:48",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "1000000000.0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "337",
+            "locator" : "75:1-75:51",
+            "name" : "Decimal.Decimal2Pow31ToZero1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "337",
+                  "s" : [ {
+                     "r" : "338",
+                     "value" : [ "","define ","\"Decimal.Decimal2Pow31ToZero1\"",": ","2147483647.0" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "338",
+               "locator" : "75:40-75:51",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "2147483647.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "340",
+            "locator" : "77:1-77:55",
+            "name" : "Decimal.DecimalPos2Pow31ToZero1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "340",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPos2Pow31ToZero1\"",": " ]
+                  }, {
+                     "r" : "341",
+                     "s" : [ {
+                        "r" : "341",
+                        "value" : [ "+","2147483647.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "341",
+               "locator" : "77:43-77:55",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "2147483647.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "343",
+            "locator" : "79:1-79:55",
+            "name" : "Decimal.DecimalNeg2Pow31ToZero1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "343",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNeg2Pow31ToZero1\"",": " ]
+                  }, {
+                     "r" : "344",
+                     "s" : [ {
+                        "r" : "345",
+                        "value" : [ "-","2147483647.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "344",
+               "locator" : "79:43-79:55",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "346",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "345",
+                  "locator" : "79:44-79:55",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "2147483647.0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "348",
+            "locator" : "81:1-81:44",
+            "name" : "Decimal.Decimal2Pow31",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "348",
+                  "s" : [ {
+                     "r" : "349",
+                     "value" : [ "","define ","\"Decimal.Decimal2Pow31\"",": ","2147483648.0" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "349",
+               "locator" : "81:33-81:44",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "2147483648.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "351",
+            "locator" : "83:1-83:48",
+            "name" : "Decimal.DecimalPos2Pow31",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "351",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPos2Pow31\"",": " ]
+                  }, {
+                     "r" : "352",
+                     "s" : [ {
+                        "r" : "352",
+                        "value" : [ "+","2147483648.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "352",
+               "locator" : "83:36-83:48",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "2147483648.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "354",
+            "locator" : "85:1-85:48",
+            "name" : "Decimal.DecimalNeg2Pow31",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "354",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNeg2Pow31\"",": " ]
+                  }, {
+                     "r" : "355",
+                     "s" : [ {
+                        "r" : "356",
+                        "value" : [ "-","2147483648.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "355",
+               "locator" : "85:36-85:48",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "357",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "356",
+                  "locator" : "85:37-85:48",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "2147483648.0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "359",
+            "locator" : "87:1-87:50",
+            "name" : "Decimal.Decimal2Pow31ToInf1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "359",
+                  "s" : [ {
+                     "r" : "360",
+                     "value" : [ "","define ","\"Decimal.Decimal2Pow31ToInf1\"",": ","2147483649.0" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "360",
+               "locator" : "87:39-87:50",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "2147483649.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "362",
+            "locator" : "89:1-89:54",
+            "name" : "Decimal.DecimalPos2Pow31ToInf1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "362",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPos2Pow31ToInf1\"",": " ]
+                  }, {
+                     "r" : "363",
+                     "s" : [ {
+                        "r" : "363",
+                        "value" : [ "+","2147483649.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "363",
+               "locator" : "89:42-89:54",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "2147483649.0",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "365",
+            "locator" : "91:1-91:54",
+            "name" : "Decimal.DecimalNeg2Pow31ToInf1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "365",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNeg2Pow31ToInf1\"",": " ]
+                  }, {
+                     "r" : "366",
+                     "s" : [ {
+                        "r" : "367",
+                        "value" : [ "-","2147483649.0" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "366",
+               "locator" : "91:42-91:54",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "368",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "367",
+                  "locator" : "91:43-91:54",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "2147483649.0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "370",
+            "locator" : "93:1-93:44",
+            "name" : "Decimal.DecimalZeroStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "370",
+                  "s" : [ {
+                     "r" : "371",
+                     "value" : [ "","define ","\"Decimal.DecimalZeroStep\"",": ","0.00000000" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "371",
+               "locator" : "93:35-93:44",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.00000000",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "373",
+            "locator" : "95:1-95:48",
+            "name" : "Decimal.DecimalPosZeroStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "373",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPosZeroStep\"",": " ]
+                  }, {
+                     "r" : "374",
+                     "s" : [ {
+                        "r" : "374",
+                        "value" : [ "+","0.00000000" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "374",
+               "locator" : "95:38-95:48",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.00000000",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "376",
+            "locator" : "97:1-97:48",
+            "name" : "Decimal.DecimalNegZeroStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "376",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNegZeroStep\"",": " ]
+                  }, {
+                     "r" : "377",
+                     "s" : [ {
+                        "r" : "378",
+                        "value" : [ "-","0.00000000" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "377",
+               "locator" : "97:38-97:48",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "379",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "378",
+                  "locator" : "97:39-97:48",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "0.00000000",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "381",
+            "locator" : "99:1-99:43",
+            "name" : "Decimal.DecimalOneStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "381",
+                  "s" : [ {
+                     "r" : "382",
+                     "value" : [ "","define ","\"Decimal.DecimalOneStep\"",": ","0.00000001" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "382",
+               "locator" : "99:34-99:43",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.00000001",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "384",
+            "locator" : "101:1-101:47",
+            "name" : "Decimal.DecimalPosOneStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "384",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPosOneStep\"",": " ]
+                  }, {
+                     "r" : "385",
+                     "s" : [ {
+                        "r" : "385",
+                        "value" : [ "+","0.00000001" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "385",
+               "locator" : "101:37-101:47",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.00000001",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "387",
+            "locator" : "103:1-103:47",
+            "name" : "Decimal.DecimalNegOneStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "387",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNegOneStep\"",": " ]
+                  }, {
+                     "r" : "388",
+                     "s" : [ {
+                        "r" : "389",
+                        "value" : [ "-","0.00000001" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "388",
+               "locator" : "103:37-103:47",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "390",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "389",
+                  "locator" : "103:38-103:47",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "0.00000001",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "392",
+            "locator" : "105:1-105:43",
+            "name" : "Decimal.DecimalTwoStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "392",
+                  "s" : [ {
+                     "r" : "393",
+                     "value" : [ "","define ","\"Decimal.DecimalTwoStep\"",": ","0.00000002" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "393",
+               "locator" : "105:34-105:43",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.00000002",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "395",
+            "locator" : "107:1-107:47",
+            "name" : "Decimal.DecimalPosTwoStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "395",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPosTwoStep\"",": " ]
+                  }, {
+                     "r" : "396",
+                     "s" : [ {
+                        "r" : "396",
+                        "value" : [ "+","0.00000002" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "396",
+               "locator" : "107:37-107:47",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.00000002",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "398",
+            "locator" : "109:1-109:47",
+            "name" : "Decimal.DecimalNegTwoStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "398",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNegTwoStep\"",": " ]
+                  }, {
+                     "r" : "399",
+                     "s" : [ {
+                        "r" : "400",
+                        "value" : [ "-","0.00000002" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "399",
+               "locator" : "109:37-109:47",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "401",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "400",
+                  "locator" : "109:38-109:47",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "0.00000002",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "403",
+            "locator" : "111:1-111:42",
+            "name" : "Decimal.DecimalTenStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "403",
+                  "s" : [ {
+                     "r" : "404",
+                     "value" : [ "","define ","\"Decimal.DecimalTenStep\"",": ","0.0000001" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "404",
+               "locator" : "111:34-111:42",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.0000001",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "406",
+            "locator" : "113:1-113:46",
+            "name" : "Decimal.DecimalPosTenStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "406",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPosTenStep\"",": " ]
+                  }, {
+                     "r" : "407",
+                     "s" : [ {
+                        "r" : "407",
+                        "value" : [ "+","0.0000001" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "407",
+               "locator" : "113:37-113:46",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.0000001",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "409",
+            "locator" : "115:1-115:46",
+            "name" : "Decimal.DecimalNegTenStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "409",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNegTenStep\"",": " ]
+                  }, {
+                     "r" : "410",
+                     "s" : [ {
+                        "r" : "411",
+                        "value" : [ "-","0.0000001" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "410",
+               "locator" : "115:37-115:46",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "412",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "411",
+                  "locator" : "115:38-115:46",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "0.0000001",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "414",
+            "locator" : "117:1-117:46",
+            "name" : "Decimal.DecimalTenthStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "414",
+                  "s" : [ {
+                     "r" : "415",
+                     "value" : [ "","define ","\"Decimal.DecimalTenthStep\"",": ","0.000000001" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "415",
+               "locator" : "117:36-117:46",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.000000001",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "417",
+            "locator" : "119:1-119:50",
+            "name" : "Decimal.DecimalPosTenthStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "417",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPosTenthStep\"",": " ]
+                  }, {
+                     "r" : "418",
+                     "s" : [ {
+                        "r" : "418",
+                        "value" : [ "+","0.000000001" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "418",
+               "locator" : "119:39-119:50",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "0.000000001",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "420",
+            "locator" : "121:1-121:50",
+            "name" : "Decimal.DecimalNegTenthStep",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "420",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNegTenthStep\"",": " ]
+                  }, {
+                     "r" : "421",
+                     "s" : [ {
+                        "r" : "422",
+                        "value" : [ "-","0.000000001" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "421",
+               "locator" : "121:39-121:50",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "423",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "422",
+                  "locator" : "121:40-121:50",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "0.000000001",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "425",
+            "locator" : "123:1-123:98",
+            "name" : "Decimal.Decimal10Pow28ToZeroOneStepDecimalMaxValue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "425",
+                  "s" : [ {
+                     "r" : "426",
+                     "value" : [ "","define ","\"Decimal.Decimal10Pow28ToZeroOneStepDecimalMaxValue\"",": ","9999999999999999999999999999.99999999" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "426",
+               "locator" : "123:62-123:98",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "9999999999999999999999999999.99999999",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "428",
+            "locator" : "125:1-125:102",
+            "name" : "Decimal.DecimalPos10Pow28ToZeroOneStepDecimalMaxValue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "428",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPos10Pow28ToZeroOneStepDecimalMaxValue\"",": " ]
+                  }, {
+                     "r" : "429",
+                     "s" : [ {
+                        "r" : "429",
+                        "value" : [ "+","9999999999999999999999999999.99999999" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "429",
+               "locator" : "125:65-125:102",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "9999999999999999999999999999.99999999",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "431",
+            "locator" : "127:1-127:102",
+            "name" : "Decimal.DecimalNeg10Pow28ToZeroOneStepDecimalMinValue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "431",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNeg10Pow28ToZeroOneStepDecimalMinValue\"",": " ]
+                  }, {
+                     "r" : "432",
+                     "s" : [ {
+                        "r" : "433",
+                        "value" : [ "-","9999999999999999999999999999.99999999" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "432",
+               "locator" : "127:65-127:102",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "434",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "433",
+                  "locator" : "127:66-127:102",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "9999999999999999999999999999.99999999",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "436",
+            "locator" : "129:1-129:71",
+            "name" : "Decimal.Decimal10Pow28",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "436",
+                  "s" : [ {
+                     "r" : "437",
+                     "value" : [ "","define ","\"Decimal.Decimal10Pow28\"",": ","10000000000000000000000000000.00000000" ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "437",
+               "locator" : "129:34-129:71",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "10000000000000000000000000000.00000000",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "439",
+            "locator" : "131:1-131:75",
+            "name" : "Decimal.DecimalPos10Pow28",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "439",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalPos10Pow28\"",": " ]
+                  }, {
+                     "r" : "440",
+                     "s" : [ {
+                        "r" : "440",
+                        "value" : [ "+","10000000000000000000000000000.00000000" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "440",
+               "locator" : "131:37-131:75",
+               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+               "value" : "10000000000000000000000000000.00000000",
+               "type" : "Literal"
+            }
+         }, {
+            "localId" : "442",
+            "locator" : "133:1-133:75",
+            "name" : "Decimal.DecimalNeg10Pow28",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "442",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Decimal.DecimalNeg10Pow28\"",": " ]
+                  }, {
+                     "r" : "443",
+                     "s" : [ {
+                        "r" : "444",
+                        "value" : [ "-","10000000000000000000000000000.00000000" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "443",
+               "locator" : "133:37-133:75",
+               "type" : "Negate",
+               "signature" : [ {
+                  "localId" : "445",
+                  "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "444",
+                  "locator" : "133:38-133:75",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "10000000000000000000000000000.00000000",
+                  "type" : "Literal"
+               }
+            }
+         } ]
+      }
+   }
+}
+

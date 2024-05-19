@@ -1,0 +1,3267 @@
+{
+   "library" : {
+      "localId" : "0",
+      "annotation" : [ {
+         "translatorVersion" : "3.10.0-SNAPSHOT",
+         "translatorOptions" : "EnableAnnotations,EnableLocators",
+         "signatureLevel" : "Overloads",
+         "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "779",
+            "s" : [ {
+               "value" : [ "","library CqlAggregateFunctionsTest" ]
+            } ]
+         }
+      } ],
+      "identifier" : {
+         "id" : "CqlAggregateFunctionsTest"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localId" : "1",
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "localId" : "207",
+            "locator" : "3:1-3:53",
+            "name" : "AllTrue.AllTrueAllTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "207",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AllTrue.AllTrueAllTrue\"",": " ]
+                  }, {
+                     "r" : "213",
+                     "s" : [ {
+                        "value" : [ "AllTrue","(" ]
+                     }, {
+                        "r" : "208",
+                        "s" : [ {
+                           "r" : "209",
+                           "value" : [ "{","true",",","true","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "213",
+               "locator" : "3:34-3:53",
+               "type" : "AllTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "208",
+                  "locator" : "3:42-3:52",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "209",
+                     "locator" : "3:43-3:46",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "210",
+                     "locator" : "3:48-3:51",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "215",
+            "locator" : "5:1-5:56",
+            "name" : "AllTrue.AllTrueTrueFirst",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "215",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AllTrue.AllTrueTrueFirst\"",": " ]
+                  }, {
+                     "r" : "221",
+                     "s" : [ {
+                        "value" : [ "AllTrue","(" ]
+                     }, {
+                        "r" : "216",
+                        "s" : [ {
+                           "r" : "217",
+                           "value" : [ "{","true",",","false","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "221",
+               "locator" : "5:36-5:56",
+               "type" : "AllTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "216",
+                  "locator" : "5:44-5:55",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "217",
+                     "locator" : "5:45-5:48",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "218",
+                     "locator" : "5:50-5:54",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "223",
+            "locator" : "7:1-7:57",
+            "name" : "AllTrue.AllTrueFalseFirst",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "223",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AllTrue.AllTrueFalseFirst\"",": " ]
+                  }, {
+                     "r" : "229",
+                     "s" : [ {
+                        "value" : [ "AllTrue","(" ]
+                     }, {
+                        "r" : "224",
+                        "s" : [ {
+                           "r" : "225",
+                           "value" : [ "{","false",",","true","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "229",
+               "locator" : "7:37-7:57",
+               "type" : "AllTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "224",
+                  "locator" : "7:45-7:56",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "225",
+                     "locator" : "7:46-7:50",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "226",
+                     "locator" : "7:52-7:55",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "231",
+            "locator" : "9:1-9:68",
+            "name" : "AllTrue.AllTrueAllTrueFalseTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "231",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AllTrue.AllTrueAllTrueFalseTrue\"",": " ]
+                  }, {
+                     "r" : "238",
+                     "s" : [ {
+                        "value" : [ "AllTrue","(" ]
+                     }, {
+                        "r" : "232",
+                        "s" : [ {
+                           "r" : "233",
+                           "value" : [ "{","true",",","false",",","true","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "238",
+               "locator" : "9:43-9:68",
+               "type" : "AllTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "232",
+                  "locator" : "9:51-9:67",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "233",
+                     "locator" : "9:52-9:55",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "234",
+                     "locator" : "9:57-9:61",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "235",
+                     "locator" : "9:63-9:66",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "240",
+            "locator" : "11:1-11:70",
+            "name" : "AllTrue.AllTrueAllFalseTrueFalse",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "240",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AllTrue.AllTrueAllFalseTrueFalse\"",": " ]
+                  }, {
+                     "r" : "247",
+                     "s" : [ {
+                        "value" : [ "AllTrue","(" ]
+                     }, {
+                        "r" : "241",
+                        "s" : [ {
+                           "r" : "242",
+                           "value" : [ "{","false",",","true",",","false","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "247",
+               "locator" : "11:44-11:70",
+               "type" : "AllTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "241",
+                  "locator" : "11:52-11:69",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "242",
+                     "locator" : "11:53-11:57",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "243",
+                     "locator" : "11:59-11:62",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "244",
+                     "locator" : "11:64-11:68",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "249",
+            "locator" : "13:1-13:60",
+            "name" : "AllTrue.AllTrueNullFirst",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "249",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AllTrue.AllTrueNullFirst\"",": " ]
+                  }, {
+                     "r" : "257",
+                     "s" : [ {
+                        "value" : [ "AllTrue","(" ]
+                     }, {
+                        "r" : "250",
+                        "s" : [ {
+                           "r" : "251",
+                           "value" : [ "{","null",",","true",",","true","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "257",
+               "locator" : "13:36-13:60",
+               "type" : "AllTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "250",
+                  "locator" : "13:44-13:59",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "254",
+                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "As",
+                     "signature" : [ ],
+                     "operand" : {
+                        "localId" : "251",
+                        "locator" : "13:45-13:48",
+                        "type" : "Null"
+                     }
+                  }, {
+                     "localId" : "252",
+                     "locator" : "13:50-13:53",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "253",
+                     "locator" : "13:55-13:58",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "259",
+            "locator" : "15:1-15:46",
+            "name" : "AllTrue.AllTrueEmptyList",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "259",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AllTrue.AllTrueEmptyList\"",": " ]
+                  }, {
+                     "r" : "268",
+                     "s" : [ {
+                        "r" : "260",
+                        "value" : [ "AllTrue","(","{}",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "268",
+               "locator" : "15:36-15:46",
+               "type" : "AllTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "269",
+                  "type" : "Query",
+                  "source" : [ {
+                     "localId" : "270",
+                     "alias" : "X",
+                     "expression" : {
+                        "localId" : "260",
+                        "locator" : "15:44-15:45",
+                        "type" : "List",
+                        "element" : [ ]
+                     }
+                  } ],
+                  "let" : [ ],
+                  "relationship" : [ ],
+                  "return" : {
+                     "localId" : "271",
+                     "distinct" : false,
+                     "expression" : {
+                        "localId" : "273",
+                        "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                        "type" : "As",
+                        "signature" : [ ],
+                        "operand" : {
+                           "localId" : "272",
+                           "name" : "X",
+                           "type" : "AliasRef"
+                        }
+                     }
+                  }
+               }
+            }
+         }, {
+            "localId" : "275",
+            "locator" : "17:1-17:53",
+            "name" : "AnyTrue.AnyTrueAllTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "275",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AnyTrue.AnyTrueAllTrue\"",": " ]
+                  }, {
+                     "r" : "281",
+                     "s" : [ {
+                        "value" : [ "AnyTrue","(" ]
+                     }, {
+                        "r" : "276",
+                        "s" : [ {
+                           "r" : "277",
+                           "value" : [ "{","true",",","true","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "281",
+               "locator" : "17:34-17:53",
+               "type" : "AnyTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "276",
+                  "locator" : "17:42-17:52",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "277",
+                     "locator" : "17:43-17:46",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "278",
+                     "locator" : "17:48-17:51",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "283",
+            "locator" : "19:1-19:56",
+            "name" : "AnyTrue.AnyTrueAllFalse",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "283",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AnyTrue.AnyTrueAllFalse\"",": " ]
+                  }, {
+                     "r" : "289",
+                     "s" : [ {
+                        "value" : [ "AnyTrue","(" ]
+                     }, {
+                        "r" : "284",
+                        "s" : [ {
+                           "r" : "285",
+                           "value" : [ "{","false",",","false","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "289",
+               "locator" : "19:35-19:56",
+               "type" : "AnyTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "284",
+                  "locator" : "19:43-19:55",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "285",
+                     "locator" : "19:44-19:48",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "286",
+                     "locator" : "19:50-19:54",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "291",
+            "locator" : "21:1-21:68",
+            "name" : "AnyTrue.AnyTrueAllTrueFalseTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "291",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AnyTrue.AnyTrueAllTrueFalseTrue\"",": " ]
+                  }, {
+                     "r" : "298",
+                     "s" : [ {
+                        "value" : [ "AnyTrue","(" ]
+                     }, {
+                        "r" : "292",
+                        "s" : [ {
+                           "r" : "293",
+                           "value" : [ "{","true",",","false",",","true","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "298",
+               "locator" : "21:43-21:68",
+               "type" : "AnyTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "292",
+                  "locator" : "21:51-21:67",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "293",
+                     "locator" : "21:52-21:55",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "294",
+                     "locator" : "21:57-21:61",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "295",
+                     "locator" : "21:63-21:66",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "300",
+            "locator" : "23:1-23:70",
+            "name" : "AnyTrue.AnyTrueAllFalseTrueFalse",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "300",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AnyTrue.AnyTrueAllFalseTrueFalse\"",": " ]
+                  }, {
+                     "r" : "307",
+                     "s" : [ {
+                        "value" : [ "AnyTrue","(" ]
+                     }, {
+                        "r" : "301",
+                        "s" : [ {
+                           "r" : "302",
+                           "value" : [ "{","false",",","true",",","false","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "307",
+               "locator" : "23:44-23:70",
+               "type" : "AnyTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "301",
+                  "locator" : "23:52-23:69",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "302",
+                     "locator" : "23:53-23:57",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "303",
+                     "locator" : "23:59-23:62",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "304",
+                     "locator" : "23:64-23:68",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "309",
+            "locator" : "25:1-25:56",
+            "name" : "AnyTrue.AnyTrueTrueFirst",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "309",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AnyTrue.AnyTrueTrueFirst\"",": " ]
+                  }, {
+                     "r" : "315",
+                     "s" : [ {
+                        "value" : [ "AnyTrue","(" ]
+                     }, {
+                        "r" : "310",
+                        "s" : [ {
+                           "r" : "311",
+                           "value" : [ "{","true",",","false","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "315",
+               "locator" : "25:36-25:56",
+               "type" : "AnyTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "310",
+                  "locator" : "25:44-25:55",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "311",
+                     "locator" : "25:45-25:48",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "312",
+                     "locator" : "25:50-25:54",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "317",
+            "locator" : "27:1-27:57",
+            "name" : "AnyTrue.AnyTrueFalseFirst",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "317",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AnyTrue.AnyTrueFalseFirst\"",": " ]
+                  }, {
+                     "r" : "323",
+                     "s" : [ {
+                        "value" : [ "AnyTrue","(" ]
+                     }, {
+                        "r" : "318",
+                        "s" : [ {
+                           "r" : "319",
+                           "value" : [ "{","false",",","true","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "323",
+               "locator" : "27:37-27:57",
+               "type" : "AnyTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "318",
+                  "locator" : "27:45-27:56",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "319",
+                     "locator" : "27:46-27:50",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "320",
+                     "locator" : "27:52-27:55",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "325",
+            "locator" : "29:1-29:63",
+            "name" : "AnyTrue.AnyTrueNullFirstThenTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "325",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AnyTrue.AnyTrueNullFirstThenTrue\"",": " ]
+                  }, {
+                     "r" : "332",
+                     "s" : [ {
+                        "value" : [ "AnyTrue","(" ]
+                     }, {
+                        "r" : "326",
+                        "s" : [ {
+                           "r" : "327",
+                           "value" : [ "{","null",",","true","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "332",
+               "locator" : "29:44-29:63",
+               "type" : "AnyTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "326",
+                  "locator" : "29:52-29:62",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "329",
+                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "As",
+                     "signature" : [ ],
+                     "operand" : {
+                        "localId" : "327",
+                        "locator" : "29:53-29:56",
+                        "type" : "Null"
+                     }
+                  }, {
+                     "localId" : "328",
+                     "locator" : "29:58-29:61",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "334",
+            "locator" : "31:1-31:65",
+            "name" : "AnyTrue.AnyTrueNullFirstThenFalse",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "334",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AnyTrue.AnyTrueNullFirstThenFalse\"",": " ]
+                  }, {
+                     "r" : "341",
+                     "s" : [ {
+                        "value" : [ "AnyTrue","(" ]
+                     }, {
+                        "r" : "335",
+                        "s" : [ {
+                           "r" : "336",
+                           "value" : [ "{","null",",","false","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "341",
+               "locator" : "31:45-31:65",
+               "type" : "AnyTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "335",
+                  "locator" : "31:53-31:64",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "338",
+                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "As",
+                     "signature" : [ ],
+                     "operand" : {
+                        "localId" : "336",
+                        "locator" : "31:54-31:57",
+                        "type" : "Null"
+                     }
+                  }, {
+                     "localId" : "337",
+                     "locator" : "31:59-31:63",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "343",
+            "locator" : "33:1-33:46",
+            "name" : "AnyTrue.AnyTrueEmptyList",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "343",
+                  "s" : [ {
+                     "value" : [ "","define ","\"AnyTrue.AnyTrueEmptyList\"",": " ]
+                  }, {
+                     "r" : "352",
+                     "s" : [ {
+                        "r" : "344",
+                        "value" : [ "AnyTrue","(","{}",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "352",
+               "locator" : "33:36-33:46",
+               "type" : "AnyTrue",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "353",
+                  "type" : "Query",
+                  "source" : [ {
+                     "localId" : "354",
+                     "alias" : "X",
+                     "expression" : {
+                        "localId" : "344",
+                        "locator" : "33:44-33:45",
+                        "type" : "List",
+                        "element" : [ ]
+                     }
+                  } ],
+                  "let" : [ ],
+                  "relationship" : [ ],
+                  "return" : {
+                     "localId" : "355",
+                     "distinct" : false,
+                     "expression" : {
+                        "localId" : "357",
+                        "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                        "type" : "As",
+                        "signature" : [ ],
+                        "operand" : {
+                           "localId" : "356",
+                           "name" : "X",
+                           "type" : "AliasRef"
+                        }
+                     }
+                  }
+               }
+            }
+         }, {
+            "localId" : "359",
+            "locator" : "35:1-35:50",
+            "name" : "Avg.AvgTest1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "359",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Avg.AvgTest1\"",": " ]
+                  }, {
+                     "r" : "369",
+                     "s" : [ {
+                        "value" : [ "Avg","(" ]
+                     }, {
+                        "r" : "360",
+                        "s" : [ {
+                           "r" : "361",
+                           "value" : [ "{ ","1.0",", ","2.0",", ","3.0",", ","6.0"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "369",
+               "locator" : "35:24-35:50",
+               "type" : "Avg",
+               "signature" : [ {
+                  "localId" : "370",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "371",
+                     "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "360",
+                  "locator" : "35:28-35:49",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "361",
+                     "locator" : "35:30-35:32",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "1.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "362",
+                     "locator" : "35:35-35:37",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "2.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "363",
+                     "locator" : "35:40-35:42",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "3.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "364",
+                     "locator" : "35:45-35:47",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "6.0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "373",
+            "locator" : "37:1-37:56",
+            "name" : "Count.CountTest1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "373",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Count.CountTest1\"",": " ]
+                  }, {
+                     "r" : "383",
+                     "s" : [ {
+                        "value" : [ "Count","(" ]
+                     }, {
+                        "r" : "374",
+                        "s" : [ {
+                           "r" : "375",
+                           "value" : [ "{ ","15",", ","5",", ","99",", ","null",", ","1"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "383",
+               "locator" : "37:28-37:56",
+               "type" : "Count",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "374",
+                  "locator" : "37:34-37:55",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "375",
+                     "locator" : "37:36-37:37",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "15",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "376",
+                     "locator" : "37:40",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "377",
+                     "locator" : "37:43-37:44",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "99",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "380",
+                     "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "As",
+                     "signature" : [ ],
+                     "operand" : {
+                        "localId" : "378",
+                        "locator" : "37:47-37:50",
+                        "type" : "Null"
+                     }
+                  }, {
+                     "localId" : "379",
+                     "locator" : "37:53",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "385",
+            "locator" : "39:1-39:91",
+            "name" : "Count.CountTestDateTime",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "385",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Count.CountTestDateTime\"",": " ]
+                  }, {
+                     "r" : "403",
+                     "s" : [ {
+                        "value" : [ "Count","(" ]
+                     }, {
+                        "r" : "386",
+                        "s" : [ {
+                           "value" : [ "{ " ]
+                        }, {
+                           "r" : "390",
+                           "s" : [ {
+                              "r" : "387",
+                              "value" : [ "DateTime","(","2014",")" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "394",
+                           "s" : [ {
+                              "r" : "391",
+                              "value" : [ "DateTime","(","2001",")" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "398",
+                           "s" : [ {
+                              "r" : "395",
+                              "value" : [ "DateTime","(","2010",")" ]
+                           } ]
+                        }, {
+                           "value" : [ " }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "403",
+               "locator" : "39:35-39:91",
+               "type" : "Count",
+               "signature" : [ {
+                  "localId" : "404",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "405",
+                     "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "386",
+                  "locator" : "39:41-39:90",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "390",
+                     "locator" : "39:43-39:56",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "387",
+                        "locator" : "39:52-39:55",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2014",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "394",
+                     "locator" : "39:59-39:72",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "391",
+                        "locator" : "39:68-39:71",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2001",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "398",
+                     "locator" : "39:75-39:88",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "395",
+                        "locator" : "39:84-39:87",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2010",
+                        "type" : "Literal"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "407",
+            "locator" : "41:1-41:87",
+            "name" : "Count.CountTestTime",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "407",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Count.CountTestTime\"",": " ]
+                  }, {
+                     "r" : "428",
+                     "s" : [ {
+                        "value" : [ "Count","(" ]
+                     }, {
+                        "r" : "408",
+                        "s" : [ {
+                           "r" : "409",
+                           "value" : [ "{ ","@T15:59:59.999",", ","@T05:59:59.999",", ","@T20:59:59.999"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "428",
+               "locator" : "41:31-41:87",
+               "type" : "Count",
+               "signature" : [ {
+                  "localId" : "429",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "430",
+                     "name" : "{urn:hl7-org:elm-types:r1}Time",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "408",
+                  "locator" : "41:37-41:86",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "409",
+                     "locator" : "41:39-41:52",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "410",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "15",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "411",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "412",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "413",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "414",
+                     "locator" : "41:55-41:68",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "415",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "416",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "417",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "418",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "419",
+                     "locator" : "41:71-41:84",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "420",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "20",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "421",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "422",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "423",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "432",
+            "locator" : "43:1-43:39",
+            "name" : "Count.CountTestNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "432",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Count.CountTestNull\"",": " ]
+                  }, {
+                     "r" : "438",
+                     "s" : [ {
+                        "r" : "433",
+                        "value" : [ "Count","(","{}",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "438",
+               "locator" : "43:31-43:39",
+               "type" : "Count",
+               "signature" : [ {
+                  "localId" : "439",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "440",
+                     "name" : "{urn:hl7-org:elm-types:r1}Any",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "433",
+                  "locator" : "43:37-43:38",
+                  "type" : "List",
+                  "element" : [ ]
+               }
+            }
+         }, {
+            "localId" : "442",
+            "locator" : "45:1-45:64",
+            "name" : "Max.MaxTestInteger",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "442",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Max.MaxTestInteger\"",": " ]
+                  }, {
+                     "r" : "456",
+                     "s" : [ {
+                        "value" : [ "Max","(" ]
+                     }, {
+                        "r" : "443",
+                        "s" : [ {
+                           "r" : "444",
+                           "value" : [ "{ ","5",", ","12",", ","1",", ","15",", ","0",", ","4",", ","90",", ","44"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "456",
+               "locator" : "45:30-45:64",
+               "type" : "Max",
+               "signature" : [ {
+                  "localId" : "457",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "458",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "443",
+                  "locator" : "45:34-45:63",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "444",
+                     "locator" : "45:36",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "445",
+                     "locator" : "45:39-45:40",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "446",
+                     "locator" : "45:43",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "447",
+                     "locator" : "45:46-45:47",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "15",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "448",
+                     "locator" : "45:50",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "449",
+                     "locator" : "45:53",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "4",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "450",
+                     "locator" : "45:56-45:57",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "90",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "451",
+                     "locator" : "45:60-45:61",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "44",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "460",
+            "locator" : "47:1-47:57",
+            "name" : "Max.MaxTestString",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "460",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Max.MaxTestString\"",": " ]
+                  }, {
+                     "r" : "469",
+                     "s" : [ {
+                        "value" : [ "Max","(" ]
+                     }, {
+                        "r" : "461",
+                        "s" : [ {
+                           "value" : [ "{ " ]
+                        }, {
+                           "r" : "462",
+                           "s" : [ {
+                              "value" : [ "'hi'" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "463",
+                           "s" : [ {
+                              "value" : [ "'bye'" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "464",
+                           "s" : [ {
+                              "value" : [ "'zebra'" ]
+                           } ]
+                        }, {
+                           "value" : [ " }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "469",
+               "locator" : "47:29-47:57",
+               "type" : "Max",
+               "signature" : [ {
+                  "localId" : "470",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "471",
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "461",
+                  "locator" : "47:33-47:56",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "462",
+                     "locator" : "47:35-47:38",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "hi",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "463",
+                     "locator" : "47:41-47:45",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "bye",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "464",
+                     "locator" : "47:48-47:54",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "zebra",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "473",
+            "locator" : "49:1-49:105",
+            "name" : "Max.MaxTestDateTime",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "473",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Max.MaxTestDateTime\"",": " ]
+                  }, {
+                     "r" : "497",
+                     "s" : [ {
+                        "value" : [ "Max","(" ]
+                     }, {
+                        "r" : "474",
+                        "s" : [ {
+                           "value" : [ "{ " ]
+                        }, {
+                           "r" : "480",
+                           "s" : [ {
+                              "r" : "475",
+                              "value" : [ "DateTime","(","2012",", ","10",", ","5",")" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "486",
+                           "s" : [ {
+                              "r" : "481",
+                              "value" : [ "DateTime","(","2012",", ","9",", ","5",")" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "492",
+                           "s" : [ {
+                              "r" : "487",
+                              "value" : [ "DateTime","(","2012",", ","10",", ","6",")" ]
+                           } ]
+                        }, {
+                           "value" : [ " }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "497",
+               "locator" : "49:31-49:105",
+               "type" : "Max",
+               "signature" : [ {
+                  "localId" : "498",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "499",
+                     "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "474",
+                  "locator" : "49:35-49:104",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "480",
+                     "locator" : "49:37-49:57",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "475",
+                        "locator" : "49:46-49:49",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "476",
+                        "locator" : "49:52-49:53",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "477",
+                        "locator" : "49:56",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "486",
+                     "locator" : "49:60-49:79",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "481",
+                        "locator" : "49:69-49:72",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "482",
+                        "locator" : "49:75",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "9",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "483",
+                        "locator" : "49:78",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "492",
+                     "locator" : "49:82-49:102",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "487",
+                        "locator" : "49:91-49:94",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "488",
+                        "locator" : "49:97-49:98",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "489",
+                        "locator" : "49:101",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "6",
+                        "type" : "Literal"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "501",
+            "locator" : "51:1-51:81",
+            "name" : "Max.MaxTestTime",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "501",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Max.MaxTestTime\"",": " ]
+                  }, {
+                     "r" : "522",
+                     "s" : [ {
+                        "value" : [ "Max","(" ]
+                     }, {
+                        "r" : "502",
+                        "s" : [ {
+                           "r" : "503",
+                           "value" : [ "{ ","@T15:59:59.999",", ","@T05:59:59.999",", ","@T20:59:59.999"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "522",
+               "locator" : "51:27-51:81",
+               "type" : "Max",
+               "signature" : [ {
+                  "localId" : "523",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "524",
+                     "name" : "{urn:hl7-org:elm-types:r1}Time",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "502",
+                  "locator" : "51:31-51:80",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "503",
+                     "locator" : "51:33-51:46",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "504",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "15",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "505",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "506",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "507",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "508",
+                     "locator" : "51:49-51:62",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "509",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "510",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "511",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "512",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "513",
+                     "locator" : "51:65-51:78",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "514",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "20",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "515",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "516",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "517",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "526",
+            "locator" : "53:1-53:73",
+            "name" : "Median.MedianTestDecimal",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "526",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Median.MedianTestDecimal\"",": " ]
+                  }, {
+                     "r" : "538",
+                     "s" : [ {
+                        "value" : [ "Median","(" ]
+                     }, {
+                        "r" : "527",
+                        "s" : [ {
+                           "r" : "528",
+                           "value" : [ "{","6.0",", ","5.0",", ","4.0",", ","3.0",", ","2.0",", ","1.0","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "538",
+               "locator" : "53:36-53:73",
+               "type" : "Median",
+               "signature" : [ {
+                  "localId" : "539",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "540",
+                     "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "527",
+                  "locator" : "53:43-53:72",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "528",
+                     "locator" : "53:44-53:46",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "6.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "529",
+                     "locator" : "53:49-53:51",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "5.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "530",
+                     "locator" : "53:54-53:56",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "4.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "531",
+                     "locator" : "53:59-53:61",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "3.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "532",
+                     "locator" : "53:64-53:66",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "2.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "533",
+                     "locator" : "53:69-53:71",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "1.0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "542",
+            "locator" : "55:1-55:62",
+            "name" : "Min.MinTestInteger",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "542",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Min.MinTestInteger\"",": " ]
+                  }, {
+                     "r" : "556",
+                     "s" : [ {
+                        "value" : [ "Min","(" ]
+                     }, {
+                        "r" : "543",
+                        "s" : [ {
+                           "r" : "544",
+                           "value" : [ "{","5",", ","12",", ","1",", ","15",", ","0",", ","4",", ","90",", ","44","}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "556",
+               "locator" : "55:30-55:62",
+               "type" : "Min",
+               "signature" : [ {
+                  "localId" : "557",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "558",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "543",
+                  "locator" : "55:34-55:61",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "544",
+                     "locator" : "55:35",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "545",
+                     "locator" : "55:38-55:39",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "546",
+                     "locator" : "55:42",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "547",
+                     "locator" : "55:45-55:46",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "15",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "548",
+                     "locator" : "55:49",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "549",
+                     "locator" : "55:52",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "4",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "550",
+                     "locator" : "55:55-55:56",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "90",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "551",
+                     "locator" : "55:59-55:60",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "44",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "560",
+            "locator" : "57:1-57:55",
+            "name" : "Min.MinTestString",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "560",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Min.MinTestString\"",": " ]
+                  }, {
+                     "r" : "569",
+                     "s" : [ {
+                        "value" : [ "Min","(" ]
+                     }, {
+                        "r" : "561",
+                        "s" : [ {
+                           "value" : [ "{" ]
+                        }, {
+                           "r" : "562",
+                           "s" : [ {
+                              "value" : [ "'hi'" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "563",
+                           "s" : [ {
+                              "value" : [ "'bye'" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "564",
+                           "s" : [ {
+                              "value" : [ "'zebra'" ]
+                           } ]
+                        }, {
+                           "value" : [ "}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "569",
+               "locator" : "57:29-57:55",
+               "type" : "Min",
+               "signature" : [ {
+                  "localId" : "570",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "571",
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "561",
+                  "locator" : "57:33-57:54",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "562",
+                     "locator" : "57:34-57:37",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "hi",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "563",
+                     "locator" : "57:40-57:44",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "bye",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "564",
+                     "locator" : "57:47-57:53",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "zebra",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "573",
+            "locator" : "59:1-59:105",
+            "name" : "Min.MinTestDateTime",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "573",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Min.MinTestDateTime\"",": " ]
+                  }, {
+                     "r" : "597",
+                     "s" : [ {
+                        "value" : [ "Min","(" ]
+                     }, {
+                        "r" : "574",
+                        "s" : [ {
+                           "value" : [ "{ " ]
+                        }, {
+                           "r" : "580",
+                           "s" : [ {
+                              "r" : "575",
+                              "value" : [ "DateTime","(","2012",", ","10",", ","5",")" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "586",
+                           "s" : [ {
+                              "r" : "581",
+                              "value" : [ "DateTime","(","2012",", ","9",", ","5",")" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "592",
+                           "s" : [ {
+                              "r" : "587",
+                              "value" : [ "DateTime","(","2012",", ","10",", ","6",")" ]
+                           } ]
+                        }, {
+                           "value" : [ " }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "597",
+               "locator" : "59:31-59:105",
+               "type" : "Min",
+               "signature" : [ {
+                  "localId" : "598",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "599",
+                     "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "574",
+                  "locator" : "59:35-59:104",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "580",
+                     "locator" : "59:37-59:57",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "575",
+                        "locator" : "59:46-59:49",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "576",
+                        "locator" : "59:52-59:53",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "577",
+                        "locator" : "59:56",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "586",
+                     "locator" : "59:60-59:79",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "581",
+                        "locator" : "59:69-59:72",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "582",
+                        "locator" : "59:75",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "9",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "583",
+                        "locator" : "59:78",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "592",
+                     "locator" : "59:82-59:102",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "587",
+                        "locator" : "59:91-59:94",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "588",
+                        "locator" : "59:97-59:98",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "589",
+                        "locator" : "59:101",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "6",
+                        "type" : "Literal"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "601",
+            "locator" : "61:1-61:81",
+            "name" : "Min.MinTestTime",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "601",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Min.MinTestTime\"",": " ]
+                  }, {
+                     "r" : "622",
+                     "s" : [ {
+                        "value" : [ "Min","(" ]
+                     }, {
+                        "r" : "602",
+                        "s" : [ {
+                           "r" : "603",
+                           "value" : [ "{ ","@T15:59:59.999",", ","@T05:59:59.999",", ","@T20:59:59.999"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "622",
+               "locator" : "61:27-61:81",
+               "type" : "Min",
+               "signature" : [ {
+                  "localId" : "623",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "624",
+                     "name" : "{urn:hl7-org:elm-types:r1}Time",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "602",
+                  "locator" : "61:31-61:80",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "603",
+                     "locator" : "61:33-61:46",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "604",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "15",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "605",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "606",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "607",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "608",
+                     "locator" : "61:49-61:62",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "609",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "610",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "611",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "612",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "613",
+                     "locator" : "61:65-61:78",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "614",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "20",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "615",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "616",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "617",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "626",
+            "locator" : "63:1-63:63",
+            "name" : "Mode.ModeTestInteger",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "626",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Mode.ModeTestInteger\"",": " ]
+                  }, {
+                     "r" : "638",
+                     "s" : [ {
+                        "value" : [ "Mode","(" ]
+                     }, {
+                        "r" : "627",
+                        "s" : [ {
+                           "r" : "628",
+                           "value" : [ "{ ","2",", ","1",", ","8",", ","2",", ","9",", ","1",", ","9",", ","9"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "638",
+               "locator" : "63:32-63:63",
+               "type" : "Mode",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "627",
+                  "locator" : "63:37-63:62",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "628",
+                     "locator" : "63:39",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "629",
+                     "locator" : "63:42",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "630",
+                     "locator" : "63:45",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "8",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "631",
+                     "locator" : "63:48",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "632",
+                     "locator" : "63:51",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "9",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "633",
+                     "locator" : "63:54",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "634",
+                     "locator" : "63:57",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "9",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "635",
+                     "locator" : "63:60",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "9",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "640",
+            "locator" : "65:1-65:130",
+            "name" : "Mode.ModeTestDateTime",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "640",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Mode.ModeTestDateTime\"",": " ]
+                  }, {
+                     "r" : "670",
+                     "s" : [ {
+                        "value" : [ "Mode","(" ]
+                     }, {
+                        "r" : "641",
+                        "s" : [ {
+                           "value" : [ "{ " ]
+                        }, {
+                           "r" : "647",
+                           "s" : [ {
+                              "r" : "642",
+                              "value" : [ "DateTime","(","2012",", ","10",", ","5",")" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "653",
+                           "s" : [ {
+                              "r" : "648",
+                              "value" : [ "DateTime","(","2012",", ","9",", ","5",")" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "659",
+                           "s" : [ {
+                              "r" : "654",
+                              "value" : [ "DateTime","(","2012",", ","10",", ","6",")" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "665",
+                           "s" : [ {
+                              "r" : "660",
+                              "value" : [ "DateTime","(","2012",", ","9",", ","5",")" ]
+                           } ]
+                        }, {
+                           "value" : [ " }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "670",
+               "locator" : "65:33-65:130",
+               "type" : "Mode",
+               "signature" : [ {
+                  "localId" : "671",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "672",
+                     "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "641",
+                  "locator" : "65:38-65:129",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "647",
+                     "locator" : "65:40-65:60",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "642",
+                        "locator" : "65:49-65:52",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "643",
+                        "locator" : "65:55-65:56",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "644",
+                        "locator" : "65:59",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "653",
+                     "locator" : "65:63-65:82",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "648",
+                        "locator" : "65:72-65:75",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "649",
+                        "locator" : "65:78",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "9",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "650",
+                        "locator" : "65:81",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "659",
+                     "locator" : "65:85-65:105",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "654",
+                        "locator" : "65:94-65:97",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "655",
+                        "locator" : "65:100-65:101",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "656",
+                        "locator" : "65:104",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "6",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "665",
+                     "locator" : "65:108-65:127",
+                     "type" : "DateTime",
+                     "signature" : [ ],
+                     "year" : {
+                        "localId" : "660",
+                        "locator" : "65:117-65:120",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2012",
+                        "type" : "Literal"
+                     },
+                     "month" : {
+                        "localId" : "661",
+                        "locator" : "65:123",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "9",
+                        "type" : "Literal"
+                     },
+                     "day" : {
+                        "localId" : "662",
+                        "locator" : "65:126",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "674",
+            "locator" : "67:1-67:100",
+            "name" : "Mode.ModeTestTime",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "674",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Mode.ModeTestTime\"",": " ]
+                  }, {
+                     "r" : "700",
+                     "s" : [ {
+                        "value" : [ "Mode","(" ]
+                     }, {
+                        "r" : "675",
+                        "s" : [ {
+                           "r" : "676",
+                           "value" : [ "{ ","@T15:59:59.999",", ","@T05:59:59.999",", ","@T20:59:59.999",", ","@T05:59:59.999"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "700",
+               "locator" : "67:29-67:100",
+               "type" : "Mode",
+               "signature" : [ {
+                  "localId" : "701",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "702",
+                     "name" : "{urn:hl7-org:elm-types:r1}Time",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "675",
+                  "locator" : "67:34-67:99",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "676",
+                     "locator" : "67:36-67:49",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "677",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "15",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "678",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "679",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "680",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "681",
+                     "locator" : "67:52-67:65",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "682",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "683",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "684",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "685",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "686",
+                     "locator" : "67:68-67:81",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "687",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "20",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "688",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "689",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "690",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "localId" : "691",
+                     "locator" : "67:84-67:97",
+                     "type" : "Time",
+                     "signature" : [ ],
+                     "hour" : {
+                        "localId" : "692",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     },
+                     "minute" : {
+                        "localId" : "693",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "second" : {
+                        "localId" : "694",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "59",
+                        "type" : "Literal"
+                     },
+                     "millisecond" : {
+                        "localId" : "695",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "999",
+                        "type" : "Literal"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "704",
+            "locator" : "69:1-69:87",
+            "name" : "PopulationStdDev.PopStdDevTest1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "704",
+                  "s" : [ {
+                     "value" : [ "","define ","\"PopulationStdDev.PopStdDevTest1\"",": " ]
+                  }, {
+                     "r" : "715",
+                     "s" : [ {
+                        "value" : [ "PopulationStdDev","(" ]
+                     }, {
+                        "r" : "705",
+                        "s" : [ {
+                           "r" : "706",
+                           "value" : [ "{ ","1.0",", ","2.0",", ","3.0",", ","4.0",", ","5.0"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "715",
+               "locator" : "69:43-69:87",
+               "type" : "PopulationStdDev",
+               "signature" : [ {
+                  "localId" : "716",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "717",
+                     "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "705",
+                  "locator" : "69:60-69:86",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "706",
+                     "locator" : "69:62-69:64",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "1.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "707",
+                     "locator" : "69:67-69:69",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "2.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "708",
+                     "locator" : "69:72-69:74",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "3.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "709",
+                     "locator" : "69:77-69:79",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "4.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "710",
+                     "locator" : "69:82-69:84",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "5.0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "719",
+            "locator" : "71:1-71:93",
+            "name" : "PopulationVariance.PopVarianceTest1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "719",
+                  "s" : [ {
+                     "value" : [ "","define ","\"PopulationVariance.PopVarianceTest1\"",": " ]
+                  }, {
+                     "r" : "730",
+                     "s" : [ {
+                        "value" : [ "PopulationVariance","(" ]
+                     }, {
+                        "r" : "720",
+                        "s" : [ {
+                           "r" : "721",
+                           "value" : [ "{ ","1.0",", ","2.0",", ","3.0",", ","4.0",", ","5.0"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "730",
+               "locator" : "71:47-71:93",
+               "type" : "PopulationVariance",
+               "signature" : [ {
+                  "localId" : "731",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "732",
+                     "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "720",
+                  "locator" : "71:66-71:92",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "721",
+                     "locator" : "71:68-71:70",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "1.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "722",
+                     "locator" : "71:73-71:75",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "2.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "723",
+                     "locator" : "71:78-71:80",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "3.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "724",
+                     "locator" : "71:83-71:85",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "4.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "725",
+                     "locator" : "71:88-71:90",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "5.0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "734",
+            "locator" : "73:1-73:64",
+            "name" : "StdDev.StdDevTest1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "734",
+                  "s" : [ {
+                     "value" : [ "","define ","\"StdDev.StdDevTest1\"",": " ]
+                  }, {
+                     "r" : "745",
+                     "s" : [ {
+                        "value" : [ "StdDev","(" ]
+                     }, {
+                        "r" : "735",
+                        "s" : [ {
+                           "r" : "736",
+                           "value" : [ "{ ","1.0",", ","2.0",", ","3.0",", ","4.0",", ","5.0"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "745",
+               "locator" : "73:30-73:64",
+               "type" : "StdDev",
+               "signature" : [ {
+                  "localId" : "746",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "747",
+                     "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "735",
+                  "locator" : "73:37-73:63",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "736",
+                     "locator" : "73:39-73:41",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "1.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "737",
+                     "locator" : "73:44-73:46",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "2.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "738",
+                     "locator" : "73:49-73:51",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "3.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "739",
+                     "locator" : "73:54-73:56",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "4.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "740",
+                     "locator" : "73:59-73:61",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "5.0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "749",
+            "locator" : "75:1-75:55",
+            "name" : "Sum.SumTest1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "749",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Sum.SumTest1\"",": " ]
+                  }, {
+                     "r" : "760",
+                     "s" : [ {
+                        "value" : [ "Sum","(" ]
+                     }, {
+                        "r" : "750",
+                        "s" : [ {
+                           "r" : "751",
+                           "value" : [ "{ ","6.0",", ","2.0",", ","3.0",", ","4.0",", ","5.0"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "760",
+               "locator" : "75:24-75:55",
+               "type" : "Sum",
+               "signature" : [ {
+                  "localId" : "761",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "762",
+                     "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "750",
+                  "locator" : "75:28-75:54",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "751",
+                     "locator" : "75:30-75:32",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "6.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "752",
+                     "locator" : "75:35-75:37",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "2.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "753",
+                     "locator" : "75:40-75:42",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "3.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "754",
+                     "locator" : "75:45-75:47",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "4.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "755",
+                     "locator" : "75:50-75:52",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "5.0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "764",
+            "locator" : "77:1-77:48",
+            "name" : "Sum.SumTestNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "764",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Sum.SumTestNull\"",": " ]
+                  }, {
+                     "r" : "775",
+                     "s" : [ {
+                        "value" : [ "Sum","(" ]
+                     }, {
+                        "r" : "765",
+                        "s" : [ {
+                           "r" : "766",
+                           "value" : [ "{ ","null",", ","1",", ","null"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "775",
+               "locator" : "77:27-77:48",
+               "type" : "Sum",
+               "signature" : [ {
+                  "localId" : "776",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "777",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "765",
+                  "locator" : "77:31-77:47",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "769",
+                     "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "As",
+                     "signature" : [ ],
+                     "operand" : {
+                        "localId" : "766",
+                        "locator" : "77:33-77:36",
+                        "type" : "Null"
+                     }
+                  }, {
+                     "localId" : "767",
+                     "locator" : "77:39",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "770",
+                     "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "As",
+                     "signature" : [ ],
+                     "operand" : {
+                        "localId" : "768",
+                        "locator" : "77:42-77:45",
+                        "type" : "Null"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "779",
+            "locator" : "79:1-79:70",
+            "name" : "Variance.VarianceTest1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "779",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Variance.VarianceTest1\"",": " ]
+                  }, {
+                     "r" : "790",
+                     "s" : [ {
+                        "value" : [ "Variance","(" ]
+                     }, {
+                        "r" : "780",
+                        "s" : [ {
+                           "r" : "781",
+                           "value" : [ "{ ","1.0",", ","2.0",", ","3.0",", ","4.0",", ","5.0"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "790",
+               "locator" : "79:34-79:70",
+               "type" : "Variance",
+               "signature" : [ {
+                  "localId" : "791",
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "localId" : "792",
+                     "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ],
+               "source" : {
+                  "localId" : "780",
+                  "locator" : "79:43-79:69",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "781",
+                     "locator" : "79:45-79:47",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "1.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "782",
+                     "locator" : "79:50-79:52",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "2.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "783",
+                     "locator" : "79:55-79:57",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "3.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "784",
+                     "locator" : "79:60-79:62",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "4.0",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "785",
+                     "locator" : "79:65-79:67",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "5.0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         } ]
+      }
+   }
+}
+

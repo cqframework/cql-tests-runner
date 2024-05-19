@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="urn:hl7-org:elm:r1" xmlns:t="urn:hl7-org:elm-types:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fhir="http://hl7.org/fhir" xmlns:qdm43="urn:healthit-gov:qdm:v4_3" xmlns:qdm53="urn:healthit-gov:qdm:v5_3" xmlns:a="urn:hl7-org:cql-annotations:r1" localId="0">
+   <annotation translatorVersion="3.10.0-SNAPSHOT" translatorOptions="EnableAnnotations,EnableLocators" signatureLevel="Overloads" xsi:type="a:CqlToElmInfo"/>
+   <annotation xsi:type="a:Annotation">
+      <a:s r="252">
+         <a:s>library CqlErrorsAndMessagingOperatorsTest</a:s>
+      </a:s>
+   </annotation>
+   <identifier id="CqlErrorsAndMessagingOperatorsTest"/>
+   <schemaIdentifier id="urn:hl7-org:elm" version="r1"/>
+   <usings>
+      <def localId="1" localIdentifier="System" uri="urn:hl7-org:elm-types:r1"/>
+   </usings>
+   <statements>
+      <def localId="207" locator="3:1-3:86" name="undefined.TestMessageInfo" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="207">
+               <a:s>define &quot;undefined.TestMessageInfo&quot;: </a:s>
+               <a:s r="215">
+                  <a:s r="208">Message(1, true, </a:s>
+                  <a:s r="210">
+                     <a:s>'100'</a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s r="211">
+                     <a:s>'Message'</a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s r="212">
+                     <a:s>'Test Message'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="215" locator="3:37-3:86" xsi:type="Message">
+            <source localId="208" locator="3:45" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <condition localId="209" locator="3:48-3:51" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <code localId="210" locator="3:54-3:58" valueType="t:String" value="100" xsi:type="Literal"/>
+            <severity localId="211" locator="3:61-3:69" valueType="t:String" value="Message" xsi:type="Literal"/>
+            <message localId="212" locator="3:72-3:85" valueType="t:String" value="Test Message" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="217" locator="5:1-5:95" name="undefined.TestMessageWarn" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="217">
+               <a:s>define &quot;undefined.TestMessageWarn&quot;: </a:s>
+               <a:s r="225">
+                  <a:s r="218">Message(2, true, </a:s>
+                  <a:s r="220">
+                     <a:s>'200'</a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s r="221">
+                     <a:s>'Warning'</a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s r="222">
+                     <a:s>'You have been warned!'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="225" locator="5:37-5:95" xsi:type="Message">
+            <source localId="218" locator="5:45" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            <condition localId="219" locator="5:48-5:51" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <code localId="220" locator="5:54-5:58" valueType="t:String" value="200" xsi:type="Literal"/>
+            <severity localId="221" locator="5:61-5:69" valueType="t:String" value="Warning" xsi:type="Literal"/>
+            <message localId="222" locator="5:72-5:94" valueType="t:String" value="You have been warned!" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="227" locator="7:1-7:96" name="undefined.TestMessageTrace" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="227">
+               <a:s>define &quot;undefined.TestMessageTrace&quot;: </a:s>
+               <a:s r="244">
+                  <a:s>Message(</a:s>
+                  <a:s r="228">
+                     <a:s r="229">{3, 4, 5}</a:s>
+                  </a:s>
+                  <a:s r="232">, true, </a:s>
+                  <a:s r="233">
+                     <a:s>'300'</a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s r="234">
+                     <a:s>'Trace'</a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s r="235">
+                     <a:s>'This is a trace'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="244" locator="7:38-7:96" xsi:type="Message">
+            <signature localId="245" xsi:type="ListTypeSpecifier">
+               <elementType localId="246" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <signature localId="247" name="t:Boolean" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="248" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="249" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="250" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <source localId="228" locator="7:46-7:54" xsi:type="List">
+               <element localId="229" locator="7:47" valueType="t:Integer" value="3" xsi:type="Literal"/>
+               <element localId="230" locator="7:50" valueType="t:Integer" value="4" xsi:type="Literal"/>
+               <element localId="231" locator="7:53" valueType="t:Integer" value="5" xsi:type="Literal"/>
+            </source>
+            <condition localId="232" locator="7:57-7:60" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <code localId="233" locator="7:63-7:67" valueType="t:String" value="300" xsi:type="Literal"/>
+            <severity localId="234" locator="7:70-7:76" valueType="t:String" value="Trace" xsi:type="Literal"/>
+            <message localId="235" locator="7:79-7:95" valueType="t:String" value="This is a trace" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="252" locator="9:1-9:94" name="undefined.TestMessageError" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="252">
+               <a:s>define &quot;undefined.TestMessageError&quot;: </a:s>
+               <a:s r="269">
+                  <a:s>Message(</a:s>
+                  <a:s r="253">
+                     <a:s r="254">3 + 1</a:s>
+                  </a:s>
+                  <a:s r="258">, true, </a:s>
+                  <a:s r="259">
+                     <a:s>'400'</a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s r="260">
+                     <a:s>'Error'</a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s r="261">
+                     <a:s>'This is an error!'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="269" locator="9:38-9:94" xsi:type="Message">
+            <signature localId="270" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="271" name="t:Boolean" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="272" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="273" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="274" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <source localId="253" locator="9:46-9:50" xsi:type="Add">
+               <signature localId="256" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <signature localId="257" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="254" locator="9:46" valueType="t:Integer" value="3" xsi:type="Literal"/>
+               <operand localId="255" locator="9:50" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </source>
+            <condition localId="258" locator="9:53-9:56" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <code localId="259" locator="9:59-9:63" valueType="t:String" value="400" xsi:type="Literal"/>
+            <severity localId="260" locator="9:66-9:72" valueType="t:String" value="Error" xsi:type="Literal"/>
+            <message localId="261" locator="9:75-9:93" valueType="t:String" value="This is an error!" xsi:type="Literal"/>
+         </expression>
+      </def>
+   </statements>
+</library>
+
+
