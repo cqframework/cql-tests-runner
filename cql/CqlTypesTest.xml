@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="urn:hl7-org:elm:r1" xmlns:t="urn:hl7-org:elm-types:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fhir="http://hl7.org/fhir" xmlns:qdm43="urn:healthit-gov:qdm:v4_3" xmlns:qdm53="urn:healthit-gov:qdm:v5_3" xmlns:a="urn:hl7-org:cql-annotations:r1" localId="0">
+   <annotation translatorVersion="3.10.0-SNAPSHOT" translatorOptions="EnableAnnotations,EnableLocators" signatureLevel="Overloads" xsi:type="a:CqlToElmInfo"/>
+   <annotation xsi:type="a:Annotation">
+      <a:s r="377">
+         <a:s>library CqlTypesTest</a:s>
+      </a:s>
+   </annotation>
+   <identifier id="CqlTypesTest"/>
+   <schemaIdentifier id="urn:hl7-org:elm" version="r1"/>
+   <usings>
+      <def localId="1" localIdentifier="System" uri="urn:hl7-org:elm-types:r1"/>
+   </usings>
+   <statements>
+      <def localId="207" locator="3:1-3:33" name="Any.AnyQuantity" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="207">
+               <a:s>define &quot;Any.AnyQuantity&quot;: </a:s>
+               <a:s r="208">
+                  <a:s>5.0 'g'</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="208" locator="3:27-3:33" value="5.0" unit="g" xsi:type="Quantity"/>
+      </def>
+      <def localId="210" locator="5:1-5:46" name="Any.AnyDateTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="210">
+               <a:s>define &quot;Any.AnyDateTime&quot;: </a:s>
+               <a:s r="216">
+                  <a:s r="211">DateTime(2012, 4, 4)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="216" locator="5:27-5:46" xsi:type="DateTime">
+            <year localId="211" locator="5:36-5:39" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+            <month localId="212" locator="5:42" valueType="t:Integer" value="4" xsi:type="Literal"/>
+            <day localId="213" locator="5:45" valueType="t:Integer" value="4" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="218" locator="7:1-7:36" name="Any.AnyTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="218">
+               <a:s r="219">define &quot;Any.AnyTime&quot;: @T09:00:00.000</a:s>
+            </a:s>
+         </annotation>
+         <expression localId="219" locator="7:23-7:36" xsi:type="Time">
+            <hour localId="220" valueType="t:Integer" value="9" xsi:type="Literal"/>
+            <minute localId="221" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <second localId="222" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <millisecond localId="223" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="225" locator="9:1-9:40" name="Any.AnyInterval" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="225">
+               <a:s>define &quot;Any.AnyInterval&quot;: </a:s>
+               <a:s r="228">
+                  <a:s r="226">Interval[2, 7]</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="228" locator="9:27-9:40" lowClosed="true" highClosed="true" xsi:type="Interval">
+            <low localId="226" locator="9:36" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            <high localId="227" locator="9:39" valueType="t:Integer" value="7" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="230" locator="11:1-11:31" name="Any.AnyList" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="230">
+               <a:s>define &quot;Any.AnyList&quot;: </a:s>
+               <a:s r="231">
+                  <a:s r="232">{1, 2, 3}</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="231" locator="11:23-11:31" xsi:type="List">
+            <element localId="232" locator="11:24" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <element localId="233" locator="11:27" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            <element localId="234" locator="11:30" valueType="t:Integer" value="3" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="236" locator="13:1-13:52" name="Any.AnyTuple" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="236">
+               <a:s>define &quot;Any.AnyTuple&quot;: </a:s>
+               <a:s r="237">
+                  <a:s>Tuple { </a:s>
+                  <a:s>
+                     <a:s r="238">id: 5</a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s>
+                     <a:s>name: </a:s>
+                     <a:s r="239">
+                        <a:s>'Chris'</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>}</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="237" locator="13:24-13:52" xsi:type="Tuple">
+            <element name="id">
+               <value localId="238" locator="13:36" valueType="t:Integer" value="5" xsi:type="Literal"/>
+            </element>
+            <element name="name">
+               <value localId="239" locator="13:45-13:51" valueType="t:String" value="Chris" xsi:type="Literal"/>
+            </element>
+         </expression>
+      </def>
+      <def localId="241" locator="15:1-15:58" name="Any.AnyString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="241">
+               <a:s>define &quot;Any.AnyString&quot;: </a:s>
+               <a:s r="245">
+                  <a:s r="242">
+                     <a:s>Tuple { </a:s>
+                     <a:s>
+                        <a:s r="243">id: 5</a:s>
+                     </a:s>
+                     <a:s>, </a:s>
+                     <a:s>
+                        <a:s>name: </a:s>
+                        <a:s r="244">
+                           <a:s>'Chris'</a:s>
+                        </a:s>
+                     </a:s>
+                     <a:s>}</a:s>
+                  </a:s>
+                  <a:s>.</a:s>
+                  <a:s r="245">
+                     <a:s>name</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="245" locator="15:25-15:58" path="name" xsi:type="Property">
+            <source localId="242" locator="15:25-15:53" xsi:type="Tuple">
+               <element name="id">
+                  <value localId="243" locator="15:37" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               </element>
+               <element name="name">
+                  <value localId="244" locator="15:46-15:52" valueType="t:String" value="Chris" xsi:type="Literal"/>
+               </element>
+            </source>
+         </expression>
+      </def>
+      <def localId="247" locator="17:1-17:46" name="DateTime.DateTimeNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="247">
+               <a:s>define &quot;DateTime.DateTimeNull&quot;: </a:s>
+               <a:s r="252">
+                  <a:s r="248">DateTime(null)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="252" locator="17:33-17:46" xsi:type="DateTime">
+            <year localId="253" asType="t:Integer" xsi:type="As">
+               <operand localId="248" locator="17:42-17:45" xsi:type="Null"/>
+            </year>
+         </expression>
+      </def>
+      <def localId="255" locator="19:1-19:84" name="DateTime.DateTimeUpperBoundExcept" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="255">
+               <a:s>define &quot;DateTime.DateTimeUpperBoundExcept&quot;: </a:s>
+               <a:s r="265">
+                  <a:s r="256">DateTime(10000, 12, 31, 23, 59, 59, 999)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="265" locator="19:45-19:84" xsi:type="DateTime">
+            <year localId="256" locator="19:54-19:58" valueType="t:Integer" value="10000" xsi:type="Literal"/>
+            <month localId="257" locator="19:61-19:62" valueType="t:Integer" value="12" xsi:type="Literal"/>
+            <day localId="258" locator="19:65-19:66" valueType="t:Integer" value="31" xsi:type="Literal"/>
+            <hour localId="259" locator="19:69-19:70" valueType="t:Integer" value="23" xsi:type="Literal"/>
+            <minute localId="260" locator="19:73-19:74" valueType="t:Integer" value="59" xsi:type="Literal"/>
+            <second localId="261" locator="19:77-19:78" valueType="t:Integer" value="59" xsi:type="Literal"/>
+            <millisecond localId="262" locator="19:81-19:83" valueType="t:Integer" value="999" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="267" locator="21:1-21:76" name="DateTime.DateTimeLowerBoundExcept" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="267">
+               <a:s>define &quot;DateTime.DateTimeLowerBoundExcept&quot;: </a:s>
+               <a:s r="277">
+                  <a:s r="268">DateTime(0000, 1, 1, 0, 0, 0, 0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="277" locator="21:45-21:76" xsi:type="DateTime">
+            <year localId="268" locator="21:54-21:57" valueType="t:Integer" value="0000" xsi:type="Literal"/>
+            <month localId="269" locator="21:60" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <day localId="270" locator="21:63" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <hour localId="271" locator="21:66" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <minute localId="272" locator="21:69" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <second localId="273" locator="21:72" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <millisecond localId="274" locator="21:75" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="279" locator="23:1-23:70" name="DateTime.DateTimeProper" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="279">
+               <a:s>define &quot;DateTime.DateTimeProper&quot;: </a:s>
+               <a:s r="289">
+                  <a:s r="280">DateTime(2016, 7, 7, 6, 25, 33, 910)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="289" locator="23:35-23:70" xsi:type="DateTime">
+            <year localId="280" locator="23:44-23:47" valueType="t:Integer" value="2016" xsi:type="Literal"/>
+            <month localId="281" locator="23:50" valueType="t:Integer" value="7" xsi:type="Literal"/>
+            <day localId="282" locator="23:53" valueType="t:Integer" value="7" xsi:type="Literal"/>
+            <hour localId="283" locator="23:56" valueType="t:Integer" value="6" xsi:type="Literal"/>
+            <minute localId="284" locator="23:59-23:60" valueType="t:Integer" value="25" xsi:type="Literal"/>
+            <second localId="285" locator="23:63-23:64" valueType="t:Integer" value="33" xsi:type="Literal"/>
+            <millisecond localId="286" locator="23:67-23:69" valueType="t:Integer" value="910" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="291" locator="25:1-25:59" name="DateTime.DateTimeIncomplete" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="291">
+               <a:s>define &quot;DateTime.DateTimeIncomplete&quot;: </a:s>
+               <a:s r="297">
+                  <a:s r="292">DateTime(2015, 2, 10)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="297" locator="25:39-25:59" xsi:type="DateTime">
+            <year localId="292" locator="25:48-25:51" valueType="t:Integer" value="2015" xsi:type="Literal"/>
+            <month localId="293" locator="25:54" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            <day localId="294" locator="25:57-25:58" valueType="t:Integer" value="10" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="299" locator="27:1-27:93" name="DateTime.DateTimeUncertain" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="299">
+               <a:s>define &quot;DateTime.DateTimeUncertain&quot;: </a:s>
+               <a:s r="300">
+                  <a:s>days between </a:s>
+                  <a:s r="306">
+                     <a:s r="301">DateTime(2015, 2, 10)</a:s>
+                  </a:s>
+                  <a:s> and </a:s>
+                  <a:s r="311">
+                     <a:s r="307">DateTime(2015, 3)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="300" locator="27:38-27:93" precision="Day" xsi:type="DurationBetween">
+            <signature localId="312" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="313" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="306" locator="27:51-27:71" xsi:type="DateTime">
+               <year localId="301" locator="27:60-27:63" valueType="t:Integer" value="2015" xsi:type="Literal"/>
+               <month localId="302" locator="27:66" valueType="t:Integer" value="2" xsi:type="Literal"/>
+               <day localId="303" locator="27:69-27:70" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            </operand>
+            <operand localId="311" locator="27:77-27:93" xsi:type="DateTime">
+               <year localId="307" locator="27:86-27:89" valueType="t:Integer" value="2015" xsi:type="Literal"/>
+               <month localId="308" locator="27:92" valueType="t:Integer" value="3" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="315" locator="29:1-29:63" name="DateTime.DateTimeMin" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="315">
+               <a:s>define &quot;DateTime.DateTimeMin&quot;: </a:s>
+               <a:s r="325">
+                  <a:s r="316">DateTime(0001, 1, 1, 0, 0, 0, 0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="325" locator="29:32-29:63" xsi:type="DateTime">
+            <year localId="316" locator="29:41-29:44" valueType="t:Integer" value="0001" xsi:type="Literal"/>
+            <month localId="317" locator="29:47" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <day localId="318" locator="29:50" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <hour localId="319" locator="29:53" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <minute localId="320" locator="29:56" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <second localId="321" locator="29:59" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <millisecond localId="322" locator="29:62" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="327" locator="31:1-31:70" name="DateTime.DateTimeMax" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="327">
+               <a:s>define &quot;DateTime.DateTimeMax&quot;: </a:s>
+               <a:s r="337">
+                  <a:s r="328">DateTime(9999, 12, 31, 23, 59, 59, 999)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="337" locator="31:32-31:70" xsi:type="DateTime">
+            <year localId="328" locator="31:41-31:44" valueType="t:Integer" value="9999" xsi:type="Literal"/>
+            <month localId="329" locator="31:47-31:48" valueType="t:Integer" value="12" xsi:type="Literal"/>
+            <day localId="330" locator="31:51-31:52" valueType="t:Integer" value="31" xsi:type="Literal"/>
+            <hour localId="331" locator="31:55-31:56" valueType="t:Integer" value="23" xsi:type="Literal"/>
+            <minute localId="332" locator="31:59-31:60" valueType="t:Integer" value="59" xsi:type="Literal"/>
+            <second localId="333" locator="31:63-31:64" valueType="t:Integer" value="59" xsi:type="Literal"/>
+            <millisecond localId="334" locator="31:67-31:69" valueType="t:Integer" value="999" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="339" locator="33:1-33:73" name="DateTime.DateTimeTimeUnspecified" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="339">
+               <a:s>define &quot;DateTime.DateTimeTimeUnspecified&quot;: </a:s>
+               <a:s r="346">
+                  <a:s r="340">
+                     <a:s r="341">hour from @2015-02-10T</a:s>
+                  </a:s>
+                  <a:s> is null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="346" locator="33:44-33:73" xsi:type="IsNull">
+            <operand localId="340" locator="33:44-33:65" precision="Hour" xsi:type="DateTimeComponentFrom">
+               <signature localId="345" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="341" locator="33:54-33:65" xsi:type="DateTime">
+                  <year localId="342" valueType="t:Integer" value="2015" xsi:type="Literal"/>
+                  <month localId="343" valueType="t:Integer" value="2" xsi:type="Literal"/>
+                  <day localId="344" valueType="t:Integer" value="10" xsi:type="Literal"/>
+               </operand>
+            </operand>
+         </expression>
+      </def>
+      <def localId="348" locator="35:1-35:47" name="Quantity.QuantityTest" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="348">
+               <a:s>define &quot;Quantity.QuantityTest&quot;: </a:s>
+               <a:s r="349">
+                  <a:s>150.2 '[lb_av]'</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="349" locator="35:33-35:47" value="150.2" unit="[lb_av]" xsi:type="Quantity"/>
+      </def>
+      <def localId="351" locator="37:1-37:57" name="Quantity.QuantityTest2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="351">
+               <a:s>define &quot;Quantity.QuantityTest2&quot;: </a:s>
+               <a:s r="352">
+                  <a:s>2.5589 '{eskimo kisses}'</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="352" locator="37:34-37:57" value="2.5589" unit="{eskimo kisses}" xsi:type="Quantity"/>
+      </def>
+      <def localId="354" locator="39:1-39:59" name="Quantity.QuantityFractionalTooBig" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="354">
+               <a:s>define &quot;Quantity.QuantityFractionalTooBig&quot;: </a:s>
+               <a:s r="355">
+                  <a:s>5.999999999 'g'</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="355" locator="39:45-39:59" value="5.999999999" unit="g" xsi:type="Quantity"/>
+      </def>
+      <def localId="357" locator="41:1-41:101" name="String.StringTestEscapeQuotes" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="357">
+               <a:s>define &quot;String.StringTestEscapeQuotes&quot;: </a:s>
+               <a:s r="358">
+                  <a:s>'\'I start with a single quote and end with a double quote\&quot;'</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="358" locator="41:41-41:101" valueType="t:String" value="'I start with a single quote and end with a double quote&quot;" xsi:type="Literal"/>
+      </def>
+      <def localId="360" locator="43:1-43:49" name="String.StringUnicodeTest" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="360">
+               <a:s>define &quot;String.StringUnicodeTest&quot;: </a:s>
+               <a:s r="361">
+                  <a:s>'\u0048\u0069'</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="361" locator="43:36-43:49" valueType="t:String" value="Hi" xsi:type="Literal"/>
+      </def>
+      <def localId="363" locator="45:1-45:40" name="Time.TimeProper" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="363">
+               <a:s r="364">define &quot;Time.TimeProper&quot;: @T10:25:12.863</a:s>
+            </a:s>
+         </annotation>
+         <expression localId="364" locator="45:27-45:40" xsi:type="Time">
+            <hour localId="365" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            <minute localId="366" valueType="t:Integer" value="25" xsi:type="Literal"/>
+            <second localId="367" valueType="t:Integer" value="12" xsi:type="Literal"/>
+            <millisecond localId="368" valueType="t:Integer" value="863" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="370" locator="47:1-47:40" name="Time.TimeAllMax" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="370">
+               <a:s r="371">define &quot;Time.TimeAllMax&quot;: @T23:59:59.999</a:s>
+            </a:s>
+         </annotation>
+         <expression localId="371" locator="47:27-47:40" xsi:type="Time">
+            <hour localId="372" valueType="t:Integer" value="23" xsi:type="Literal"/>
+            <minute localId="373" valueType="t:Integer" value="59" xsi:type="Literal"/>
+            <second localId="374" valueType="t:Integer" value="59" xsi:type="Literal"/>
+            <millisecond localId="375" valueType="t:Integer" value="999" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="377" locator="49:1-49:40" name="Time.TimeAllMin" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="377">
+               <a:s r="378">define &quot;Time.TimeAllMin&quot;: @T00:00:00.000</a:s>
+            </a:s>
+         </annotation>
+         <expression localId="378" locator="49:27-49:40" xsi:type="Time">
+            <hour localId="379" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <minute localId="380" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <second localId="381" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <millisecond localId="382" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+   </statements>
+</library>
+
+

@@ -1,0 +1,1321 @@
+{
+   "library" : {
+      "localId" : "0",
+      "annotation" : [ {
+         "translatorVersion" : "3.10.0-SNAPSHOT",
+         "translatorOptions" : "EnableAnnotations,EnableLocators",
+         "signatureLevel" : "Overloads",
+         "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "358",
+            "s" : [ {
+               "value" : [ "","library CqlConditionalOperatorsTest" ]
+            } ]
+         }
+      } ],
+      "identifier" : {
+         "id" : "CqlConditionalOperatorsTest"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localId" : "1",
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "localId" : "207",
+            "locator" : "3:1-3:55",
+            "name" : "if-then-else.IfTrue1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "207",
+                  "s" : [ {
+                     "value" : [ "","define ","\"if-then-else.IfTrue1\"",": " ]
+                  }, {
+                     "r" : "208",
+                     "s" : [ {
+                        "value" : [ "if " ]
+                     }, {
+                        "r" : "209",
+                        "s" : [ {
+                           "r" : "210",
+                           "value" : [ "10"," ",">"," ","5" ]
+                        } ]
+                     }, {
+                        "r" : "214",
+                        "value" : [ " then ","5"," else ","10" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "208",
+               "locator" : "3:32-3:55",
+               "type" : "If",
+               "condition" : {
+                  "localId" : "209",
+                  "locator" : "3:35-3:40",
+                  "type" : "Greater",
+                  "signature" : [ {
+                     "localId" : "212",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "213",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "210",
+                     "locator" : "3:35-3:36",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "211",
+                     "locator" : "3:40",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               },
+               "then" : {
+                  "localId" : "214",
+                  "locator" : "3:47",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "5",
+                  "type" : "Literal"
+               },
+               "else" : {
+                  "localId" : "215",
+                  "locator" : "3:54-3:55",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "10",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "217",
+            "locator" : "5:1-5:65",
+            "name" : "if-then-else.IfFalse1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "217",
+                  "s" : [ {
+                     "value" : [ "","define ","\"if-then-else.IfFalse1\"",": " ]
+                  }, {
+                     "r" : "218",
+                     "s" : [ {
+                        "value" : [ "if " ]
+                     }, {
+                        "r" : "219",
+                        "s" : [ {
+                           "r" : "220",
+                           "value" : [ "10"," ","="," ","5" ]
+                        } ]
+                     }, {
+                        "value" : [ " then " ]
+                     }, {
+                        "r" : "224",
+                        "s" : [ {
+                           "r" : "225",
+                           "value" : [ "10"," + ","5" ]
+                        } ]
+                     }, {
+                        "value" : [ " else " ]
+                     }, {
+                        "r" : "229",
+                        "s" : [ {
+                           "r" : "230",
+                           "value" : [ "10"," - ","5" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "218",
+               "locator" : "5:33-5:65",
+               "type" : "If",
+               "condition" : {
+                  "localId" : "219",
+                  "locator" : "5:36-5:41",
+                  "type" : "Equal",
+                  "signature" : [ {
+                     "localId" : "222",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "223",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "220",
+                     "locator" : "5:36-5:37",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "221",
+                     "locator" : "5:41",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               },
+               "then" : {
+                  "localId" : "224",
+                  "locator" : "5:48-5:53",
+                  "type" : "Add",
+                  "signature" : [ {
+                     "localId" : "227",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "228",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "225",
+                     "locator" : "5:48-5:49",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "226",
+                     "locator" : "5:53",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               },
+               "else" : {
+                  "localId" : "229",
+                  "locator" : "5:60-5:65",
+                  "type" : "Subtract",
+                  "signature" : [ {
+                     "localId" : "232",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "233",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "230",
+                     "locator" : "5:60-5:61",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "231",
+                     "locator" : "5:65",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "235",
+            "locator" : "7:1-7:58",
+            "name" : "if-then-else.IfNull1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "235",
+                  "s" : [ {
+                     "value" : [ "","define ","\"if-then-else.IfNull1\"",": " ]
+                  }, {
+                     "r" : "236",
+                     "s" : [ {
+                        "value" : [ "if " ]
+                     }, {
+                        "r" : "237",
+                        "s" : [ {
+                           "r" : "238",
+                           "value" : [ "10"," ","="," ","null" ]
+                        } ]
+                     }, {
+                        "r" : "243",
+                        "value" : [ " then ","5"," else ","10" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "236",
+               "locator" : "7:32-7:58",
+               "type" : "If",
+               "condition" : {
+                  "localId" : "237",
+                  "locator" : "7:35-7:43",
+                  "type" : "Equal",
+                  "signature" : [ {
+                     "localId" : "241",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "242",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "238",
+                     "locator" : "7:35-7:36",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "240",
+                     "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "As",
+                     "signature" : [ ],
+                     "operand" : {
+                        "localId" : "239",
+                        "locator" : "7:40-7:43",
+                        "type" : "Null"
+                     }
+                  } ]
+               },
+               "then" : {
+                  "localId" : "243",
+                  "locator" : "7:50",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "5",
+                  "type" : "Literal"
+               },
+               "else" : {
+                  "localId" : "244",
+                  "locator" : "7:57-7:58",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "10",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "246",
+            "locator" : "9:1-13:7",
+            "name" : "standard case.StandardCase1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "246",
+                  "s" : [ {
+                     "value" : [ "","define ","\"standard case.StandardCase1\"",": " ]
+                  }, {
+                     "r" : "247",
+                     "s" : [ {
+                        "value" : [ "case\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "248",
+                        "s" : [ {
+                           "value" : [ "when " ]
+                        }, {
+                           "r" : "249",
+                           "s" : [ {
+                              "r" : "250",
+                              "value" : [ "10"," ",">"," ","5" ]
+                           } ]
+                        }, {
+                           "r" : "254",
+                           "value" : [ " then ","5" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "255",
+                        "s" : [ {
+                           "value" : [ "when " ]
+                        }, {
+                           "r" : "256",
+                           "s" : [ {
+                              "r" : "257",
+                              "value" : [ "5"," ",">"," ","10" ]
+                           } ]
+                        }, {
+                           "r" : "261",
+                           "value" : [ " then ","10" ]
+                        } ]
+                     }, {
+                        "r" : "262",
+                        "value" : [ "\n\t\t\t\t\telse ","null","\n\t\t\t\tend" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "247",
+               "locator" : "9:39-13:7",
+               "type" : "Case",
+               "caseItem" : [ {
+                  "localId" : "248",
+                  "locator" : "10:6-10:23",
+                  "when" : {
+                     "localId" : "249",
+                     "locator" : "10:11-10:16",
+                     "type" : "Greater",
+                     "signature" : [ {
+                        "localId" : "252",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "253",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "250",
+                        "locator" : "10:11-10:12",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     }, {
+                        "localId" : "251",
+                        "locator" : "10:16",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "then" : {
+                     "localId" : "254",
+                     "locator" : "10:23",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "255",
+                  "locator" : "11:6-11:24",
+                  "when" : {
+                     "localId" : "256",
+                     "locator" : "11:11-11:16",
+                     "type" : "Greater",
+                     "signature" : [ {
+                        "localId" : "259",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "260",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "257",
+                        "locator" : "11:11",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }, {
+                        "localId" : "258",
+                        "locator" : "11:15-11:16",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "then" : {
+                     "localId" : "261",
+                     "locator" : "11:23-11:24",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "localId" : "263",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "262",
+                     "locator" : "12:11-12:14",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "265",
+            "locator" : "15:1-19:7",
+            "name" : "standard case.StandardCase2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "265",
+                  "s" : [ {
+                     "value" : [ "","define ","\"standard case.StandardCase2\"",": " ]
+                  }, {
+                     "r" : "266",
+                     "s" : [ {
+                        "value" : [ "case\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "267",
+                        "s" : [ {
+                           "value" : [ "when " ]
+                        }, {
+                           "r" : "268",
+                           "s" : [ {
+                              "r" : "269",
+                              "value" : [ "5"," ",">"," ","10" ]
+                           } ]
+                        }, {
+                           "value" : [ " then " ]
+                        }, {
+                           "r" : "273",
+                           "s" : [ {
+                              "r" : "274",
+                              "value" : [ "5"," + ","10" ]
+                           } ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "278",
+                        "s" : [ {
+                           "value" : [ "when " ]
+                        }, {
+                           "r" : "279",
+                           "s" : [ {
+                              "r" : "280",
+                              "value" : [ "5"," ","="," ","10" ]
+                           } ]
+                        }, {
+                           "r" : "284",
+                           "value" : [ " then ","10" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\telse " ]
+                     }, {
+                        "r" : "285",
+                        "s" : [ {
+                           "r" : "286",
+                           "value" : [ "10"," - ","5" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\tend" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "266",
+               "locator" : "15:39-19:7",
+               "type" : "Case",
+               "caseItem" : [ {
+                  "localId" : "267",
+                  "locator" : "16:6-16:28",
+                  "when" : {
+                     "localId" : "268",
+                     "locator" : "16:11-16:16",
+                     "type" : "Greater",
+                     "signature" : [ {
+                        "localId" : "271",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "272",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "269",
+                        "locator" : "16:11",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }, {
+                        "localId" : "270",
+                        "locator" : "16:15-16:16",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "then" : {
+                     "localId" : "273",
+                     "locator" : "16:23-16:28",
+                     "type" : "Add",
+                     "signature" : [ {
+                        "localId" : "276",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "277",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "274",
+                        "locator" : "16:23",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }, {
+                        "localId" : "275",
+                        "locator" : "16:27-16:28",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     } ]
+                  }
+               }, {
+                  "localId" : "278",
+                  "locator" : "17:6-17:24",
+                  "when" : {
+                     "localId" : "279",
+                     "locator" : "17:11-17:16",
+                     "type" : "Equal",
+                     "signature" : [ {
+                        "localId" : "282",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "283",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "280",
+                        "locator" : "17:11",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     }, {
+                        "localId" : "281",
+                        "locator" : "17:15-17:16",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "then" : {
+                     "localId" : "284",
+                     "locator" : "17:23-17:24",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "localId" : "285",
+                  "locator" : "18:11-18:16",
+                  "type" : "Subtract",
+                  "signature" : [ {
+                     "localId" : "288",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "289",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "286",
+                     "locator" : "18:11-18:12",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "287",
+                     "locator" : "18:16",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "291",
+            "locator" : "21:1-25:7",
+            "name" : "standard case.StandardCase3",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "291",
+                  "s" : [ {
+                     "value" : [ "","define ","\"standard case.StandardCase3\"",": " ]
+                  }, {
+                     "r" : "292",
+                     "s" : [ {
+                        "value" : [ "case\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "293",
+                        "s" : [ {
+                           "value" : [ "when " ]
+                        }, {
+                           "r" : "294",
+                           "s" : [ {
+                              "r" : "295",
+                              "value" : [ "null"," ","~"," ","10" ]
+                           } ]
+                        }, {
+                           "value" : [ " then " ]
+                        }, {
+                           "r" : "300",
+                           "s" : [ {
+                              "r" : "301",
+                              "value" : [ "null"," + ","10" ]
+                           } ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "306",
+                        "s" : [ {
+                           "value" : [ "when " ]
+                        }, {
+                           "r" : "307",
+                           "s" : [ {
+                              "r" : "308",
+                              "value" : [ "null"," ","~"," ","5" ]
+                           } ]
+                        }, {
+                           "r" : "313",
+                           "value" : [ " then ","5" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\telse " ]
+                     }, {
+                        "r" : "314",
+                        "s" : [ {
+                           "r" : "315",
+                           "value" : [ "5"," + ","10" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\tend" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "292",
+               "locator" : "21:39-25:7",
+               "type" : "Case",
+               "caseItem" : [ {
+                  "localId" : "293",
+                  "locator" : "22:6-22:34",
+                  "when" : {
+                     "localId" : "294",
+                     "locator" : "22:11-22:19",
+                     "type" : "Equivalent",
+                     "signature" : [ {
+                        "localId" : "298",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "299",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "297",
+                        "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "As",
+                        "signature" : [ ],
+                        "operand" : {
+                           "localId" : "295",
+                           "locator" : "22:11-22:14",
+                           "type" : "Null"
+                        }
+                     }, {
+                        "localId" : "296",
+                        "locator" : "22:18-22:19",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "then" : {
+                     "localId" : "300",
+                     "locator" : "22:26-22:34",
+                     "type" : "Add",
+                     "signature" : [ {
+                        "localId" : "304",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "305",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "303",
+                        "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "As",
+                        "signature" : [ ],
+                        "operand" : {
+                           "localId" : "301",
+                           "locator" : "22:26-22:29",
+                           "type" : "Null"
+                        }
+                     }, {
+                        "localId" : "302",
+                        "locator" : "22:33-22:34",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     } ]
+                  }
+               }, {
+                  "localId" : "306",
+                  "locator" : "23:6-23:25",
+                  "when" : {
+                     "localId" : "307",
+                     "locator" : "23:11-23:18",
+                     "type" : "Equivalent",
+                     "signature" : [ {
+                        "localId" : "311",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "312",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "310",
+                        "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "As",
+                        "signature" : [ ],
+                        "operand" : {
+                           "localId" : "308",
+                           "locator" : "23:11-23:14",
+                           "type" : "Null"
+                        }
+                     }, {
+                        "localId" : "309",
+                        "locator" : "23:18",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "then" : {
+                     "localId" : "313",
+                     "locator" : "23:25",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "localId" : "314",
+                  "locator" : "24:11-24:16",
+                  "type" : "Add",
+                  "signature" : [ {
+                     "localId" : "317",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "318",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "315",
+                     "locator" : "24:11",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "316",
+                     "locator" : "24:15-24:16",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "320",
+            "locator" : "27:1-31:7",
+            "name" : "selected case.SelectedCase1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "320",
+                  "s" : [ {
+                     "value" : [ "","define ","\"selected case.SelectedCase1\"",": " ]
+                  }, {
+                     "r" : "321",
+                     "s" : [ {
+                        "r" : "322",
+                        "value" : [ "case ","5","\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "323",
+                        "s" : [ {
+                           "r" : "324",
+                           "value" : [ "when ","5"," then ","12" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "326",
+                        "s" : [ {
+                           "r" : "327",
+                           "value" : [ "when ","10"," then " ]
+                        }, {
+                           "r" : "328",
+                           "s" : [ {
+                              "r" : "329",
+                              "value" : [ "10"," + ","5" ]
+                           } ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\telse " ]
+                     }, {
+                        "r" : "333",
+                        "s" : [ {
+                           "r" : "334",
+                           "value" : [ "10"," - ","5" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\tend" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "321",
+               "locator" : "27:39-31:7",
+               "type" : "Case",
+               "comparand" : {
+                  "localId" : "322",
+                  "locator" : "27:44",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "5",
+                  "type" : "Literal"
+               },
+               "caseItem" : [ {
+                  "localId" : "323",
+                  "locator" : "28:6-28:19",
+                  "when" : {
+                     "localId" : "324",
+                     "locator" : "28:11",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "localId" : "325",
+                     "locator" : "28:18-28:19",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "326",
+                  "locator" : "29:6-29:24",
+                  "when" : {
+                     "localId" : "327",
+                     "locator" : "29:11-29:12",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "localId" : "328",
+                     "locator" : "29:19-29:24",
+                     "type" : "Add",
+                     "signature" : [ {
+                        "localId" : "331",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "332",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "329",
+                        "locator" : "29:19-29:20",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     }, {
+                        "localId" : "330",
+                        "locator" : "29:24",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     } ]
+                  }
+               } ],
+               "else" : {
+                  "localId" : "333",
+                  "locator" : "30:11-30:16",
+                  "type" : "Subtract",
+                  "signature" : [ {
+                     "localId" : "336",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "337",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "334",
+                     "locator" : "30:11-30:12",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "335",
+                     "locator" : "30:16",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "339",
+            "locator" : "33:1-37:7",
+            "name" : "selected case.SelectedCase2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "339",
+                  "s" : [ {
+                     "value" : [ "","define ","\"selected case.SelectedCase2\"",": " ]
+                  }, {
+                     "r" : "340",
+                     "s" : [ {
+                        "r" : "341",
+                        "value" : [ "case ","10","\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "342",
+                        "s" : [ {
+                           "r" : "343",
+                           "value" : [ "when ","5"," then ","12" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "345",
+                        "s" : [ {
+                           "r" : "346",
+                           "value" : [ "when ","10"," then " ]
+                        }, {
+                           "r" : "347",
+                           "s" : [ {
+                              "r" : "348",
+                              "value" : [ "10"," + ","5" ]
+                           } ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\telse " ]
+                     }, {
+                        "r" : "352",
+                        "s" : [ {
+                           "r" : "353",
+                           "value" : [ "10"," - ","5" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\tend" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "340",
+               "locator" : "33:39-37:7",
+               "type" : "Case",
+               "comparand" : {
+                  "localId" : "341",
+                  "locator" : "33:44-33:45",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "10",
+                  "type" : "Literal"
+               },
+               "caseItem" : [ {
+                  "localId" : "342",
+                  "locator" : "34:6-34:19",
+                  "when" : {
+                     "localId" : "343",
+                     "locator" : "34:11",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "localId" : "344",
+                     "locator" : "34:18-34:19",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "345",
+                  "locator" : "35:6-35:24",
+                  "when" : {
+                     "localId" : "346",
+                     "locator" : "35:11-35:12",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "localId" : "347",
+                     "locator" : "35:19-35:24",
+                     "type" : "Add",
+                     "signature" : [ {
+                        "localId" : "350",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "351",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "348",
+                        "locator" : "35:19-35:20",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     }, {
+                        "localId" : "349",
+                        "locator" : "35:24",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     } ]
+                  }
+               } ],
+               "else" : {
+                  "localId" : "352",
+                  "locator" : "36:11-36:16",
+                  "type" : "Subtract",
+                  "signature" : [ {
+                     "localId" : "355",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "356",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "353",
+                     "locator" : "36:11-36:12",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "354",
+                     "locator" : "36:16",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "358",
+            "locator" : "39:1-43:7",
+            "name" : "selected case.SelectedCase3",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "358",
+                  "s" : [ {
+                     "value" : [ "","define ","\"selected case.SelectedCase3\"",": " ]
+                  }, {
+                     "r" : "359",
+                     "s" : [ {
+                        "value" : [ "case " ]
+                     }, {
+                        "r" : "360",
+                        "s" : [ {
+                           "r" : "361",
+                           "value" : [ "10"," + ","5" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "365",
+                        "s" : [ {
+                           "r" : "366",
+                           "value" : [ "when ","5"," then ","12" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\t" ]
+                     }, {
+                        "r" : "368",
+                        "s" : [ {
+                           "r" : "369",
+                           "value" : [ "when ","10"," then " ]
+                        }, {
+                           "r" : "370",
+                           "s" : [ {
+                              "r" : "371",
+                              "value" : [ "10"," + ","5" ]
+                           } ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\t\telse " ]
+                     }, {
+                        "r" : "375",
+                        "s" : [ {
+                           "r" : "376",
+                           "value" : [ "10"," - ","5" ]
+                        } ]
+                     }, {
+                        "value" : [ "\n\t\t\t\tend" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "359",
+               "locator" : "39:39-43:7",
+               "type" : "Case",
+               "comparand" : {
+                  "localId" : "360",
+                  "locator" : "39:44-39:49",
+                  "type" : "Add",
+                  "signature" : [ {
+                     "localId" : "363",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "364",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "361",
+                     "locator" : "39:44-39:45",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "362",
+                     "locator" : "39:49",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "localId" : "365",
+                  "locator" : "40:6-40:19",
+                  "when" : {
+                     "localId" : "366",
+                     "locator" : "40:11",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "localId" : "367",
+                     "locator" : "40:18-40:19",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "368",
+                  "locator" : "41:6-41:24",
+                  "when" : {
+                     "localId" : "369",
+                     "locator" : "41:11-41:12",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "localId" : "370",
+                     "locator" : "41:19-41:24",
+                     "type" : "Add",
+                     "signature" : [ {
+                        "localId" : "373",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }, {
+                        "localId" : "374",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : [ {
+                        "localId" : "371",
+                        "locator" : "41:19-41:20",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "10",
+                        "type" : "Literal"
+                     }, {
+                        "localId" : "372",
+                        "locator" : "41:24",
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     } ]
+                  }
+               } ],
+               "else" : {
+                  "localId" : "375",
+                  "locator" : "42:11-42:16",
+                  "type" : "Subtract",
+                  "signature" : [ {
+                     "localId" : "378",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  }, {
+                     "localId" : "379",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : [ {
+                     "localId" : "376",
+                     "locator" : "42:11-42:12",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "377",
+                     "locator" : "42:16",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         } ]
+      }
+   }
+}
+

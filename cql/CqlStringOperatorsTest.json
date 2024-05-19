@@ -1,0 +1,4365 @@
+{
+   "library" : {
+      "localId" : "0",
+      "annotation" : [ {
+         "translatorVersion" : "3.10.0-SNAPSHOT",
+         "translatorOptions" : "EnableAnnotations,EnableLocators",
+         "signatureLevel" : "Overloads",
+         "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "890",
+            "s" : [ {
+               "value" : [ "","library CqlStringOperatorsTest" ]
+            } ]
+         }
+      } ],
+      "identifier" : {
+         "id" : "CqlStringOperatorsTest"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localId" : "1",
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "localId" : "207",
+            "locator" : "3:1-3:43",
+            "name" : "Combine.CombineNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "207",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Combine.CombineNull\"",": " ]
+                  }, {
+                     "r" : "214",
+                     "s" : [ {
+                        "r" : "208",
+                        "value" : [ "Combine","(","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "214",
+               "locator" : "3:31-3:43",
+               "type" : "Combine",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "215",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "208",
+                     "locator" : "3:39-3:42",
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "localId" : "216",
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "localId" : "217",
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  }
+               }
+            }
+         }, {
+            "localId" : "219",
+            "locator" : "5:1-5:46",
+            "name" : "Combine.CombineEmptyList",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "219",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Combine.CombineEmptyList\"",": " ]
+                  }, {
+                     "r" : "228",
+                     "s" : [ {
+                        "r" : "220",
+                        "value" : [ "Combine","(","{}",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "228",
+               "locator" : "5:36-5:46",
+               "type" : "Combine",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "229",
+                  "type" : "Query",
+                  "source" : [ {
+                     "localId" : "230",
+                     "alias" : "X",
+                     "expression" : {
+                        "localId" : "220",
+                        "locator" : "5:44-5:45",
+                        "type" : "List",
+                        "element" : [ ]
+                     }
+                  } ],
+                  "let" : [ ],
+                  "relationship" : [ ],
+                  "return" : {
+                     "localId" : "231",
+                     "distinct" : false,
+                     "expression" : {
+                        "localId" : "233",
+                        "asType" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "As",
+                        "signature" : [ ],
+                        "operand" : {
+                           "localId" : "232",
+                           "name" : "X",
+                           "type" : "AliasRef"
+                        }
+                     }
+                  }
+               }
+            }
+         }, {
+            "localId" : "235",
+            "locator" : "7:1-7:53",
+            "name" : "Combine.CombineABC",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "235",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Combine.CombineABC\"",": " ]
+                  }, {
+                     "r" : "242",
+                     "s" : [ {
+                        "value" : [ "Combine","(" ]
+                     }, {
+                        "r" : "236",
+                        "s" : [ {
+                           "value" : [ "{" ]
+                        }, {
+                           "r" : "237",
+                           "s" : [ {
+                              "value" : [ "'a'" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "238",
+                           "s" : [ {
+                              "value" : [ "'b'" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "239",
+                           "s" : [ {
+                              "value" : [ "'c'" ]
+                           } ]
+                        }, {
+                           "value" : [ "}" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "242",
+               "locator" : "7:30-7:53",
+               "type" : "Combine",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "236",
+                  "locator" : "7:38-7:52",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "237",
+                     "locator" : "7:39-7:41",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "a",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "238",
+                     "locator" : "7:44-7:46",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "b",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "239",
+                     "locator" : "7:49-7:51",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "c",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "244",
+            "locator" : "9:1-9:65",
+            "name" : "Combine.CombineABCSepDash",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "244",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Combine.CombineABCSepDash\"",": " ]
+                  }, {
+                     "r" : "252",
+                     "s" : [ {
+                        "value" : [ "Combine","(" ]
+                     }, {
+                        "r" : "245",
+                        "s" : [ {
+                           "value" : [ "{" ]
+                        }, {
+                           "r" : "246",
+                           "s" : [ {
+                              "value" : [ "'a'" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "247",
+                           "s" : [ {
+                              "value" : [ "'b'" ]
+                           } ]
+                        }, {
+                           "value" : [ ", " ]
+                        }, {
+                           "r" : "248",
+                           "s" : [ {
+                              "value" : [ "'c'" ]
+                           } ]
+                        }, {
+                           "value" : [ "}" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "249",
+                        "s" : [ {
+                           "value" : [ "'-'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "252",
+               "locator" : "9:37-9:65",
+               "type" : "Combine",
+               "signature" : [ ],
+               "source" : {
+                  "localId" : "245",
+                  "locator" : "9:45-9:59",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "246",
+                     "locator" : "9:46-9:48",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "a",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "247",
+                     "locator" : "9:51-9:53",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "b",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "248",
+                     "locator" : "9:56-9:58",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "c",
+                     "type" : "Literal"
+                  } ]
+               },
+               "separator" : {
+                  "localId" : "249",
+                  "locator" : "9:62-9:64",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "-",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "254",
+            "locator" : "11:1-11:65",
+            "name" : "Concatenate.ConcatenateNullNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "254",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Concatenate.ConcatenateNullNull\"",": " ]
+                  }, {
+                     "r" : "261",
+                     "s" : [ {
+                        "r" : "255",
+                        "value" : [ "Concatenate","(","null",", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "261",
+               "locator" : "11:43-11:65",
+               "type" : "Concatenate",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "262",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "255",
+                     "locator" : "11:55-11:58",
+                     "type" : "Null"
+                  }
+               }, {
+                  "localId" : "263",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "256",
+                     "locator" : "11:61-11:64",
+                     "type" : "Null"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "265",
+            "locator" : "13:1-13:61",
+            "name" : "Concatenate.ConcatenateANull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "265",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Concatenate.ConcatenateANull\"",": " ]
+                  }, {
+                     "r" : "271",
+                     "s" : [ {
+                        "value" : [ "Concatenate","(" ]
+                     }, {
+                        "r" : "266",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "r" : "267",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "271",
+               "locator" : "13:40-13:61",
+               "type" : "Concatenate",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "266",
+                  "locator" : "13:52-13:54",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "272",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "267",
+                     "locator" : "13:57-13:60",
+                     "type" : "Null"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "274",
+            "locator" : "15:1-15:61",
+            "name" : "Concatenate.ConcatenateNullB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "274",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Concatenate.ConcatenateNullB\"",": " ]
+                  }, {
+                     "r" : "280",
+                     "s" : [ {
+                        "r" : "275",
+                        "value" : [ "Concatenate","(","null",", " ]
+                     }, {
+                        "r" : "276",
+                        "s" : [ {
+                           "value" : [ "'b'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "280",
+               "locator" : "15:40-15:61",
+               "type" : "Concatenate",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "281",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "275",
+                     "locator" : "15:52-15:55",
+                     "type" : "Null"
+                  }
+               }, {
+                  "localId" : "276",
+                  "locator" : "15:58-15:60",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "b",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "283",
+            "locator" : "17:1-17:57",
+            "name" : "Concatenate.ConcatenateAB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "283",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Concatenate.ConcatenateAB\"",": " ]
+                  }, {
+                     "r" : "288",
+                     "s" : [ {
+                        "value" : [ "Concatenate","(" ]
+                     }, {
+                        "r" : "284",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "285",
+                        "s" : [ {
+                           "value" : [ "'b'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "288",
+               "locator" : "17:37-17:57",
+               "type" : "Concatenate",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "284",
+                  "locator" : "17:49-17:51",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "285",
+                  "locator" : "17:54-17:56",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "b",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "290",
+            "locator" : "19:1-19:52",
+            "name" : "Concatenate.ConcatenateABWithAdd",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "290",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Concatenate.ConcatenateABWithAdd\"",": " ]
+                  }, {
+                     "r" : "296",
+                     "s" : [ {
+                        "r" : "292",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "value" : [ " + " ]
+                     }, {
+                        "r" : "293",
+                        "s" : [ {
+                           "value" : [ "'b'" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "296",
+               "locator" : "19:44-19:52",
+               "type" : "Concatenate",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "292",
+                  "locator" : "19:44-19:46",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "293",
+                  "locator" : "19:50-19:52",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "b",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "298",
+            "locator" : "21:1-21:52",
+            "name" : "EndsWith.EndsWithNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "298",
+                  "s" : [ {
+                     "value" : [ "","define ","\"EndsWith.EndsWithNull\"",": " ]
+                  }, {
+                     "r" : "305",
+                     "s" : [ {
+                        "r" : "299",
+                        "value" : [ "EndsWith","(","null",", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "305",
+               "locator" : "21:33-21:52",
+               "type" : "EndsWith",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "306",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "299",
+                     "locator" : "21:42-21:45",
+                     "type" : "Null"
+                  }
+               }, {
+                  "localId" : "307",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "300",
+                     "locator" : "21:48-21:51",
+                     "type" : "Null"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "309",
+            "locator" : "23:1-23:77",
+            "name" : "EndsWith.EndsWithTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "309",
+                  "s" : [ {
+                     "value" : [ "","define ","\"EndsWith.EndsWithTrue\"",": " ]
+                  }, {
+                     "r" : "314",
+                     "s" : [ {
+                        "value" : [ "EndsWith","(" ]
+                     }, {
+                        "r" : "310",
+                        "s" : [ {
+                           "value" : [ "'Chris Schuler is the man!!'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "311",
+                        "s" : [ {
+                           "value" : [ "'n!!'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "314",
+               "locator" : "23:33-23:77",
+               "type" : "EndsWith",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "310",
+                  "locator" : "23:42-23:69",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Chris Schuler is the man!!",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "311",
+                  "locator" : "23:72-23:76",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "n!!",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "316",
+            "locator" : "25:1-25:77",
+            "name" : "EndsWith.EndsWithFalse",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "316",
+                  "s" : [ {
+                     "value" : [ "","define ","\"EndsWith.EndsWithFalse\"",": " ]
+                  }, {
+                     "r" : "321",
+                     "s" : [ {
+                        "value" : [ "EndsWith","(" ]
+                     }, {
+                        "r" : "317",
+                        "s" : [ {
+                           "value" : [ "'Chris Schuler is the man!!'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "318",
+                        "s" : [ {
+                           "value" : [ "'n!'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "321",
+               "locator" : "25:34-25:77",
+               "type" : "EndsWith",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "317",
+                  "locator" : "25:43-25:70",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Chris Schuler is the man!!",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "318",
+                  "locator" : "25:73-25:76",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "n!",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "323",
+            "locator" : "27:1-27:63",
+            "name" : "Indexer.IndexerNullNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "323",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Indexer.IndexerNullNull\"",": " ]
+                  }, {
+                     "r" : "331",
+                     "s" : [ {
+                        "value" : [ "Indexer","(" ]
+                     }, {
+                        "r" : "324",
+                        "s" : [ {
+                           "r" : "325",
+                           "value" : [ "null"," as " ]
+                        }, {
+                           "r" : "326",
+                           "s" : [ {
+                              "value" : [ "String" ]
+                           } ]
+                        } ]
+                     }, {
+                        "r" : "327",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "331",
+               "locator" : "27:35-27:63",
+               "type" : "Indexer",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "324",
+                  "locator" : "27:43-27:56",
+                  "strict" : false,
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "325",
+                     "locator" : "27:43-27:46",
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "localId" : "326",
+                     "locator" : "27:51-27:56",
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               }, {
+                  "localId" : "332",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "327",
+                     "locator" : "27:59-27:62",
+                     "type" : "Null"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "334",
+            "locator" : "29:1-29:49",
+            "name" : "Indexer.IndexerANull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "334",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Indexer.IndexerANull\"",": " ]
+                  }, {
+                     "r" : "340",
+                     "s" : [ {
+                        "value" : [ "Indexer","(" ]
+                     }, {
+                        "r" : "335",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "r" : "336",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "340",
+               "locator" : "29:32-29:49",
+               "type" : "Indexer",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "335",
+                  "locator" : "29:40-29:42",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "341",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "336",
+                     "locator" : "29:45-29:48",
+                     "type" : "Null"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "343",
+            "locator" : "31:1-31:63",
+            "name" : "Indexer.IndexerNull1String",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "343",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Indexer.IndexerNull1String\"",": " ]
+                  }, {
+                     "r" : "350",
+                     "s" : [ {
+                        "value" : [ "Indexer","(" ]
+                     }, {
+                        "r" : "344",
+                        "s" : [ {
+                           "r" : "345",
+                           "value" : [ "null"," as " ]
+                        }, {
+                           "r" : "346",
+                           "s" : [ {
+                              "value" : [ "String" ]
+                           } ]
+                        } ]
+                     }, {
+                        "r" : "347",
+                        "value" : [ ", ","1",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "350",
+               "locator" : "31:38-31:63",
+               "type" : "Indexer",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "344",
+                  "locator" : "31:46-31:59",
+                  "strict" : false,
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "345",
+                     "locator" : "31:46-31:49",
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "localId" : "346",
+                     "locator" : "31:54-31:59",
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               }, {
+                  "localId" : "347",
+                  "locator" : "31:62",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "352",
+            "locator" : "33:1-33:45",
+            "name" : "Indexer.IndexerAB0",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "352",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Indexer.IndexerAB0\"",": " ]
+                  }, {
+                     "r" : "357",
+                     "s" : [ {
+                        "value" : [ "Indexer","(" ]
+                     }, {
+                        "r" : "353",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "r" : "354",
+                        "value" : [ ", ","0",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "357",
+               "locator" : "33:30-33:45",
+               "type" : "Indexer",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "353",
+                  "locator" : "33:38-33:41",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "354",
+                  "locator" : "33:44",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "359",
+            "locator" : "35:1-35:45",
+            "name" : "Indexer.IndexerAB1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "359",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Indexer.IndexerAB1\"",": " ]
+                  }, {
+                     "r" : "364",
+                     "s" : [ {
+                        "value" : [ "Indexer","(" ]
+                     }, {
+                        "r" : "360",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "r" : "361",
+                        "value" : [ ", ","1",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "364",
+               "locator" : "35:30-35:45",
+               "type" : "Indexer",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "360",
+                  "locator" : "35:38-35:41",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "361",
+                  "locator" : "35:44",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "366",
+            "locator" : "37:1-37:45",
+            "name" : "Indexer.IndexerAB2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "366",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Indexer.IndexerAB2\"",": " ]
+                  }, {
+                     "r" : "371",
+                     "s" : [ {
+                        "value" : [ "Indexer","(" ]
+                     }, {
+                        "r" : "367",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "r" : "368",
+                        "value" : [ ", ","2",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "371",
+               "locator" : "37:30-37:45",
+               "type" : "Indexer",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "367",
+                  "locator" : "37:38-37:41",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "368",
+                  "locator" : "37:44",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "373",
+            "locator" : "39:1-39:49",
+            "name" : "Indexer.IndexerABNeg1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "373",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Indexer.IndexerABNeg1\"",": " ]
+                  }, {
+                     "r" : "380",
+                     "s" : [ {
+                        "value" : [ "Indexer","(" ]
+                     }, {
+                        "r" : "374",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "375",
+                        "s" : [ {
+                           "r" : "376",
+                           "value" : [ "-","1" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "380",
+               "locator" : "39:33-39:49",
+               "type" : "Indexer",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "374",
+                  "locator" : "39:41-39:44",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "375",
+                  "locator" : "39:47-39:48",
+                  "type" : "Negate",
+                  "signature" : [ {
+                     "localId" : "377",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : {
+                     "localId" : "376",
+                     "locator" : "39:48",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "382",
+            "locator" : "41:1-41:70",
+            "name" : "LastPositionOf.LastPositionOfNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "382",
+                  "s" : [ {
+                     "value" : [ "","define ","\"LastPositionOf.LastPositionOfNull\"",": " ]
+                  }, {
+                     "r" : "389",
+                     "s" : [ {
+                        "r" : "383",
+                        "value" : [ "LastPositionOf","(","null",", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "389",
+               "locator" : "41:45-41:70",
+               "type" : "LastPositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "390",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "383",
+                     "locator" : "41:60-41:63",
+                     "type" : "Null"
+                  }
+               },
+               "string" : {
+                  "localId" : "391",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "384",
+                     "locator" : "41:66-41:69",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "393",
+            "locator" : "43:1-43:71",
+            "name" : "LastPositionOf.LastPositionOfNull1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "393",
+                  "s" : [ {
+                     "value" : [ "","define ","\"LastPositionOf.LastPositionOfNull1\"",": " ]
+                  }, {
+                     "r" : "399",
+                     "s" : [ {
+                        "r" : "394",
+                        "value" : [ "LastPositionOf","(","null",", " ]
+                     }, {
+                        "r" : "395",
+                        "s" : [ {
+                           "value" : [ "'hi'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "399",
+               "locator" : "43:46-43:71",
+               "type" : "LastPositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "400",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "394",
+                     "locator" : "43:61-43:64",
+                     "type" : "Null"
+                  }
+               },
+               "string" : {
+                  "localId" : "395",
+                  "locator" : "43:67-43:70",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "hi",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "402",
+            "locator" : "45:1-45:71",
+            "name" : "LastPositionOf.LastPositionOfNull2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "402",
+                  "s" : [ {
+                     "value" : [ "","define ","\"LastPositionOf.LastPositionOfNull2\"",": " ]
+                  }, {
+                     "r" : "408",
+                     "s" : [ {
+                        "value" : [ "LastPositionOf","(" ]
+                     }, {
+                        "r" : "403",
+                        "s" : [ {
+                           "value" : [ "'hi'" ]
+                        } ]
+                     }, {
+                        "r" : "404",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "408",
+               "locator" : "45:46-45:71",
+               "type" : "LastPositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "403",
+                  "locator" : "45:61-45:64",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "hi",
+                  "type" : "Literal"
+               },
+               "string" : {
+                  "localId" : "409",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "404",
+                     "locator" : "45:67-45:70",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "411",
+            "locator" : "47:1-47:89",
+            "name" : "LastPositionOf.LastPositionOf1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "411",
+                  "s" : [ {
+                     "value" : [ "","define ","\"LastPositionOf.LastPositionOf1\"",": " ]
+                  }, {
+                     "r" : "416",
+                     "s" : [ {
+                        "value" : [ "LastPositionOf","(" ]
+                     }, {
+                        "r" : "412",
+                        "s" : [ {
+                           "value" : [ "'hi'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "413",
+                        "s" : [ {
+                           "value" : [ "'Ohio is the place to be!'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "416",
+               "locator" : "47:42-47:89",
+               "type" : "LastPositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "412",
+                  "locator" : "47:57-47:60",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "hi",
+                  "type" : "Literal"
+               },
+               "string" : {
+                  "localId" : "413",
+                  "locator" : "47:63-47:88",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Ohio is the place to be!",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "418",
+            "locator" : "49:1-49:80",
+            "name" : "LastPositionOf.LastPositionOf2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "418",
+                  "s" : [ {
+                     "value" : [ "","define ","\"LastPositionOf.LastPositionOf2\"",": " ]
+                  }, {
+                     "r" : "423",
+                     "s" : [ {
+                        "value" : [ "LastPositionOf","(" ]
+                     }, {
+                        "r" : "419",
+                        "s" : [ {
+                           "value" : [ "'hi'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "420",
+                        "s" : [ {
+                           "value" : [ "'Say hi to Ohio!'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "423",
+               "locator" : "49:42-49:80",
+               "type" : "LastPositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "419",
+                  "locator" : "49:57-49:60",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "hi",
+                  "type" : "Literal"
+               },
+               "string" : {
+                  "localId" : "420",
+                  "locator" : "49:63-49:79",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Say hi to Ohio!",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "425",
+            "locator" : "51:1-51:56",
+            "name" : "Length.LengthNullString",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "425",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Length.LengthNullString\"",": " ]
+                  }, {
+                     "r" : "431",
+                     "s" : [ {
+                        "value" : [ "Length","(" ]
+                     }, {
+                        "r" : "426",
+                        "s" : [ {
+                           "r" : "427",
+                           "value" : [ "null"," as " ]
+                        }, {
+                           "r" : "428",
+                           "s" : [ {
+                              "value" : [ "String" ]
+                           } ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "431",
+               "locator" : "51:35-51:56",
+               "type" : "Length",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "426",
+                  "locator" : "51:42-51:55",
+                  "strict" : false,
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "427",
+                     "locator" : "51:42-51:45",
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "localId" : "428",
+                     "locator" : "51:50-51:55",
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               }
+            }
+         }, {
+            "localId" : "433",
+            "locator" : "53:1-53:45",
+            "name" : "Length.LengthEmptyString",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "433",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Length.LengthEmptyString\"",": " ]
+                  }, {
+                     "r" : "437",
+                     "s" : [ {
+                        "value" : [ "Length","(" ]
+                     }, {
+                        "r" : "434",
+                        "s" : [ {
+                           "value" : [ "''" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "437",
+               "locator" : "53:36-53:45",
+               "type" : "Length",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "434",
+                  "locator" : "53:43-53:44",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "439",
+            "locator" : "55:1-55:36",
+            "name" : "Length.LengthA",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "439",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Length.LengthA\"",": " ]
+                  }, {
+                     "r" : "443",
+                     "s" : [ {
+                        "value" : [ "Length","(" ]
+                     }, {
+                        "r" : "440",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "443",
+               "locator" : "55:26-55:36",
+               "type" : "Length",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "440",
+                  "locator" : "55:33-55:35",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "445",
+            "locator" : "57:1-57:38",
+            "name" : "Length.LengthAB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "445",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Length.LengthAB\"",": " ]
+                  }, {
+                     "r" : "449",
+                     "s" : [ {
+                        "value" : [ "Length","(" ]
+                     }, {
+                        "r" : "446",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "449",
+               "locator" : "57:27-57:38",
+               "type" : "Length",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "446",
+                  "locator" : "57:34-57:37",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "451",
+            "locator" : "59:1-59:37",
+            "name" : "Lower.LowerNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "451",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Lower.LowerNull\"",": " ]
+                  }, {
+                     "r" : "456",
+                     "s" : [ {
+                        "r" : "452",
+                        "value" : [ "Lower","(","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "456",
+               "locator" : "59:27-59:37",
+               "type" : "Lower",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "457",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "452",
+                     "locator" : "59:33-59:36",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "459",
+            "locator" : "61:1-61:36",
+            "name" : "Lower.LowerEmpty",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "459",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Lower.LowerEmpty\"",": " ]
+                  }, {
+                     "r" : "463",
+                     "s" : [ {
+                        "value" : [ "Lower","(" ]
+                     }, {
+                        "r" : "460",
+                        "s" : [ {
+                           "value" : [ "''" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "463",
+               "locator" : "61:28-61:36",
+               "type" : "Lower",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "460",
+                  "locator" : "61:34-61:35",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "465",
+            "locator" : "63:1-63:33",
+            "name" : "Lower.LowerA",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "465",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Lower.LowerA\"",": " ]
+                  }, {
+                     "r" : "469",
+                     "s" : [ {
+                        "value" : [ "Lower","(" ]
+                     }, {
+                        "r" : "466",
+                        "s" : [ {
+                           "value" : [ "'A'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "469",
+               "locator" : "63:24-63:33",
+               "type" : "Lower",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "466",
+                  "locator" : "63:30-63:32",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "A",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "471",
+            "locator" : "65:1-65:33",
+            "name" : "Lower.LowerB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "471",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Lower.LowerB\"",": " ]
+                  }, {
+                     "r" : "475",
+                     "s" : [ {
+                        "value" : [ "Lower","(" ]
+                     }, {
+                        "r" : "472",
+                        "s" : [ {
+                           "value" : [ "'b'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "475",
+               "locator" : "65:24-65:33",
+               "type" : "Lower",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "472",
+                  "locator" : "65:30-65:32",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "b",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "477",
+            "locator" : "67:1-67:35",
+            "name" : "Lower.LowerAB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "477",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Lower.LowerAB\"",": " ]
+                  }, {
+                     "r" : "481",
+                     "s" : [ {
+                        "value" : [ "Lower","(" ]
+                     }, {
+                        "r" : "478",
+                        "s" : [ {
+                           "value" : [ "'Ab'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "481",
+               "locator" : "67:25-67:35",
+               "type" : "Lower",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "478",
+                  "locator" : "67:31-67:34",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Ab",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "483",
+            "locator" : "69:1-69:74",
+            "name" : "Matches.MatchesNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "483",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Matches.MatchesNull\"",": " ]
+                  }, {
+                     "r" : "489",
+                     "s" : [ {
+                        "value" : [ "Matches","(" ]
+                     }, {
+                        "r" : "484",
+                        "s" : [ {
+                           "value" : [ "'Not all who wander are lost'" ]
+                        } ]
+                     }, {
+                        "r" : "485",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "489",
+               "locator" : "69:31-69:74",
+               "type" : "Matches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "484",
+                  "locator" : "69:39-69:67",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Not all who wander are lost",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "490",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "485",
+                     "locator" : "69:70-69:73",
+                     "type" : "Null"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "492",
+            "locator" : "71:1-71:85",
+            "name" : "Matches.MatchesNumberFalse",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "492",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Matches.MatchesNumberFalse\"",": " ]
+                  }, {
+                     "r" : "497",
+                     "s" : [ {
+                        "value" : [ "Matches","(" ]
+                     }, {
+                        "r" : "493",
+                        "s" : [ {
+                           "value" : [ "'Not all who wander are lost'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "494",
+                        "s" : [ {
+                           "value" : [ "'.*\\\\d+'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "497",
+               "locator" : "71:38-71:85",
+               "type" : "Matches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "493",
+                  "locator" : "71:46-71:74",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Not all who wander are lost",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "494",
+                  "locator" : "71:77-71:84",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : ".*\\d+",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "499",
+            "locator" : "73:1-73:97",
+            "name" : "Matches.MatchesNumberTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "499",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Matches.MatchesNumberTrue\"",": " ]
+                  }, {
+                     "r" : "504",
+                     "s" : [ {
+                        "value" : [ "Matches","(" ]
+                     }, {
+                        "r" : "500",
+                        "s" : [ {
+                           "value" : [ "'Not all who wander are lost - circa 2017'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "501",
+                        "s" : [ {
+                           "value" : [ "'.*\\\\d+'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "504",
+               "locator" : "73:37-73:97",
+               "type" : "Matches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "500",
+                  "locator" : "73:45-73:86",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Not all who wander are lost - circa 2017",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "501",
+                  "locator" : "73:89-73:96",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : ".*\\d+",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "506",
+            "locator" : "75:1-75:77",
+            "name" : "Matches.MatchesAllTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "506",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Matches.MatchesAllTrue\"",": " ]
+                  }, {
+                     "r" : "511",
+                     "s" : [ {
+                        "value" : [ "Matches","(" ]
+                     }, {
+                        "r" : "507",
+                        "s" : [ {
+                           "value" : [ "'Not all who wander are lost'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "508",
+                        "s" : [ {
+                           "value" : [ "'.*'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "511",
+               "locator" : "75:34-75:77",
+               "type" : "Matches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "507",
+                  "locator" : "75:42-75:70",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Not all who wander are lost",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "508",
+                  "locator" : "75:73-75:76",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : ".*",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "513",
+            "locator" : "77:1-77:96",
+            "name" : "Matches.MatchesWordsAndSpacesTrue",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "513",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Matches.MatchesWordsAndSpacesTrue\"",": " ]
+                  }, {
+                     "r" : "518",
+                     "s" : [ {
+                        "value" : [ "Matches","(" ]
+                     }, {
+                        "r" : "514",
+                        "s" : [ {
+                           "value" : [ "'Not all who wander are lost'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "515",
+                        "s" : [ {
+                           "value" : [ "'[\\\\w|\\\\s]+'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "518",
+               "locator" : "77:45-77:96",
+               "type" : "Matches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "514",
+                  "locator" : "77:53-77:81",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Not all who wander are lost",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "515",
+                  "locator" : "77:84-77:95",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "[\\w|\\s]+",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "520",
+            "locator" : "79:1-79:106",
+            "name" : "Matches.MatchesWordsAndSpacesFalse",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "520",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Matches.MatchesWordsAndSpacesFalse\"",": " ]
+                  }, {
+                     "r" : "525",
+                     "s" : [ {
+                        "value" : [ "Matches","(" ]
+                     }, {
+                        "r" : "521",
+                        "s" : [ {
+                           "value" : [ "'Not all who wander are lost - circa 2017'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "522",
+                        "s" : [ {
+                           "value" : [ "'[\\\\w]+'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "525",
+               "locator" : "79:46-79:106",
+               "type" : "Matches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "521",
+                  "locator" : "79:54-79:95",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Not all who wander are lost - circa 2017",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "522",
+                  "locator" : "79:98-79:105",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "[\\w]+",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "527",
+            "locator" : "81:1-81:56",
+            "name" : "Matches.MatchesNotWords",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "527",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Matches.MatchesNotWords\"",": " ]
+                  }, {
+                     "r" : "532",
+                     "s" : [ {
+                        "value" : [ "Matches","(" ]
+                     }, {
+                        "r" : "528",
+                        "s" : [ {
+                           "value" : [ "'   '" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "529",
+                        "s" : [ {
+                           "value" : [ "'\\\\W+'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "532",
+               "locator" : "81:35-81:56",
+               "type" : "Matches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "528",
+                  "locator" : "81:43-81:47",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "   ",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "529",
+                  "locator" : "81:50-81:55",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "\\W+",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "534",
+            "locator" : "83:1-83:60",
+            "name" : "Matches.MatchesWhiteSpace",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "534",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Matches.MatchesWhiteSpace\"",": " ]
+                  }, {
+                     "r" : "539",
+                     "s" : [ {
+                        "value" : [ "Matches","(" ]
+                     }, {
+                        "r" : "535",
+                        "s" : [ {
+                           "value" : [ "' \\n\\t'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "536",
+                        "s" : [ {
+                           "value" : [ "'\\\\s+'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "539",
+               "locator" : "83:37-83:60",
+               "type" : "Matches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "535",
+                  "locator" : "83:45-83:51",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : " \n\t",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "536",
+                  "locator" : "83:54-83:59",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "\\s+",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "541",
+            "locator" : "85:1-85:62",
+            "name" : "PositionOf.PositionOfNullNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "541",
+                  "s" : [ {
+                     "value" : [ "","define ","\"PositionOf.PositionOfNullNull\"",": " ]
+                  }, {
+                     "r" : "548",
+                     "s" : [ {
+                        "r" : "542",
+                        "value" : [ "PositionOf","(","null",", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "548",
+               "locator" : "85:41-85:62",
+               "type" : "PositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "549",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "542",
+                     "locator" : "85:52-85:55",
+                     "type" : "Null"
+                  }
+               },
+               "string" : {
+                  "localId" : "550",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "543",
+                     "locator" : "85:58-85:61",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "552",
+            "locator" : "87:1-87:58",
+            "name" : "PositionOf.PositionOfANull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "552",
+                  "s" : [ {
+                     "value" : [ "","define ","\"PositionOf.PositionOfANull\"",": " ]
+                  }, {
+                     "r" : "558",
+                     "s" : [ {
+                        "value" : [ "PositionOf","(" ]
+                     }, {
+                        "r" : "553",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "r" : "554",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "558",
+               "locator" : "87:38-87:58",
+               "type" : "PositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "553",
+                  "locator" : "87:49-87:51",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               },
+               "string" : {
+                  "localId" : "559",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "554",
+                     "locator" : "87:54-87:57",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "561",
+            "locator" : "89:1-89:58",
+            "name" : "PositionOf.PositionOfNullA",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "561",
+                  "s" : [ {
+                     "value" : [ "","define ","\"PositionOf.PositionOfNullA\"",": " ]
+                  }, {
+                     "r" : "567",
+                     "s" : [ {
+                        "r" : "562",
+                        "value" : [ "PositionOf","(","null",", " ]
+                     }, {
+                        "r" : "563",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "567",
+               "locator" : "89:38-89:58",
+               "type" : "PositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "568",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "562",
+                     "locator" : "89:49-89:52",
+                     "type" : "Null"
+                  }
+               },
+               "string" : {
+                  "localId" : "563",
+                  "locator" : "89:55-89:57",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "570",
+            "locator" : "91:1-91:58",
+            "name" : "PositionOf.PositionOfAInAB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "570",
+                  "s" : [ {
+                     "value" : [ "","define ","\"PositionOf.PositionOfAInAB\"",": " ]
+                  }, {
+                     "r" : "575",
+                     "s" : [ {
+                        "value" : [ "PositionOf","(" ]
+                     }, {
+                        "r" : "571",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "572",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "575",
+               "locator" : "91:38-91:58",
+               "type" : "PositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "571",
+                  "locator" : "91:49-91:51",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               },
+               "string" : {
+                  "localId" : "572",
+                  "locator" : "91:54-91:57",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "577",
+            "locator" : "93:1-93:58",
+            "name" : "PositionOf.PositionOfBInAB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "577",
+                  "s" : [ {
+                     "value" : [ "","define ","\"PositionOf.PositionOfBInAB\"",": " ]
+                  }, {
+                     "r" : "582",
+                     "s" : [ {
+                        "value" : [ "PositionOf","(" ]
+                     }, {
+                        "r" : "578",
+                        "s" : [ {
+                           "value" : [ "'b'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "579",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "582",
+               "locator" : "93:38-93:58",
+               "type" : "PositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "578",
+                  "locator" : "93:49-93:51",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "b",
+                  "type" : "Literal"
+               },
+               "string" : {
+                  "localId" : "579",
+                  "locator" : "93:54-93:57",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "584",
+            "locator" : "95:1-95:58",
+            "name" : "PositionOf.PositionOfCInAB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "584",
+                  "s" : [ {
+                     "value" : [ "","define ","\"PositionOf.PositionOfCInAB\"",": " ]
+                  }, {
+                     "r" : "589",
+                     "s" : [ {
+                        "value" : [ "PositionOf","(" ]
+                     }, {
+                        "r" : "585",
+                        "s" : [ {
+                           "value" : [ "'c'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "586",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "589",
+               "locator" : "95:38-95:58",
+               "type" : "PositionOf",
+               "signature" : [ ],
+               "pattern" : {
+                  "localId" : "585",
+                  "locator" : "95:49-95:51",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "c",
+                  "type" : "Literal"
+               },
+               "string" : {
+                  "localId" : "586",
+                  "locator" : "95:54-95:57",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "591",
+            "locator" : "97:1-97:110",
+            "name" : "ReplaceMatches.ReplaceMatchesNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "591",
+                  "s" : [ {
+                     "value" : [ "","define ","\"ReplaceMatches.ReplaceMatchesNull\"",": " ]
+                  }, {
+                     "r" : "598",
+                     "s" : [ {
+                        "value" : [ "ReplaceMatches","(" ]
+                     }, {
+                        "r" : "592",
+                        "s" : [ {
+                           "value" : [ "'Not all who wander are lost'" ]
+                        } ]
+                     }, {
+                        "r" : "593",
+                        "value" : [ ", ","null",", " ]
+                     }, {
+                        "r" : "594",
+                        "s" : [ {
+                           "value" : [ "'But I am...'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "598",
+               "locator" : "97:45-97:110",
+               "type" : "ReplaceMatches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "592",
+                  "locator" : "97:60-97:88",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Not all who wander are lost",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "599",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "593",
+                     "locator" : "97:91-97:94",
+                     "type" : "Null"
+                  }
+               }, {
+                  "localId" : "594",
+                  "locator" : "97:97-97:109",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "But I am...",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "601",
+            "locator" : "99:1-99:148",
+            "name" : "ReplaceMatches.ReplaceMatchesAll",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "601",
+                  "s" : [ {
+                     "value" : [ "","define ","\"ReplaceMatches.ReplaceMatchesAll\"",": " ]
+                  }, {
+                     "r" : "607",
+                     "s" : [ {
+                        "value" : [ "ReplaceMatches","(" ]
+                     }, {
+                        "r" : "602",
+                        "s" : [ {
+                           "value" : [ "'Not all who wander are lost'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "603",
+                        "s" : [ {
+                           "value" : [ "'Not all who wander are lost'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "604",
+                        "s" : [ {
+                           "value" : [ "'But still waters run deep'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "607",
+               "locator" : "99:44-99:148",
+               "type" : "ReplaceMatches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "602",
+                  "locator" : "99:59-99:87",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Not all who wander are lost",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "603",
+                  "locator" : "99:90-99:118",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Not all who wander are lost",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "604",
+                  "locator" : "99:121-99:147",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "But still waters run deep",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "609",
+            "locator" : "101:1-101:120",
+            "name" : "ReplaceMatches.ReplaceMatchesMany",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "609",
+                  "s" : [ {
+                     "value" : [ "","define ","\"ReplaceMatches.ReplaceMatchesMany\"",": " ]
+                  }, {
+                     "r" : "615",
+                     "s" : [ {
+                        "value" : [ "ReplaceMatches","(" ]
+                     }, {
+                        "r" : "610",
+                        "s" : [ {
+                           "value" : [ "'Who put the bop in the bop she bop she bop?'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "611",
+                        "s" : [ {
+                           "value" : [ "'bop'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "612",
+                        "s" : [ {
+                           "value" : [ "'bang'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "615",
+               "locator" : "101:45-101:120",
+               "type" : "ReplaceMatches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "610",
+                  "locator" : "101:60-101:104",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Who put the bop in the bop she bop she bop?",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "611",
+                  "locator" : "101:107-101:111",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "bop",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "612",
+                  "locator" : "101:114-101:119",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "bang",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "617",
+            "locator" : "103:1-103:107",
+            "name" : "ReplaceMatches.ReplaceMatchesSpaces",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "617",
+                  "s" : [ {
+                     "value" : [ "","define ","\"ReplaceMatches.ReplaceMatchesSpaces\"",": " ]
+                  }, {
+                     "r" : "623",
+                     "s" : [ {
+                        "value" : [ "ReplaceMatches","(" ]
+                     }, {
+                        "r" : "618",
+                        "s" : [ {
+                           "value" : [ "'All that glitters is not gold'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "619",
+                        "s" : [ {
+                           "value" : [ "'\\\\s'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "620",
+                        "s" : [ {
+                           "value" : [ "'\\\\$'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "623",
+               "locator" : "103:47-103:107",
+               "type" : "ReplaceMatches",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "618",
+                  "locator" : "103:62-103:92",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "All that glitters is not gold",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "619",
+                  "locator" : "103:95-103:99",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "\\s",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "620",
+                  "locator" : "103:102-103:106",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "\\$",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "625",
+            "locator" : "105:1-105:47",
+            "name" : "Split.SplitNullNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "625",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Split.SplitNullNull\"",": " ]
+                  }, {
+                     "r" : "632",
+                     "s" : [ {
+                        "r" : "626",
+                        "value" : [ "Split","(","null",", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "632",
+               "locator" : "105:31-105:47",
+               "type" : "Split",
+               "signature" : [ ],
+               "stringToSplit" : {
+                  "localId" : "633",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "626",
+                     "locator" : "105:37-105:40",
+                     "type" : "Null"
+                  }
+               },
+               "separator" : {
+                  "localId" : "634",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "627",
+                     "locator" : "105:43-105:46",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "636",
+            "locator" : "107:1-107:47",
+            "name" : "Split.SplitNullComma",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "636",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Split.SplitNullComma\"",": " ]
+                  }, {
+                     "r" : "642",
+                     "s" : [ {
+                        "r" : "637",
+                        "value" : [ "Split","(","null",", " ]
+                     }, {
+                        "r" : "638",
+                        "s" : [ {
+                           "value" : [ "','" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "642",
+               "locator" : "107:32-107:47",
+               "type" : "Split",
+               "signature" : [ ],
+               "stringToSplit" : {
+                  "localId" : "643",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "637",
+                     "locator" : "107:38-107:41",
+                     "type" : "Null"
+                  }
+               },
+               "separator" : {
+                  "localId" : "638",
+                  "locator" : "107:44-107:46",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : ",",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "645",
+            "locator" : "109:1-109:46",
+            "name" : "Split.SplitABNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "645",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Split.SplitABNull\"",": " ]
+                  }, {
+                     "r" : "651",
+                     "s" : [ {
+                        "value" : [ "Split","(" ]
+                     }, {
+                        "r" : "646",
+                        "s" : [ {
+                           "value" : [ "'a,b'" ]
+                        } ]
+                     }, {
+                        "r" : "647",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "651",
+               "locator" : "109:29-109:46",
+               "type" : "Split",
+               "signature" : [ ],
+               "stringToSplit" : {
+                  "localId" : "646",
+                  "locator" : "109:35-109:39",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a,b",
+                  "type" : "Literal"
+               },
+               "separator" : {
+                  "localId" : "652",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "647",
+                     "locator" : "109:42-109:45",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "654",
+            "locator" : "111:1-111:45",
+            "name" : "Split.SplitABDash",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "654",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Split.SplitABDash\"",": " ]
+                  }, {
+                     "r" : "659",
+                     "s" : [ {
+                        "value" : [ "Split","(" ]
+                     }, {
+                        "r" : "655",
+                        "s" : [ {
+                           "value" : [ "'a,b'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "656",
+                        "s" : [ {
+                           "value" : [ "'-'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "659",
+               "locator" : "111:29-111:45",
+               "type" : "Split",
+               "signature" : [ ],
+               "stringToSplit" : {
+                  "localId" : "655",
+                  "locator" : "111:35-111:39",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a,b",
+                  "type" : "Literal"
+               },
+               "separator" : {
+                  "localId" : "656",
+                  "locator" : "111:42-111:44",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "-",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "661",
+            "locator" : "113:1-113:46",
+            "name" : "Split.SplitABComma",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "661",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Split.SplitABComma\"",": " ]
+                  }, {
+                     "r" : "666",
+                     "s" : [ {
+                        "value" : [ "Split","(" ]
+                     }, {
+                        "r" : "662",
+                        "s" : [ {
+                           "value" : [ "'a,b'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "663",
+                        "s" : [ {
+                           "value" : [ "','" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "666",
+               "locator" : "113:30-113:46",
+               "type" : "Split",
+               "signature" : [ ],
+               "stringToSplit" : {
+                  "localId" : "662",
+                  "locator" : "113:36-113:40",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a,b",
+                  "type" : "Literal"
+               },
+               "separator" : {
+                  "localId" : "663",
+                  "locator" : "113:43-113:45",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : ",",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "668",
+            "locator" : "115:1-115:58",
+            "name" : "StartsWith.StartsWithNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "668",
+                  "s" : [ {
+                     "value" : [ "","define ","\"StartsWith.StartsWithNull\"",": " ]
+                  }, {
+                     "r" : "675",
+                     "s" : [ {
+                        "r" : "669",
+                        "value" : [ "StartsWith","(","null",", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "675",
+               "locator" : "115:37-115:58",
+               "type" : "StartsWith",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "676",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "669",
+                     "locator" : "115:48-115:51",
+                     "type" : "Null"
+                  }
+               }, {
+                  "localId" : "677",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "670",
+                     "locator" : "115:54-115:57",
+                     "type" : "Null"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "679",
+            "locator" : "117:1-117:59",
+            "name" : "StartsWith.StartsWithNull1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "679",
+                  "s" : [ {
+                     "value" : [ "","define ","\"StartsWith.StartsWithNull1\"",": " ]
+                  }, {
+                     "r" : "685",
+                     "s" : [ {
+                        "value" : [ "StartsWith","(" ]
+                     }, {
+                        "r" : "680",
+                        "s" : [ {
+                           "value" : [ "'hi'" ]
+                        } ]
+                     }, {
+                        "r" : "681",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "685",
+               "locator" : "117:38-117:59",
+               "type" : "StartsWith",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "680",
+                  "locator" : "117:49-117:52",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "hi",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "686",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "681",
+                     "locator" : "117:55-117:58",
+                     "type" : "Null"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "688",
+            "locator" : "119:1-119:59",
+            "name" : "StartsWith.StartsWithNull2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "688",
+                  "s" : [ {
+                     "value" : [ "","define ","\"StartsWith.StartsWithNull2\"",": " ]
+                  }, {
+                     "r" : "694",
+                     "s" : [ {
+                        "r" : "689",
+                        "value" : [ "StartsWith","(","null",", " ]
+                     }, {
+                        "r" : "690",
+                        "s" : [ {
+                           "value" : [ "'hi'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "694",
+               "locator" : "119:38-119:59",
+               "type" : "StartsWith",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "695",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "689",
+                     "locator" : "119:49-119:52",
+                     "type" : "Null"
+                  }
+               }, {
+                  "localId" : "690",
+                  "locator" : "119:55-119:58",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "hi",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "697",
+            "locator" : "121:1-121:90",
+            "name" : "StartsWith.StartsWithTrue1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "697",
+                  "s" : [ {
+                     "value" : [ "","define ","\"StartsWith.StartsWithTrue1\"",": " ]
+                  }, {
+                     "r" : "702",
+                     "s" : [ {
+                        "value" : [ "StartsWith","(" ]
+                     }, {
+                        "r" : "698",
+                        "s" : [ {
+                           "value" : [ "'Breathe deep the gathering gloom'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "699",
+                        "s" : [ {
+                           "value" : [ "'Bre'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "702",
+               "locator" : "121:38-121:90",
+               "type" : "StartsWith",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "698",
+                  "locator" : "121:49-121:82",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Breathe deep the gathering gloom",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "699",
+                  "locator" : "121:85-121:89",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Bre",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "704",
+            "locator" : "123:1-123:91",
+            "name" : "StartsWith.StartsWithFalse1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "704",
+                  "s" : [ {
+                     "value" : [ "","define ","\"StartsWith.StartsWithFalse1\"",": " ]
+                  }, {
+                     "r" : "709",
+                     "s" : [ {
+                        "value" : [ "StartsWith","(" ]
+                     }, {
+                        "r" : "705",
+                        "s" : [ {
+                           "value" : [ "'Breathe deep the gathering gloom'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "706",
+                        "s" : [ {
+                           "value" : [ "'bre'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "709",
+               "locator" : "123:39-123:91",
+               "type" : "StartsWith",
+               "signature" : [ ],
+               "operand" : [ {
+                  "localId" : "705",
+                  "locator" : "123:50-123:83",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "Breathe deep the gathering gloom",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "706",
+                  "locator" : "123:86-123:90",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "bre",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "711",
+            "locator" : "125:1-125:59",
+            "name" : "Substring.SubstringNullNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "711",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringNullNull\"",": " ]
+                  }, {
+                     "r" : "718",
+                     "s" : [ {
+                        "r" : "712",
+                        "value" : [ "Substring","(","null",", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "718",
+               "locator" : "125:39-125:59",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "719",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "712",
+                     "locator" : "125:49-125:52",
+                     "type" : "Null"
+                  }
+               },
+               "startIndex" : {
+                  "localId" : "720",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "713",
+                     "locator" : "125:55-125:58",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "722",
+            "locator" : "127:1-127:55",
+            "name" : "Substring.SubstringANull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "722",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringANull\"",": " ]
+                  }, {
+                     "r" : "728",
+                     "s" : [ {
+                        "value" : [ "Substring","(" ]
+                     }, {
+                        "r" : "723",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "r" : "724",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "728",
+               "locator" : "127:36-127:55",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "723",
+                  "locator" : "127:46-127:48",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               },
+               "startIndex" : {
+                  "localId" : "729",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "724",
+                     "locator" : "127:51-127:54",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "731",
+            "locator" : "129:1-129:53",
+            "name" : "Substring.SubstringNull1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "731",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringNull1\"",": " ]
+                  }, {
+                     "r" : "737",
+                     "s" : [ {
+                        "r" : "732",
+                        "value" : [ "Substring","(","null",", ","1",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "737",
+               "locator" : "129:36-129:53",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "738",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "732",
+                     "locator" : "129:46-129:49",
+                     "type" : "Null"
+                  }
+               },
+               "startIndex" : {
+                  "localId" : "733",
+                  "locator" : "129:52",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "740",
+            "locator" : "131:1-131:51",
+            "name" : "Substring.SubstringAB0",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "740",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringAB0\"",": " ]
+                  }, {
+                     "r" : "745",
+                     "s" : [ {
+                        "value" : [ "Substring","(" ]
+                     }, {
+                        "r" : "741",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "r" : "742",
+                        "value" : [ ", ","0",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "745",
+               "locator" : "131:34-131:51",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "741",
+                  "locator" : "131:44-131:47",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               },
+               "startIndex" : {
+                  "localId" : "742",
+                  "locator" : "131:50",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "747",
+            "locator" : "133:1-133:51",
+            "name" : "Substring.SubstringAB1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "747",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringAB1\"",": " ]
+                  }, {
+                     "r" : "752",
+                     "s" : [ {
+                        "value" : [ "Substring","(" ]
+                     }, {
+                        "r" : "748",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "r" : "749",
+                        "value" : [ ", ","1",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "752",
+               "locator" : "133:34-133:51",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "748",
+                  "locator" : "133:44-133:47",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               },
+               "startIndex" : {
+                  "localId" : "749",
+                  "locator" : "133:50",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "754",
+            "locator" : "135:1-135:51",
+            "name" : "Substring.SubstringAB2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "754",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringAB2\"",": " ]
+                  }, {
+                     "r" : "759",
+                     "s" : [ {
+                        "value" : [ "Substring","(" ]
+                     }, {
+                        "r" : "755",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "r" : "756",
+                        "value" : [ ", ","2",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "759",
+               "locator" : "135:34-135:51",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "755",
+                  "locator" : "135:44-135:47",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               },
+               "startIndex" : {
+                  "localId" : "756",
+                  "locator" : "135:50",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "761",
+            "locator" : "137:1-137:55",
+            "name" : "Substring.SubstringABNeg1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "761",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringABNeg1\"",": " ]
+                  }, {
+                     "r" : "768",
+                     "s" : [ {
+                        "value" : [ "Substring","(" ]
+                     }, {
+                        "r" : "762",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "763",
+                        "s" : [ {
+                           "r" : "764",
+                           "value" : [ "-","1" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "768",
+               "locator" : "137:37-137:55",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "762",
+                  "locator" : "137:47-137:50",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               },
+               "startIndex" : {
+                  "localId" : "763",
+                  "locator" : "137:53-137:54",
+                  "type" : "Negate",
+                  "signature" : [ {
+                     "localId" : "765",
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier"
+                  } ],
+                  "operand" : {
+                     "localId" : "764",
+                     "locator" : "137:54",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               }
+            }
+         }, {
+            "localId" : "770",
+            "locator" : "139:1-139:57",
+            "name" : "Substring.SubstringAB0To1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "770",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringAB0To1\"",": " ]
+                  }, {
+                     "r" : "776",
+                     "s" : [ {
+                        "value" : [ "Substring","(" ]
+                     }, {
+                        "r" : "771",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "r" : "772",
+                        "value" : [ ", ","0",", ","1",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "776",
+               "locator" : "139:37-139:57",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "771",
+                  "locator" : "139:47-139:50",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               },
+               "startIndex" : {
+                  "localId" : "772",
+                  "locator" : "139:53",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               },
+               "length" : {
+                  "localId" : "773",
+                  "locator" : "139:56",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "778",
+            "locator" : "141:1-141:59",
+            "name" : "Substring.SubstringABC1To1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "778",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringABC1To1\"",": " ]
+                  }, {
+                     "r" : "784",
+                     "s" : [ {
+                        "value" : [ "Substring","(" ]
+                     }, {
+                        "r" : "779",
+                        "s" : [ {
+                           "value" : [ "'abc'" ]
+                        } ]
+                     }, {
+                        "r" : "780",
+                        "value" : [ ", ","1",", ","1",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "784",
+               "locator" : "141:38-141:59",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "779",
+                  "locator" : "141:48-141:52",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "abc",
+                  "type" : "Literal"
+               },
+               "startIndex" : {
+                  "localId" : "780",
+                  "locator" : "141:55",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               },
+               "length" : {
+                  "localId" : "781",
+                  "locator" : "141:58",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "786",
+            "locator" : "143:1-143:57",
+            "name" : "Substring.SubstringAB0To3",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "786",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Substring.SubstringAB0To3\"",": " ]
+                  }, {
+                     "r" : "792",
+                     "s" : [ {
+                        "value" : [ "Substring","(" ]
+                     }, {
+                        "r" : "787",
+                        "s" : [ {
+                           "value" : [ "'ab'" ]
+                        } ]
+                     }, {
+                        "r" : "788",
+                        "value" : [ ", ","0",", ","3",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "792",
+               "locator" : "143:37-143:57",
+               "type" : "Substring",
+               "signature" : [ ],
+               "stringToSub" : {
+                  "localId" : "787",
+                  "locator" : "143:47-143:50",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "ab",
+                  "type" : "Literal"
+               },
+               "startIndex" : {
+                  "localId" : "788",
+                  "locator" : "143:53",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               },
+               "length" : {
+                  "localId" : "789",
+                  "locator" : "143:56",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "3",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "794",
+            "locator" : "145:1-145:37",
+            "name" : "Upper.UpperNull",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "794",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Upper.UpperNull\"",": " ]
+                  }, {
+                     "r" : "799",
+                     "s" : [ {
+                        "r" : "795",
+                        "value" : [ "Upper","(","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "799",
+               "locator" : "145:27-145:37",
+               "type" : "Upper",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "800",
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "signature" : [ ],
+                  "operand" : {
+                     "localId" : "795",
+                     "locator" : "145:33-145:36",
+                     "type" : "Null"
+                  }
+               }
+            }
+         }, {
+            "localId" : "802",
+            "locator" : "147:1-147:36",
+            "name" : "Upper.UpperEmpty",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "802",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Upper.UpperEmpty\"",": " ]
+                  }, {
+                     "r" : "806",
+                     "s" : [ {
+                        "value" : [ "Upper","(" ]
+                     }, {
+                        "r" : "803",
+                        "s" : [ {
+                           "value" : [ "''" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "806",
+               "locator" : "147:28-147:36",
+               "type" : "Upper",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "803",
+                  "locator" : "147:34-147:35",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "808",
+            "locator" : "149:1-149:33",
+            "name" : "Upper.UpperA",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "808",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Upper.UpperA\"",": " ]
+                  }, {
+                     "r" : "812",
+                     "s" : [ {
+                        "value" : [ "Upper","(" ]
+                     }, {
+                        "r" : "809",
+                        "s" : [ {
+                           "value" : [ "'a'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "812",
+               "locator" : "149:24-149:33",
+               "type" : "Upper",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "809",
+                  "locator" : "149:30-149:32",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "a",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "814",
+            "locator" : "151:1-151:33",
+            "name" : "Upper.UpperB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "814",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Upper.UpperB\"",": " ]
+                  }, {
+                     "r" : "818",
+                     "s" : [ {
+                        "value" : [ "Upper","(" ]
+                     }, {
+                        "r" : "815",
+                        "s" : [ {
+                           "value" : [ "'B'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "818",
+               "locator" : "151:24-151:33",
+               "type" : "Upper",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "815",
+                  "locator" : "151:30-151:32",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "B",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "820",
+            "locator" : "153:1-153:35",
+            "name" : "Upper.UpperAB",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "820",
+                  "s" : [ {
+                     "value" : [ "","define ","\"Upper.UpperAB\"",": " ]
+                  }, {
+                     "r" : "824",
+                     "s" : [ {
+                        "value" : [ "Upper","(" ]
+                     }, {
+                        "r" : "821",
+                        "s" : [ {
+                           "value" : [ "'aB'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "824",
+               "locator" : "153:25-153:35",
+               "type" : "Upper",
+               "signature" : [ ],
+               "operand" : {
+                  "localId" : "821",
+                  "locator" : "153:31-153:34",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : "aB",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "localId" : "826",
+            "locator" : "155:1-155:60",
+            "name" : "toString tests.QuantityToString",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "826",
+                  "s" : [ {
+                     "value" : [ "","define ","\"toString tests.QuantityToString\"",": " ]
+                  }, {
+                     "r" : "831",
+                     "s" : [ {
+                        "value" : [ "ToString","(" ]
+                     }, {
+                        "r" : "827",
+                        "s" : [ {
+                           "value" : [ "125 ","'cm'" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "831",
+               "locator" : "155:43-155:60",
+               "type" : "ToString",
+               "signature" : [ {
+                  "localId" : "832",
+                  "name" : "{urn:hl7-org:elm-types:r1}Quantity",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "827",
+                  "locator" : "155:52-155:59",
+                  "value" : 125,
+                  "unit" : "cm",
+                  "type" : "Quantity"
+               }
+            }
+         }, {
+            "localId" : "834",
+            "locator" : "157:1-157:73",
+            "name" : "toString tests.DateTimeToString1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "834",
+                  "s" : [ {
+                     "value" : [ "","define ","\"toString tests.DateTimeToString1\"",": " ]
+                  }, {
+                     "r" : "844",
+                     "s" : [ {
+                        "value" : [ "ToString","(" ]
+                     }, {
+                        "r" : "840",
+                        "s" : [ {
+                           "r" : "835",
+                           "value" : [ "DateTime","(","2000",", ","1",", ","1",")" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "844",
+               "locator" : "157:44-157:73",
+               "type" : "ToString",
+               "signature" : [ {
+                  "localId" : "845",
+                  "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "840",
+                  "locator" : "157:53-157:72",
+                  "type" : "DateTime",
+                  "signature" : [ ],
+                  "year" : {
+                     "localId" : "835",
+                     "locator" : "157:62-157:65",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2000",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "836",
+                     "locator" : "157:68",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "localId" : "837",
+                     "locator" : "157:71",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               }
+            }
+         }, {
+            "localId" : "847",
+            "locator" : "159:1-159:90",
+            "name" : "toString tests.DateTimeToString2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "847",
+                  "s" : [ {
+                     "value" : [ "","define ","\"toString tests.DateTimeToString2\"",": " ]
+                  }, {
+                     "r" : "861",
+                     "s" : [ {
+                        "value" : [ "ToString","(" ]
+                     }, {
+                        "r" : "857",
+                        "s" : [ {
+                           "r" : "848",
+                           "value" : [ "DateTime","(","2000",", ","1",", ","1",", ","15",", ","25",", ","25",", ","300",")" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "861",
+               "locator" : "159:44-159:90",
+               "type" : "ToString",
+               "signature" : [ {
+                  "localId" : "862",
+                  "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "857",
+                  "locator" : "159:53-159:89",
+                  "type" : "DateTime",
+                  "signature" : [ ],
+                  "year" : {
+                     "localId" : "848",
+                     "locator" : "159:62-159:65",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2000",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "849",
+                     "locator" : "159:68",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "localId" : "850",
+                     "locator" : "159:71",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "localId" : "851",
+                     "locator" : "159:74-159:75",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "15",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "localId" : "852",
+                     "locator" : "159:78-159:79",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "25",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "localId" : "853",
+                     "locator" : "159:82-159:83",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "25",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "localId" : "854",
+                     "locator" : "159:86-159:88",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "300",
+                     "type" : "Literal"
+                  }
+               }
+            }
+         }, {
+            "localId" : "864",
+            "locator" : "161:1-161:93",
+            "name" : "toString tests.DateTimeToString3",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "864",
+                  "s" : [ {
+                     "value" : [ "","define ","\"toString tests.DateTimeToString3\"",": " ]
+                  }, {
+                     "r" : "887",
+                     "s" : [ {
+                        "value" : [ "ToString","(" ]
+                     }, {
+                        "r" : "880",
+                        "s" : [ {
+                           "r" : "865",
+                           "value" : [ "DateTime","(","2000",", ","1",", ","1",", ","8",", ","25",", ","25",", ","300",", " ]
+                        }, {
+                           "r" : "872",
+                           "s" : [ {
+                              "r" : "873",
+                              "value" : [ "-","7" ]
+                           } ]
+                        }, {
+                           "value" : [ ")" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "887",
+               "locator" : "161:44-161:93",
+               "type" : "ToString",
+               "signature" : [ {
+                  "localId" : "888",
+                  "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "880",
+                  "locator" : "161:53-161:92",
+                  "type" : "DateTime",
+                  "signature" : [ ],
+                  "year" : {
+                     "localId" : "865",
+                     "locator" : "161:62-161:65",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2000",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "866",
+                     "locator" : "161:68",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "localId" : "867",
+                     "locator" : "161:71",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "localId" : "868",
+                     "locator" : "161:74",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "8",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "localId" : "869",
+                     "locator" : "161:77-161:78",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "25",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "localId" : "870",
+                     "locator" : "161:81-161:82",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "25",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "localId" : "871",
+                     "locator" : "161:85-161:87",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "300",
+                     "type" : "Literal"
+                  },
+                  "timezoneOffset" : {
+                     "localId" : "882",
+                     "type" : "ToDecimal",
+                     "signature" : [ {
+                        "localId" : "883",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     } ],
+                     "operand" : {
+                        "localId" : "872",
+                        "locator" : "161:90-161:91",
+                        "type" : "Negate",
+                        "signature" : [ {
+                           "localId" : "874",
+                           "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "type" : "NamedTypeSpecifier"
+                        } ],
+                        "operand" : {
+                           "localId" : "873",
+                           "locator" : "161:91",
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "7",
+                           "type" : "Literal"
+                        }
+                     }
+                  }
+               }
+            }
+         }, {
+            "localId" : "890",
+            "locator" : "163:1-163:63",
+            "name" : "toString tests.TimeToString1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "890",
+                  "s" : [ {
+                     "value" : [ "","define ","\"toString tests.TimeToString1\"",": " ]
+                  }, {
+                     "r" : "899",
+                     "s" : [ {
+                        "r" : "891",
+                        "value" : [ "ToString","(","@T09:30:01.003",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "899",
+               "locator" : "163:40-163:63",
+               "type" : "ToString",
+               "signature" : [ {
+                  "localId" : "900",
+                  "name" : "{urn:hl7-org:elm-types:r1}Time",
+                  "type" : "NamedTypeSpecifier"
+               } ],
+               "operand" : {
+                  "localId" : "891",
+                  "locator" : "163:49-163:62",
+                  "type" : "Time",
+                  "signature" : [ ],
+                  "hour" : {
+                     "localId" : "892",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "9",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "localId" : "893",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "30",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "localId" : "894",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "localId" : "895",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  }
+               }
+            }
+         } ]
+      }
+   }
+}
+

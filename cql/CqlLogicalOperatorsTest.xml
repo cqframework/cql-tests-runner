@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="urn:hl7-org:elm:r1" xmlns:t="urn:hl7-org:elm-types:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fhir="http://hl7.org/fhir" xmlns:qdm43="urn:healthit-gov:qdm:v4_3" xmlns:qdm53="urn:healthit-gov:qdm:v5_3" xmlns:a="urn:hl7-org:cql-annotations:r1" localId="0">
+   <annotation translatorVersion="3.10.0-SNAPSHOT" translatorOptions="EnableAnnotations,EnableLocators" signatureLevel="Overloads" xsi:type="a:CqlToElmInfo"/>
+   <annotation xsi:type="a:Annotation">
+      <a:s r="417">
+         <a:s>library CqlLogicalOperatorsTest</a:s>
+      </a:s>
+   </annotation>
+   <identifier id="CqlLogicalOperatorsTest"/>
+   <schemaIdentifier id="urn:hl7-org:elm" version="r1"/>
+   <usings>
+      <def localId="1" localIdentifier="System" uri="urn:hl7-org:elm-types:r1"/>
+   </usings>
+   <statements>
+      <def localId="207" locator="3:1-3:39" name="And.TrueAndTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="207">
+               <a:s>define &quot;And.TrueAndTrue&quot;: </a:s>
+               <a:s r="208">
+                  <a:s r="209">true and true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="208" locator="3:27-3:39" xsi:type="And">
+            <operand localId="209" locator="3:27-3:30" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="210" locator="3:36-3:39" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="212" locator="5:1-5:41" name="And.TrueAndFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="212">
+               <a:s>define &quot;And.TrueAndFalse&quot;: </a:s>
+               <a:s r="213">
+                  <a:s r="214">true and false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="213" locator="5:28-5:41" xsi:type="And">
+            <operand localId="214" locator="5:28-5:31" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="215" locator="5:37-5:41" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="217" locator="7:1-7:39" name="And.TrueAndNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="217">
+               <a:s>define &quot;And.TrueAndNull&quot;: </a:s>
+               <a:s r="218">
+                  <a:s r="219">true and null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="218" locator="7:27-7:39" xsi:type="And">
+            <operand localId="219" locator="7:27-7:30" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="221" asType="t:Boolean" xsi:type="As">
+               <operand localId="220" locator="7:36-7:39" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="223" locator="9:1-9:41" name="And.FalseAndTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="223">
+               <a:s>define &quot;And.FalseAndTrue&quot;: </a:s>
+               <a:s r="224">
+                  <a:s r="225">false and true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="224" locator="9:28-9:41" xsi:type="And">
+            <operand localId="225" locator="9:28-9:32" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="226" locator="9:38-9:41" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="228" locator="11:1-11:43" name="And.FalseAndFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="228">
+               <a:s>define &quot;And.FalseAndFalse&quot;: </a:s>
+               <a:s r="229">
+                  <a:s r="230">false and false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="229" locator="11:29-11:43" xsi:type="And">
+            <operand localId="230" locator="11:29-11:33" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="231" locator="11:39-11:43" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="233" locator="13:1-13:41" name="And.FalseAndNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="233">
+               <a:s>define &quot;And.FalseAndNull&quot;: </a:s>
+               <a:s r="234">
+                  <a:s r="235">false and null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="234" locator="13:28-13:41" xsi:type="And">
+            <operand localId="235" locator="13:28-13:32" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="237" asType="t:Boolean" xsi:type="As">
+               <operand localId="236" locator="13:38-13:41" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="239" locator="15:1-15:39" name="And.NullAndTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="239">
+               <a:s>define &quot;And.NullAndTrue&quot;: </a:s>
+               <a:s r="240">
+                  <a:s r="241">null and true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="240" locator="15:27-15:39" xsi:type="And">
+            <operand localId="243" asType="t:Boolean" xsi:type="As">
+               <operand localId="241" locator="15:27-15:30" xsi:type="Null"/>
+            </operand>
+            <operand localId="242" locator="15:36-15:39" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="245" locator="17:1-17:41" name="And.NullAndFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="245">
+               <a:s>define &quot;And.NullAndFalse&quot;: </a:s>
+               <a:s r="246">
+                  <a:s r="247">null and false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="246" locator="17:28-17:41" xsi:type="And">
+            <operand localId="249" asType="t:Boolean" xsi:type="As">
+               <operand localId="247" locator="17:28-17:31" xsi:type="Null"/>
+            </operand>
+            <operand localId="248" locator="17:37-17:41" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="251" locator="19:1-19:39" name="And.NullAndNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="251">
+               <a:s>define &quot;And.NullAndNull&quot;: </a:s>
+               <a:s r="252">
+                  <a:s r="253">null and null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="252" locator="19:27-19:39" xsi:type="And">
+            <operand localId="255" asType="t:Boolean" xsi:type="As">
+               <operand localId="253" locator="19:27-19:30" xsi:type="Null"/>
+            </operand>
+            <operand localId="256" asType="t:Boolean" xsi:type="As">
+               <operand localId="254" locator="19:36-19:39" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="258" locator="21:1-21:51" name="Implies.TrueImpliesTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="258">
+               <a:s>define &quot;Implies.TrueImpliesTrue&quot;: </a:s>
+               <a:s r="259">
+                  <a:s r="260">true implies true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="259" locator="21:35-21:51" xsi:type="Implies">
+            <operand localId="260" locator="21:35-21:38" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="261" locator="21:48-21:51" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="263" locator="23:1-23:53" name="Implies.TrueImpliesFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="263">
+               <a:s>define &quot;Implies.TrueImpliesFalse&quot;: </a:s>
+               <a:s r="264">
+                  <a:s r="265">true implies false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="264" locator="23:36-23:53" xsi:type="Implies">
+            <operand localId="265" locator="23:36-23:39" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="266" locator="23:49-23:53" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="268" locator="25:1-25:51" name="Implies.TrueImpliesNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="268">
+               <a:s>define &quot;Implies.TrueImpliesNull&quot;: </a:s>
+               <a:s r="269">
+                  <a:s r="270">true implies null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="269" locator="25:35-25:51" xsi:type="Implies">
+            <operand localId="270" locator="25:35-25:38" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="272" asType="t:Boolean" xsi:type="As">
+               <operand localId="271" locator="25:48-25:51" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="274" locator="27:1-27:53" name="Implies.FalseImpliesTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="274">
+               <a:s>define &quot;Implies.FalseImpliesTrue&quot;: </a:s>
+               <a:s r="275">
+                  <a:s r="276">false implies true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="275" locator="27:36-27:53" xsi:type="Implies">
+            <operand localId="276" locator="27:36-27:40" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="277" locator="27:50-27:53" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="279" locator="29:1-29:55" name="Implies.FalseImpliesFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="279">
+               <a:s>define &quot;Implies.FalseImpliesFalse&quot;: </a:s>
+               <a:s r="280">
+                  <a:s r="281">false implies false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="280" locator="29:37-29:55" xsi:type="Implies">
+            <operand localId="281" locator="29:37-29:41" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="282" locator="29:51-29:55" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="284" locator="31:1-31:53" name="Implies.FalseImpliesNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="284">
+               <a:s>define &quot;Implies.FalseImpliesNull&quot;: </a:s>
+               <a:s r="285">
+                  <a:s r="286">false implies null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="285" locator="31:36-31:53" xsi:type="Implies">
+            <operand localId="286" locator="31:36-31:40" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="288" asType="t:Boolean" xsi:type="As">
+               <operand localId="287" locator="31:50-31:53" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="290" locator="33:1-33:51" name="Implies.NullImpliesTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="290">
+               <a:s>define &quot;Implies.NullImpliesTrue&quot;: </a:s>
+               <a:s r="291">
+                  <a:s r="292">null implies true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="291" locator="33:35-33:51" xsi:type="Implies">
+            <operand localId="294" asType="t:Boolean" xsi:type="As">
+               <operand localId="292" locator="33:35-33:38" xsi:type="Null"/>
+            </operand>
+            <operand localId="293" locator="33:48-33:51" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="296" locator="35:1-35:53" name="Implies.NullImpliesFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="296">
+               <a:s>define &quot;Implies.NullImpliesFalse&quot;: </a:s>
+               <a:s r="297">
+                  <a:s r="298">null implies false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="297" locator="35:36-35:53" xsi:type="Implies">
+            <operand localId="300" asType="t:Boolean" xsi:type="As">
+               <operand localId="298" locator="35:36-35:39" xsi:type="Null"/>
+            </operand>
+            <operand localId="299" locator="35:49-35:53" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="302" locator="37:1-37:51" name="Implies.NullImpliesNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="302">
+               <a:s>define &quot;Implies.NullImpliesNull&quot;: </a:s>
+               <a:s r="303">
+                  <a:s r="304">null implies null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="303" locator="37:35-37:51" xsi:type="Implies">
+            <operand localId="306" asType="t:Boolean" xsi:type="As">
+               <operand localId="304" locator="37:35-37:38" xsi:type="Null"/>
+            </operand>
+            <operand localId="307" asType="t:Boolean" xsi:type="As">
+               <operand localId="305" locator="37:48-37:51" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="309" locator="39:1-39:30" name="Not.NotTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="309">
+               <a:s>define &quot;Not.NotTrue&quot;: </a:s>
+               <a:s r="310">
+                  <a:s r="311">not true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="310" locator="39:23-39:30" xsi:type="Not">
+            <operand localId="311" locator="39:27-39:30" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="313" locator="41:1-41:32" name="Not.NotFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="313">
+               <a:s>define &quot;Not.NotFalse&quot;: </a:s>
+               <a:s r="314">
+                  <a:s r="315">not false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="314" locator="41:24-41:32" xsi:type="Not">
+            <operand localId="315" locator="41:28-41:32" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="317" locator="43:1-43:30" name="Not.NotNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="317">
+               <a:s>define &quot;Not.NotNull&quot;: </a:s>
+               <a:s r="318">
+                  <a:s r="319">not null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="318" locator="43:23-43:30" xsi:type="Not">
+            <operand localId="320" asType="t:Boolean" xsi:type="As">
+               <operand localId="319" locator="43:27-43:30" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="322" locator="45:1-45:36" name="Or.TrueOrTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="322">
+               <a:s>define &quot;Or.TrueOrTrue&quot;: </a:s>
+               <a:s r="323">
+                  <a:s r="324">true or true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="323" locator="45:25-45:36" xsi:type="Or">
+            <operand localId="324" locator="45:25-45:28" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="325" locator="45:33-45:36" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="327" locator="47:1-47:38" name="Or.TrueOrFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="327">
+               <a:s>define &quot;Or.TrueOrFalse&quot;: </a:s>
+               <a:s r="328">
+                  <a:s r="329">true or false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="328" locator="47:26-47:38" xsi:type="Or">
+            <operand localId="329" locator="47:26-47:29" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="330" locator="47:34-47:38" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="332" locator="49:1-49:36" name="Or.TrueOrNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="332">
+               <a:s>define &quot;Or.TrueOrNull&quot;: </a:s>
+               <a:s r="333">
+                  <a:s r="334">true or null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="333" locator="49:25-49:36" xsi:type="Or">
+            <operand localId="334" locator="49:25-49:28" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="336" asType="t:Boolean" xsi:type="As">
+               <operand localId="335" locator="49:33-49:36" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="338" locator="51:1-51:38" name="Or.FalseOrTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="338">
+               <a:s>define &quot;Or.FalseOrTrue&quot;: </a:s>
+               <a:s r="339">
+                  <a:s r="340">false or true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="339" locator="51:26-51:38" xsi:type="Or">
+            <operand localId="340" locator="51:26-51:30" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="341" locator="51:35-51:38" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="343" locator="53:1-53:40" name="Or.FalseOrFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="343">
+               <a:s>define &quot;Or.FalseOrFalse&quot;: </a:s>
+               <a:s r="344">
+                  <a:s r="345">false or false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="344" locator="53:27-53:40" xsi:type="Or">
+            <operand localId="345" locator="53:27-53:31" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="346" locator="53:36-53:40" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="348" locator="55:1-55:38" name="Or.FalseOrNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="348">
+               <a:s>define &quot;Or.FalseOrNull&quot;: </a:s>
+               <a:s r="349">
+                  <a:s r="350">false or null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="349" locator="55:26-55:38" xsi:type="Or">
+            <operand localId="350" locator="55:26-55:30" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="352" asType="t:Boolean" xsi:type="As">
+               <operand localId="351" locator="55:35-55:38" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="354" locator="57:1-57:36" name="Or.NullOrTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="354">
+               <a:s>define &quot;Or.NullOrTrue&quot;: </a:s>
+               <a:s r="355">
+                  <a:s r="356">null or true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="355" locator="57:25-57:36" xsi:type="Or">
+            <operand localId="358" asType="t:Boolean" xsi:type="As">
+               <operand localId="356" locator="57:25-57:28" xsi:type="Null"/>
+            </operand>
+            <operand localId="357" locator="57:33-57:36" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="360" locator="59:1-59:38" name="Or.NullOrFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="360">
+               <a:s>define &quot;Or.NullOrFalse&quot;: </a:s>
+               <a:s r="361">
+                  <a:s r="362">null or false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="361" locator="59:26-59:38" xsi:type="Or">
+            <operand localId="364" asType="t:Boolean" xsi:type="As">
+               <operand localId="362" locator="59:26-59:29" xsi:type="Null"/>
+            </operand>
+            <operand localId="363" locator="59:34-59:38" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="366" locator="61:1-61:36" name="Or.NullOrNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="366">
+               <a:s>define &quot;Or.NullOrNull&quot;: </a:s>
+               <a:s r="367">
+                  <a:s r="368">null or null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="367" locator="61:25-61:36" xsi:type="Or">
+            <operand localId="370" asType="t:Boolean" xsi:type="As">
+               <operand localId="368" locator="61:25-61:28" xsi:type="Null"/>
+            </operand>
+            <operand localId="371" asType="t:Boolean" xsi:type="As">
+               <operand localId="369" locator="61:33-61:36" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="373" locator="63:1-63:39" name="Xor.TrueXorTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="373">
+               <a:s>define &quot;Xor.TrueXorTrue&quot;: </a:s>
+               <a:s r="374">
+                  <a:s r="375">true xor true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="374" locator="63:27-63:39" xsi:type="Xor">
+            <operand localId="375" locator="63:27-63:30" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="376" locator="63:36-63:39" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="378" locator="65:1-65:41" name="Xor.TrueXorFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="378">
+               <a:s>define &quot;Xor.TrueXorFalse&quot;: </a:s>
+               <a:s r="379">
+                  <a:s r="380">true xor false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="379" locator="65:28-65:41" xsi:type="Xor">
+            <operand localId="380" locator="65:28-65:31" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="381" locator="65:37-65:41" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="383" locator="67:1-67:39" name="Xor.TrueXorNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="383">
+               <a:s>define &quot;Xor.TrueXorNull&quot;: </a:s>
+               <a:s r="384">
+                  <a:s r="385">true xor null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="384" locator="67:27-67:39" xsi:type="Xor">
+            <operand localId="385" locator="67:27-67:30" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+            <operand localId="387" asType="t:Boolean" xsi:type="As">
+               <operand localId="386" locator="67:36-67:39" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="389" locator="69:1-69:41" name="Xor.FalseXorTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="389">
+               <a:s>define &quot;Xor.FalseXorTrue&quot;: </a:s>
+               <a:s r="390">
+                  <a:s r="391">false xor true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="390" locator="69:28-69:41" xsi:type="Xor">
+            <operand localId="391" locator="69:28-69:32" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="392" locator="69:38-69:41" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="394" locator="71:1-71:43" name="Xor.FalseXorFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="394">
+               <a:s>define &quot;Xor.FalseXorFalse&quot;: </a:s>
+               <a:s r="395">
+                  <a:s r="396">false xor false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="395" locator="71:29-71:43" xsi:type="Xor">
+            <operand localId="396" locator="71:29-71:33" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="397" locator="71:39-71:43" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="399" locator="73:1-73:41" name="Xor.FalseXorNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="399">
+               <a:s>define &quot;Xor.FalseXorNull&quot;: </a:s>
+               <a:s r="400">
+                  <a:s r="401">false xor null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="400" locator="73:28-73:41" xsi:type="Xor">
+            <operand localId="401" locator="73:28-73:32" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+            <operand localId="403" asType="t:Boolean" xsi:type="As">
+               <operand localId="402" locator="73:38-73:41" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="405" locator="75:1-75:39" name="Xor.NullXorTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="405">
+               <a:s>define &quot;Xor.NullXorTrue&quot;: </a:s>
+               <a:s r="406">
+                  <a:s r="407">null xor true</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="406" locator="75:27-75:39" xsi:type="Xor">
+            <operand localId="409" asType="t:Boolean" xsi:type="As">
+               <operand localId="407" locator="75:27-75:30" xsi:type="Null"/>
+            </operand>
+            <operand localId="408" locator="75:36-75:39" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="411" locator="77:1-77:41" name="Xor.NullXorFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="411">
+               <a:s>define &quot;Xor.NullXorFalse&quot;: </a:s>
+               <a:s r="412">
+                  <a:s r="413">null xor false</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="412" locator="77:28-77:41" xsi:type="Xor">
+            <operand localId="415" asType="t:Boolean" xsi:type="As">
+               <operand localId="413" locator="77:28-77:31" xsi:type="Null"/>
+            </operand>
+            <operand localId="414" locator="77:37-77:41" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="417" locator="79:1-79:39" name="Xor.NullXorNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="417">
+               <a:s>define &quot;Xor.NullXorNull&quot;: </a:s>
+               <a:s r="418">
+                  <a:s r="419">null xor null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="418" locator="79:27-79:39" xsi:type="Xor">
+            <operand localId="421" asType="t:Boolean" xsi:type="As">
+               <operand localId="419" locator="79:27-79:30" xsi:type="Null"/>
+            </operand>
+            <operand localId="422" asType="t:Boolean" xsi:type="As">
+               <operand localId="420" locator="79:36-79:39" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+   </statements>
+</library>
+
+

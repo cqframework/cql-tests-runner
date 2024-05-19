@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="urn:hl7-org:elm:r1" xmlns:t="urn:hl7-org:elm-types:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fhir="http://hl7.org/fhir" xmlns:qdm43="urn:healthit-gov:qdm:v4_3" xmlns:qdm53="urn:healthit-gov:qdm:v5_3" xmlns:a="urn:hl7-org:cql-annotations:r1" localId="0">
+   <annotation translatorVersion="3.10.0-SNAPSHOT" translatorOptions="EnableAnnotations,EnableLocators" signatureLevel="Overloads" xsi:type="a:CqlToElmInfo"/>
+   <annotation xsi:type="a:Annotation">
+      <a:s r="441">
+         <a:s>library CqlNullologicalOperatorsTest</a:s>
+      </a:s>
+   </annotation>
+   <identifier id="CqlNullologicalOperatorsTest"/>
+   <schemaIdentifier id="urn:hl7-org:elm" version="r1"/>
+   <usings>
+      <def localId="1" localIdentifier="System" uri="urn:hl7-org:elm-types:r1"/>
+   </usings>
+   <statements>
+      <def localId="207" locator="3:1-3:52" name="Coalesce.CoalesceANull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="207">
+               <a:s>define &quot;Coalesce.CoalesceANull&quot;: </a:s>
+               <a:s r="213">
+                  <a:s>Coalesce(</a:s>
+                  <a:s r="208">
+                     <a:s>'a'</a:s>
+                  </a:s>
+                  <a:s r="209">, null)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="213" locator="3:34-3:52" xsi:type="Coalesce">
+            <operand localId="208" locator="3:43-3:45" valueType="t:String" value="a" xsi:type="Literal"/>
+            <operand localId="214" asType="t:String" xsi:type="As">
+               <operand localId="209" locator="3:48-3:51" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="216" locator="5:1-5:52" name="Coalesce.CoalesceNullA" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="216">
+               <a:s>define &quot;Coalesce.CoalesceNullA&quot;: </a:s>
+               <a:s r="224">
+                  <a:s r="217">Coalesce(null, </a:s>
+                  <a:s r="218">
+                     <a:s>'a'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="224" locator="5:34-5:52" xsi:type="Coalesce">
+            <signature localId="226" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="227" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="225" asType="t:String" xsi:type="As">
+               <operand localId="217" locator="5:43-5:46" xsi:type="Null"/>
+            </operand>
+            <operand localId="218" locator="5:49-5:51" valueType="t:String" value="a" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="229" locator="7:1-7:49" name="Coalesce.CoalesceEmptyList" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="229">
+               <a:s>define &quot;Coalesce.CoalesceEmptyList&quot;: </a:s>
+               <a:s r="233">
+                  <a:s r="230">Coalesce({})</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="233" locator="7:38-7:49" xsi:type="Coalesce">
+            <operand localId="230" locator="7:47-7:48" xsi:type="List"/>
+         </expression>
+      </def>
+      <def localId="235" locator="9:1-9:65" name="Coalesce.CoalesceListFirstA" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="235">
+               <a:s>define &quot;Coalesce.CoalesceListFirstA&quot;: </a:s>
+               <a:s r="244">
+                  <a:s>Coalesce(</a:s>
+                  <a:s r="236">
+                     <a:s>{</a:s>
+                     <a:s r="237">
+                        <a:s>'a'</a:s>
+                     </a:s>
+                     <a:s r="238">, null, null}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="244" locator="9:39-9:65" xsi:type="Coalesce">
+            <operand localId="236" locator="9:48-9:64" xsi:type="List">
+               <element localId="237" locator="9:49-9:51" valueType="t:String" value="a" xsi:type="Literal"/>
+               <element localId="240" asType="t:String" xsi:type="As">
+                  <operand localId="238" locator="9:54-9:57" xsi:type="Null"/>
+               </element>
+               <element localId="241" asType="t:String" xsi:type="As">
+                  <operand localId="239" locator="9:60-9:63" xsi:type="Null"/>
+               </element>
+            </operand>
+         </expression>
+      </def>
+      <def localId="246" locator="11:1-11:64" name="Coalesce.CoalesceListLastA" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="246">
+               <a:s>define &quot;Coalesce.CoalesceListLastA&quot;: </a:s>
+               <a:s r="255">
+                  <a:s>Coalesce(</a:s>
+                  <a:s r="247">
+                     <a:s r="248">{null, null, </a:s>
+                     <a:s r="250">
+                        <a:s>'a'</a:s>
+                     </a:s>
+                     <a:s>}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="255" locator="11:38-11:64" xsi:type="Coalesce">
+            <operand localId="247" locator="11:47-11:63" xsi:type="List">
+               <element localId="251" asType="t:String" xsi:type="As">
+                  <operand localId="248" locator="11:48-11:51" xsi:type="Null"/>
+               </element>
+               <element localId="252" asType="t:String" xsi:type="As">
+                  <operand localId="249" locator="11:54-11:57" xsi:type="Null"/>
+               </element>
+               <element localId="250" locator="11:60-11:62" valueType="t:String" value="a" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="257" locator="13:1-13:63" name="Coalesce.CoalesceFirstList" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="257">
+               <a:s>define &quot;Coalesce.CoalesceFirstList&quot;: </a:s>
+               <a:s r="270">
+                  <a:s>Coalesce(</a:s>
+                  <a:s r="258">
+                     <a:s>{</a:s>
+                     <a:s r="259">
+                        <a:s>'a'</a:s>
+                     </a:s>
+                     <a:s>}</a:s>
+                  </a:s>
+                  <a:s r="260">,null, null)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="270" locator="13:38-13:63" xsi:type="Coalesce">
+            <operand localId="258" locator="13:47-13:51" xsi:type="List">
+               <element localId="259" locator="13:48-13:50" valueType="t:String" value="a" xsi:type="Literal"/>
+            </operand>
+            <operand localId="271" xsi:type="As">
+               <operand localId="260" locator="13:53-13:56" xsi:type="Null"/>
+               <asTypeSpecifier localId="272" xsi:type="ListTypeSpecifier">
+                  <elementType localId="273" name="t:String" xsi:type="NamedTypeSpecifier"/>
+               </asTypeSpecifier>
+            </operand>
+            <operand localId="274" xsi:type="As">
+               <operand localId="261" locator="13:59-13:62" xsi:type="Null"/>
+               <asTypeSpecifier localId="275" xsi:type="ListTypeSpecifier">
+                  <elementType localId="276" name="t:String" xsi:type="NamedTypeSpecifier"/>
+               </asTypeSpecifier>
+            </operand>
+         </expression>
+      </def>
+      <def localId="278" locator="15:1-15:63" name="Coalesce.CoalesceLastList" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="278">
+               <a:s>define &quot;Coalesce.CoalesceLastList&quot;: </a:s>
+               <a:s r="297">
+                  <a:s r="279">Coalesce(null, null, </a:s>
+                  <a:s r="281">
+                     <a:s>{</a:s>
+                     <a:s r="282">
+                        <a:s>'a'</a:s>
+                     </a:s>
+                     <a:s>}</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="297" locator="15:37-15:63" xsi:type="Coalesce">
+            <signature localId="304" xsi:type="ListTypeSpecifier">
+               <elementType localId="305" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <signature localId="306" xsi:type="ListTypeSpecifier">
+               <elementType localId="307" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <signature localId="308" xsi:type="ListTypeSpecifier">
+               <elementType localId="309" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            </signature>
+            <operand localId="298" xsi:type="As">
+               <operand localId="279" locator="15:46-15:49" xsi:type="Null"/>
+               <asTypeSpecifier localId="299" xsi:type="ListTypeSpecifier">
+                  <elementType localId="300" name="t:String" xsi:type="NamedTypeSpecifier"/>
+               </asTypeSpecifier>
+            </operand>
+            <operand localId="301" xsi:type="As">
+               <operand localId="280" locator="15:52-15:55" xsi:type="Null"/>
+               <asTypeSpecifier localId="302" xsi:type="ListTypeSpecifier">
+                  <elementType localId="303" name="t:String" xsi:type="NamedTypeSpecifier"/>
+               </asTypeSpecifier>
+            </operand>
+            <operand localId="281" locator="15:58-15:62" xsi:type="List">
+               <element localId="282" locator="15:59-15:61" valueType="t:String" value="a" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="311" locator="17:1-17:79" name="Coalesce.DateTimeCoalesce" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="311">
+               <a:s>define &quot;Coalesce.DateTimeCoalesce&quot;: </a:s>
+               <a:s r="325">
+                  <a:s r="312">Coalesce(null, null, </a:s>
+                  <a:s r="319">
+                     <a:s r="314">DateTime(2012, 5, 18)</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="325" locator="17:37-17:79" xsi:type="Coalesce">
+            <signature localId="326" name="t:Any" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="327" name="t:Any" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="328" name="t:Any" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="312" locator="17:46-17:49" xsi:type="Null"/>
+            <operand localId="313" locator="17:52-17:55" xsi:type="Null"/>
+            <operand localId="319" locator="17:58-17:78" xsi:type="DateTime">
+               <year localId="314" locator="17:67-17:70" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+               <month localId="315" locator="17:73" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               <day localId="316" locator="17:76-17:77" valueType="t:Integer" value="18" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="330" locator="19:1-19:87" name="Coalesce.DateTimeListCoalesce" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="330">
+               <a:s>define &quot;Coalesce.DateTimeListCoalesce&quot;: </a:s>
+               <a:s r="344">
+                  <a:s>Coalesce(</a:s>
+                  <a:s r="331">
+                     <a:s r="332">{ null, null, </a:s>
+                     <a:s r="339">
+                        <a:s r="334">DateTime(2012, 5, 18)</a:s>
+                     </a:s>
+                     <a:s> }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="344" locator="19:41-19:87" xsi:type="Coalesce">
+            <operand localId="331" locator="19:50-19:86" xsi:type="List">
+               <element localId="340" asType="t:DateTime" xsi:type="As">
+                  <operand localId="332" locator="19:52-19:55" xsi:type="Null"/>
+               </element>
+               <element localId="341" asType="t:DateTime" xsi:type="As">
+                  <operand localId="333" locator="19:58-19:61" xsi:type="Null"/>
+               </element>
+               <element localId="339" locator="19:64-19:84" xsi:type="DateTime">
+                  <year localId="334" locator="19:73-19:76" valueType="t:Integer" value="2012" xsi:type="Literal"/>
+                  <month localId="335" locator="19:79" valueType="t:Integer" value="5" xsi:type="Literal"/>
+                  <day localId="336" locator="19:82-19:83" valueType="t:Integer" value="18" xsi:type="Literal"/>
+               </element>
+            </operand>
+         </expression>
+      </def>
+      <def localId="346" locator="21:1-21:68" name="Coalesce.TimeCoalesce" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="346">
+               <a:s>define &quot;Coalesce.TimeCoalesce&quot;: </a:s>
+               <a:s r="359">
+                  <a:s r="347">Coalesce(null, null, @T05:15:33.556)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="359" locator="21:33-21:68" xsi:type="Coalesce">
+            <signature localId="360" name="t:Any" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="361" name="t:Any" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="362" name="t:Any" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="347" locator="21:42-21:45" xsi:type="Null"/>
+            <operand localId="348" locator="21:48-21:51" xsi:type="Null"/>
+            <operand localId="349" locator="21:54-21:67" xsi:type="Time">
+               <hour localId="350" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               <minute localId="351" valueType="t:Integer" value="15" xsi:type="Literal"/>
+               <second localId="352" valueType="t:Integer" value="33" xsi:type="Literal"/>
+               <millisecond localId="353" valueType="t:Integer" value="556" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="364" locator="23:1-23:76" name="Coalesce.TimeListCoalesce" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="364">
+               <a:s>define &quot;Coalesce.TimeListCoalesce&quot;: </a:s>
+               <a:s r="377">
+                  <a:s>Coalesce(</a:s>
+                  <a:s r="365">
+                     <a:s r="366">{ null, null, @T05:15:33.556 }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="377" locator="23:37-23:76" xsi:type="Coalesce">
+            <operand localId="365" locator="23:46-23:75" xsi:type="List">
+               <element localId="373" asType="t:Time" xsi:type="As">
+                  <operand localId="366" locator="23:48-23:51" xsi:type="Null"/>
+               </element>
+               <element localId="374" asType="t:Time" xsi:type="As">
+                  <operand localId="367" locator="23:54-23:57" xsi:type="Null"/>
+               </element>
+               <element localId="368" locator="23:60-23:73" xsi:type="Time">
+                  <hour localId="369" valueType="t:Integer" value="5" xsi:type="Literal"/>
+                  <minute localId="370" valueType="t:Integer" value="15" xsi:type="Literal"/>
+                  <second localId="371" valueType="t:Integer" value="33" xsi:type="Literal"/>
+                  <millisecond localId="372" valueType="t:Integer" value="556" xsi:type="Literal"/>
+               </element>
+            </operand>
+         </expression>
+      </def>
+      <def localId="379" locator="25:1-25:40" name="IsNull.IsNullTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="379">
+               <a:s>define &quot;IsNull.IsNullTrue&quot;: </a:s>
+               <a:s r="383">
+                  <a:s r="380">IsNull(null)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="383" locator="25:29-25:40" xsi:type="IsNull">
+            <operand localId="380" locator="25:36-25:39" xsi:type="Null"/>
+         </expression>
+      </def>
+      <def localId="385" locator="27:1-27:50" name="IsNull.IsNullFalseEmptyString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="385">
+               <a:s>define &quot;IsNull.IsNullFalseEmptyString&quot;: </a:s>
+               <a:s r="389">
+                  <a:s>IsNull(</a:s>
+                  <a:s r="386">
+                     <a:s>''</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="389" locator="27:41-27:50" xsi:type="IsNull">
+            <operand localId="386" locator="27:48-27:49" valueType="t:String" value="" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="391" locator="29:1-29:55" name="IsNull.IsNullAlsoFalseAbcString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="391">
+               <a:s>define &quot;IsNull.IsNullAlsoFalseAbcString&quot;: </a:s>
+               <a:s r="395">
+                  <a:s>IsNull(</a:s>
+                  <a:s r="392">
+                     <a:s>'abc'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="395" locator="29:43-29:55" xsi:type="IsNull">
+            <operand localId="392" locator="29:50-29:54" valueType="t:String" value="abc" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="397" locator="31:1-31:49" name="IsNull.IsNullAlsoFalseNumber1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="397">
+               <a:s>define &quot;IsNull.IsNullAlsoFalseNumber1&quot;: </a:s>
+               <a:s r="401">
+                  <a:s r="398">IsNull(1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="401" locator="31:41-31:49" xsi:type="IsNull">
+            <operand localId="398" locator="31:48" valueType="t:Integer" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="403" locator="33:1-33:52" name="IsNull.IsNullAlsoFalseNumberZero" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="403">
+               <a:s>define &quot;IsNull.IsNullAlsoFalseNumberZero&quot;: </a:s>
+               <a:s r="407">
+                  <a:s r="404">IsNull(0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="407" locator="33:44-33:52" xsi:type="IsNull">
+            <operand localId="404" locator="33:51" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="409" locator="35:1-35:45" name="IsFalse.IsFalseFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="409">
+               <a:s>define &quot;IsFalse.IsFalseFalse&quot;: </a:s>
+               <a:s r="413">
+                  <a:s r="410">IsFalse(false)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="413" locator="35:32-35:45" xsi:type="IsFalse">
+            <operand localId="410" locator="35:40-35:44" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="415" locator="37:1-37:43" name="IsFalse.IsFalseTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="415">
+               <a:s>define &quot;IsFalse.IsFalseTrue&quot;: </a:s>
+               <a:s r="419">
+                  <a:s r="416">IsFalse(true)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="419" locator="37:31-37:43" xsi:type="IsFalse">
+            <operand localId="416" locator="37:39-37:42" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="421" locator="39:1-39:43" name="IsFalse.IsFalseNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="421">
+               <a:s>define &quot;IsFalse.IsFalseNull&quot;: </a:s>
+               <a:s r="426">
+                  <a:s r="422">IsFalse(null)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="426" locator="39:31-39:43" xsi:type="IsFalse">
+            <operand localId="427" asType="t:Boolean" xsi:type="As">
+               <operand localId="422" locator="39:39-39:42" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="429" locator="41:1-41:40" name="IsTrue.IsTrueTrue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="429">
+               <a:s>define &quot;IsTrue.IsTrueTrue&quot;: </a:s>
+               <a:s r="433">
+                  <a:s r="430">IsTrue(true)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="433" locator="41:29-41:40" xsi:type="IsTrue">
+            <operand localId="430" locator="41:36-41:39" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="435" locator="43:1-43:42" name="IsTrue.IsTrueFalse" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="435">
+               <a:s>define &quot;IsTrue.IsTrueFalse&quot;: </a:s>
+               <a:s r="439">
+                  <a:s r="436">IsTrue(false)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="439" locator="43:30-43:42" xsi:type="IsTrue">
+            <operand localId="436" locator="43:37-43:41" valueType="t:Boolean" value="false" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="441" locator="45:1-45:40" name="IsTrue.IsTrueNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="441">
+               <a:s>define &quot;IsTrue.IsTrueNull&quot;: </a:s>
+               <a:s r="446">
+                  <a:s r="442">IsTrue(null)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="446" locator="45:29-45:40" xsi:type="IsTrue">
+            <operand localId="447" asType="t:Boolean" xsi:type="As">
+               <operand localId="442" locator="45:36-45:39" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+   </statements>
+</library>
+
+

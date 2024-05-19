@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="urn:hl7-org:elm:r1" xmlns:t="urn:hl7-org:elm-types:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fhir="http://hl7.org/fhir" xmlns:qdm43="urn:healthit-gov:qdm:v4_3" xmlns:qdm53="urn:healthit-gov:qdm:v5_3" xmlns:a="urn:hl7-org:cql-annotations:r1" localId="0">
+   <annotation translatorVersion="3.10.0-SNAPSHOT" translatorOptions="EnableAnnotations,EnableLocators" signatureLevel="Overloads" xsi:type="a:CqlToElmInfo"/>
+   <annotation xsi:type="a:Annotation">
+      <a:s r="461">
+         <a:s>library CqlTypeOperatorsTest</a:s>
+      </a:s>
+   </annotation>
+   <identifier id="CqlTypeOperatorsTest"/>
+   <schemaIdentifier id="urn:hl7-org:elm" version="r1"/>
+   <usings>
+      <def localId="1" localIdentifier="System" uri="urn:hl7-org:elm-types:r1"/>
+   </usings>
+   <statements>
+      <def localId="207" locator="3:1-3:44" name="As.AsQuantity" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="207">
+               <a:s>define &quot;As.AsQuantity&quot;: </a:s>
+               <a:s r="208">
+                  <a:s r="209">
+                     <a:s>45.5 'g'</a:s>
+                  </a:s>
+                  <a:s> as </a:s>
+                  <a:s r="210">
+                     <a:s>Quantity</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="208" locator="3:25-3:44" strict="false" xsi:type="As">
+            <operand localId="209" locator="3:25-3:32" value="45.5" unit="g" xsi:type="Quantity"/>
+            <asTypeSpecifier localId="210" locator="3:37-3:44" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+         </expression>
+      </def>
+      <def localId="212" locator="5:1-5:53" name="As.CastAsQuantity" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="212">
+               <a:s>define &quot;As.CastAsQuantity&quot;: </a:s>
+               <a:s r="213">
+                  <a:s>cast </a:s>
+                  <a:s r="214">
+                     <a:s>45.5 'g'</a:s>
+                  </a:s>
+                  <a:s> as </a:s>
+                  <a:s r="215">
+                     <a:s>Quantity</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="213" locator="5:29-5:53" strict="true" xsi:type="As">
+            <operand localId="214" locator="5:34-5:41" value="45.5" unit="g" xsi:type="Quantity"/>
+            <asTypeSpecifier localId="215" locator="5:46-5:53" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+         </expression>
+      </def>
+      <def localId="217" locator="7:1-7:58" name="As.AsDateTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="217">
+               <a:s>define &quot;As.AsDateTime&quot;: </a:s>
+               <a:s r="218">
+                  <a:s r="224">
+                     <a:s r="219">DateTime(2014, 01, 01)</a:s>
+                  </a:s>
+                  <a:s> as </a:s>
+                  <a:s r="225">
+                     <a:s>DateTime</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="218" locator="7:25-7:58" strict="false" xsi:type="As">
+            <operand localId="224" locator="7:25-7:46" xsi:type="DateTime">
+               <year localId="219" locator="7:34-7:37" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+               <month localId="220" locator="7:40-7:41" valueType="t:Integer" value="01" xsi:type="Literal"/>
+               <day localId="221" locator="7:44-7:45" valueType="t:Integer" value="01" xsi:type="Literal"/>
+            </operand>
+            <asTypeSpecifier localId="225" locator="7:51-7:58" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+         </expression>
+      </def>
+      <def localId="227" locator="9:1-9:55" name="Convert.IntegerToDecimal" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="227">
+               <a:s>define &quot;Convert.IntegerToDecimal&quot;: </a:s>
+               <a:s r="231">
+                  <a:s r="229">convert 5 to </a:s>
+                  <a:s r="228">
+                     <a:s>Decimal</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="231" locator="9:36-9:55" xsi:type="ToDecimal">
+            <signature localId="232" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="229" locator="9:44" valueType="t:Integer" value="5" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="234" locator="11:1-11:53" name="Convert.IntegerToString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="234">
+               <a:s>define &quot;Convert.IntegerToString&quot;: </a:s>
+               <a:s r="238">
+                  <a:s r="236">convert 5 to </a:s>
+                  <a:s r="235">
+                     <a:s>String</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="238" locator="11:35-11:53" xsi:type="ToString">
+            <signature localId="239" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="236" locator="11:43" valueType="t:Integer" value="5" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="241" locator="13:1-13:63" name="Convert.StringToIntegerError" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="241">
+               <a:s>define &quot;Convert.StringToIntegerError&quot;: </a:s>
+               <a:s r="245">
+                  <a:s>convert </a:s>
+                  <a:s r="243">
+                     <a:s>'foo'</a:s>
+                  </a:s>
+                  <a:s> to </a:s>
+                  <a:s r="242">
+                     <a:s>Integer</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="245" locator="13:40-13:63" xsi:type="ToInteger">
+            <signature localId="246" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="243" locator="13:48-13:52" valueType="t:String" value="foo" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="248" locator="15:1-15:67" name="Convert.StringToDateTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="248">
+               <a:s>define &quot;Convert.StringToDateTime&quot;: </a:s>
+               <a:s r="252">
+                  <a:s>convert </a:s>
+                  <a:s r="250">
+                     <a:s>'2014-01-01'</a:s>
+                  </a:s>
+                  <a:s> to </a:s>
+                  <a:s r="249">
+                     <a:s>DateTime</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="252" locator="15:36-15:67" xsi:type="ToDateTime">
+            <signature localId="253" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="250" locator="15:44-15:55" valueType="t:String" value="2014-01-01" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="255" locator="17:1-17:60" name="Convert.StringToTime" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="255">
+               <a:s>define &quot;Convert.StringToTime&quot;: </a:s>
+               <a:s r="259">
+                  <a:s>convert </a:s>
+                  <a:s r="257">
+                     <a:s>'T14:30:00.0'</a:s>
+                  </a:s>
+                  <a:s> to </a:s>
+                  <a:s r="256">
+                     <a:s>Time</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="259" locator="17:32-17:60" xsi:type="ToTime">
+            <operand localId="257" locator="17:40-17:52" valueType="t:String" value="T14:30:00.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="261" locator="19:1-19:76" name="Convert.StringToDateTimeMalformed" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="261">
+               <a:s>define &quot;Convert.StringToDateTimeMalformed&quot;: </a:s>
+               <a:s r="265">
+                  <a:s>convert </a:s>
+                  <a:s r="263">
+                     <a:s>'2014/01/01'</a:s>
+                  </a:s>
+                  <a:s> to </a:s>
+                  <a:s r="262">
+                     <a:s>DateTime</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="265" locator="19:45-19:76" xsi:type="ToDateTime">
+            <signature localId="266" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="263" locator="19:53-19:64" valueType="t:String" value="2014/01/01" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="268" locator="21:1-21:42" name="Is.IntegerIsInteger" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="268">
+               <a:s>define &quot;Is.IntegerIsInteger&quot;: </a:s>
+               <a:s r="269">
+                  <a:s r="270">5 is </a:s>
+                  <a:s r="271">
+                     <a:s>Integer</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="269" locator="21:31-21:42" xsi:type="Is">
+            <operand localId="270" locator="21:31" valueType="t:Integer" value="5" xsi:type="Literal"/>
+            <isTypeSpecifier localId="271" locator="21:36-21:42" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+         </expression>
+      </def>
+      <def localId="273" locator="23:1-23:43" name="Is.StringIsInteger" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="273">
+               <a:s>define &quot;Is.StringIsInteger&quot;: </a:s>
+               <a:s r="274">
+                  <a:s r="275">
+                     <a:s>'5'</a:s>
+                  </a:s>
+                  <a:s> is </a:s>
+                  <a:s r="276">
+                     <a:s>Integer</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="274" locator="23:30-23:43" xsi:type="Is">
+            <operand localId="275" locator="23:30-23:32" valueType="t:String" value="5" xsi:type="Literal"/>
+            <isTypeSpecifier localId="276" locator="23:37-23:43" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+         </expression>
+      </def>
+      <def localId="278" locator="25:1-25:53" name="ToBoolean.StringNoToBoolean" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="278">
+               <a:s>define &quot;ToBoolean.StringNoToBoolean&quot;: </a:s>
+               <a:s r="283">
+                  <a:s>ToBoolean(</a:s>
+                  <a:s r="279">
+                     <a:s>'NO'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="283" locator="25:39-25:53" xsi:type="ToBoolean">
+            <signature localId="284" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="279" locator="25:49-25:52" valueType="t:String" value="NO" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="286" locator="27:1-27:69" name="ToConcept.CodeToConcept1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="286">
+               <a:s>define &quot;ToConcept.CodeToConcept1&quot;: </a:s>
+               <a:s r="293">
+                  <a:s>ToConcept(</a:s>
+                  <a:s r="287">
+                     <a:s>Code { </a:s>
+                     <a:s>
+                        <a:s>code: </a:s>
+                        <a:s r="289">
+                           <a:s>'8480-6'</a:s>
+                        </a:s>
+                     </a:s>
+                     <a:s> }</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="293" locator="27:36-27:69" xsi:type="ToConcept">
+            <signature localId="294" name="t:Code" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="287" locator="27:46-27:68" classType="t:Code" xsi:type="Instance">
+               <element name="code">
+                  <value localId="289" locator="27:59-27:66" valueType="t:String" value="8480-6" xsi:type="Literal"/>
+               </element>
+            </operand>
+         </expression>
+      </def>
+      <def localId="296" locator="29:1-29:57" name="ToDateTime.ToDateTime1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="296">
+               <a:s>define &quot;ToDateTime.ToDateTime1&quot;: </a:s>
+               <a:s r="301">
+                  <a:s>ToDateTime(</a:s>
+                  <a:s r="297">
+                     <a:s>'2014-01-01'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="301" locator="29:34-29:57" xsi:type="ToDateTime">
+            <signature localId="302" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="297" locator="29:45-29:56" valueType="t:String" value="2014-01-01" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="304" locator="31:1-31:63" name="ToDateTime.ToDateTime2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="304">
+               <a:s>define &quot;ToDateTime.ToDateTime2&quot;: </a:s>
+               <a:s r="309">
+                  <a:s>ToDateTime(</a:s>
+                  <a:s r="305">
+                     <a:s>'2014-01-01T12:05'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="309" locator="31:34-31:63" xsi:type="ToDateTime">
+            <signature localId="310" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="305" locator="31:45-31:62" valueType="t:String" value="2014-01-01T12:05" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="312" locator="33:1-33:70" name="ToDateTime.ToDateTime3" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="312">
+               <a:s>define &quot;ToDateTime.ToDateTime3&quot;: </a:s>
+               <a:s r="317">
+                  <a:s>ToDateTime(</a:s>
+                  <a:s r="313">
+                     <a:s>'2014-01-01T12:05:05.955'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="317" locator="33:34-33:70" xsi:type="ToDateTime">
+            <signature localId="318" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="313" locator="33:45-33:69" valueType="t:String" value="2014-01-01T12:05:05.955" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="320" locator="35:1-35:76" name="ToDateTime.ToDateTime4" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="320">
+               <a:s>define &quot;ToDateTime.ToDateTime4&quot;: </a:s>
+               <a:s r="325">
+                  <a:s>ToDateTime(</a:s>
+                  <a:s r="321">
+                     <a:s>'2014-01-01T12:05:05.955+01:30'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="325" locator="35:34-35:76" xsi:type="ToDateTime">
+            <signature localId="326" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="321" locator="35:45-35:75" valueType="t:String" value="2014-01-01T12:05:05.955+01:30" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="328" locator="37:1-37:76" name="ToDateTime.ToDateTime5" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="328">
+               <a:s>define &quot;ToDateTime.ToDateTime5&quot;: </a:s>
+               <a:s r="333">
+                  <a:s>ToDateTime(</a:s>
+                  <a:s r="329">
+                     <a:s>'2014-01-01T12:05:05.955-01:15'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="333" locator="37:34-37:76" xsi:type="ToDateTime">
+            <signature localId="334" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="329" locator="37:45-37:75" valueType="t:String" value="2014-01-01T12:05:05.955-01:15" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="336" locator="39:1-39:71" name="ToDateTime.ToDateTime6" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="336">
+               <a:s>define &quot;ToDateTime.ToDateTime6&quot;: </a:s>
+               <a:s r="341">
+                  <a:s>ToDateTime(</a:s>
+                  <a:s r="337">
+                     <a:s>'2014-01-01T12:05:05.955Z'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="341" locator="39:34-39:71" xsi:type="ToDateTime">
+            <signature localId="342" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="337" locator="39:45-39:70" valueType="t:String" value="2014-01-01T12:05:05.955Z" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="344" locator="41:1-41:79" name="ToDateTime.ToDateTimeMalformed" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="344">
+               <a:s>define &quot;ToDateTime.ToDateTimeMalformed&quot;: </a:s>
+               <a:s r="349">
+                  <a:s>ToDateTime(</a:s>
+                  <a:s r="345">
+                     <a:s>'2014/01/01T12:05:05.955Z'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="349" locator="41:42-41:79" xsi:type="ToDateTime">
+            <signature localId="350" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="345" locator="41:53-41:78" valueType="t:String" value="2014/01/01T12:05:05.955Z" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="352" locator="43:1-43:59" name="ToDateTime.ToDateTimeDate" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="352">
+               <a:s>define &quot;ToDateTime.ToDateTimeDate&quot;: </a:s>
+               <a:s r="361">
+                  <a:s r="357">ToDateTime(@2014-01-01)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="361" locator="43:37-43:59" xsi:type="ToDateTime">
+            <signature localId="362" name="t:Date" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="357" locator="43:48-43:58" xsi:type="Date">
+               <year localId="354" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+               <month localId="355" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <day localId="356" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="364" locator="45:1-45:88" name="ToDateTime.ToDateTimeTimeUnspecified" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="364">
+               <a:s>define &quot;ToDateTime.ToDateTimeTimeUnspecified&quot;: </a:s>
+               <a:s r="377">
+                  <a:s r="365">
+                     <a:s>hour from </a:s>
+                     <a:s r="374">
+                        <a:s r="370">ToDateTime(@2014-01-01)</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s> is null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="377" locator="45:48-45:88" xsi:type="IsNull">
+            <operand localId="365" locator="45:48-45:80" precision="Hour" xsi:type="DateTimeComponentFrom">
+               <signature localId="376" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="374" locator="45:58-45:80" xsi:type="ToDateTime">
+                  <signature localId="375" name="t:Date" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="370" locator="45:69-45:79" xsi:type="Date">
+                     <year localId="367" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+                     <month localId="368" valueType="t:Integer" value="1" xsi:type="Literal"/>
+                     <day localId="369" valueType="t:Integer" value="1" xsi:type="Literal"/>
+                  </operand>
+               </operand>
+            </operand>
+         </expression>
+      </def>
+      <def localId="379" locator="47:1-47:58" name="ToDecimal.String25D5ToDecimal" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="379">
+               <a:s>define &quot;ToDecimal.String25D5ToDecimal&quot;: </a:s>
+               <a:s r="384">
+                  <a:s>ToDecimal(</a:s>
+                  <a:s r="380">
+                     <a:s>'+25.5'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="384" locator="47:41-47:58" xsi:type="ToDecimal">
+            <signature localId="385" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="380" locator="47:51-47:57" valueType="t:String" value="+25.5" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="387" locator="49:1-49:57" name="ToInteger.StringNeg25ToInteger" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="387">
+               <a:s>define &quot;ToInteger.StringNeg25ToInteger&quot;: </a:s>
+               <a:s r="392">
+                  <a:s>ToInteger(</a:s>
+                  <a:s r="388">
+                     <a:s>'-25'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="392" locator="49:42-49:57" xsi:type="ToInteger">
+            <signature localId="393" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="388" locator="49:52-49:56" valueType="t:String" value="-25" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="395" locator="51:1-51:67" name="ToQuantity.String5D5CMToQuantity" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="395">
+               <a:s>define &quot;ToQuantity.String5D5CMToQuantity&quot;: </a:s>
+               <a:s r="400">
+                  <a:s>ToQuantity(</a:s>
+                  <a:s r="396">
+                     <a:s>'5.5 \'cm\''</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="400" locator="51:44-51:67" xsi:type="ToQuantity">
+            <signature localId="401" name="t:String" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="396" locator="51:55-51:66" valueType="t:String" value="5.5 'cm'" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="403" locator="53:1-53:51" name="ToString.IntegerNeg5ToString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="403">
+               <a:s>define &quot;ToString.IntegerNeg5ToString&quot;: </a:s>
+               <a:s r="410">
+                  <a:s>ToString(</a:s>
+                  <a:s r="404">
+                     <a:s r="405">-5</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="410" locator="53:40-53:51" xsi:type="ToString">
+            <signature localId="411" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="404" locator="53:49-53:50" xsi:type="Negate">
+               <signature localId="406" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="405" locator="53:50" valueType="t:Integer" value="5" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="413" locator="55:1-55:55" name="ToString.Decimal18D55ToString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="413">
+               <a:s>define &quot;ToString.Decimal18D55ToString&quot;: </a:s>
+               <a:s r="418">
+                  <a:s r="414">ToString(18.55)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="418" locator="55:41-55:55" xsi:type="ToString">
+            <signature localId="419" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="414" locator="55:50-55:54" valueType="t:Decimal" value="18.55" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="421" locator="57:1-57:59" name="ToString.Quantity5D5CMToString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="421">
+               <a:s>define &quot;ToString.Quantity5D5CMToString&quot;: </a:s>
+               <a:s r="426">
+                  <a:s>ToString(</a:s>
+                  <a:s r="422">
+                     <a:s>5.5 'cm'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="426" locator="57:42-57:59" xsi:type="ToString">
+            <signature localId="427" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="422" locator="57:51-57:58" value="5.5" unit="cm" xsi:type="Quantity"/>
+         </expression>
+      </def>
+      <def localId="429" locator="59:1-59:53" name="ToString.BooleanTrueToString" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="429">
+               <a:s>define &quot;ToString.BooleanTrueToString&quot;: </a:s>
+               <a:s r="434">
+                  <a:s r="430">ToString(true)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="434" locator="59:40-59:53" xsi:type="ToString">
+            <signature localId="435" name="t:Boolean" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="430" locator="59:49-59:52" valueType="t:Boolean" value="true" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="437" locator="61:1-61:46" name="ToTime.ToTime1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="437">
+               <a:s>define &quot;ToTime.ToTime1&quot;: </a:s>
+               <a:s r="441">
+                  <a:s>ToTime(</a:s>
+                  <a:s r="438">
+                     <a:s>'T14:30:00.0'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="441" locator="61:26-61:46" xsi:type="ToTime">
+            <operand localId="438" locator="61:33-61:45" valueType="t:String" value="T14:30:00.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="443" locator="63:1-63:52" name="ToTime.ToTime2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="443">
+               <a:s>define &quot;ToTime.ToTime2&quot;: </a:s>
+               <a:s r="447">
+                  <a:s>ToTime(</a:s>
+                  <a:s r="444">
+                     <a:s>'T14:30:00.0+05:30'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="447" locator="63:26-63:52" xsi:type="ToTime">
+            <operand localId="444" locator="63:33-63:51" valueType="t:String" value="T14:30:00.0+05:30" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="449" locator="65:1-65:52" name="ToTime.ToTime3" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="449">
+               <a:s>define &quot;ToTime.ToTime3&quot;: </a:s>
+               <a:s r="453">
+                  <a:s>ToTime(</a:s>
+                  <a:s r="450">
+                     <a:s>'T14:30:00.0-05:45'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="453" locator="65:26-65:52" xsi:type="ToTime">
+            <operand localId="450" locator="65:33-65:51" valueType="t:String" value="T14:30:00.0-05:45" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="455" locator="67:1-67:47" name="ToTime.ToTime4" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="455">
+               <a:s>define &quot;ToTime.ToTime4&quot;: </a:s>
+               <a:s r="459">
+                  <a:s>ToTime(</a:s>
+                  <a:s r="456">
+                     <a:s>'T14:30:00.0Z'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="459" locator="67:26-67:47" xsi:type="ToTime">
+            <operand localId="456" locator="67:33-67:46" valueType="t:String" value="T14:30:00.0Z" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="461" locator="69:1-69:54" name="ToTime.ToTimeMalformed" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="461">
+               <a:s>define &quot;ToTime.ToTimeMalformed&quot;: </a:s>
+               <a:s r="465">
+                  <a:s>ToTime(</a:s>
+                  <a:s r="462">
+                     <a:s>'T14-30-00.0'</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="465" locator="69:34-69:54" xsi:type="ToTime">
+            <operand localId="462" locator="69:41-69:53" valueType="t:String" value="T14-30-00.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+   </statements>
+</library>
+
+

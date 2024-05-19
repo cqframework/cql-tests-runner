@@ -1,0 +1,3654 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="urn:hl7-org:elm:r1" xmlns:t="urn:hl7-org:elm-types:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fhir="http://hl7.org/fhir" xmlns:qdm43="urn:healthit-gov:qdm:v4_3" xmlns:qdm53="urn:healthit-gov:qdm:v5_3" xmlns:a="urn:hl7-org:cql-annotations:r1" localId="0">
+   <annotation translatorVersion="3.10.0-SNAPSHOT" translatorOptions="EnableAnnotations,EnableLocators" signatureLevel="Overloads" xsi:type="a:CqlToElmInfo"/>
+   <annotation xsi:type="a:Annotation">
+      <a:s r="1955">
+         <a:s>library CqlArithmeticFunctionsTest</a:s>
+      </a:s>
+   </annotation>
+   <identifier id="CqlArithmeticFunctionsTest"/>
+   <schemaIdentifier id="urn:hl7-org:elm" version="r1"/>
+   <usings>
+      <def localId="1" localIdentifier="System" uri="urn:hl7-org:elm-types:r1"/>
+   </usings>
+   <statements>
+      <def localId="207" locator="3:1-3:42" name="Abs.AbsNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="207">
+               <a:s>define &quot;Abs.AbsNull&quot;: </a:s>
+               <a:s r="214">
+                  <a:s>Abs(</a:s>
+                  <a:s r="208">
+                     <a:s r="209">null as </a:s>
+                     <a:s r="210">
+                        <a:s>Integer</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="214" locator="3:23-3:42" xsi:type="Abs">
+            <signature localId="215" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="208" locator="3:27-3:41" strict="false" xsi:type="As">
+               <operand localId="209" locator="3:27-3:30" xsi:type="Null"/>
+               <asTypeSpecifier localId="210" locator="3:35-3:41" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="217" locator="5:1-5:25" name="Abs.Abs0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="217">
+               <a:s>define &quot;Abs.Abs0&quot;: </a:s>
+               <a:s r="222">
+                  <a:s r="218">Abs(0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="222" locator="5:20-5:25" xsi:type="Abs">
+            <signature localId="223" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="218" locator="5:24" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="225" locator="7:1-7:29" name="Abs.AbsNeg1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="225">
+               <a:s>define &quot;Abs.AbsNeg1&quot;: </a:s>
+               <a:s r="232">
+                  <a:s>Abs(</a:s>
+                  <a:s r="226">
+                     <a:s r="227">-1</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="232" locator="7:23-7:29" xsi:type="Abs">
+            <signature localId="233" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="226" locator="7:27-7:28" xsi:type="Negate">
+               <signature localId="228" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="227" locator="7:28" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="235" locator="9:1-9:34" name="Abs.AbsNeg1Dec" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="235">
+               <a:s>define &quot;Abs.AbsNeg1Dec&quot;: </a:s>
+               <a:s r="242">
+                  <a:s>Abs(</a:s>
+                  <a:s r="236">
+                     <a:s r="237">-1.0</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="242" locator="9:26-9:34" xsi:type="Abs">
+            <signature localId="243" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="236" locator="9:30-9:33" xsi:type="Negate">
+               <signature localId="238" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="237" locator="9:31-9:33" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="245" locator="11:1-11:30" name="Abs.Abs0Dec" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="245">
+               <a:s>define &quot;Abs.Abs0Dec&quot;: </a:s>
+               <a:s r="250">
+                  <a:s r="246">Abs(0.0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="250" locator="11:23-11:30" xsi:type="Abs">
+            <signature localId="251" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="246" locator="11:27-11:29" valueType="t:Decimal" value="0.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="253" locator="13:1-13:34" name="Abs.Abs1cm" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="253">
+               <a:s>define &quot;Abs.Abs1cm&quot;: </a:s>
+               <a:s r="260">
+                  <a:s>Abs(</a:s>
+                  <a:s r="254">
+                     <a:s>-</a:s>
+                     <a:s r="255">
+                        <a:s>1.0'cm'</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="260" locator="13:22-13:34" xsi:type="Abs">
+            <signature localId="261" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="254" locator="13:26-13:33" xsi:type="Negate">
+               <signature localId="256" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="255" locator="13:27-13:33" value="1.0" unit="cm" xsi:type="Quantity"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="263" locator="15:1-15:30" name="Abs.AbsLong" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="263">
+               <a:s>define &quot;Abs.AbsLong&quot;: </a:s>
+               <a:s r="270">
+                  <a:s>Abs(</a:s>
+                  <a:s r="264">
+                     <a:s r="265">-1L</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="270" locator="15:23-15:30" xsi:type="Abs">
+            <signature localId="271" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="264" locator="15:27-15:29" xsi:type="Negate">
+               <signature localId="266" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="265" locator="15:28-15:29" valueType="t:Long" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="273" locator="17:1-17:30" name="Add.AddNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="273">
+               <a:s>define &quot;Add.AddNull&quot;: </a:s>
+               <a:s r="274">
+                  <a:s r="275">1 + null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="274" locator="17:23-17:30" xsi:type="Add">
+            <signature localId="278" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="279" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="275" locator="17:23" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <operand localId="277" asType="t:Integer" xsi:type="As">
+               <operand localId="276" locator="17:27-17:30" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="281" locator="19:1-19:25" name="Add.Add11" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="281">
+               <a:s>define &quot;Add.Add11&quot;: </a:s>
+               <a:s r="282">
+                  <a:s r="283">1 + 1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="282" locator="19:21-19:25" xsi:type="Add">
+            <signature localId="285" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="286" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="283" locator="19:21" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <operand localId="284" locator="19:25" valueType="t:Integer" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="288" locator="21:1-21:31" name="Add.Add1D1D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="288">
+               <a:s>define &quot;Add.Add1D1D&quot;: </a:s>
+               <a:s r="289">
+                  <a:s r="290">1.0 + 1.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="289" locator="21:23-21:31" xsi:type="Add">
+            <signature localId="292" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="293" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="290" locator="21:23-21:25" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            <operand localId="291" locator="21:29-21:31" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="295" locator="23:1-23:41" name="Add.Add1Q1Q" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="295">
+               <a:s>define &quot;Add.Add1Q1Q&quot;: </a:s>
+               <a:s r="296">
+                  <a:s r="297">
+                     <a:s>1'g/cm3'</a:s>
+                  </a:s>
+                  <a:s> + </a:s>
+                  <a:s r="298">
+                     <a:s>1'g/cm3'</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="296" locator="23:23-23:41" xsi:type="Add">
+            <signature localId="299" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="300" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="297" locator="23:23-23:30" value="1" unit="g/cm3" xsi:type="Quantity"/>
+            <operand localId="298" locator="23:34-23:41" value="1" unit="g/cm3" xsi:type="Quantity"/>
+         </expression>
+      </def>
+      <def localId="302" locator="25:1-25:30" name="Add.AddIAndD" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="302">
+               <a:s>define &quot;Add.AddIAndD&quot;: </a:s>
+               <a:s r="303">
+                  <a:s r="304">1 + 2.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="303" locator="25:24-25:30" xsi:type="Add">
+            <signature localId="309" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="310" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="307" xsi:type="ToDecimal">
+               <signature localId="308" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="304" locator="25:24" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="305" locator="25:28-25:30" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="312" locator="27:1-27:29" name="Add.Add1L1L" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="312">
+               <a:s>define &quot;Add.Add1L1L&quot;: </a:s>
+               <a:s r="313">
+                  <a:s r="314">1L + 1L</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="313" locator="27:23-27:29" xsi:type="Add">
+            <signature localId="316" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="317" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="314" locator="27:23-27:24" valueType="t:Long" value="1" xsi:type="Literal"/>
+            <operand localId="315" locator="27:28-27:29" valueType="t:Long" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="319" locator="29:1-29:54" name="Ceiling.CeilingNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="319">
+               <a:s>define &quot;Ceiling.CeilingNull&quot;: </a:s>
+               <a:s r="325">
+                  <a:s>Ceiling(</a:s>
+                  <a:s r="320">
+                     <a:s r="321">null as </a:s>
+                     <a:s r="322">
+                        <a:s>Decimal</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="325" locator="29:31-29:54" xsi:type="Ceiling">
+            <operand localId="320" locator="29:39-29:53" strict="false" xsi:type="As">
+               <operand localId="321" locator="29:39-29:42" xsi:type="Null"/>
+               <asTypeSpecifier localId="322" locator="29:47-29:53" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="327" locator="31:1-31:40" name="Ceiling.Ceiling1D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="327">
+               <a:s>define &quot;Ceiling.Ceiling1D&quot;: </a:s>
+               <a:s r="331">
+                  <a:s r="328">Ceiling(1.0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="331" locator="31:29-31:40" xsi:type="Ceiling">
+            <operand localId="328" locator="31:37-31:39" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="333" locator="33:1-33:41" name="Ceiling.Ceiling1D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="333">
+               <a:s>define &quot;Ceiling.Ceiling1D1&quot;: </a:s>
+               <a:s r="337">
+                  <a:s r="334">Ceiling(1.1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="337" locator="33:30-33:41" xsi:type="Ceiling">
+            <operand localId="334" locator="33:38-33:40" valueType="t:Decimal" value="1.1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="339" locator="35:1-35:44" name="Ceiling.CeilingNegD1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="339">
+               <a:s>define &quot;Ceiling.CeilingNegD1&quot;: </a:s>
+               <a:s r="345">
+                  <a:s>Ceiling(</a:s>
+                  <a:s r="340">
+                     <a:s r="341">-0.1</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="345" locator="35:32-35:44" xsi:type="Ceiling">
+            <operand localId="340" locator="35:40-35:43" xsi:type="Negate">
+               <signature localId="342" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="341" locator="35:41-35:43" valueType="t:Decimal" value="0.1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="347" locator="37:1-37:43" name="Ceiling.CeilingNeg1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="347">
+               <a:s>define &quot;Ceiling.CeilingNeg1&quot;: </a:s>
+               <a:s r="353">
+                  <a:s>Ceiling(</a:s>
+                  <a:s r="348">
+                     <a:s r="349">-1.0</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="353" locator="37:31-37:43" xsi:type="Ceiling">
+            <operand localId="348" locator="37:39-37:42" xsi:type="Negate">
+               <signature localId="350" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="349" locator="37:40-37:42" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="355" locator="39:1-39:45" name="Ceiling.CeilingNeg1D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="355">
+               <a:s>define &quot;Ceiling.CeilingNeg1D1&quot;: </a:s>
+               <a:s r="361">
+                  <a:s>Ceiling(</a:s>
+                  <a:s r="356">
+                     <a:s r="357">-1.1</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="361" locator="39:33-39:45" xsi:type="Ceiling">
+            <operand localId="356" locator="39:41-39:44" xsi:type="Negate">
+               <signature localId="358" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="357" locator="39:42-39:44" valueType="t:Decimal" value="1.1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="363" locator="41:1-41:38" name="Ceiling.Ceiling1I" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="363">
+               <a:s>define &quot;Ceiling.Ceiling1I&quot;: </a:s>
+               <a:s r="370">
+                  <a:s r="364">Ceiling(1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="370" locator="41:29-41:38" xsi:type="Ceiling">
+            <operand localId="372" xsi:type="ToDecimal">
+               <signature localId="373" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="364" locator="41:37" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="375" locator="43:1-43:36" name="Divide.DivideNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="375">
+               <a:s>define &quot;Divide.DivideNull&quot;: </a:s>
+               <a:s r="376">
+                  <a:s r="377">1 / null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="376" locator="43:29-43:36" xsi:type="Divide">
+            <signature localId="383" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="384" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="380" xsi:type="ToDecimal">
+               <signature localId="381" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="377" locator="43:29" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="382" asType="t:Decimal" xsi:type="As">
+               <operand localId="378" locator="43:33-43:36" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="386" locator="45:1-45:31" name="Divide.Divide10" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="386">
+               <a:s>define &quot;Divide.Divide10&quot;: </a:s>
+               <a:s r="387">
+                  <a:s r="388">1 / 0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="387" locator="45:27-45:31" xsi:type="Divide">
+            <signature localId="396" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="397" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="391" xsi:type="ToDecimal">
+               <signature localId="392" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="388" locator="45:27" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="394" xsi:type="ToDecimal">
+               <signature localId="395" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="389" locator="45:31" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="399" locator="47:1-47:31" name="Divide.Divide01" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="399">
+               <a:s>define &quot;Divide.Divide01&quot;: </a:s>
+               <a:s r="400">
+                  <a:s r="401">0 / 1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="400" locator="47:27-47:31" xsi:type="Divide">
+            <signature localId="409" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="410" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="404" xsi:type="ToDecimal">
+               <signature localId="405" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="401" locator="47:27" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+            <operand localId="407" xsi:type="ToDecimal">
+               <signature localId="408" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="402" locator="47:31" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="412" locator="49:1-49:31" name="Divide.Divide11" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="412">
+               <a:s>define &quot;Divide.Divide11&quot;: </a:s>
+               <a:s r="413">
+                  <a:s r="414">1 / 1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="413" locator="49:27-49:31" xsi:type="Divide">
+            <signature localId="422" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="423" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="417" xsi:type="ToDecimal">
+               <signature localId="418" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="414" locator="49:27" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="420" xsi:type="ToDecimal">
+               <signature localId="421" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="415" locator="49:31" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="425" locator="51:1-51:37" name="Divide.Divide1d1d" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="425">
+               <a:s>define &quot;Divide.Divide1d1d&quot;: </a:s>
+               <a:s r="426">
+                  <a:s r="427">1.0 / 1.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="426" locator="51:29-51:37" xsi:type="Divide">
+            <signature localId="429" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="430" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="427" locator="51:29-51:31" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            <operand localId="428" locator="51:35-51:37" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="432" locator="53:1-53:43" name="Divide.Divide103" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="432">
+               <a:s>define &quot;Divide.Divide103&quot;: </a:s>
+               <a:s r="447">
+                  <a:s>Round(</a:s>
+                  <a:s r="433">
+                     <a:s r="434">10 / 3</a:s>
+                  </a:s>
+                  <a:s r="444">, 8)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="447" locator="53:28-53:43" xsi:type="Round">
+            <operand localId="433" locator="53:34-53:39" xsi:type="Divide">
+               <signature localId="442" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <signature localId="443" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="437" xsi:type="ToDecimal">
+                  <signature localId="438" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="434" locator="53:34-53:35" valueType="t:Integer" value="10" xsi:type="Literal"/>
+               </operand>
+               <operand localId="440" xsi:type="ToDecimal">
+                  <signature localId="441" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="435" locator="53:39" valueType="t:Integer" value="3" xsi:type="Literal"/>
+               </operand>
+            </operand>
+            <precision localId="444" locator="53:42" valueType="t:Integer" value="8" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="449" locator="55:1-55:41" name="Divide.Divide1Q1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="449">
+               <a:s>define &quot;Divide.Divide1Q1&quot;: </a:s>
+               <a:s r="450">
+                  <a:s r="451">
+                     <a:s>1'g/cm3'</a:s>
+                  </a:s>
+                  <a:s r="452"> / 1.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="450" locator="55:28-55:41" xsi:type="Divide">
+            <signature localId="456" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="457" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="451" locator="55:28-55:35" value="1" unit="g/cm3" xsi:type="Quantity"/>
+            <operand localId="454" xsi:type="ToQuantity">
+               <signature localId="455" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="452" locator="55:39-55:41" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="459" locator="57:1-57:47" name="Divide.Divide1Q1Q" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="459">
+               <a:s>define &quot;Divide.Divide1Q1Q&quot;: </a:s>
+               <a:s r="460">
+                  <a:s r="461">
+                     <a:s>1'g/cm3'</a:s>
+                  </a:s>
+                  <a:s> / </a:s>
+                  <a:s r="462">
+                     <a:s>1'g/cm3'</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="460" locator="57:29-57:47" xsi:type="Divide">
+            <signature localId="463" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="464" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="461" locator="57:29-57:36" value="1" unit="g/cm3" xsi:type="Quantity"/>
+            <operand localId="462" locator="57:40-57:47" value="1" unit="g/cm3" xsi:type="Quantity"/>
+         </expression>
+      </def>
+      <def localId="466" locator="59:1-59:37" name="Divide.Divide10I5D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="466">
+               <a:s>define &quot;Divide.Divide10I5D&quot;: </a:s>
+               <a:s r="467">
+                  <a:s r="468">10 / 5.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="467" locator="59:30-59:37" xsi:type="Divide">
+            <signature localId="473" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="474" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="471" xsi:type="ToDecimal">
+               <signature localId="472" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="468" locator="59:30-59:31" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            </operand>
+            <operand localId="469" locator="59:35-59:37" valueType="t:Decimal" value="5.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="476" locator="61:1-61:35" name="Divide.Divide10I5I" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="476">
+               <a:s>define &quot;Divide.Divide10I5I&quot;: </a:s>
+               <a:s r="477">
+                  <a:s r="478">10 / 5</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="477" locator="61:30-61:35" xsi:type="Divide">
+            <signature localId="486" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="487" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="481" xsi:type="ToDecimal">
+               <signature localId="482" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="478" locator="61:30-61:31" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            </operand>
+            <operand localId="484" xsi:type="ToDecimal">
+               <signature localId="485" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="479" locator="61:35" valueType="t:Integer" value="5" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="489" locator="63:1-63:41" name="Divide.Divide10Q5I" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="489">
+               <a:s>define &quot;Divide.Divide10Q5I&quot;: </a:s>
+               <a:s r="490">
+                  <a:s r="491">
+                     <a:s>10.0 'g'</a:s>
+                  </a:s>
+                  <a:s r="492"> / 5</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="490" locator="63:30-63:41" xsi:type="Divide">
+            <signature localId="496" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="497" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="491" locator="63:30-63:37" value="10.0" unit="g" xsi:type="Quantity"/>
+            <operand localId="494" xsi:type="ToQuantity">
+               <signature localId="495" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="492" locator="63:41" valueType="t:Integer" value="5" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="499" locator="65:1-65:48" name="Floor.FloorNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="499">
+               <a:s>define &quot;Floor.FloorNull&quot;: </a:s>
+               <a:s r="505">
+                  <a:s>Floor(</a:s>
+                  <a:s r="500">
+                     <a:s r="501">null as </a:s>
+                     <a:s r="502">
+                        <a:s>Decimal</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="505" locator="65:27-65:48" xsi:type="Floor">
+            <operand localId="500" locator="65:33-65:47" strict="false" xsi:type="As">
+               <operand localId="501" locator="65:33-65:36" xsi:type="Null"/>
+               <asTypeSpecifier localId="502" locator="65:41-65:47" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="507" locator="67:1-67:31" name="Floor.Floor1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="507">
+               <a:s>define &quot;Floor.Floor1&quot;: </a:s>
+               <a:s r="514">
+                  <a:s r="508">Floor(1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="514" locator="67:24-67:31" xsi:type="Floor">
+            <operand localId="516" xsi:type="ToDecimal">
+               <signature localId="517" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="508" locator="67:30" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="519" locator="69:1-69:34" name="Floor.Floor1D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="519">
+               <a:s>define &quot;Floor.Floor1D&quot;: </a:s>
+               <a:s r="523">
+                  <a:s r="520">Floor(1.0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="523" locator="69:25-69:34" xsi:type="Floor">
+            <operand localId="520" locator="69:31-69:33" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="525" locator="71:1-71:35" name="Floor.Floor1D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="525">
+               <a:s>define &quot;Floor.Floor1D1&quot;: </a:s>
+               <a:s r="529">
+                  <a:s r="526">Floor(1.1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="529" locator="71:26-71:35" xsi:type="Floor">
+            <operand localId="526" locator="71:32-71:34" valueType="t:Decimal" value="1.1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="531" locator="73:1-73:38" name="Floor.FloorNegD1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="531">
+               <a:s>define &quot;Floor.FloorNegD1&quot;: </a:s>
+               <a:s r="537">
+                  <a:s>Floor(</a:s>
+                  <a:s r="532">
+                     <a:s r="533">-0.1</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="537" locator="73:28-73:38" xsi:type="Floor">
+            <operand localId="532" locator="73:34-73:37" xsi:type="Negate">
+               <signature localId="534" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="533" locator="73:35-73:37" valueType="t:Decimal" value="0.1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="539" locator="75:1-75:37" name="Floor.FloorNeg1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="539">
+               <a:s>define &quot;Floor.FloorNeg1&quot;: </a:s>
+               <a:s r="545">
+                  <a:s>Floor(</a:s>
+                  <a:s r="540">
+                     <a:s r="541">-1.0</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="545" locator="75:27-75:37" xsi:type="Floor">
+            <operand localId="540" locator="75:33-75:36" xsi:type="Negate">
+               <signature localId="542" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="541" locator="75:34-75:36" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="547" locator="77:1-77:39" name="Floor.FloorNeg1D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="547">
+               <a:s>define &quot;Floor.FloorNeg1D1&quot;: </a:s>
+               <a:s r="553">
+                  <a:s>Floor(</a:s>
+                  <a:s r="548">
+                     <a:s r="549">-1.1</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="553" locator="77:29-77:39" xsi:type="Floor">
+            <operand localId="548" locator="77:35-77:38" xsi:type="Negate">
+               <signature localId="550" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="549" locator="77:36-77:38" valueType="t:Decimal" value="1.1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="555" locator="79:1-79:32" name="Floor.Floor2I" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="555">
+               <a:s>define &quot;Floor.Floor2I&quot;: </a:s>
+               <a:s r="562">
+                  <a:s r="556">Floor(2)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="562" locator="79:25-79:32" xsi:type="Floor">
+            <operand localId="564" xsi:type="ToDecimal">
+               <signature localId="565" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="556" locator="79:31" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="567" locator="81:1-81:42" name="Exp.ExpNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="567">
+               <a:s>define &quot;Exp.ExpNull&quot;: </a:s>
+               <a:s r="573">
+                  <a:s>Exp(</a:s>
+                  <a:s r="568">
+                     <a:s r="569">null as </a:s>
+                     <a:s r="570">
+                        <a:s>Decimal</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="573" locator="81:23-81:42" xsi:type="Exp">
+            <operand localId="568" locator="81:27-81:41" strict="false" xsi:type="As">
+               <operand localId="569" locator="81:27-81:30" xsi:type="Null"/>
+               <asTypeSpecifier localId="570" locator="81:35-81:41" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="575" locator="83:1-83:25" name="Exp.Exp0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="575">
+               <a:s>define &quot;Exp.Exp0&quot;: </a:s>
+               <a:s r="582">
+                  <a:s r="576">Exp(0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="582" locator="83:20-83:25" xsi:type="Exp">
+            <operand localId="584" xsi:type="ToDecimal">
+               <signature localId="585" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="576" locator="83:24" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="587" locator="85:1-85:29" name="Exp.ExpNeg0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="587">
+               <a:s>define &quot;Exp.ExpNeg0&quot;: </a:s>
+               <a:s r="596">
+                  <a:s>Exp(</a:s>
+                  <a:s r="588">
+                     <a:s r="589">-0</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="596" locator="85:23-85:29" xsi:type="Exp">
+            <operand localId="598" xsi:type="ToDecimal">
+               <signature localId="599" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="588" locator="85:27-85:28" xsi:type="Negate">
+                  <signature localId="590" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="589" locator="85:28" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               </operand>
+            </operand>
+         </expression>
+      </def>
+      <def localId="601" locator="87:1-87:35" name="Exp.Exp1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="601">
+               <a:s>define &quot;Exp.Exp1&quot;: </a:s>
+               <a:s r="615">
+                  <a:s>Round(</a:s>
+                  <a:s r="608">
+                     <a:s r="602">Exp(1)</a:s>
+                  </a:s>
+                  <a:s r="612">, 8)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="615" locator="87:20-87:35" xsi:type="Round">
+            <operand localId="608" locator="87:26-87:31" xsi:type="Exp">
+               <operand localId="610" xsi:type="ToDecimal">
+                  <signature localId="611" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="602" locator="87:30" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               </operand>
+            </operand>
+            <precision localId="612" locator="87:34" valueType="t:Integer" value="8" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="617" locator="89:1-89:39" name="Exp.ExpNeg1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="617">
+               <a:s>define &quot;Exp.ExpNeg1&quot;: </a:s>
+               <a:s r="633">
+                  <a:s>Round(</a:s>
+                  <a:s r="626">
+                     <a:s>Exp(</a:s>
+                     <a:s r="618">
+                        <a:s r="619">-1</a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+                  <a:s r="630">, 8)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="633" locator="89:23-89:39" xsi:type="Round">
+            <operand localId="626" locator="89:29-89:35" xsi:type="Exp">
+               <operand localId="628" xsi:type="ToDecimal">
+                  <signature localId="629" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="618" locator="89:33-89:34" xsi:type="Negate">
+                     <signature localId="620" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                     <operand localId="619" locator="89:34" valueType="t:Integer" value="1" xsi:type="Literal"/>
+                  </operand>
+               </operand>
+            </operand>
+            <precision localId="630" locator="89:38" valueType="t:Integer" value="8" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="635" locator="91:1-91:31" name="Exp.Exp1000" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="635">
+               <a:s>define &quot;Exp.Exp1000&quot;: </a:s>
+               <a:s r="642">
+                  <a:s r="636">Exp(1000)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="642" locator="91:23-91:31" xsi:type="Exp">
+            <operand localId="644" xsi:type="ToDecimal">
+               <signature localId="645" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="636" locator="91:27-91:30" valueType="t:Integer" value="1000" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="647" locator="93:1-93:34" name="Exp.Exp1000D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="647">
+               <a:s>define &quot;Exp.Exp1000D&quot;: </a:s>
+               <a:s r="651">
+                  <a:s r="648">Exp(1000.0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="651" locator="93:24-93:34" xsi:type="Exp">
+            <operand localId="648" locator="93:28-93:33" valueType="t:Decimal" value="1000.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="653" locator="95:1-95:65" name="HighBoundary.HighBoundaryDecimal" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="653">
+               <a:s>define &quot;HighBoundary.HighBoundaryDecimal&quot;: </a:s>
+               <a:s r="660">
+                  <a:s r="654">HighBoundary(1.587, 8)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="660" locator="95:44-95:65" xsi:type="HighBoundary">
+            <signature localId="661" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="662" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="654" locator="95:57-95:61" valueType="t:Decimal" value="1.587" xsi:type="Literal"/>
+            <operand localId="655" locator="95:64" valueType="t:Integer" value="8" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="664" locator="97:1-97:67" name="HighBoundary.HighBoundaryDateMonth" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="664">
+               <a:s>define &quot;HighBoundary.HighBoundaryDateMonth&quot;: </a:s>
+               <a:s r="673">
+                  <a:s r="667">HighBoundary(@2014, 6)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="673" locator="97:46-97:67" xsi:type="HighBoundary">
+            <signature localId="674" name="t:Date" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="675" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="667" locator="97:59-97:63" xsi:type="Date">
+               <year localId="666" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+            </operand>
+            <operand localId="668" locator="97:66" valueType="t:Integer" value="6" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="677" locator="99:1-99:87" name="HighBoundary.HighBoundaryDateTimeMillisecond" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="677">
+               <a:s>define &quot;HighBoundary.HighBoundaryDateTimeMillisecond&quot;: </a:s>
+               <a:s r="688">
+                  <a:s r="678">HighBoundary(@2014-01-01T08, 17)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="688" locator="99:56-99:87" xsi:type="HighBoundary">
+            <signature localId="689" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="690" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="678" locator="99:69-99:82" xsi:type="DateTime">
+               <year localId="679" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+               <month localId="680" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <day localId="681" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <hour localId="682" valueType="t:Integer" value="8" xsi:type="Literal"/>
+            </operand>
+            <operand localId="683" locator="99:85-99:86" valueType="t:Integer" value="17" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="692" locator="101:1-101:75" name="HighBoundary.HighBoundaryTimeMillisecond" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="692">
+               <a:s>define &quot;HighBoundary.HighBoundaryTimeMillisecond&quot;: </a:s>
+               <a:s r="701">
+                  <a:s r="693">HighBoundary(@T10:30, 9)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="701" locator="101:52-101:75" xsi:type="HighBoundary">
+            <signature localId="702" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="703" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="693" locator="101:65-101:71" xsi:type="Time">
+               <hour localId="694" valueType="t:Integer" value="10" xsi:type="Literal"/>
+               <minute localId="695" valueType="t:Integer" value="30" xsi:type="Literal"/>
+            </operand>
+            <operand localId="696" locator="101:74" valueType="t:Integer" value="9" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="705" locator="103:1-103:41" name="Log.LogNullNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="705">
+               <a:s>define &quot;Log.LogNullNull&quot;: </a:s>
+               <a:s r="712">
+                  <a:s r="706">Log(null, null)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="712" locator="103:27-103:41" xsi:type="Log">
+            <operand localId="713" asType="t:Decimal" xsi:type="As">
+               <operand localId="706" locator="103:31-103:34" xsi:type="Null"/>
+            </operand>
+            <operand localId="714" asType="t:Decimal" xsi:type="As">
+               <operand localId="707" locator="103:37-103:40" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="716" locator="105:1-105:39" name="Log.Log1BaseNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="716">
+               <a:s>define &quot;Log.Log1BaseNull&quot;: </a:s>
+               <a:s r="725">
+                  <a:s r="717">Log(1, null)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="725" locator="105:28-105:39" xsi:type="Log">
+            <operand localId="727" xsi:type="ToDecimal">
+               <signature localId="728" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="717" locator="105:32" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="729" asType="t:Decimal" xsi:type="As">
+               <operand localId="718" locator="105:35-105:38" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="731" locator="107:1-107:33" name="Log.Log1Base1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="731">
+               <a:s>define &quot;Log.Log1Base1&quot;: </a:s>
+               <a:s r="742">
+                  <a:s r="732">Log(1, 1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="742" locator="107:25-107:33" xsi:type="Log">
+            <operand localId="744" xsi:type="ToDecimal">
+               <signature localId="745" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="732" locator="107:29" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="747" xsi:type="ToDecimal">
+               <signature localId="748" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="733" locator="107:32" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="750" locator="109:1-109:33" name="Log.Log1Base2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="750">
+               <a:s>define &quot;Log.Log1Base2&quot;: </a:s>
+               <a:s r="761">
+                  <a:s r="751">Log(1, 2)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="761" locator="109:25-109:33" xsi:type="Log">
+            <operand localId="763" xsi:type="ToDecimal">
+               <signature localId="764" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="751" locator="109:29" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="766" xsi:type="ToDecimal">
+               <signature localId="767" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="752" locator="109:32" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="769" locator="111:1-111:37" name="Log.Log1Base100" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="769">
+               <a:s>define &quot;Log.Log1Base100&quot;: </a:s>
+               <a:s r="780">
+                  <a:s r="770">Log(1, 100)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="780" locator="111:27-111:37" xsi:type="Log">
+            <operand localId="782" xsi:type="ToDecimal">
+               <signature localId="783" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="770" locator="111:31" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="785" xsi:type="ToDecimal">
+               <signature localId="786" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="771" locator="111:34-111:36" valueType="t:Integer" value="100" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="788" locator="113:1-113:35" name="Log.Log16Base2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="788">
+               <a:s>define &quot;Log.Log16Base2&quot;: </a:s>
+               <a:s r="799">
+                  <a:s r="789">Log(16, 2)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="799" locator="113:26-113:35" xsi:type="Log">
+            <operand localId="801" xsi:type="ToDecimal">
+               <signature localId="802" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="789" locator="113:30-113:31" valueType="t:Integer" value="16" xsi:type="Literal"/>
+            </operand>
+            <operand localId="804" xsi:type="ToDecimal">
+               <signature localId="805" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="790" locator="113:34" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="807" locator="115:1-115:40" name="Log.LogD125Base2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="807">
+               <a:s>define &quot;Log.LogD125Base2&quot;: </a:s>
+               <a:s r="815">
+                  <a:s r="808">Log(0.125, 2)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="815" locator="115:28-115:40" xsi:type="Log">
+            <operand localId="808" locator="115:32-115:36" valueType="t:Decimal" value="0.125" xsi:type="Literal"/>
+            <operand localId="817" xsi:type="ToDecimal">
+               <signature localId="818" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="809" locator="115:39" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="820" locator="117:1-117:62" name="LowBoundary.LowBoundaryDecimal" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="820">
+               <a:s>define &quot;LowBoundary.LowBoundaryDecimal&quot;: </a:s>
+               <a:s r="827">
+                  <a:s r="821">LowBoundary(1.587, 8)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="827" locator="117:42-117:62" xsi:type="LowBoundary">
+            <signature localId="828" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="829" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="821" locator="117:54-117:58" valueType="t:Decimal" value="1.587" xsi:type="Literal"/>
+            <operand localId="822" locator="117:61" valueType="t:Integer" value="8" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="831" locator="119:1-119:64" name="LowBoundary.LowBoundaryDateMonth" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="831">
+               <a:s>define &quot;LowBoundary.LowBoundaryDateMonth&quot;: </a:s>
+               <a:s r="840">
+                  <a:s r="834">LowBoundary(@2014, 6)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="840" locator="119:44-119:64" xsi:type="LowBoundary">
+            <signature localId="841" name="t:Date" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="842" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="834" locator="119:56-119:60" xsi:type="Date">
+               <year localId="833" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+            </operand>
+            <operand localId="835" locator="119:63" valueType="t:Integer" value="6" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="844" locator="121:1-121:84" name="LowBoundary.LowBoundaryDateTimeMillisecond" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="844">
+               <a:s>define &quot;LowBoundary.LowBoundaryDateTimeMillisecond&quot;: </a:s>
+               <a:s r="855">
+                  <a:s r="845">LowBoundary(@2014-01-01T08, 17)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="855" locator="121:54-121:84" xsi:type="LowBoundary">
+            <signature localId="856" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="857" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="845" locator="121:66-121:79" xsi:type="DateTime">
+               <year localId="846" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+               <month localId="847" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <day localId="848" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <hour localId="849" valueType="t:Integer" value="8" xsi:type="Literal"/>
+            </operand>
+            <operand localId="850" locator="121:82-121:83" valueType="t:Integer" value="17" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="859" locator="123:1-123:72" name="LowBoundary.LowBoundaryTimeMillisecond" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="859">
+               <a:s>define &quot;LowBoundary.LowBoundaryTimeMillisecond&quot;: </a:s>
+               <a:s r="868">
+                  <a:s r="860">LowBoundary(@T10:30, 9)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="868" locator="123:50-123:72" xsi:type="LowBoundary">
+            <signature localId="869" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="870" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="860" locator="123:62-123:68" xsi:type="Time">
+               <hour localId="861" valueType="t:Integer" value="10" xsi:type="Literal"/>
+               <minute localId="862" valueType="t:Integer" value="30" xsi:type="Literal"/>
+            </operand>
+            <operand localId="863" locator="123:71" valueType="t:Integer" value="9" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="872" locator="125:1-125:28" name="Ln.LnNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="872">
+               <a:s>define &quot;Ln.LnNull&quot;: </a:s>
+               <a:s r="877">
+                  <a:s r="873">Ln(null)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="877" locator="125:21-125:28" xsi:type="Ln">
+            <operand localId="878" asType="t:Decimal" xsi:type="As">
+               <operand localId="873" locator="125:24-125:27" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="880" locator="127:1-127:22" name="Ln.Ln0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="880">
+               <a:s>define &quot;Ln.Ln0&quot;: </a:s>
+               <a:s r="887">
+                  <a:s r="881">Ln(0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="887" locator="127:18-127:22" xsi:type="Ln">
+            <operand localId="889" xsi:type="ToDecimal">
+               <signature localId="890" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="881" locator="127:21" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="892" locator="129:1-129:26" name="Ln.LnNeg0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="892">
+               <a:s>define &quot;Ln.LnNeg0&quot;: </a:s>
+               <a:s r="901">
+                  <a:s>Ln(</a:s>
+                  <a:s r="893">
+                     <a:s r="894">-0</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="901" locator="129:21-129:26" xsi:type="Ln">
+            <operand localId="903" xsi:type="ToDecimal">
+               <signature localId="904" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="893" locator="129:24-129:25" xsi:type="Negate">
+                  <signature localId="895" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="894" locator="129:25" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               </operand>
+            </operand>
+         </expression>
+      </def>
+      <def localId="906" locator="131:1-131:22" name="Ln.Ln1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="906">
+               <a:s>define &quot;Ln.Ln1&quot;: </a:s>
+               <a:s r="913">
+                  <a:s r="907">Ln(1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="913" locator="131:18-131:22" xsi:type="Ln">
+            <operand localId="915" xsi:type="ToDecimal">
+               <signature localId="916" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="907" locator="131:21" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="918" locator="133:1-133:26" name="Ln.LnNeg1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="918">
+               <a:s>define &quot;Ln.LnNeg1&quot;: </a:s>
+               <a:s r="927">
+                  <a:s>Ln(</a:s>
+                  <a:s r="919">
+                     <a:s r="920">-1</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="927" locator="133:21-133:26" xsi:type="Ln">
+            <operand localId="929" xsi:type="ToDecimal">
+               <signature localId="930" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="919" locator="133:24-133:25" xsi:type="Negate">
+                  <signature localId="921" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="920" locator="133:25" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               </operand>
+            </operand>
+         </expression>
+      </def>
+      <def localId="932" locator="135:1-135:38" name="Ln.Ln1000" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="932">
+               <a:s>define &quot;Ln.Ln1000&quot;: </a:s>
+               <a:s r="946">
+                  <a:s>Round(</a:s>
+                  <a:s r="939">
+                     <a:s r="933">Ln(1000)</a:s>
+                  </a:s>
+                  <a:s r="943">, 8)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="946" locator="135:21-135:38" xsi:type="Round">
+            <operand localId="939" locator="135:27-135:34" xsi:type="Ln">
+               <operand localId="941" xsi:type="ToDecimal">
+                  <signature localId="942" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="933" locator="135:30-135:33" valueType="t:Integer" value="1000" xsi:type="Literal"/>
+               </operand>
+            </operand>
+            <precision localId="943" locator="135:37" valueType="t:Integer" value="8" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="948" locator="137:1-137:41" name="Ln.Ln1000D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="948">
+               <a:s>define &quot;Ln.Ln1000D&quot;: </a:s>
+               <a:s r="956">
+                  <a:s>Round(</a:s>
+                  <a:s r="952">
+                     <a:s r="949">Ln(1000.0)</a:s>
+                  </a:s>
+                  <a:s r="953">, 8)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="956" locator="137:22-137:41" xsi:type="Round">
+            <operand localId="952" locator="137:28-137:37" xsi:type="Ln">
+               <operand localId="949" locator="137:31-137:36" valueType="t:Decimal" value="1000.0" xsi:type="Literal"/>
+            </operand>
+            <precision localId="953" locator="137:40" valueType="t:Integer" value="8" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="958" locator="139:1-139:50" name="MinValue.IntegerMinValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="958">
+               <a:s>define &quot;MinValue.IntegerMinValue&quot;: </a:s>
+               <a:s r="960">
+                  <a:s>minimum </a:s>
+                  <a:s r="959">
+                     <a:s>Integer</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="960" locator="139:36-139:50" valueType="t:Integer" xsi:type="MinValue"/>
+      </def>
+      <def localId="962" locator="141:1-141:44" name="MinValue.LongMinValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="962">
+               <a:s>define &quot;MinValue.LongMinValue&quot;: </a:s>
+               <a:s r="964">
+                  <a:s>minimum </a:s>
+                  <a:s r="963">
+                     <a:s>Long</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="964" locator="141:33-141:44" valueType="t:Long" xsi:type="MinValue"/>
+      </def>
+      <def localId="966" locator="143:1-143:50" name="MinValue.DecimalMinValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="966">
+               <a:s>define &quot;MinValue.DecimalMinValue&quot;: </a:s>
+               <a:s r="968">
+                  <a:s>minimum </a:s>
+                  <a:s r="967">
+                     <a:s>Decimal</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="968" locator="143:36-143:50" valueType="t:Decimal" xsi:type="MinValue"/>
+      </def>
+      <def localId="970" locator="145:1-145:52" name="MinValue.DateTimeMinValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="970">
+               <a:s>define &quot;MinValue.DateTimeMinValue&quot;: </a:s>
+               <a:s r="972">
+                  <a:s>minimum </a:s>
+                  <a:s r="971">
+                     <a:s>DateTime</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="972" locator="145:37-145:52" valueType="t:DateTime" xsi:type="MinValue"/>
+      </def>
+      <def localId="974" locator="147:1-147:44" name="MinValue.DateMinValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="974">
+               <a:s>define &quot;MinValue.DateMinValue&quot;: </a:s>
+               <a:s r="976">
+                  <a:s>minimum </a:s>
+                  <a:s r="975">
+                     <a:s>Date</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="976" locator="147:33-147:44" valueType="t:Date" xsi:type="MinValue"/>
+      </def>
+      <def localId="978" locator="149:1-149:44" name="MinValue.TimeMinValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="978">
+               <a:s>define &quot;MinValue.TimeMinValue&quot;: </a:s>
+               <a:s r="980">
+                  <a:s>minimum </a:s>
+                  <a:s r="979">
+                     <a:s>Time</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="980" locator="149:33-149:44" valueType="t:Time" xsi:type="MinValue"/>
+      </def>
+      <def localId="982" locator="151:1-151:50" name="MaxValue.IntegerMaxValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="982">
+               <a:s>define &quot;MaxValue.IntegerMaxValue&quot;: </a:s>
+               <a:s r="984">
+                  <a:s>maximum </a:s>
+                  <a:s r="983">
+                     <a:s>Integer</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="984" locator="151:36-151:50" valueType="t:Integer" xsi:type="MaxValue"/>
+      </def>
+      <def localId="986" locator="153:1-153:44" name="MaxValue.LongMaxValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="986">
+               <a:s>define &quot;MaxValue.LongMaxValue&quot;: </a:s>
+               <a:s r="988">
+                  <a:s>maximum </a:s>
+                  <a:s r="987">
+                     <a:s>Long</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="988" locator="153:33-153:44" valueType="t:Long" xsi:type="MaxValue"/>
+      </def>
+      <def localId="990" locator="155:1-155:50" name="MaxValue.DecimalMaxValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="990">
+               <a:s>define &quot;MaxValue.DecimalMaxValue&quot;: </a:s>
+               <a:s r="992">
+                  <a:s>maximum </a:s>
+                  <a:s r="991">
+                     <a:s>Decimal</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="992" locator="155:36-155:50" valueType="t:Decimal" xsi:type="MaxValue"/>
+      </def>
+      <def localId="994" locator="157:1-157:52" name="MaxValue.DateTimeMaxValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="994">
+               <a:s>define &quot;MaxValue.DateTimeMaxValue&quot;: </a:s>
+               <a:s r="996">
+                  <a:s>maximum </a:s>
+                  <a:s r="995">
+                     <a:s>DateTime</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="996" locator="157:37-157:52" valueType="t:DateTime" xsi:type="MaxValue"/>
+      </def>
+      <def localId="998" locator="159:1-159:44" name="MaxValue.DateMaxValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="998">
+               <a:s>define &quot;MaxValue.DateMaxValue&quot;: </a:s>
+               <a:s r="1000">
+                  <a:s>maximum </a:s>
+                  <a:s r="999">
+                     <a:s>Date</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1000" locator="159:33-159:44" valueType="t:Date" xsi:type="MaxValue"/>
+      </def>
+      <def localId="1002" locator="161:1-161:44" name="MaxValue.TimeMaxValue" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1002">
+               <a:s>define &quot;MaxValue.TimeMaxValue&quot;: </a:s>
+               <a:s r="1004">
+                  <a:s>maximum </a:s>
+                  <a:s r="1003">
+                     <a:s>Time</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1004" locator="161:33-161:44" valueType="t:Time" xsi:type="MaxValue"/>
+      </def>
+      <def localId="1006" locator="163:1-163:38" name="Modulo.ModuloNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1006">
+               <a:s>define &quot;Modulo.ModuloNull&quot;: </a:s>
+               <a:s r="1007">
+                  <a:s r="1008">1 mod null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1007" locator="163:29-163:38" xsi:type="Modulo">
+            <signature localId="1011" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1012" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1008" locator="163:29" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <operand localId="1010" asType="t:Integer" xsi:type="As">
+               <operand localId="1009" locator="163:35-163:38" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1014" locator="165:1-165:35" name="Modulo.Modulo0By0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1014">
+               <a:s>define &quot;Modulo.Modulo0By0&quot;: </a:s>
+               <a:s r="1015">
+                  <a:s r="1016">0 mod 0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1015" locator="165:29-165:35" xsi:type="Modulo">
+            <signature localId="1018" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1019" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1016" locator="165:29" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <operand localId="1017" locator="165:35" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1021" locator="167:1-167:35" name="Modulo.Modulo4By2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1021">
+               <a:s>define &quot;Modulo.Modulo4By2&quot;: </a:s>
+               <a:s r="1022">
+                  <a:s r="1023">4 mod 2</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1022" locator="167:29-167:35" xsi:type="Modulo">
+            <signature localId="1025" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1026" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1023" locator="167:29" valueType="t:Integer" value="4" xsi:type="Literal"/>
+            <operand localId="1024" locator="167:35" valueType="t:Integer" value="2" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1028" locator="169:1-169:39" name="Modulo.Modulo4LBy2L" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1028">
+               <a:s>define &quot;Modulo.Modulo4LBy2L&quot;: </a:s>
+               <a:s r="1029">
+                  <a:s r="1030">4L mod 2L</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1029" locator="169:31-169:39" xsi:type="Modulo">
+            <signature localId="1032" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1033" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1030" locator="169:31-169:32" valueType="t:Long" value="4" xsi:type="Literal"/>
+            <operand localId="1031" locator="169:38-169:39" valueType="t:Long" value="2" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1035" locator="171:1-171:41" name="Modulo.Modulo4DBy2D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1035">
+               <a:s>define &quot;Modulo.Modulo4DBy2D&quot;: </a:s>
+               <a:s r="1036">
+                  <a:s r="1037">4.0 mod 2.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1036" locator="171:31-171:41" xsi:type="Modulo">
+            <signature localId="1039" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1040" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1037" locator="171:31-171:33" valueType="t:Decimal" value="4.0" xsi:type="Literal"/>
+            <operand localId="1038" locator="171:39-171:41" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1042" locator="173:1-173:37" name="Modulo.Modulo10By3" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1042">
+               <a:s>define &quot;Modulo.Modulo10By3&quot;: </a:s>
+               <a:s r="1043">
+                  <a:s r="1044">10 mod 3</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1043" locator="173:30-173:37" xsi:type="Modulo">
+            <signature localId="1046" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1047" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1044" locator="173:30-173:31" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            <operand localId="1045" locator="173:37" valueType="t:Integer" value="3" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1049" locator="175:1-175:43" name="Modulo.Modulo10DBy3D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1049">
+               <a:s>define &quot;Modulo.Modulo10DBy3D&quot;: </a:s>
+               <a:s r="1050">
+                  <a:s r="1051">10.0 mod 3.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1050" locator="175:32-175:43" xsi:type="Modulo">
+            <signature localId="1053" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1054" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1051" locator="175:32-175:35" valueType="t:Decimal" value="10.0" xsi:type="Literal"/>
+            <operand localId="1052" locator="175:41-175:43" valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1056" locator="177:1-177:41" name="Modulo.Modulo10IBy3D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1056">
+               <a:s>define &quot;Modulo.Modulo10IBy3D&quot;: </a:s>
+               <a:s r="1057">
+                  <a:s r="1058">10 mod 3.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1057" locator="177:32-177:41" xsi:type="Modulo">
+            <signature localId="1063" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1064" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1061" xsi:type="ToDecimal">
+               <signature localId="1062" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1058" locator="177:32-177:33" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1059" locator="177:39-177:41" valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1066" locator="179:1-179:40" name="Modulo.ModuloDResult" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1066">
+               <a:s>define &quot;Modulo.ModuloDResult&quot;: </a:s>
+               <a:s r="1067">
+                  <a:s r="1068">3.5 mod 3</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1067" locator="179:32-179:40" xsi:type="Modulo">
+            <signature localId="1073" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1074" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1068" locator="179:32-179:34" valueType="t:Decimal" value="3.5" xsi:type="Literal"/>
+            <operand localId="1071" xsi:type="ToDecimal">
+               <signature localId="1072" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1069" locator="179:40" valueType="t:Integer" value="3" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1076" locator="181:1-181:51" name="Modulo.ModuloQuantity" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1076">
+               <a:s>define &quot;Modulo.ModuloQuantity&quot;: </a:s>
+               <a:s r="1077">
+                  <a:s r="1078">
+                     <a:s>3.5 'cm'</a:s>
+                  </a:s>
+                  <a:s> mod </a:s>
+                  <a:s r="1079">
+                     <a:s>3 'cm'</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1077" locator="181:33-181:51" xsi:type="Modulo">
+            <signature localId="1080" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1081" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1078" locator="181:33-181:40" value="3.5" unit="cm" xsi:type="Quantity"/>
+            <operand localId="1079" locator="181:46-181:51" value="3" unit="cm" xsi:type="Quantity"/>
+         </expression>
+      </def>
+      <def localId="1083" locator="183:1-183:40" name="Multiply.MultiplyNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1083">
+               <a:s>define &quot;Multiply.MultiplyNull&quot;: </a:s>
+               <a:s r="1084">
+                  <a:s r="1085">1 * null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1084" locator="183:33-183:40" xsi:type="Multiply">
+            <signature localId="1088" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1089" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1085" locator="183:33" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <operand localId="1087" asType="t:Integer" xsi:type="As">
+               <operand localId="1086" locator="183:37-183:40" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1091" locator="185:1-185:37" name="Multiply.Multiply1By1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1091">
+               <a:s>define &quot;Multiply.Multiply1By1&quot;: </a:s>
+               <a:s r="1092">
+                  <a:s r="1093">1 * 1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1092" locator="185:33-185:37" xsi:type="Multiply">
+            <signature localId="1095" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1096" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1093" locator="185:33" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <operand localId="1094" locator="185:37" valueType="t:Integer" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1098" locator="187:1-187:43" name="Multiply.Multiply1DBy2D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1098">
+               <a:s>define &quot;Multiply.Multiply1DBy2D&quot;: </a:s>
+               <a:s r="1099">
+                  <a:s r="1100">1.0 * 2.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1099" locator="187:35-187:43" xsi:type="Multiply">
+            <signature localId="1102" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1103" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1100" locator="187:35-187:37" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            <operand localId="1101" locator="187:41-187:43" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1105" locator="189:1-189:39" name="Multiply.Multiply1By1L" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1105">
+               <a:s>define &quot;Multiply.Multiply1By1L&quot;: </a:s>
+               <a:s r="1106">
+                  <a:s r="1107">1 * 1L</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1106" locator="189:34-189:39" xsi:type="Multiply">
+            <signature localId="1112" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1113" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1110" xsi:type="ToLong">
+               <signature localId="1111" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1107" locator="189:34" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1108" locator="189:38-189:39" valueType="t:Long" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1115" locator="191:1-191:41" name="Multiply.Multiply1IBy2D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1115">
+               <a:s>define &quot;Multiply.Multiply1IBy2D&quot;: </a:s>
+               <a:s r="1116">
+                  <a:s r="1117">1 * 2.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1116" locator="191:35-191:41" xsi:type="Multiply">
+            <signature localId="1122" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1123" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1120" xsi:type="ToDecimal">
+               <signature localId="1121" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1117" locator="191:35" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1118" locator="191:39-191:41" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1125" locator="193:1-193:55" name="Multiply.Multiply1CMBy2CM" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1125">
+               <a:s>define &quot;Multiply.Multiply1CMBy2CM&quot;: </a:s>
+               <a:s r="1126">
+                  <a:s r="1127">
+                     <a:s>1.0 'cm'</a:s>
+                  </a:s>
+                  <a:s> * </a:s>
+                  <a:s r="1128">
+                     <a:s>2.0 'cm'</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1126" locator="193:37-193:55" xsi:type="Multiply">
+            <signature localId="1129" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1130" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1127" locator="193:37-193:44" value="1.0" unit="cm" xsi:type="Quantity"/>
+            <operand localId="1128" locator="193:48-193:55" value="2.0" unit="cm" xsi:type="Quantity"/>
+         </expression>
+      </def>
+      <def localId="1132" locator="195:1-195:46" name="Negate.NegateNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1132">
+               <a:s>define &quot;Negate.NegateNull&quot;: </a:s>
+               <a:s r="1133">
+                  <a:s>-</a:s>
+                  <a:s r="1134">
+                     <a:s>(</a:s>
+                     <a:s r="1134">
+                        <a:s r="1135">null as </a:s>
+                        <a:s r="1136">
+                           <a:s>Integer</a:s>
+                        </a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1133" locator="195:29-195:46" xsi:type="Negate">
+            <signature localId="1137" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1134" locator="195:30-195:46" strict="false" xsi:type="As">
+               <operand localId="1135" locator="195:31-195:34" xsi:type="Null"/>
+               <asTypeSpecifier localId="1136" locator="195:39-195:45" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1139" locator="197:1-197:27" name="Negate.Negate0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1139">
+               <a:s>define &quot;Negate.Negate0&quot;: </a:s>
+               <a:s r="1140">
+                  <a:s r="1141">-0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1140" locator="197:26-197:27" xsi:type="Negate">
+            <signature localId="1142" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1141" locator="197:27" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1144" locator="199:1-199:33" name="Negate.NegateNeg0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1144">
+               <a:s>define &quot;Negate.NegateNeg0&quot;: </a:s>
+               <a:s r="1145">
+                  <a:s>-</a:s>
+                  <a:s r="1146">
+                     <a:s>(</a:s>
+                     <a:s r="1146">
+                        <a:s r="1147">-0</a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1145" locator="199:29-199:33" xsi:type="Negate">
+            <signature localId="1149" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1146" locator="199:30-199:33" xsi:type="Negate">
+               <signature localId="1148" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1147" locator="199:32" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1151" locator="201:1-201:27" name="Negate.Negate1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1151">
+               <a:s>define &quot;Negate.Negate1&quot;: </a:s>
+               <a:s r="1152">
+                  <a:s r="1153">-1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1152" locator="201:26-201:27" xsi:type="Negate">
+            <signature localId="1154" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1153" locator="201:27" valueType="t:Integer" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1156" locator="203:1-203:33" name="Negate.NegateNeg1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1156">
+               <a:s>define &quot;Negate.NegateNeg1&quot;: </a:s>
+               <a:s r="1157">
+                  <a:s>-</a:s>
+                  <a:s r="1158">
+                     <a:s>(</a:s>
+                     <a:s r="1158">
+                        <a:s r="1159">-1</a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1157" locator="203:29-203:33" xsi:type="Negate">
+            <signature localId="1161" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1158" locator="203:30-203:33" xsi:type="Negate">
+               <signature localId="1160" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1159" locator="203:32" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1163" locator="205:1-205:35" name="Negate.NegateNeg1L" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1163">
+               <a:s>define &quot;Negate.NegateNeg1L&quot;: </a:s>
+               <a:s r="1164">
+                  <a:s>-</a:s>
+                  <a:s r="1165">
+                     <a:s>(</a:s>
+                     <a:s r="1165">
+                        <a:s r="1166">-1L</a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1164" locator="205:30-205:35" xsi:type="Negate">
+            <signature localId="1168" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1165" locator="205:31-205:35" xsi:type="Negate">
+               <signature localId="1167" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1166" locator="205:33-205:34" valueType="t:Long" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1170" locator="207:1-207:32" name="Negate.Negate0D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1170">
+               <a:s>define &quot;Negate.Negate0D&quot;: </a:s>
+               <a:s r="1171">
+                  <a:s>-</a:s>
+                  <a:s r="1172">
+                     <a:s r="1172">(0.0)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1171" locator="207:27-207:32" xsi:type="Negate">
+            <signature localId="1173" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1172" locator="207:28-207:32" valueType="t:Decimal" value="0.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1175" locator="209:1-209:36" name="Negate.NegateNeg0D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1175">
+               <a:s>define &quot;Negate.NegateNeg0D&quot;: </a:s>
+               <a:s r="1176">
+                  <a:s>-</a:s>
+                  <a:s r="1177">
+                     <a:s>(</a:s>
+                     <a:s r="1177">
+                        <a:s r="1178">-0.0</a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1176" locator="209:30-209:36" xsi:type="Negate">
+            <signature localId="1180" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1177" locator="209:31-209:36" xsi:type="Negate">
+               <signature localId="1179" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1178" locator="209:33-209:35" valueType="t:Decimal" value="0.0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1182" locator="211:1-211:32" name="Negate.Negate1D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1182">
+               <a:s>define &quot;Negate.Negate1D&quot;: </a:s>
+               <a:s r="1183">
+                  <a:s>-</a:s>
+                  <a:s r="1184">
+                     <a:s r="1184">(1.0)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1183" locator="211:27-211:32" xsi:type="Negate">
+            <signature localId="1185" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1184" locator="211:28-211:32" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1187" locator="213:1-213:36" name="Negate.NegateNeg1D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1187">
+               <a:s>define &quot;Negate.NegateNeg1D&quot;: </a:s>
+               <a:s r="1188">
+                  <a:s>-</a:s>
+                  <a:s r="1189">
+                     <a:s>(</a:s>
+                     <a:s r="1189">
+                        <a:s r="1190">-1.0</a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1188" locator="213:30-213:36" xsi:type="Negate">
+            <signature localId="1192" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1189" locator="213:31-213:36" xsi:type="Negate">
+               <signature localId="1191" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1190" locator="213:33-213:35" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1194" locator="215:1-215:35" name="Negate.Negate1CM" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1194">
+               <a:s>define &quot;Negate.Negate1CM&quot;: </a:s>
+               <a:s r="1195">
+                  <a:s>-</a:s>
+                  <a:s r="1196">
+                     <a:s>(</a:s>
+                     <a:s r="1196">
+                        <a:s>1'cm'</a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1195" locator="215:28-215:35" xsi:type="Negate">
+            <signature localId="1197" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1196" locator="215:29-215:35" value="1" unit="cm" xsi:type="Quantity"/>
+         </expression>
+      </def>
+      <def localId="1199" locator="217:1-217:55" name="Precision.PrecisionDecimal" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1199">
+               <a:s>define &quot;Precision.PrecisionDecimal&quot;: </a:s>
+               <a:s r="1204">
+                  <a:s r="1200">Precision(1.58700)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1204" locator="217:38-217:55" xsi:type="Precision">
+            <signature localId="1205" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1200" locator="217:48-217:54" valueType="t:Decimal" value="1.58700" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1207" locator="219:1-219:50" name="Precision.PrecisionYear" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1207">
+               <a:s>define &quot;Precision.PrecisionYear&quot;: </a:s>
+               <a:s r="1214">
+                  <a:s r="1210">Precision(@2014)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1214" locator="219:35-219:50" xsi:type="Precision">
+            <signature localId="1215" name="t:Date" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1210" locator="219:45-219:49" xsi:type="Date">
+               <year localId="1209" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1217" locator="221:1-221:85" name="Precision.PrecisionDateTimeMilliseconds" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1217">
+               <a:s>define &quot;Precision.PrecisionDateTimeMilliseconds&quot;: </a:s>
+               <a:s r="1229">
+                  <a:s r="1218">Precision(@2014-01-05T10:30:00.000)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1229" locator="221:51-221:85" xsi:type="Precision">
+            <signature localId="1230" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1218" locator="221:61-221:84" xsi:type="DateTime">
+               <year localId="1219" valueType="t:Integer" value="2014" xsi:type="Literal"/>
+               <month localId="1220" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <day localId="1221" valueType="t:Integer" value="5" xsi:type="Literal"/>
+               <hour localId="1222" valueType="t:Integer" value="10" xsi:type="Literal"/>
+               <minute localId="1223" valueType="t:Integer" value="30" xsi:type="Literal"/>
+               <second localId="1224" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <millisecond localId="1225" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1232" locator="223:1-223:59" name="Precision.PrecisionTimeMinutes" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1232">
+               <a:s>define &quot;Precision.PrecisionTimeMinutes&quot;: </a:s>
+               <a:s r="1239">
+                  <a:s r="1233">Precision(@T10:30)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1239" locator="223:42-223:59" xsi:type="Precision">
+            <signature localId="1240" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1233" locator="223:52-223:58" xsi:type="Time">
+               <hour localId="1234" valueType="t:Integer" value="10" xsi:type="Literal"/>
+               <minute localId="1235" valueType="t:Integer" value="30" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1242" locator="225:1-225:71" name="Precision.PrecisionTimeMilliseconds" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1242">
+               <a:s>define &quot;Precision.PrecisionTimeMilliseconds&quot;: </a:s>
+               <a:s r="1251">
+                  <a:s r="1243">Precision(@T10:30:00.000)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1251" locator="225:47-225:71" xsi:type="Precision">
+            <signature localId="1252" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1243" locator="225:57-225:70" xsi:type="Time">
+               <hour localId="1244" valueType="t:Integer" value="10" xsi:type="Literal"/>
+               <minute localId="1245" valueType="t:Integer" value="30" xsi:type="Literal"/>
+               <second localId="1246" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <millisecond localId="1247" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1254" locator="227:1-227:70" name="Predecessor.PredecessorNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1254">
+               <a:s>define &quot;Predecessor.PredecessorNull&quot;: </a:s>
+               <a:s r="1258">
+                  <a:s>predecessor of </a:s>
+                  <a:s r="1255">
+                     <a:s>(</a:s>
+                     <a:s r="1255">
+                        <a:s r="1256">null as </a:s>
+                        <a:s r="1257">
+                           <a:s>Integer</a:s>
+                        </a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1258" locator="227:39-227:70" xsi:type="Predecessor">
+            <signature localId="1259" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1255" locator="227:54-227:70" strict="false" xsi:type="As">
+               <operand localId="1256" locator="227:55-227:58" xsi:type="Null"/>
+               <asTypeSpecifier localId="1257" locator="227:63-227:69" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1261" locator="229:1-229:53" name="Predecessor.PredecessorOf0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1261">
+               <a:s>define &quot;Predecessor.PredecessorOf0&quot;: </a:s>
+               <a:s r="1263">
+                  <a:s r="1262">predecessor of 0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1263" locator="229:38-229:53" xsi:type="Predecessor">
+            <signature localId="1264" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1262" locator="229:53" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1266" locator="231:1-231:53" name="Predecessor.PredecessorOf1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1266">
+               <a:s>define &quot;Predecessor.PredecessorOf1&quot;: </a:s>
+               <a:s r="1268">
+                  <a:s r="1267">predecessor of 1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1268" locator="231:38-231:53" xsi:type="Predecessor">
+            <signature localId="1269" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1267" locator="231:53" valueType="t:Integer" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1271" locator="233:1-233:55" name="Predecessor.PredecessorOf1L" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1271">
+               <a:s>define &quot;Predecessor.PredecessorOf1L&quot;: </a:s>
+               <a:s r="1273">
+                  <a:s r="1272">predecessor of 1L</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1273" locator="233:39-233:55" xsi:type="Predecessor">
+            <signature localId="1274" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1272" locator="233:54-233:55" valueType="t:Long" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1276" locator="235:1-235:56" name="Predecessor.PredecessorOf1D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1276">
+               <a:s>define &quot;Predecessor.PredecessorOf1D&quot;: </a:s>
+               <a:s r="1278">
+                  <a:s r="1277">predecessor of 1.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1278" locator="235:39-235:56" xsi:type="Predecessor">
+            <signature localId="1279" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1277" locator="235:54-235:56" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1281" locator="237:1-237:59" name="Predecessor.PredecessorOf101D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1281">
+               <a:s>define &quot;Predecessor.PredecessorOf101D&quot;: </a:s>
+               <a:s r="1283">
+                  <a:s r="1282">predecessor of 1.01</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1283" locator="237:41-237:59" xsi:type="Predecessor">
+            <signature localId="1284" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1282" locator="237:56-237:59" valueType="t:Decimal" value="1.01" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1286" locator="239:1-239:63" name="Predecessor.PredecessorOf1QCM" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1286">
+               <a:s>define &quot;Predecessor.PredecessorOf1QCM&quot;: </a:s>
+               <a:s r="1288">
+                  <a:s>predecessor of </a:s>
+                  <a:s r="1287">
+                     <a:s>1.0 'cm'</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1288" locator="239:41-239:63" xsi:type="Predecessor">
+            <signature localId="1289" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1287" locator="239:56-239:63" value="1.0" unit="cm" xsi:type="Quantity"/>
+         </expression>
+      </def>
+      <def localId="1291" locator="241:1-241:77" name="Predecessor.PredecessorOfJan12000" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1291">
+               <a:s>define &quot;Predecessor.PredecessorOfJan12000&quot;: </a:s>
+               <a:s r="1298">
+                  <a:s>predecessor of </a:s>
+                  <a:s r="1297">
+                     <a:s r="1292">DateTime(2000,1,1)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1298" locator="241:45-241:77" xsi:type="Predecessor">
+            <signature localId="1299" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1297" locator="241:60-241:77" xsi:type="DateTime">
+               <year localId="1292" locator="241:69-241:72" valueType="t:Integer" value="2000" xsi:type="Literal"/>
+               <month localId="1293" locator="241:74" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <day localId="1294" locator="241:76" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1301" locator="243:1-243:69" name="Predecessor.PredecessorOfNoon" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1301">
+               <a:s>define &quot;Predecessor.PredecessorOfNoon&quot;: </a:s>
+               <a:s r="1307">
+                  <a:s r="1302">predecessor of @T12:00:00.000</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1307" locator="243:41-243:69" xsi:type="Predecessor">
+            <signature localId="1308" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1302" locator="243:56-243:69" xsi:type="Time">
+               <hour localId="1303" valueType="t:Integer" value="12" xsi:type="Literal"/>
+               <minute localId="1304" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <second localId="1305" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <millisecond localId="1306" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1310" locator="245:1-245:92" name="Predecessor.PredecessorUnderflowDt" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1310">
+               <a:s>define &quot;Predecessor.PredecessorUnderflowDt&quot;: </a:s>
+               <a:s r="1321">
+                  <a:s>predecessor of </a:s>
+                  <a:s r="1320">
+                     <a:s r="1311">DateTime(0001, 1, 1, 0, 0, 0, 0)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1321" locator="245:46-245:92" xsi:type="Predecessor">
+            <signature localId="1322" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1320" locator="245:61-245:92" xsi:type="DateTime">
+               <year localId="1311" locator="245:70-245:73" valueType="t:Integer" value="0001" xsi:type="Literal"/>
+               <month localId="1312" locator="245:76" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <day localId="1313" locator="245:79" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <hour localId="1314" locator="245:82" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <minute localId="1315" locator="245:85" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <second localId="1316" locator="245:88" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <millisecond localId="1317" locator="245:91" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1324" locator="247:1-247:73" name="Predecessor.PredecessorUnderflowT" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1324">
+               <a:s>define &quot;Predecessor.PredecessorUnderflowT&quot;: </a:s>
+               <a:s r="1330">
+                  <a:s r="1325">predecessor of @T00:00:00.000</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1330" locator="247:45-247:73" xsi:type="Predecessor">
+            <signature localId="1331" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1325" locator="247:60-247:73" xsi:type="Time">
+               <hour localId="1326" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <minute localId="1327" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <second localId="1328" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <millisecond localId="1329" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1333" locator="249:1-249:71" name="Power.PowerNullToNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1333">
+               <a:s>define &quot;Power.PowerNullToNull&quot;: </a:s>
+               <a:s r="1344">
+                  <a:s>Power(</a:s>
+                  <a:s r="1334">
+                     <a:s r="1335">null as </a:s>
+                     <a:s r="1336">
+                        <a:s>Integer</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>, </a:s>
+                  <a:s r="1337">
+                     <a:s r="1338">null as </a:s>
+                     <a:s r="1339">
+                        <a:s>Integer</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1344" locator="249:33-249:71" xsi:type="Power">
+            <signature localId="1345" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1346" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1334" locator="249:39-249:53" strict="false" xsi:type="As">
+               <operand localId="1335" locator="249:39-249:42" xsi:type="Null"/>
+               <asTypeSpecifier localId="1336" locator="249:47-249:53" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+            <operand localId="1337" locator="249:56-249:70" strict="false" xsi:type="As">
+               <operand localId="1338" locator="249:56-249:59" xsi:type="Null"/>
+               <asTypeSpecifier localId="1339" locator="249:64-249:70" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1348" locator="251:1-251:37" name="Power.Power0To0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1348">
+               <a:s>define &quot;Power.Power0To0&quot;: </a:s>
+               <a:s r="1355">
+                  <a:s r="1349">Power(0, 0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1355" locator="251:27-251:37" xsi:type="Power">
+            <signature localId="1356" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1357" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1349" locator="251:33" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            <operand localId="1350" locator="251:36" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1359" locator="253:1-253:37" name="Power.Power2To2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1359">
+               <a:s>define &quot;Power.Power2To2&quot;: </a:s>
+               <a:s r="1366">
+                  <a:s r="1360">Power(2, 2)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1366" locator="253:27-253:37" xsi:type="Power">
+            <signature localId="1367" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1368" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1360" locator="253:33" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            <operand localId="1361" locator="253:36" valueType="t:Integer" value="2" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1370" locator="255:1-255:41" name="Power.PowerNeg2To2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1370">
+               <a:s>define &quot;Power.PowerNeg2To2&quot;: </a:s>
+               <a:s r="1379">
+                  <a:s>Power(</a:s>
+                  <a:s r="1371">
+                     <a:s r="1372">-2</a:s>
+                  </a:s>
+                  <a:s r="1374">, 2)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1379" locator="255:30-255:41" xsi:type="Power">
+            <signature localId="1380" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1381" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1371" locator="255:36-255:37" xsi:type="Negate">
+               <signature localId="1373" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1372" locator="255:37" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1374" locator="255:40" valueType="t:Integer" value="2" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1383" locator="257:1-257:41" name="Power.Power2ToNeg2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1383">
+               <a:s>define &quot;Power.Power2ToNeg2&quot;: </a:s>
+               <a:s r="1392">
+                  <a:s r="1384">Power(2, </a:s>
+                  <a:s r="1385">
+                     <a:s r="1386">-2</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1392" locator="257:30-257:41" xsi:type="Power">
+            <signature localId="1393" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1394" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1384" locator="257:36" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            <operand localId="1385" locator="257:39-257:40" xsi:type="Negate">
+               <signature localId="1387" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1386" locator="257:40" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1396" locator="259:1-259:41" name="Power.Power2LTo2L" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1396">
+               <a:s>define &quot;Power.Power2LTo2L&quot;: </a:s>
+               <a:s r="1403">
+                  <a:s r="1397">Power(2L, 2L)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1403" locator="259:29-259:41" xsi:type="Power">
+            <signature localId="1404" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1405" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1397" locator="259:35-259:36" valueType="t:Long" value="2" xsi:type="Literal"/>
+            <operand localId="1398" locator="259:39-259:40" valueType="t:Long" value="2" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1407" locator="261:1-261:43" name="Power.Power2DTo2D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1407">
+               <a:s>define &quot;Power.Power2DTo2D&quot;: </a:s>
+               <a:s r="1414">
+                  <a:s r="1408">Power(2.0, 2.0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1414" locator="261:29-261:43" xsi:type="Power">
+            <signature localId="1415" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1416" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1408" locator="261:35-261:37" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+            <operand localId="1409" locator="261:40-261:42" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1418" locator="263:1-263:47" name="Power.PowerNeg2DTo2D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1418">
+               <a:s>define &quot;Power.PowerNeg2DTo2D&quot;: </a:s>
+               <a:s r="1427">
+                  <a:s>Power(</a:s>
+                  <a:s r="1419">
+                     <a:s r="1420">-2.0</a:s>
+                  </a:s>
+                  <a:s r="1422">, 2.0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1427" locator="263:32-263:47" xsi:type="Power">
+            <signature localId="1428" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1429" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1419" locator="263:38-263:41" xsi:type="Negate">
+               <signature localId="1421" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1420" locator="263:39-263:41" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1422" locator="263:44-263:46" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1431" locator="265:1-265:47" name="Power.Power2DToNeg2D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1431">
+               <a:s>define &quot;Power.Power2DToNeg2D&quot;: </a:s>
+               <a:s r="1440">
+                  <a:s r="1432">Power(2.0, </a:s>
+                  <a:s r="1433">
+                     <a:s r="1434">-2.0</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1440" locator="265:32-265:47" xsi:type="Power">
+            <signature localId="1441" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1442" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1432" locator="265:38-265:40" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+            <operand localId="1433" locator="265:43-265:46" xsi:type="Negate">
+               <signature localId="1435" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1434" locator="265:44-265:46" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1444" locator="267:1-267:40" name="Power.Power2DTo2" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1444">
+               <a:s>define &quot;Power.Power2DTo2&quot;: </a:s>
+               <a:s r="1454">
+                  <a:s r="1445">Power(2.0, 2)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1454" locator="267:28-267:40" xsi:type="Power">
+            <signature localId="1458" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1459" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1445" locator="267:34-267:36" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+            <operand localId="1456" xsi:type="ToDecimal">
+               <signature localId="1457" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1446" locator="267:39" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1461" locator="269:1-269:40" name="Power.Power2To2D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1461">
+               <a:s>define &quot;Power.Power2To2D&quot;: </a:s>
+               <a:s r="1471">
+                  <a:s r="1462">Power(2, 2.0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1471" locator="269:28-269:40" xsi:type="Power">
+            <signature localId="1475" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1476" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1473" xsi:type="ToDecimal">
+               <signature localId="1474" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1462" locator="269:34" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1463" locator="269:37-269:39" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1478" locator="271:1-271:29" name="Power.Power2To4" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1478">
+               <a:s>define &quot;Power.Power2To4&quot;: </a:s>
+               <a:s r="1479">
+                  <a:s r="1480">2^4</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1479" locator="271:27-271:29" xsi:type="Power">
+            <signature localId="1482" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1483" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1480" locator="271:27" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            <operand localId="1481" locator="271:29" valueType="t:Integer" value="4" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1485" locator="273:1-273:35" name="Power.Power2DTo4D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1485">
+               <a:s>define &quot;Power.Power2DTo4D&quot;: </a:s>
+               <a:s r="1486">
+                  <a:s r="1487">2.0^4.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1486" locator="273:29-273:35" xsi:type="Power">
+            <signature localId="1489" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1490" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1487" locator="273:29-273:31" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+            <operand localId="1488" locator="273:33-273:35" valueType="t:Decimal" value="4.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1492" locator="275:1-275:61" name="Power.Power2DToNeg2DEquivalence" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1492">
+               <a:s>define &quot;Power.Power2DToNeg2DEquivalence&quot;: </a:s>
+               <a:s r="1493">
+                  <a:s r="1502">
+                     <a:s r="1494">Power(2, </a:s>
+                     <a:s r="1495">
+                        <a:s r="1496">-2</a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+                  <a:s r="1505"> ~ 0.25</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1493" locator="275:43-275:61" xsi:type="Equivalent">
+            <signature localId="1509" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1510" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1507" xsi:type="ToDecimal">
+               <signature localId="1508" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1502" locator="275:43-275:54" xsi:type="Power">
+                  <signature localId="1503" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <signature localId="1504" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="1494" locator="275:49" valueType="t:Integer" value="2" xsi:type="Literal"/>
+                  <operand localId="1495" locator="275:52-275:53" xsi:type="Negate">
+                     <signature localId="1497" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                     <operand localId="1496" locator="275:53" valueType="t:Integer" value="2" xsi:type="Literal"/>
+                  </operand>
+               </operand>
+            </operand>
+            <operand localId="1505" locator="275:58-275:61" valueType="t:Decimal" value="0.25" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1512" locator="277:1-277:48" name="Round.RoundNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1512">
+               <a:s>define &quot;Round.RoundNull&quot;: </a:s>
+               <a:s r="1518">
+                  <a:s>Round(</a:s>
+                  <a:s r="1513">
+                     <a:s r="1514">null as </a:s>
+                     <a:s r="1515">
+                        <a:s>Decimal</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1518" locator="277:27-277:48" xsi:type="Round">
+            <operand localId="1513" locator="277:33-277:47" strict="false" xsi:type="As">
+               <operand localId="1514" locator="277:33-277:36" xsi:type="Null"/>
+               <asTypeSpecifier localId="1515" locator="277:41-277:47" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1520" locator="279:1-279:31" name="Round.Round1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1520">
+               <a:s>define &quot;Round.Round1&quot;: </a:s>
+               <a:s r="1527">
+                  <a:s r="1521">Round(1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1527" locator="279:24-279:31" xsi:type="Round">
+            <operand localId="1529" xsi:type="ToDecimal">
+               <signature localId="1530" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1521" locator="279:30" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1532" locator="281:1-281:35" name="Round.Round0D5" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1532">
+               <a:s>define &quot;Round.Round0D5&quot;: </a:s>
+               <a:s r="1536">
+                  <a:s r="1533">Round(0.5)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1536" locator="281:26-281:35" xsi:type="Round">
+            <operand localId="1533" locator="281:32-281:34" valueType="t:Decimal" value="0.5" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1538" locator="283:1-283:35" name="Round.Round0D4" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1538">
+               <a:s>define &quot;Round.Round0D4&quot;: </a:s>
+               <a:s r="1542">
+                  <a:s r="1539">Round(0.4)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1542" locator="283:26-283:35" xsi:type="Round">
+            <operand localId="1539" locator="283:32-283:34" valueType="t:Decimal" value="0.4" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1544" locator="285:1-285:46" name="Round.Round3D14159" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1544">
+               <a:s>define &quot;Round.Round3D14159&quot;: </a:s>
+               <a:s r="1549">
+                  <a:s r="1545">Round(3.14159, 2)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1549" locator="285:30-285:46" xsi:type="Round">
+            <operand localId="1545" locator="285:36-285:42" valueType="t:Decimal" value="3.14159" xsi:type="Literal"/>
+            <precision localId="1546" locator="285:45" valueType="t:Integer" value="2" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1551" locator="287:1-287:39" name="Round.RoundNeg0D5" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1551">
+               <a:s>define &quot;Round.RoundNeg0D5&quot;: </a:s>
+               <a:s r="1557">
+                  <a:s>Round(</a:s>
+                  <a:s r="1552">
+                     <a:s r="1553">-0.5</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1557" locator="287:29-287:39" xsi:type="Round">
+            <operand localId="1552" locator="287:35-287:38" xsi:type="Negate">
+               <signature localId="1554" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1553" locator="287:36-287:38" valueType="t:Decimal" value="0.5" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1559" locator="289:1-289:39" name="Round.RoundNeg0D4" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1559">
+               <a:s>define &quot;Round.RoundNeg0D4&quot;: </a:s>
+               <a:s r="1565">
+                  <a:s>Round(</a:s>
+                  <a:s r="1560">
+                     <a:s r="1561">-0.4</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1565" locator="289:29-289:39" xsi:type="Round">
+            <operand localId="1560" locator="289:35-289:38" xsi:type="Negate">
+               <signature localId="1562" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1561" locator="289:36-289:38" valueType="t:Decimal" value="0.4" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1567" locator="291:1-291:39" name="Round.RoundNeg0D6" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1567">
+               <a:s>define &quot;Round.RoundNeg0D6&quot;: </a:s>
+               <a:s r="1573">
+                  <a:s>Round(</a:s>
+                  <a:s r="1568">
+                     <a:s r="1569">-0.6</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1573" locator="291:29-291:39" xsi:type="Round">
+            <operand localId="1568" locator="291:35-291:38" xsi:type="Negate">
+               <signature localId="1570" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1569" locator="291:36-291:38" valueType="t:Decimal" value="0.6" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1575" locator="293:1-293:39" name="Round.RoundNeg1D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1575">
+               <a:s>define &quot;Round.RoundNeg1D1&quot;: </a:s>
+               <a:s r="1581">
+                  <a:s>Round(</a:s>
+                  <a:s r="1576">
+                     <a:s r="1577">-1.1</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1581" locator="293:29-293:39" xsi:type="Round">
+            <operand localId="1576" locator="293:35-293:38" xsi:type="Negate">
+               <signature localId="1578" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1577" locator="293:36-293:38" valueType="t:Decimal" value="1.1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1583" locator="295:1-295:39" name="Round.RoundNeg1D5" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1583">
+               <a:s>define &quot;Round.RoundNeg1D5&quot;: </a:s>
+               <a:s r="1589">
+                  <a:s>Round(</a:s>
+                  <a:s r="1584">
+                     <a:s r="1585">-1.5</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1589" locator="295:29-295:39" xsi:type="Round">
+            <operand localId="1584" locator="295:35-295:38" xsi:type="Negate">
+               <signature localId="1586" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1585" locator="295:36-295:38" valueType="t:Decimal" value="1.5" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1591" locator="297:1-297:39" name="Round.RoundNeg1D6" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1591">
+               <a:s>define &quot;Round.RoundNeg1D6&quot;: </a:s>
+               <a:s r="1597">
+                  <a:s>Round(</a:s>
+                  <a:s r="1592">
+                     <a:s r="1593">-1.6</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1597" locator="297:29-297:39" xsi:type="Round">
+            <operand localId="1592" locator="297:35-297:38" xsi:type="Negate">
+               <signature localId="1594" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1593" locator="297:36-297:38" valueType="t:Decimal" value="1.6" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1599" locator="299:1-299:40" name="Subtract.SubtractNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1599">
+               <a:s>define &quot;Subtract.SubtractNull&quot;: </a:s>
+               <a:s r="1600">
+                  <a:s r="1601">1 - null</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1600" locator="299:33-299:40" xsi:type="Subtract">
+            <signature localId="1604" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1605" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1601" locator="299:33" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <operand localId="1603" asType="t:Integer" xsi:type="As">
+               <operand localId="1602" locator="299:37-299:40" xsi:type="Null"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1607" locator="301:1-301:38" name="Subtract.Subtract1And1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1607">
+               <a:s>define &quot;Subtract.Subtract1And1&quot;: </a:s>
+               <a:s r="1608">
+                  <a:s r="1609">1 - 1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1608" locator="301:34-301:38" xsi:type="Subtract">
+            <signature localId="1611" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1612" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1609" locator="301:34" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            <operand localId="1610" locator="301:38" valueType="t:Integer" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1614" locator="303:1-303:42" name="Subtract.Subtract1LAnd1L" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1614">
+               <a:s>define &quot;Subtract.Subtract1LAnd1L&quot;: </a:s>
+               <a:s r="1615">
+                  <a:s r="1616">1L - 1L</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1615" locator="303:36-303:42" xsi:type="Subtract">
+            <signature localId="1618" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1619" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1616" locator="303:36-303:37" valueType="t:Long" value="1" xsi:type="Literal"/>
+            <operand localId="1617" locator="303:41-303:42" valueType="t:Long" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1621" locator="305:1-305:44" name="Subtract.Subtract1DAnd2D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1621">
+               <a:s>define &quot;Subtract.Subtract1DAnd2D&quot;: </a:s>
+               <a:s r="1622">
+                  <a:s r="1623">1.0 - 2.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1622" locator="305:36-305:44" xsi:type="Subtract">
+            <signature localId="1625" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1626" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1623" locator="305:36-305:38" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            <operand localId="1624" locator="305:42-305:44" valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1628" locator="307:1-307:56" name="Subtract.Subtract1CMAnd2CM" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1628">
+               <a:s>define &quot;Subtract.Subtract1CMAnd2CM&quot;: </a:s>
+               <a:s r="1629">
+                  <a:s r="1630">
+                     <a:s>1.0 'cm'</a:s>
+                  </a:s>
+                  <a:s> - </a:s>
+                  <a:s r="1631">
+                     <a:s>2.0 'cm'</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1629" locator="307:38-307:56" xsi:type="Subtract">
+            <signature localId="1632" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1633" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1630" locator="307:38-307:45" value="1.0" unit="cm" xsi:type="Quantity"/>
+            <operand localId="1631" locator="307:49-307:56" value="2.0" unit="cm" xsi:type="Quantity"/>
+         </expression>
+      </def>
+      <def localId="1635" locator="309:1-309:42" name="Subtract.Subtract2And11D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1635">
+               <a:s>define &quot;Subtract.Subtract2And11D&quot;: </a:s>
+               <a:s r="1636">
+                  <a:s r="1637">2 - 1.1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1636" locator="309:36-309:42" xsi:type="Subtract">
+            <signature localId="1642" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1643" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1640" xsi:type="ToDecimal">
+               <signature localId="1641" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1637" locator="309:36" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1638" locator="309:40-309:42" valueType="t:Decimal" value="1.1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1645" locator="311:1-311:64" name="Successor.SuccessorNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1645">
+               <a:s>define &quot;Successor.SuccessorNull&quot;: </a:s>
+               <a:s r="1649">
+                  <a:s>successor of </a:s>
+                  <a:s r="1646">
+                     <a:s>(</a:s>
+                     <a:s r="1646">
+                        <a:s r="1647">null as </a:s>
+                        <a:s r="1648">
+                           <a:s>Integer</a:s>
+                        </a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1649" locator="311:35-311:64" xsi:type="Successor">
+            <signature localId="1650" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1646" locator="311:48-311:64" strict="false" xsi:type="As">
+               <operand localId="1647" locator="311:49-311:52" xsi:type="Null"/>
+               <asTypeSpecifier localId="1648" locator="311:57-311:63" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1652" locator="313:1-313:47" name="Successor.SuccessorOf0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1652">
+               <a:s>define &quot;Successor.SuccessorOf0&quot;: </a:s>
+               <a:s r="1654">
+                  <a:s r="1653">successor of 0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1654" locator="313:34-313:47" xsi:type="Successor">
+            <signature localId="1655" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1653" locator="313:47" valueType="t:Integer" value="0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1657" locator="315:1-315:47" name="Successor.SuccessorOf1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1657">
+               <a:s>define &quot;Successor.SuccessorOf1&quot;: </a:s>
+               <a:s r="1659">
+                  <a:s r="1658">successor of 1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1659" locator="315:34-315:47" xsi:type="Successor">
+            <signature localId="1660" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1658" locator="315:47" valueType="t:Integer" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1662" locator="317:1-317:49" name="Successor.SuccessorOf1L" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1662">
+               <a:s>define &quot;Successor.SuccessorOf1L&quot;: </a:s>
+               <a:s r="1664">
+                  <a:s r="1663">successor of 1L</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1664" locator="317:35-317:49" xsi:type="Successor">
+            <signature localId="1665" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1663" locator="317:48-317:49" valueType="t:Long" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1667" locator="319:1-319:50" name="Successor.SuccessorOf1D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1667">
+               <a:s>define &quot;Successor.SuccessorOf1D&quot;: </a:s>
+               <a:s r="1669">
+                  <a:s r="1668">successor of 1.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1669" locator="319:35-319:50" xsi:type="Successor">
+            <signature localId="1670" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1668" locator="319:48-319:50" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1672" locator="321:1-321:53" name="Successor.SuccessorOf101D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1672">
+               <a:s>define &quot;Successor.SuccessorOf101D&quot;: </a:s>
+               <a:s r="1674">
+                  <a:s r="1673">successor of 1.01</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1674" locator="321:37-321:53" xsi:type="Successor">
+            <signature localId="1675" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1673" locator="321:50-321:53" valueType="t:Decimal" value="1.01" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1677" locator="323:1-323:71" name="Successor.SuccessorOfJan12000" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1677">
+               <a:s>define &quot;Successor.SuccessorOfJan12000&quot;: </a:s>
+               <a:s r="1684">
+                  <a:s>successor of </a:s>
+                  <a:s r="1683">
+                     <a:s r="1678">DateTime(2000,1,1)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1684" locator="323:41-323:71" xsi:type="Successor">
+            <signature localId="1685" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1683" locator="323:54-323:71" xsi:type="DateTime">
+               <year localId="1678" locator="323:63-323:66" valueType="t:Integer" value="2000" xsi:type="Literal"/>
+               <month localId="1679" locator="323:68" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <day localId="1680" locator="323:70" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1687" locator="325:1-325:63" name="Successor.SuccessorOfNoon" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1687">
+               <a:s>define &quot;Successor.SuccessorOfNoon&quot;: </a:s>
+               <a:s r="1693">
+                  <a:s r="1688">successor of @T12:00:00.000</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1693" locator="325:37-325:63" xsi:type="Successor">
+            <signature localId="1694" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1688" locator="325:50-325:63" xsi:type="Time">
+               <hour localId="1689" valueType="t:Integer" value="12" xsi:type="Literal"/>
+               <minute localId="1690" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <second localId="1691" valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <millisecond localId="1692" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1696" locator="327:1-327:92" name="Successor.SuccessorOverflowDt" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1696">
+               <a:s>define &quot;Successor.SuccessorOverflowDt&quot;: </a:s>
+               <a:s r="1707">
+                  <a:s>successor of </a:s>
+                  <a:s r="1706">
+                     <a:s r="1697">DateTime(9999, 12, 31, 23, 59, 59, 999)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1707" locator="327:41-327:92" xsi:type="Successor">
+            <signature localId="1708" name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1706" locator="327:54-327:92" xsi:type="DateTime">
+               <year localId="1697" locator="327:63-327:66" valueType="t:Integer" value="9999" xsi:type="Literal"/>
+               <month localId="1698" locator="327:69-327:70" valueType="t:Integer" value="12" xsi:type="Literal"/>
+               <day localId="1699" locator="327:73-327:74" valueType="t:Integer" value="31" xsi:type="Literal"/>
+               <hour localId="1700" locator="327:77-327:78" valueType="t:Integer" value="23" xsi:type="Literal"/>
+               <minute localId="1701" locator="327:81-327:82" valueType="t:Integer" value="59" xsi:type="Literal"/>
+               <second localId="1702" locator="327:85-327:86" valueType="t:Integer" value="59" xsi:type="Literal"/>
+               <millisecond localId="1703" locator="327:89-327:91" valueType="t:Integer" value="999" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1710" locator="329:1-329:66" name="Successor.SuccessorOverflowT" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1710">
+               <a:s>define &quot;Successor.SuccessorOverflowT&quot;: </a:s>
+               <a:s r="1716">
+                  <a:s r="1711">successor of @T23:59:59.999</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1716" locator="329:40-329:66" xsi:type="Successor">
+            <signature localId="1717" name="t:Time" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1711" locator="329:53-329:66" xsi:type="Time">
+               <hour localId="1712" valueType="t:Integer" value="23" xsi:type="Literal"/>
+               <minute localId="1713" valueType="t:Integer" value="59" xsi:type="Literal"/>
+               <second localId="1714" valueType="t:Integer" value="59" xsi:type="Literal"/>
+               <millisecond localId="1715" valueType="t:Integer" value="999" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1719" locator="331:1-331:57" name="Truncate.TruncateNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1719">
+               <a:s>define &quot;Truncate.TruncateNull&quot;: </a:s>
+               <a:s r="1725">
+                  <a:s>Truncate(</a:s>
+                  <a:s r="1720">
+                     <a:s r="1721">null as </a:s>
+                     <a:s r="1722">
+                        <a:s>Decimal</a:s>
+                     </a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1725" locator="331:33-331:57" xsi:type="Truncate">
+            <operand localId="1720" locator="331:42-331:56" strict="false" xsi:type="As">
+               <operand localId="1721" locator="331:42-331:45" xsi:type="Null"/>
+               <asTypeSpecifier localId="1722" locator="331:50-331:56" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1727" locator="333:1-333:40" name="Truncate.Truncate0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1727">
+               <a:s>define &quot;Truncate.Truncate0&quot;: </a:s>
+               <a:s r="1734">
+                  <a:s r="1728">Truncate(0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1734" locator="333:30-333:40" xsi:type="Truncate">
+            <operand localId="1736" xsi:type="ToDecimal">
+               <signature localId="1737" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1728" locator="333:39" valueType="t:Integer" value="0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1739" locator="335:1-335:44" name="Truncate.Truncate0D0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1739">
+               <a:s>define &quot;Truncate.Truncate0D0&quot;: </a:s>
+               <a:s r="1743">
+                  <a:s r="1740">Truncate(0.0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1743" locator="335:32-335:44" xsi:type="Truncate">
+            <operand localId="1740" locator="335:41-335:43" valueType="t:Decimal" value="0.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1745" locator="337:1-337:44" name="Truncate.Truncate0D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1745">
+               <a:s>define &quot;Truncate.Truncate0D1&quot;: </a:s>
+               <a:s r="1749">
+                  <a:s r="1746">Truncate(0.1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1749" locator="337:32-337:44" xsi:type="Truncate">
+            <operand localId="1746" locator="337:41-337:43" valueType="t:Decimal" value="0.1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1751" locator="339:1-339:40" name="Truncate.Truncate1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1751">
+               <a:s>define &quot;Truncate.Truncate1&quot;: </a:s>
+               <a:s r="1758">
+                  <a:s r="1752">Truncate(1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1758" locator="339:30-339:40" xsi:type="Truncate">
+            <operand localId="1760" xsi:type="ToDecimal">
+               <signature localId="1761" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1752" locator="339:39" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1763" locator="341:1-341:44" name="Truncate.Truncate1D0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1763">
+               <a:s>define &quot;Truncate.Truncate1D0&quot;: </a:s>
+               <a:s r="1767">
+                  <a:s r="1764">Truncate(1.0)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1767" locator="341:32-341:44" xsi:type="Truncate">
+            <operand localId="1764" locator="341:41-341:43" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1769" locator="343:1-343:44" name="Truncate.Truncate1D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1769">
+               <a:s>define &quot;Truncate.Truncate1D1&quot;: </a:s>
+               <a:s r="1773">
+                  <a:s r="1770">Truncate(1.1)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1773" locator="343:32-343:44" xsi:type="Truncate">
+            <operand localId="1770" locator="343:41-343:43" valueType="t:Decimal" value="1.1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1775" locator="345:1-345:44" name="Truncate.Truncate1D9" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1775">
+               <a:s>define &quot;Truncate.Truncate1D9&quot;: </a:s>
+               <a:s r="1779">
+                  <a:s r="1776">Truncate(1.9)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1779" locator="345:32-345:44" xsi:type="Truncate">
+            <operand localId="1776" locator="345:41-345:43" valueType="t:Decimal" value="1.9" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1781" locator="347:1-347:44" name="Truncate.TruncateNeg1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1781">
+               <a:s>define &quot;Truncate.TruncateNeg1&quot;: </a:s>
+               <a:s r="1790">
+                  <a:s>Truncate(</a:s>
+                  <a:s r="1782">
+                     <a:s r="1783">-1</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1790" locator="347:33-347:44" xsi:type="Truncate">
+            <operand localId="1792" xsi:type="ToDecimal">
+               <signature localId="1793" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1782" locator="347:42-347:43" xsi:type="Negate">
+                  <signature localId="1784" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+                  <operand localId="1783" locator="347:43" valueType="t:Integer" value="1" xsi:type="Literal"/>
+               </operand>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1795" locator="349:1-349:48" name="Truncate.TruncateNeg1D0" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1795">
+               <a:s>define &quot;Truncate.TruncateNeg1D0&quot;: </a:s>
+               <a:s r="1801">
+                  <a:s>Truncate(</a:s>
+                  <a:s r="1796">
+                     <a:s r="1797">-1.0</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1801" locator="349:35-349:48" xsi:type="Truncate">
+            <operand localId="1796" locator="349:44-349:47" xsi:type="Negate">
+               <signature localId="1798" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1797" locator="349:45-349:47" valueType="t:Decimal" value="1.0" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1803" locator="351:1-351:48" name="Truncate.TruncateNeg1D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1803">
+               <a:s>define &quot;Truncate.TruncateNeg1D1&quot;: </a:s>
+               <a:s r="1809">
+                  <a:s>Truncate(</a:s>
+                  <a:s r="1804">
+                     <a:s r="1805">-1.1</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1809" locator="351:35-351:48" xsi:type="Truncate">
+            <operand localId="1804" locator="351:44-351:47" xsi:type="Negate">
+               <signature localId="1806" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1805" locator="351:45-351:47" valueType="t:Decimal" value="1.1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1811" locator="353:1-353:48" name="Truncate.TruncateNeg1D9" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1811">
+               <a:s>define &quot;Truncate.TruncateNeg1D9&quot;: </a:s>
+               <a:s r="1817">
+                  <a:s>Truncate(</a:s>
+                  <a:s r="1812">
+                     <a:s r="1813">-1.9</a:s>
+                  </a:s>
+                  <a:s>)</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1817" locator="353:35-353:48" xsi:type="Truncate">
+            <operand localId="1812" locator="353:44-353:47" xsi:type="Negate">
+               <signature localId="1814" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1813" locator="353:45-353:47" valueType="t:Decimal" value="1.9" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1819" locator="355:1-355:86" name="Truncated Divide.TruncatedDivideNull" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1819">
+               <a:s>define &quot;Truncated Divide.TruncatedDivideNull&quot;: </a:s>
+               <a:s r="1820">
+                  <a:s r="1821">
+                     <a:s>(</a:s>
+                     <a:s r="1821">
+                        <a:s r="1822">null as </a:s>
+                        <a:s r="1823">
+                           <a:s>Integer</a:s>
+                        </a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+                  <a:s> div </a:s>
+                  <a:s r="1824">
+                     <a:s>(</a:s>
+                     <a:s r="1824">
+                        <a:s r="1825">null as </a:s>
+                        <a:s r="1826">
+                           <a:s>Integer</a:s>
+                        </a:s>
+                     </a:s>
+                     <a:s>)</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1820" locator="355:48-355:86" xsi:type="TruncatedDivide">
+            <signature localId="1827" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1828" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1821" locator="355:48-355:64" strict="false" xsi:type="As">
+               <operand localId="1822" locator="355:49-355:52" xsi:type="Null"/>
+               <asTypeSpecifier localId="1823" locator="355:57-355:63" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+            <operand localId="1824" locator="355:70-355:86" strict="false" xsi:type="As">
+               <operand localId="1825" locator="355:71-355:74" xsi:type="Null"/>
+               <asTypeSpecifier localId="1826" locator="355:79-355:85" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1830" locator="357:1-357:54" name="Truncated Divide.TruncatedDivide2By1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1830">
+               <a:s>define &quot;Truncated Divide.TruncatedDivide2By1&quot;: </a:s>
+               <a:s r="1831">
+                  <a:s r="1832">2 div 1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1831" locator="357:48-357:54" xsi:type="TruncatedDivide">
+            <signature localId="1834" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1835" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1832" locator="357:48" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            <operand localId="1833" locator="357:54" valueType="t:Integer" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1837" locator="359:1-359:56" name="Truncated Divide.TruncatedDivide10By3" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1837">
+               <a:s>define &quot;Truncated Divide.TruncatedDivide10By3&quot;: </a:s>
+               <a:s r="1838">
+                  <a:s r="1839">10 div 3</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1838" locator="359:49-359:56" xsi:type="TruncatedDivide">
+            <signature localId="1841" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1842" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1839" locator="359:49-359:50" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            <operand localId="1840" locator="359:56" valueType="t:Integer" value="3" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1844" locator="361:1-361:60" name="Truncated Divide.TruncatedDivide10LBy3L" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1844">
+               <a:s>define &quot;Truncated Divide.TruncatedDivide10LBy3L&quot;: </a:s>
+               <a:s r="1845">
+                  <a:s r="1846">10L div 3L</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1845" locator="361:51-361:60" xsi:type="TruncatedDivide">
+            <signature localId="1848" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1849" name="t:Long" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1846" locator="361:51-361:53" valueType="t:Long" value="10" xsi:type="Literal"/>
+            <operand localId="1847" locator="361:59-361:60" valueType="t:Long" value="3" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1851" locator="363:1-363:64" name="Truncated Divide.TruncatedDivide10d1By3D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1851">
+               <a:s>define &quot;Truncated Divide.TruncatedDivide10d1By3D1&quot;: </a:s>
+               <a:s r="1852">
+                  <a:s r="1853">10.1 div 3.1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1852" locator="363:53-363:64" xsi:type="TruncatedDivide">
+            <signature localId="1855" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1856" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1853" locator="363:53-363:56" valueType="t:Decimal" value="10.1" xsi:type="Literal"/>
+            <operand localId="1854" locator="363:62-363:64" valueType="t:Decimal" value="3.1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1858" locator="365:1-365:62" name="Truncated Divide.TruncatedDivideNeg2ByNeg1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1858">
+               <a:s>define &quot;Truncated Divide.TruncatedDivideNeg2ByNeg1&quot;: </a:s>
+               <a:s r="1859">
+                  <a:s r="1860">
+                     <a:s r="1861">-2</a:s>
+                  </a:s>
+                  <a:s> div </a:s>
+                  <a:s r="1863">
+                     <a:s r="1864">-1</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1859" locator="365:54-365:62" xsi:type="TruncatedDivide">
+            <signature localId="1866" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1867" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1860" locator="365:54-365:55" xsi:type="Negate">
+               <signature localId="1862" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1861" locator="365:55" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1863" locator="365:61-365:62" xsi:type="Negate">
+               <signature localId="1865" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1864" locator="365:62" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1869" locator="367:1-367:64" name="Truncated Divide.TruncatedDivideNeg10ByNeg3" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1869">
+               <a:s>define &quot;Truncated Divide.TruncatedDivideNeg10ByNeg3&quot;: </a:s>
+               <a:s r="1870">
+                  <a:s r="1871">
+                     <a:s r="1872">-10</a:s>
+                  </a:s>
+                  <a:s> div </a:s>
+                  <a:s r="1874">
+                     <a:s r="1875">-3</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1870" locator="367:55-367:64" xsi:type="TruncatedDivide">
+            <signature localId="1877" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1878" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1871" locator="367:55-367:57" xsi:type="Negate">
+               <signature localId="1873" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1872" locator="367:56-367:57" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1874" locator="367:63-367:64" xsi:type="Negate">
+               <signature localId="1876" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1875" locator="367:64" valueType="t:Integer" value="3" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1880" locator="369:1-369:72" name="Truncated Divide.TruncatedDivideNeg10d1ByNeg3D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1880">
+               <a:s>define &quot;Truncated Divide.TruncatedDivideNeg10d1ByNeg3D1&quot;: </a:s>
+               <a:s r="1881">
+                  <a:s r="1882">
+                     <a:s r="1883">-10.1</a:s>
+                  </a:s>
+                  <a:s> div </a:s>
+                  <a:s r="1885">
+                     <a:s r="1886">-3.1</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1881" locator="369:59-369:72" xsi:type="TruncatedDivide">
+            <signature localId="1888" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1889" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1882" locator="369:59-369:63" xsi:type="Negate">
+               <signature localId="1884" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1883" locator="369:60-369:63" valueType="t:Decimal" value="10.1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1885" locator="369:69-369:72" xsi:type="Negate">
+               <signature localId="1887" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1886" locator="369:70-369:72" valueType="t:Decimal" value="3.1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1891" locator="371:1-371:58" name="Truncated Divide.TruncatedDivideNeg2By1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1891">
+               <a:s>define &quot;Truncated Divide.TruncatedDivideNeg2By1&quot;: </a:s>
+               <a:s r="1892">
+                  <a:s r="1893">
+                     <a:s r="1894">-2</a:s>
+                  </a:s>
+                  <a:s r="1896"> div 1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1892" locator="371:51-371:58" xsi:type="TruncatedDivide">
+            <signature localId="1897" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1898" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1893" locator="371:51-371:52" xsi:type="Negate">
+               <signature localId="1895" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1894" locator="371:52" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1896" locator="371:58" valueType="t:Integer" value="1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1900" locator="373:1-373:60" name="Truncated Divide.TruncatedDivideNeg10By3" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1900">
+               <a:s>define &quot;Truncated Divide.TruncatedDivideNeg10By3&quot;: </a:s>
+               <a:s r="1901">
+                  <a:s r="1902">
+                     <a:s r="1903">-10</a:s>
+                  </a:s>
+                  <a:s r="1905"> div 3</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1901" locator="373:52-373:60" xsi:type="TruncatedDivide">
+            <signature localId="1906" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1907" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1902" locator="373:52-373:54" xsi:type="Negate">
+               <signature localId="1904" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1903" locator="373:53-373:54" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1905" locator="373:60" valueType="t:Integer" value="3" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1909" locator="375:1-375:68" name="Truncated Divide.TruncatedDivideNeg10d1By3D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1909">
+               <a:s>define &quot;Truncated Divide.TruncatedDivideNeg10d1By3D1&quot;: </a:s>
+               <a:s r="1910">
+                  <a:s r="1911">
+                     <a:s r="1912">-10.1</a:s>
+                  </a:s>
+                  <a:s r="1914"> div 3.1</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1910" locator="375:56-375:68" xsi:type="TruncatedDivide">
+            <signature localId="1915" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1916" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1911" locator="375:56-375:60" xsi:type="Negate">
+               <signature localId="1913" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1912" locator="375:57-375:60" valueType="t:Decimal" value="10.1" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1914" locator="375:66-375:68" valueType="t:Decimal" value="3.1" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1918" locator="377:1-377:58" name="Truncated Divide.TruncatedDivide2ByNeg1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1918">
+               <a:s>define &quot;Truncated Divide.TruncatedDivide2ByNeg1&quot;: </a:s>
+               <a:s r="1919">
+                  <a:s r="1920">2 div </a:s>
+                  <a:s r="1921">
+                     <a:s r="1922">-1</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1919" locator="377:51-377:58" xsi:type="TruncatedDivide">
+            <signature localId="1924" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1925" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1920" locator="377:51" valueType="t:Integer" value="2" xsi:type="Literal"/>
+            <operand localId="1921" locator="377:57-377:58" xsi:type="Negate">
+               <signature localId="1923" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1922" locator="377:58" valueType="t:Integer" value="1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1927" locator="379:1-379:60" name="Truncated Divide.TruncatedDivide10ByNeg3" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1927">
+               <a:s>define &quot;Truncated Divide.TruncatedDivide10ByNeg3&quot;: </a:s>
+               <a:s r="1928">
+                  <a:s r="1929">10 div </a:s>
+                  <a:s r="1930">
+                     <a:s r="1931">-3</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1928" locator="379:52-379:60" xsi:type="TruncatedDivide">
+            <signature localId="1933" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1934" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1929" locator="379:52-379:53" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            <operand localId="1930" locator="379:59-379:60" xsi:type="Negate">
+               <signature localId="1932" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1931" locator="379:60" valueType="t:Integer" value="3" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1936" locator="381:1-381:68" name="Truncated Divide.TruncatedDivide10d1ByNeg3D1" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1936">
+               <a:s>define &quot;Truncated Divide.TruncatedDivide10d1ByNeg3D1&quot;: </a:s>
+               <a:s r="1937">
+                  <a:s r="1938">10.1 div </a:s>
+                  <a:s r="1939">
+                     <a:s r="1940">-3.1</a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1937" locator="381:56-381:68" xsi:type="TruncatedDivide">
+            <signature localId="1942" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1943" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1938" locator="381:56-381:59" valueType="t:Decimal" value="10.1" xsi:type="Literal"/>
+            <operand localId="1939" locator="381:65-381:68" xsi:type="Negate">
+               <signature localId="1941" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1940" locator="381:66-381:68" valueType="t:Decimal" value="3.1" xsi:type="Literal"/>
+            </operand>
+         </expression>
+      </def>
+      <def localId="1945" locator="383:1-383:59" name="Truncated Divide.TruncatedDivide10By5D" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1945">
+               <a:s>define &quot;Truncated Divide.TruncatedDivide10By5D&quot;: </a:s>
+               <a:s r="1946">
+                  <a:s r="1947">10 div 5.0</a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1946" locator="383:50-383:59" xsi:type="TruncatedDivide">
+            <signature localId="1952" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1953" name="t:Decimal" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1950" xsi:type="ToDecimal">
+               <signature localId="1951" name="t:Integer" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1947" locator="383:50-383:51" valueType="t:Integer" value="10" xsi:type="Literal"/>
+            </operand>
+            <operand localId="1948" locator="383:57-383:59" valueType="t:Decimal" value="5.0" xsi:type="Literal"/>
+         </expression>
+      </def>
+      <def localId="1955" locator="385:1-385:86" name="Truncated Divide.TruncatedDivide10d1ByNeg3D1Quantity" context="Unfiltered" accessLevel="Public">
+         <annotation xsi:type="a:Annotation">
+            <a:s r="1955">
+               <a:s>define &quot;Truncated Divide.TruncatedDivide10d1ByNeg3D1Quantity&quot;: </a:s>
+               <a:s r="1956">
+                  <a:s r="1957">
+                     <a:s>10.1 'cm'</a:s>
+                  </a:s>
+                  <a:s> div </a:s>
+                  <a:s r="1958">
+                     <a:s>-</a:s>
+                     <a:s r="1959">
+                        <a:s>3.1 'cm'</a:s>
+                     </a:s>
+                  </a:s>
+               </a:s>
+            </a:s>
+         </annotation>
+         <expression localId="1956" locator="385:64-385:86" xsi:type="TruncatedDivide">
+            <signature localId="1961" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <signature localId="1962" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+            <operand localId="1957" locator="385:64-385:72" value="10.1" unit="cm" xsi:type="Quantity"/>
+            <operand localId="1958" locator="385:78-385:86" xsi:type="Negate">
+               <signature localId="1960" name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+               <operand localId="1959" locator="385:79-385:86" value="3.1" unit="cm" xsi:type="Quantity"/>
+            </operand>
+         </expression>
+      </def>
+   </statements>
+</library>
+
+
