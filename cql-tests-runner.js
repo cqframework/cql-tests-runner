@@ -7,6 +7,7 @@ const loadTests = require('./loadTests');
 const colors = require('colors/safe');
 const currentDate = format(new Date(), 'yyyyMMddhhmm');
 const axios = require('axios');
+const CQLEngine = require('./CQLEngine');
 // TODO: Read server-url from environment path...
 
 // Setup for running both $cql and Library/$evaluate
@@ -47,6 +48,8 @@ class Test {
 }
 */
 
+
+
 class Result {
     testStatus; // String: pass | fail | skip | error
     responseStatus; // Integer
@@ -86,6 +89,9 @@ class Result {
 async function main() {
     const args = process.argv.slice(2);
     let apiUrl = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
+    let cqlEngine = new CQLEngine(apiUrl);
+    cqlEngine.cqlVersion = '1.5';
+
     let environmentPath = './environment/globals.json';
     let outputPath = './results'
     if (args.length > 0) {
@@ -144,10 +150,10 @@ async function main() {
     }
 
     for (let r of results) {
-        await runTest(r, apiUrl, x);
+        await runTest(r, cqlEngine.apiUrl, x);
     }
 
-    logResults(results, outputPath);
+    logResults(cqlEngine, results, outputPath);
 };
 
 main();
@@ -280,19 +286,25 @@ function logResult(result, outputPath) {
     });
 }
 
-function logResults(results, outputPath) {
-    const fileName = `${currentDate}_results.json`;
-    if (!fs.existsSync(outputPath)) {
-        fs.mkdirSync(outputPath, { recursive: true });
+function logResults(cqlengine, results, outputPath) {
+    if(cqlengine instanceof CQLEngine){
+        const fileName = `${currentDate}_results.json`;
+        if (!fs.existsSync(outputPath)) {
+            fs.mkdirSync(outputPath, { recursive: true });
+        }
+        const filePath = path.join(outputPath, fileName);
+        const result = {
+            cqlengine,
+            summary: summarizeResults(results),
+            results: results
+        };
+        fs.writeFileSync(filePath, JSON.stringify(result, null, 2), (error) => {
+            if (error) throw error;
+        });
+    } else {
+        throw new Error(`Not a valid CQL Engine Instance !!`)
     }
-    const filePath = path.join(outputPath, fileName);
-    const result = { 
-        summary: summarizeResults(results),
-        results: results 
-    };
-    fs.writeFileSync(filePath, JSON.stringify(result, null, 2), (error) => {
-        if (error) throw error;
-    });
+
 }
 
 function summarizeResults(results) {
