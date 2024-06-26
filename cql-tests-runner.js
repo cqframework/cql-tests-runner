@@ -88,28 +88,13 @@ class Result {
 // Iterate through tests
 async function main() {
     const args = process.argv.slice(2);
-    let apiUrl = 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql';
-    let cqlEngine = new CQLEngine(apiUrl);
-    cqlEngine.cqlVersion = '1.5';
 
-    let environmentPath = './environment/globals.json';
+    let serverBaseUrl = process.env.SERVER_BASE_URL || 'https://cloud.alphora.com/sandbox/r4/cds/fhir';
+    let cqlEndpoint = process.env.CQL_ENDPOINT || '$cql';
     let outputPath = './results'
-    if (args.length > 0) {
-        for (const arg of args) {
-            let prefix = arg.slice(0, 4);
-            switch (prefix) {
-                case '-au=':
-                    apiUrl = arg.slice(4);
-                    break;
-                case '-ep=':
-                    environmentPath = arg.slice(4);
-                    break;
-                case '-op=':
-                    outputPath = arg.slice(4);
-                    break;
-            }
-        };
-    }
+   
+    let cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
+    cqlEngine.cqlVersion = '1.5';
 
     const tests = loadTests.load();
 
@@ -117,7 +102,7 @@ async function main() {
     await require('./cvl/cvlLoader.js').then(([{ default: cvl }]) => { x = cvl });
 
     // Set this to true to run only the first group of tests
-    const quickTest = false;
+    const quickTest = true;
     //const onlyTestsName = "CqlArithmeticFunctionsTest";
     //const onlyGroupName = "Ceiling";
     //const onlyTestName = "CeilingNeg1D1";
