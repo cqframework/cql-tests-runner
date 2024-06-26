@@ -91,7 +91,7 @@ async function main() {
 
     let serverBaseUrl = process.env.SERVER_BASE_URL || 'https://cloud.alphora.com/sandbox/r4/cds/fhir';
     let cqlEndpoint = process.env.CQL_ENDPOINT || '$cql';
-    let outputPath = './results'
+    let outputPath = process.env.OUTPUT_PATH || './results';
    
     let cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
     cqlEngine.cqlVersion = '1.5';
