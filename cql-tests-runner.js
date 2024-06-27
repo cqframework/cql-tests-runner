@@ -8,6 +8,8 @@ const colors = require('colors/safe');
 const currentDate = format(new Date(), 'yyyyMMddhhmm');
 const axios = require('axios');
 const CQLEngine = require('./CQLEngine');
+const ConfigLoader = require('./configLoader');
+const config = new ConfigLoader();
 // TODO: Read server-url from environment path...
 
 // Setup for running both $cql and Library/$evaluate
@@ -87,11 +89,10 @@ class Result {
 
 // Iterate through tests
 async function main() {
-    const args = process.argv.slice(2);
 
-    let serverBaseUrl = process.env.SERVER_BASE_URL || 'https://cloud.alphora.com/sandbox/r4/cds/fhir';
-    let cqlEndpoint = process.env.CQL_ENDPOINT || '$cql';
-    let outputPath = process.env.OUTPUT_PATH || './results';
+    let serverBaseUrl = config.FhirServer.BaseUrl
+    let cqlEndpoint =  config.FhirServer.CqlOperation;
+    let outputPath = config.Tests.ResultsPath;
    
     let cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
     cqlEngine.cqlVersion = '1.5';
@@ -102,7 +103,7 @@ async function main() {
     await require('./cvl/cvlLoader.js').then(([{ default: cvl }]) => { x = cvl });
 
     // Set this to true to run only the first group of tests
-    const quickTest = true;
+    const quickTest = config.Debug.QuickTest
     //const onlyTestsName = "CqlArithmeticFunctionsTest";
     //const onlyGroupName = "Ceiling";
     //const onlyTestName = "CeilingNeg1D1";

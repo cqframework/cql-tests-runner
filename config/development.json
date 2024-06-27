@@ -1,0 +1,12 @@
+{
+    "FhirServer": {
+      "BaseUrl": "https://cloud.alphora.com/sandbox/r4/cds/fhir/",
+      "CqlOperation": "$cql"           
+    },
+    "Tests": {
+      "ResultsPath": "./results"
+    },
+    "Debug": {
+      "QuickTest": true
+    }
+}

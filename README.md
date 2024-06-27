@@ -5,7 +5,7 @@ The application runs all the tests in the repository and outputs the results as 
 
 ## Setting up the Environment
 
-This application requires Node v20 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
+This application requires Node v18 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
 
 Install the application using
 
@@ -19,25 +19,50 @@ The cql-tests folder has been added as a submodule. After pulling, you'll find a
 git submodule update --init --recursive
 ```
 
-### Environment Variables
-Environment variables are set in an environment file. The file .development.env provides a sample.
+### Configuration Settings
+Configuration settings are set in a configuration file using NPM [NPM config](https://www.npmjs.com/package/config) functionality. The file config/development.json provides a sample.
  
 ```
-SERVER_BASE_URL=http://fhirServerBaseEndpoint
-CQL_ENDPOINT=$cql
-OUTPUT_PATH=./results
+{
+    "FhirServer": {
+      "BaseUrl": "https://fhirServerBaseUrl",
+      "CqlOperation": "$cql"           
+    },
+    "Tests": {
+      "ResultsPath": "./results"
+    },
+    "Debug": {
+      "QuickTest": true
+    }
+}
 ```
-Copy this file to a new name and make appropriate modifications to the values within. An example would be `.env` or `.production.env`.
+Copy this file to a new name and make appropriate modifications to the values within. An example would be `production.json`.
 
 ### Running the tests
 Run the tests with the following commands:
 
 ```
-node -env-file=.development.env cql-tests-runner.js
+node cql-tests-runner.js
 ```
+
+or when using a custom configuration file:
+
+```
+$ export NODE_ENV=production
+$ node cql-tests-runner.js
+```
+```
+set NODE_ENV=production && node cql-tests-runner.js
+```
+
 Alternatively the values can be passed in at run-time:
 ```
-SERVER_BASE_URL=http://fhirServerBaseEndpoint CQL_ENDPOINT=$cql node cql-tests-runner.js
+$ export SERVER_BASE_URL=http://fhirServerBaseEndpoint 
+$ export CQL_OPERATION=$cql 
+$ node cql-tests-runner.js
+```
+```
+set SERVER_BASE_URL=http://fhirServerBaseEndpoint && set CQL_OPERATION=$cql && node cql-tests-runner.js
 ```
 
 ### Development Environment
@@ -47,11 +72,12 @@ If using vscode for development, below are some examples for running the tests u
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch EnvFile",
+      "name": "Launch Prod Config",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\cql-tests-runner.js",
-      "envFile": "${workspaceFolder}\\.development.env"
-    },
+      "env": {
+        "NODE_ENV": "production"
+      },
     {
       "type": "node",
       "request": "launch",
