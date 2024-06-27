@@ -15,7 +15,7 @@ class ConfigLoader {
             ResultsPath: process.env.RESULTS_PATH || config.get('Tests.ResultsPath') || './results'
         };
         this.Debug = {
-            QuickTest: process.env.QUICK_TEST || config.get('Debug.QuickTest') || true
+            QuickTest: this.getQuickTestSetting()
         };
     }
 
@@ -31,6 +31,18 @@ class ConfigLoader {
             return this.FhirServer.BaseUrl + 'Library' + '/$evaluate';
         }
     }
+    getQuickTestSetting() {
+        if (process.env.QUICK_TEST !== undefined) {
+          return process.env.QUICK_TEST === 'true';
+        }
+    
+        const configValue = config.get('Debug.QuickTest');
+        if (configValue !== undefined) {
+          return configValue;
+        }
+
+        return true;
+      }
 }
 
 module.exports = ConfigLoader;
