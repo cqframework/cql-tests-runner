@@ -19,17 +19,74 @@ The cql-tests folder has been added as a submodule. After pulling, you'll find a
 git submodule update --init --recursive
 ```
 
-### Environment Variables
-Environment variables are set in the environment/global.json file:
+### Configuration Settings
+Configuration settings are set in a configuration file using NPM [NPM config](https://www.npmjs.com/package/config) functionality. The file config/development.json provides a sample.
  
-    {{basicUser}} -- your user name on the server being tested.
-    {{basicPass}} -- your password on the server to be tested.
-    {{serverUrl}} -- the url of the FHIR CQL server to be tested.
+```
+{
+    "FhirServer": {
+      "BaseUrl": "https://fhirServerBaseUrl",
+      "CqlOperation": "$cql"           
+    },
+    "Tests": {
+      "ResultsPath": "./results"
+    },
+    "Debug": {
+      "QuickTest": true
+    }
+}
+```
+Copy this file to a new name and make appropriate modifications to the values within. An example would be `production.json`.
 
 ### Running the tests
-Run the tests with the following command:
+Run the tests with the following commands:
 
 ```
 node cql-tests-runner.js
+```
+
+or when using a custom configuration file:
+
+```
+$ export NODE_ENV=production
+$ node cql-tests-runner.js
+```
+```
+set NODE_ENV=production && node cql-tests-runner.js
+```
+
+Alternatively the values can be passed in at run-time:
+```
+$ export SERVER_BASE_URL=http://fhirServerBaseEndpoint 
+$ export CQL_OPERATION=$cql 
+$ node cql-tests-runner.js
+```
+```
+set SERVER_BASE_URL=http://fhirServerBaseEndpoint && set CQL_OPERATION=$cql && node cql-tests-runner.js
+```
+
+### Development Environment
+
+If using vscode for development, below are some examples for running the tests using environment variables:
+```
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Prod Config",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\cql-tests-runner.js",
+      "env": {
+        "NODE_ENV": "production"
+      },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch EnvParams",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\cql-tests-runner.js",
+      "env": {
+        "SERVER_BASE_URL": "http://localhost:3000"
+      }
+    },
 ```
 
