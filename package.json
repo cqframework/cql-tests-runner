@@ -4,7 +4,8 @@
     "description": "Node application for running CQL tests",
     "main": "cql-tests-runner.js",
     "scripts": {
-        "test": "node cql-tests-runner.js"
+        "test": "node cql-tests-runner.js",
+        "build": "node build-libraries.js"
     },
     "author": "",
     "license": "Apache-2.0",

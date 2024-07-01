@@ -2,25 +2,43 @@
 const config = require('config');
 
 class ConfigLoader {
-
+    
     constructor() {
 
         const baseURL = process.env.SERVER_BASE_URL || config.get('FhirServer.BaseUrl') || 'https://cloud.alphora.com/sandbox/r4/cds/fhir';
 
         this.FhirServer = {
-            BaseUrl: this.removeTrailingSlash(baseURL),
+            BaseUrl: this.#removeTrailingSlash(baseURL),
             CqlOperation: process.env.CQL_OPERATION || config.get('FhirServer.CqlOperation') || '$cql'
         };
+        this.Build = {
+            CqlFileVersion: process.env.CQL_FILE_VERSION || config.get('Build.CqlFileVersion') || '1.0.000',
+            CqlOutputPath: process.env.CQL_OUTPUT_PATH || config.get('Build.CqlOutputPath') || './cql'
+
+        }
         this.Tests = {
-            ResultsPath: process.env.RESULTS_PATH || config.get('Tests.ResultsPath') || './results'
+            ResultsPath: process.env.RESULTS_PATH || config.get('Tests.ResultsPath') || './results',
+            SkipList: process.env.SKIP_LIST || config.get('Tests.SkipList') || []
         };
         this.Debug = {
-            QuickTest: this.getQuickTestSetting()
+            QuickTest: this.#setQuickTestSetting()
         };
+
+        this.CqlEndpoint = this.#cqlEndPoint();
+
+    }
+    // TODO: validate the config values
+    #removeTrailingSlash(url) {
+        return url.endsWith('/') ? url.slice(0, -1) : url;
     }
 
-    removeTrailingSlash(url) {
-        return url.endsWith('/') ? url.slice(0, -1) : url;
+    #cqlEndPoint(){
+        if (this.FhirServer.CqlOperation === '$cql') {
+            return '$cql';
+        }
+        else {
+            return 'Library' + '/$evaluate';
+        }
     }
 
     get apiUrl() {
@@ -28,21 +46,33 @@ class ConfigLoader {
             return this.FhirServer.BaseUrl + '/$cql';
         }
         else {
-            return this.FhirServer.BaseUrl + 'Library' + '/$evaluate';
+            return this.FhirServer.BaseUrl + '/Library' + '/$evaluate';
         }
     }
-    getQuickTestSetting() {
+
+    #setQuickTestSetting() {
         if (process.env.QUICK_TEST !== undefined) {
-          return process.env.QUICK_TEST === 'true';
+            return process.env.QUICK_TEST === 'true';
         }
-    
+
         const configValue = config.get('Debug.QuickTest');
         if (configValue !== undefined) {
-          return configValue;
+            return configValue;
         }
 
         return true;
-      }
+    }
+
+    skipListMap() {
+        const skipList = this.Tests.SkipList;
+        const skipMap = new Map(
+            skipList.map(skipItem => [
+                `${skipItem.testsName}-${skipItem.groupName}-${skipItem.testName}`,
+                skipItem.reason
+            ])
+        );
+        return skipMap
+    }
 }
 
 module.exports = ConfigLoader;
