@@ -10,7 +10,7 @@ const axios = require('axios');
 const CQLEngine = require('./CQLEngine');
 const ConfigLoader = require('./configLoader');
 const config = new ConfigLoader();
-// TODO: Read server-url from environment path...
+const resultsShared = require('./resultsShared');
 
 // Setup for running both $cql and Library/$evaluate
 // Expand outputType to allow Parameters representation
@@ -49,9 +49,6 @@ class Test {
     output: String([]) | { text: String, type: boolean | code | date | dateTime | decimal | integer | long | quantity | string | time }([])
 }
 */
-
-
-
 class Result {
     testStatus; // String: pass | fail | skip | error
     responseStatus; // Integer
@@ -91,101 +88,81 @@ class Result {
 async function main() {
 
     let serverBaseUrl = config.FhirServer.BaseUrl
-    let cqlEndpoint =  config.FhirServer.CqlOperation;
+    let cqlEndpoint = config.CqlEndpoint;
     let outputPath = config.Tests.ResultsPath;
-   
+
+    //TODO: CQLEngine needs adjustments to handle Library/$evaluate. Config forces use of proper operation name and baseURL
     let cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
     cqlEngine.cqlVersion = '1.5';
-
-    const tests = loadTests.load();
 
     var x;
     await require('./cvl/cvlLoader.js').then(([{ default: cvl }]) => { x = cvl });
 
+
+    const tests = loadTests.load();
     // Set this to true to run only the first group of tests
     const quickTest = config.Debug.QuickTest
-    //const onlyTestsName = "CqlArithmeticFunctionsTest";
-    //const onlyGroupName = "Ceiling";
-    //const onlyTestName = "CeilingNeg1D1";
+    const emptyResults = await resultsShared.generateEmptyResults(tests, quickTest);
+
+    const skipMap = config.skipListMap();
 
     let results = [];
-    for (const ts of tests) {
-        if (typeof onlyTestsName === 'undefined' || onlyTestsName === ts.name) {
-            console.log('Tests: ' + ts.name);
-            for (const group of ts.group) {
-                if (typeof onlyGroupName === 'undefined' || onlyGroupName === group.name) {
-                    console.log('    Group: ' + group.name);
-                    let test = group.test;
-                    if (test != undefined) {
-                        for (const t of test) {
-                            if (typeof onlyTestName === 'undefined' || onlyTestName === t.name) {
-                                console.log('        Test: ' + t.name);
-                                results.push(new Result(ts.name, group.name, t));
-                            }
-                        }
-                    }
-                    if (quickTest) {
-                        break; // Only load 1 group for testing
-                    }
-                }
-            }
-            if (quickTest) {
-                break; // Only load 1 test set for testing
-            }
+    for (let testFile of emptyResults) {
+        for (let result of testFile) {
+            await runTest(result, cqlEngine.apiUrl, x, skipMap);
+            results.push(result);
         }
     }
-
-    for (let r of results) {
-        await runTest(r, cqlEngine.apiUrl, x);
-    }
-
     logResults(cqlEngine, results, outputPath);
 };
 
 main();
 
-async function runTest(result, apiUrl, cvl) {
-    if (result.testStatus !== 'skip') {
-        const data = {
-            "resourceType": "Parameters",
-            "parameter": [{
-                "name": "expression",
-                "valueString": result.expression
-            }]
-        };
+async function runTest(result, apiUrl, cvl, skipMap) {
+    const key = `${result.testsName}-${result.groupName}-${result.testName}`;
+    if (result.testStatus === 'skip') {
+        result.SkipMessage = 'Skipped by cql-tests-runner';
+        return result;
+    } else if (skipMap.has(key)) {        
+        let reason = skipMap.get(key);
+        result.SkipMessage = `Skipped by config: ${reason}"`;
+        result.testStatus = 'skip';
+        return result;
+    }
+    //TODO: handle instance api location for library/$evaluate
+    let data = resultsShared.generateParametersResource(result, config.FhirServer.CqlOperation);
 
-        try {
-            console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.testName);
-            const response = await axios.post(apiUrl, data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+    try {
+        console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.testName);
+        const response = await axios.post(apiUrl, data, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
 
-            result.responseStatus = response.status;
+        result.responseStatus = response.status;
 
-            const responseBody = response.data;
-            result.actual = extractResult(responseBody);
+        const responseBody = response.data;
+        result.actual = extractResult(responseBody);
 
-            const invalid = result.invalid;
-            if (invalid === 'true' || invalid === 'semantic') {
-                // TODO: Validate the error message is as expected...
-                result.testStatus = response.status === 200 ? 'fail' : 'pass';
+        const invalid = result.invalid;
+        if (invalid === 'true' || invalid === 'semantic') {
+            // TODO: Validate the error message is as expected...
+            result.testStatus = response.status === 200 ? 'fail' : 'pass';
+        }
+        else {
+            if (response.status === 200) {
+                result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual) ? 'pass' : 'fail';
             }
             else {
-                if (response.status === 200) {
-                    result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual) ? 'pass' : 'fail';
-                }
-                else {
-                    result.testStatus = 'fail';
-                }
+                result.testStatus = 'fail';
             }
         }
-        catch (error) {
-            result.testStatus = 'error';
-            result.error = error;
-        };
     }
+    catch (error) {
+        result.testStatus = 'error';
+        result.error = error;
+    };
 
     console.log('Test %s:%s:%s status: %s expected: %s actual: %s', result.testsName, result.groupName, result.name, result.testStatus, result.expected, result.actual);
     return result;
@@ -207,7 +184,7 @@ function extractResult(response) {
     var result;
     if (response.hasOwnProperty('resourceType') && response.resourceType === 'Parameters') {
         for (let p of response.parameter) {
-            if (p.name === 'return') {
+           // if (p.name === 'return') {
                 if (result === undefined) {
                     if (p.hasOwnProperty("valueBoolean")) {
                         result = p.valueBoolean;
@@ -247,7 +224,7 @@ function extractResult(response) {
                     result = undefined;
                     break;
                 }
-            }
+           // }
         }
 
         if (result !== undefined) {
@@ -273,7 +250,7 @@ function logResult(result, outputPath) {
 }
 
 function logResults(cqlengine, results, outputPath) {
-    if(cqlengine instanceof CQLEngine){
+    if (cqlengine instanceof CQLEngine) {
         const fileName = `${currentDate}_results.json`;
         if (!fs.existsSync(outputPath)) {
             fs.mkdirSync(outputPath, { recursive: true });
