@@ -2,7 +2,6 @@
 import antlr4 from 'antlr4';
 import cvlLexer from './.antlr/cvlLexer.mjs';
 import cvlParser from './.antlr/cvlParser.mjs';
-//import cvlListener from './.antlr/cvlListener.js';
 import cvlVisitor from './.antlr/cvlVisitor.mjs';
 
 class cvlParseVisitor extends cvlVisitor {
@@ -24,35 +23,30 @@ class cvlParseVisitor extends cvlVisitor {
 
 	// Visit a parse tree produced by cvlParser#literalTerm.
 	visitLiteralTerm(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.children[0].accept(this);
 	}
 
 
 	// Visit a parse tree produced by cvlParser#intervalSelectorTerm.
 	visitIntervalSelectorTerm(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.children[0].accept(this);
 	}
 
 
 	// Visit a parse tree produced by cvlParser#tupleSelectorTerm.
 	visitTupleSelectorTerm(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.children[0].accept(this);
 	}
 
 
 	// Visit a parse tree produced by cvlParser#instanceSelectorTerm.
 	visitInstanceSelectorTerm(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.children[0].accept(this);
 	}
 
 
 	// Visit a parse tree produced by cvlParser#listSelectorTerm.
 	visitListSelectorTerm(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.children[0].accept(this);
 	}
 
@@ -99,35 +93,30 @@ class cvlParseVisitor extends cvlVisitor {
 
 	// Visit a parse tree produced by cvlParser#dateTimeLiteral.
 	visitDateTimeLiteral(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.getText();
 	}
 
 
 	// Visit a parse tree produced by cvlParser#dateLiteral.
 	visitDateLiteral(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.getText();
 	}
 
 
 	// Visit a parse tree produced by cvlParser#timeLiteral.
 	visitTimeLiteral(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.getText();
 	}
 
 
 	// Visit a parse tree produced by cvlParser#quantityLiteral.
 	visitQuantityLiteral(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.children[0].accept(this);
 	}
 
 
 	// Visit a parse tree produced by cvlParser#ratioLiteral.
 	visitRatioLiteral(ctx) {
-		//return this.visitChildren(ctx);
 		return ctx.children[0].accept(this);
 	}
 
