@@ -7,10 +7,12 @@ const loadTests = require('./loadTests');
 const colors = require('colors/safe');
 const currentDate = format(new Date(), 'yyyyMMddhhmm');
 const axios = require('axios');
-const CQLEngine = require('./CQLEngine');
+const CQLEngine = require('./lib/cql-engine/CQLEngine.js');
 const ConfigLoader = require('./configLoader');
 const config = new ConfigLoader();
 const resultsShared = require('./resultsShared');
+// const TestResults = require('./lib/test-results/TestResults.js');
+const CQLTestResults = require('./lib/test-results/CQLTestResults.js');
 
 // Setup for running both $cql and Library/$evaluate
 // Expand outputType to allow Parameters representation
@@ -106,14 +108,15 @@ async function main() {
 
     const skipMap = config.skipListMap();
 
-    let results = [];
+    let results = new CQLTestResults(cqlEngine);
     for (let testFile of emptyResults) {
         for (let result of testFile) {
             await runTest(result, cqlEngine.apiUrl, x, skipMap);
-            results.push(result);
+            results.add(result);
         }
     }
-    logResults(cqlEngine, results, outputPath);
+    results.save(outputPath);
+    results.validate();
 };
 
 main();
@@ -228,7 +231,7 @@ function extractResult(response) {
         }
 
         if (result !== undefined) {
-            return result;
+            return result.toString();
         }
     }
 
@@ -256,11 +259,12 @@ function logResults(cqlengine, results, outputPath) {
             fs.mkdirSync(outputPath, { recursive: true });
         }
         const filePath = path.join(outputPath, fileName);
-        const result = {
-            cqlengine,
-            summary: summarizeResults(results),
-            results: results
-        };
+        const result = new TestResults(cqlengine, summarizeResults(results), null, results);
+        // const result = {
+        //     cqlengine,
+        //     summary: summarizeResults(results),
+        //     results: results
+        // };
         fs.writeFileSync(filePath, JSON.stringify(result, null, 2), (error) => {
             if (error) throw error;
         });
