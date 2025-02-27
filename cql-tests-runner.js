@@ -172,6 +172,9 @@ async function runTest(result, apiUrl, cvl, skipMap) {
 };
 
 function resultsEqual(expected, actual) {
+    if (typeof expected === 'boolean' && typeof actual === 'string') {
+        actual = (actual === 'true')
+    }
     if (expected === undefined && actual === undefined) {
         return true;
     }
