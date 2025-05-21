@@ -1,5 +1,6 @@
 #!/usr/bin/node
 
+const lodash = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const { format } = require('date-fns');
@@ -13,6 +14,25 @@ const config = new ConfigLoader();
 const resultsShared = require('./resultsShared');
 // const TestResults = require('./lib/test-results/TestResults.js');
 const CQLTestResults = require('./lib/test-results/CQLTestResults.js');
+
+const BooleanExtractor = require('./lib/extractors/value-type-extractors/BooleanExtractor');
+const CodeExtractor = require('./lib/extractors/value-type-extractors/CodeExtractor');
+const ConceptExtractor = require('./lib/extractors/value-type-extractors/ConceptExtractor');
+const DateExtractor = require('./lib/extractors/value-type-extractors/DateExtractor');
+const DateTimeExtractor = require('./lib/extractors/value-type-extractors/DateTimeExtractor');
+const DecimalExtractor = require('./lib/extractors/value-type-extractors/DecimalExtractor');
+const EvaluationErrorExtractor = require('./lib/extractors/EvaluationErrorExtractor');
+const IntegerExtractor = require('./lib/extractors/value-type-extractors/IntegerExtractor');
+const NullEmptyExtractor = require('./lib/extractors/NullEmptyExtractor');
+const PeriodExtractor = require('./lib/extractors/value-type-extractors/PeriodExtractor');
+const QuantityExtractor = require('./lib/extractors/value-type-extractors/QuantityExtractor');
+const RangeExtractor = require('./lib/extractors/value-type-extractors/RangeExtractor');
+const RatioExtractor = require('./lib/extractors/value-type-extractors/RatioExtractor');
+const StringExtractor = require('./lib/extractors/value-type-extractors/StringExtractor');
+const TimeExtractor = require('./lib/extractors/value-type-extractors/TimeExtractor');
+const UndefinedExtractor = require('./lib/extractors/UndefinedExtractor');
+const ResultExtractor = require('./lib/extractors/ResultExtractor.js')
+
 
 // Setup for running both $cql and Library/$evaluate
 // Expand outputType to allow Parameters representation
@@ -86,6 +106,27 @@ class Result {
     }
 }
 
+function buildExtractor(ignore_timezone) {
+    let extractors = new EvaluationErrorExtractor();
+        extractors
+            .setNextExtractor(new NullEmptyExtractor())
+            .setNextExtractor(new UndefinedExtractor())
+            .setNextExtractor(new StringExtractor())
+            .setNextExtractor(new BooleanExtractor())
+            .setNextExtractor(new IntegerExtractor())
+            .setNextExtractor(new DecimalExtractor())
+            .setNextExtractor(new DateExtractor())
+            .setNextExtractor(new DateTimeExtractor(ignore_timezone))
+            .setNextExtractor(new TimeExtractor())
+            .setNextExtractor(new QuantityExtractor())
+            .setNextExtractor(new RatioExtractor())
+            .setNextExtractor(new PeriodExtractor(ignore_timezone))
+            .setNextExtractor(new RangeExtractor())
+            .setNextExtractor(new CodeExtractor())
+            .setNextExtractor(new ConceptExtractor());
+    return new ResultExtractor(extractors);
+}
+
 // Iterate through tests
 async function main() {
 
@@ -100,18 +141,21 @@ async function main() {
     var x;
     await require('./cvl/cvlLoader.js').then(([{ default: cvl }]) => { x = cvl });
 
-
     const tests = loadTests.load();
     // Set this to true to run only the first group of tests
     const quickTest = config.Debug.QuickTest
-    const emptyResults = await resultsShared.generateEmptyResults(tests, quickTest);
+    const ignoreTimeZone = config.Tests.IgnoreTimeZone;
 
+
+    var resultExtractor = buildExtractor(ignoreTimeZone);
+
+    const emptyResults = await resultsShared.generateEmptyResults(tests, quickTest);
     const skipMap = config.skipListMap();
 
     let results = new CQLTestResults(cqlEngine);
     for (let testFile of emptyResults) {
         for (let result of testFile) {
-            await runTest(result, cqlEngine.apiUrl, x, skipMap);
+            await runTest(result, cqlEngine.apiUrl, x, resultExtractor, skipMap, ignoreTimeZone);
             results.add(result);
         }
     }
@@ -121,7 +165,7 @@ async function main() {
 
 main();
 
-async function runTest(result, apiUrl, cvl, skipMap) {
+async function runTest(result, apiUrl, cvl, resultExtractor, skipMap, ignoreTimeZone) {
     const key = `${result.testsName}-${result.groupName}-${result.testName}`;
     if (result.testStatus === 'skip') {
         result.SkipMessage = 'Skipped by cql-tests-runner';
@@ -146,8 +190,7 @@ async function runTest(result, apiUrl, cvl, skipMap) {
         result.responseStatus = response.status;
 
         const responseBody = response.data;
-        result.actual = extractResult(responseBody);
-
+        result.actual = resultExtractor.extract(responseBody);
         const invalid = result.invalid;
         if (invalid === 'true' || invalid === 'semantic') {
             // TODO: Validate the error message is as expected...
@@ -155,7 +198,13 @@ async function runTest(result, apiUrl, cvl, skipMap) {
         }
         else {
             if (response.status === 200) {
-                result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual) ? 'pass' : 'fail';
+                if (resultsEqual(cvl.parse(result.expected), cvl.parse(result.actual), ignoreTimeZone) ||
+                    resultsEqual(result.expected, result.actual, ignoreTimeZone))
+                    result.testStatus = 'pass'
+                else {
+                    result.testStatus = 'fail'
+                    result.actual = result.actual;
+                }
             }
             else {
                 result.testStatus = 'fail';
@@ -164,82 +213,37 @@ async function runTest(result, apiUrl, cvl, skipMap) {
     }
     catch (error) {
         result.testStatus = 'error';
-        result.error = error;
+        result.error = {message: error.message, stack: error.stack};
     };
 
     console.log('Test %s:%s:%s status: %s expected: %s actual: %s', result.testsName, result.groupName, result.name, result.testStatus, result.expected, result.actual);
     return result;
 };
 
-function resultsEqual(expected, actual) {
+function remove_timezone(timestamp) {
+    let trimmed_timestamp = /^@(?:[\d]{4}(?:-[\d]{2}-(?:[\d]{2})?)?)?T(?:[\d]{2}:[\d]{2}:[\d]{2})?(?:\.[\d]{3})?/.exec(timestamp);
+    return trimmed_timestamp ? trimmed_timestamp[0] : timestamp;
+}
+
+function resultsEqual(expected, actual, ignoreTimeZone) {
+    if (expected === undefined && actual === undefined)
+        return true;
+    
+    if (expected === null && actual == 'null')
+        return true;
+
     if (typeof expected === 'boolean' && typeof actual === 'string') {
         actual = (actual === 'true')
     }
-    if (expected === undefined && actual === undefined) {
-        return true;
-    }
-    else if (typeof expected === 'number') {
+    
+    if (typeof expected === 'number')
         return Math.abs(actual - expected) < 0.00000001;
-    }
-    else {
-        return expected === actual
-    }
-}
 
-function extractResult(response) {
-    var result;
-    if (response.hasOwnProperty('resourceType') && response.resourceType === 'Parameters') {
-        for (let p of response.parameter) {
-           // if (p.name === 'return') {
-                if (result === undefined) {
-                    if (p.hasOwnProperty("valueBoolean")) {
-                        result = p.valueBoolean;
-                    }
-                    else if (p.hasOwnProperty("valueInteger")) {
-                        result = p.valueInteger;
-                    }
-                    else if (p.hasOwnProperty("valueString")) {
-                        result = p.valueString;
-                    }
-                    else if (p.hasOwnProperty("valueDecimal")) {
-                        result = p.valueDecimal;
-                    }
-                    else if (p.hasOwnProperty("valueDate")) {
-                        result = '@' + p.valueDate.toString();
-                    }
-                    else if (p.hasOwnProperty("valueDateTime")) {
-                        result = '@' + p.valueDateTime.toString();
-                        if (result.length <= 10) {
-                            result = result + 'T';
-                        }
-                    }
-                    else if (p.hasOwnProperty("valueTime")) {
-                        result = '@T' + p.valueTime.toString();
-                    }
-                    else if (p.hasOwnProperty("valueQuantity")) {
-                        result = { value: p.valueQuantity.value, unit: p.valueQuantity.code };
-                    }
-                    else {
-                        result = null;
-                    }
-                    // TODO: Handle other types: Period, Range, Ratio, code, Coding, CodeableConcept
-                }
-                else {
-                    // TODO: Handle lists
-                    // TODO: Handle tuples
-                    result = undefined;
-                    break;
-                }
-           // }
-        }
-
-        if (result !== undefined) {
-            return result.toString();
-        }
+    if (typeof actual === 'string' && actual.startsWith('@') && typeof expected === 'string' && expected.startsWith('@') && ignoreTimeZone){
+        return remove_timezone(actual) == remove_timezone(expected);
     }
 
-    // Anything that can't be structured directly, return as the actual output...
-    return JSON.stringify(response);
+    return lodash.isEqual(expected, actual);
 }
 
 // Output test results
