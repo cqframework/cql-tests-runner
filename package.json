@@ -6,7 +6,7 @@
     "scripts": {
         "test": "node cql-tests-runner.js",
         "build": "node build-libraries.js",
-        "unit-tests": "jest"
+        "unit-tests": "vitest"
     },
     "author": "",
     "license": "Apache-2.0",
@@ -23,6 +23,6 @@
         "lodash": "^4.17.21"
     },
     "devDependencies": {
-        "jest": "^29.7.0"
+        "vitest": "^3.1.4"
     }
 }

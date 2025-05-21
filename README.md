@@ -102,7 +102,7 @@ If using vscode for development, below are some examples for running the tests u
 
 ### Unit Testing
 
-Unit testing of the cql-test-runner is implemented with Jest.
+Unit testing of the cql-test-runner is implemented with [Vitest](https://vitest.dev/).
 
 _This is for only testing of the cql-test-runner logic, and not for testing FHIR operations._
 
@@ -110,7 +110,7 @@ Test cases are stored in the `<root>/__tests__` folder.
 
 ##### Executing Unit Tests
 
-Unit tests are run from the command line using the following command
+Unit tests can be run from the command line using the following
 
 ```
 $ npm run unit-tests
