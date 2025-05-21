@@ -4,6 +4,7 @@ const config = require('config');
 class ConfigLoader {
     
     constructor() {
+        console.log(process.env.NODE_ENV)
 
         const baseURL = process.env.SERVER_BASE_URL || config.get('FhirServer.BaseUrl') || 'https://cloud.alphora.com/sandbox/r4/cds/fhir';
 
@@ -18,7 +19,8 @@ class ConfigLoader {
         }
         this.Tests = {
             ResultsPath: process.env.RESULTS_PATH || config.get('Tests.ResultsPath') || './results',
-            SkipList: process.env.SKIP_LIST || config.get('Tests.SkipList') || []
+            SkipList: process.env.SKIP_LIST || config.get('Tests.SkipList') || [],
+            IgnoreTimeZone: process.env.IGNORE_TIME_ZONE || config.get('Tests.IgnoreTimeZone') || true
         };
         this.Debug = {
             QuickTest: this.#setQuickTestSetting()
@@ -61,6 +63,19 @@ class ConfigLoader {
         }
 
         return true;
+    }
+
+    #setIgnoreTimeZoneSetting() {
+        if (process.env.IGNORE_TIME_ZONE !== undefined) {
+            return process.env.IGNORE_TIME_ZONE === 'true';
+        }
+
+        const configValue = config.get('Tests.IgnoreTimeZone');
+        if (configValue !== undefined) {
+            return configValue;
+        }
+
+        return false;
     }
 
     skipListMap() {
