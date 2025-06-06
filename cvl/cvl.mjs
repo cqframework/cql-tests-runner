@@ -62,7 +62,7 @@ class cvlParseVisitor extends cvlVisitor {
 
 	// Visit a parse tree produced by cvlParser#booleanLiteral.
 	visitBooleanLiteral(ctx) {
-		return ctx.getText() === 'true' ? true : false;
+		return ctx.getText() === 'true';
 	}
 
 
@@ -124,9 +124,9 @@ class cvlParseVisitor extends cvlVisitor {
 	// Visit a parse tree produced by cvlParser#intervalSelector.
 	visitIntervalSelector(ctx) {
 		return {
-			lowClosed: ctx.children[1].accept(this) === '[',
+			lowClosed: ctx.children[1].getText() === '[',
 			low: ctx.children[2].accept(this),
-			hiClosed: ctx.children[5].accept(this) === ']',
+			hiClosed: ctx.children[5].getText() === ']',
 			hi: ctx.children[4].accept(this)
 		}
 	}
@@ -134,26 +134,12 @@ class cvlParseVisitor extends cvlVisitor {
 
 	// Visit a parse tree produced by cvlParser#tupleSelector.
 	visitTupleSelector(ctx) {
-		var result = { };
-		for (let i = 0; i < ctx.children.length; i++) {
-			var child = ctx.children[i].accept(this);
-			if (child === 'Tuple') {
+		let result = { };
+		for (let child of ctx.children) {
+			if (['Tuple', ':', '{', '}'].includes(child.getText())) {
 				continue;
 			}
-
-			if (child === ':') {
-				continue;
-			}
-
-			if (child === '{') {
-				continue;
-			}
-
-			if (child === '}') {
-				continue;
-			}
-
-			Object.assign(result, child);
+			Object.assign(result, child.accept(this));
 		}
 		return result;
 	}
@@ -167,9 +153,9 @@ class cvlParseVisitor extends cvlVisitor {
 
 	// Visit a parse tree produced by cvlParser#instanceSelector.
 	visitInstanceSelector(ctx) {
-		var result = { };
+		let result = { };
 		for (let i = 0; i < ctx.children.length; i++) {
-			var child = ctx.children[i].accept(this);
+			let child = ctx.children[i].accept(this);
 			if (i === 0) {
 				continue;
 			}
@@ -206,15 +192,19 @@ class cvlParseVisitor extends cvlVisitor {
 
 	// Visit a parse tree produced by cvlParser#identifier.
 	visitIdentifier(ctx) {
-		// TODO: Unescape, the unescape() function is apparently deprecated?
-		return ctx.getText().slice(1, -1);
+		let quotes = ['"', "'", '`'];
+		let identifier = ctx.getText();
+		return (quotes.some(quote => identifier.startsWith(quote)) && 
+		 quotes.some(quote => identifier.endsWith(quote)))
+		 ? identifier.slice(1,-1)
+		 : identifier;
 	}
 
 
 	// Visit a parse tree produced by cvlParser#quantity.
 	visitQuantity(ctx) {
 		if (ctx.unit()) {
-			return { value: this.children[0].accept(this), unit: this.unit().accept(this) };
+			return { value: Number(ctx.children[0].getText()), unit: ctx.unit().accept(this) };
 		}
 		else {
 			return this.children[0].accept(this);

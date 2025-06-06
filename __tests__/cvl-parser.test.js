@@ -17,7 +17,7 @@ test('boolean literal false', () => {
 });
 
 test('string literal', () => {
-    expect(_cvl.parse("\'abc''")
+    expect(_cvl.parse("'abc''")
     ).toBe('abc');
 });
 
@@ -121,6 +121,11 @@ test('time literal HH only', () => {
     ).toBe("@T12");
 });
 
+test('quantity literal no units', () => {
+    expect(_cvl.parse("1")
+    ).toStrictEqual(1);
+});
+
 test('quantity literal', () => {
     expect(_cvl.parse("1 'g'")
     ).toStrictEqual({value:1,unit:'g'});
@@ -128,7 +133,7 @@ test('quantity literal', () => {
 
 test('ratio literal', () => {
     expect(_cvl.parse("1 'g':2 'g'")
-    ).toStrictEqual([{value:1,unit:'g'},{value:2,unit:'g'}]);
+    ).toStrictEqual({numerator:{value:1,unit:'g'},denominator:{value:2,unit:'g'}});
 });
 
 test('interval literal hi and low closed', () => {
@@ -163,5 +168,5 @@ test('tuple literal with declaration', () => {
 
 test('list literal', () => {
     expect(_cvl.parse("{1,2,3}")
-    ).toStrictEqual(['{1,2,3}']);
+    ).toStrictEqual(['{',1,',',2,',',3,'}']);
 });
