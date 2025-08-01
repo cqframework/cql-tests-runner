@@ -106,7 +106,7 @@ class Result {
     }
 }
 
-function buildExtractor(ignore_timezone) {
+function buildExtractor() {
     let extractors = new EvaluationErrorExtractor();
         extractors
             .setNextExtractor(new NullEmptyExtractor())
@@ -116,11 +116,11 @@ function buildExtractor(ignore_timezone) {
             .setNextExtractor(new IntegerExtractor())
             .setNextExtractor(new DecimalExtractor())
             .setNextExtractor(new DateExtractor())
-            .setNextExtractor(new DateTimeExtractor(ignore_timezone))
+            .setNextExtractor(new DateTimeExtractor())
             .setNextExtractor(new TimeExtractor())
             .setNextExtractor(new QuantityExtractor())
             .setNextExtractor(new RatioExtractor())
-            .setNextExtractor(new PeriodExtractor(ignore_timezone))
+            .setNextExtractor(new PeriodExtractor())
             .setNextExtractor(new RangeExtractor())
             .setNextExtractor(new CodeExtractor())
             .setNextExtractor(new ConceptExtractor());
@@ -144,10 +144,8 @@ async function main() {
     const tests = loadTests.load();
     // Set this to true to run only the first group of tests
     const quickTest = config.Debug.QuickTest
-    const ignoreTimeZone = config.Tests.IgnoreTimeZone;
 
-
-    var resultExtractor = buildExtractor(ignoreTimeZone);
+    var resultExtractor = buildExtractor();
 
     const emptyResults = await resultsShared.generateEmptyResults(tests, quickTest);
     const skipMap = config.skipListMap();
@@ -155,7 +153,7 @@ async function main() {
     let results = new CQLTestResults(cqlEngine);
     for (let testFile of emptyResults) {
         for (let result of testFile) {
-            await runTest(result, cqlEngine.apiUrl, x, resultExtractor, skipMap, ignoreTimeZone);
+            await runTest(result, cqlEngine.apiUrl, x, resultExtractor, skipMap);
             results.add(result);
         }
     }
@@ -165,7 +163,7 @@ async function main() {
 
 main();
 
-async function runTest(result, apiUrl, cvl, resultExtractor, skipMap, ignoreTimeZone) {
+async function runTest(result, apiUrl, cvl, resultExtractor, skipMap) {
     const key = `${result.testsName}-${result.groupName}-${result.testName}`;
     if (result.testStatus === 'skip') {
         result.SkipMessage = 'Skipped by cql-tests-runner';
@@ -198,13 +196,7 @@ async function runTest(result, apiUrl, cvl, resultExtractor, skipMap, ignoreTime
         }
         else {
             if (response.status === 200) {
-                if (resultsEqual(cvl.parse(result.expected), cvl.parse(result.actual), ignoreTimeZone) ||
-                    resultsEqual(result.expected, result.actual, ignoreTimeZone))
-                    result.testStatus = 'pass'
-                else {
-                    result.testStatus = 'fail'
-                    result.actual = result.actual;
-                }
+                result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual) ? 'pass' : 'fail';
             }
             else {
                 result.testStatus = 'fail';
@@ -220,12 +212,7 @@ async function runTest(result, apiUrl, cvl, resultExtractor, skipMap, ignoreTime
     return result;
 };
 
-function remove_timezone(timestamp) {
-    let trimmed_timestamp = /^@(?:[\d]{4}(?:-[\d]{2}-(?:[\d]{2})?)?)?T(?:[\d]{2}:[\d]{2}:[\d]{2})?(?:\.[\d]{3})?/.exec(timestamp);
-    return trimmed_timestamp ? trimmed_timestamp[0] : timestamp;
-}
-
-function resultsEqual(expected, actual, ignoreTimeZone) {
+function resultsEqual(expected, actual) {
     if (expected === undefined && actual === undefined)
         return true;
     
@@ -238,10 +225,6 @@ function resultsEqual(expected, actual, ignoreTimeZone) {
     
     if (typeof expected === 'number')
         return Math.abs(actual - expected) < 0.00000001;
-
-    if (typeof actual === 'string' && actual.startsWith('@') && typeof expected === 'string' && expected.startsWith('@') && ignoreTimeZone){
-        return remove_timezone(actual) == remove_timezone(expected);
-    }
 
     return lodash.isEqual(expected, actual);
 }
@@ -267,11 +250,6 @@ function logResults(cqlengine, results, outputPath) {
         }
         const filePath = path.join(outputPath, fileName);
         const result = new TestResults(cqlengine, summarizeResults(results), null, results);
-        // const result = {
-        //     cqlengine,
-        //     summary: summarizeResults(results),
-        //     results: results
-        // };
         fs.writeFileSync(filePath, JSON.stringify(result, null, 2), (error) => {
             if (error) throw error;
         });

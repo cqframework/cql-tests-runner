@@ -19,8 +19,7 @@ class ConfigLoader {
         }
         this.Tests = {
             ResultsPath: process.env.RESULTS_PATH || config.get('Tests.ResultsPath') || './results',
-            SkipList: process.env.SKIP_LIST || config.get('Tests.SkipList') || [],
-            IgnoreTimeZone: process.env.IGNORE_TIME_ZONE || config.get('Tests.IgnoreTimeZone') || true
+            SkipList: process.env.SKIP_LIST || config.get('Tests.SkipList') || []
         };
         this.Debug = {
             QuickTest: this.#setQuickTestSetting()
@@ -63,19 +62,6 @@ class ConfigLoader {
         }
 
         return true;
-    }
-
-    #setIgnoreTimeZoneSetting() {
-        if (process.env.IGNORE_TIME_ZONE !== undefined) {
-            return process.env.IGNORE_TIME_ZONE === 'true';
-        }
-
-        const configValue = config.get('Tests.IgnoreTimeZone');
-        if (configValue !== undefined) {
-            return configValue;
-        }
-
-        return false;
     }
 
     skipListMap() {

@@ -13,7 +13,6 @@
   },
   "Tests": {
     "ResultsPath": "./results",
-    "IgnoreTimeZone": true,
     "SkipList": [
       {
         "testsName": "CqlAggregateTest",
