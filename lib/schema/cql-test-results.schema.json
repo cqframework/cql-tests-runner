@@ -68,7 +68,7 @@
           },
           "invalid": {
             "type": "string",
-            "enum": ["true", "false"]
+            "enum": ["true", "false", "semantic"]
           },
           "expression": {
             "type": "string"
