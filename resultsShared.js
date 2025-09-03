@@ -41,9 +41,9 @@ async function generateEmptyResults(tests, quickTest) {
     // Set this to true to run only the first group of tests
     //const quickTest = config.Debug.QuickTest
     console.log('QuickTest: ' + quickTest)
-    // const onlyTestsName = "ValueLiteralsAndSelectors";
-    // const onlyGroupName = "Decimal";
-    // const onlyTestName = "DecimalNeg10Pow28ToZeroOneStepDecimalMinValue";
+    //const onlyTestsName = "CqlIntervalOperatorsTest";
+    //const onlyGroupName = "Collapse";
+    //const onlyTestName = "QuantityIntervalCollapse";
 
     let results = [];
     let groupResults = [];

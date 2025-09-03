@@ -9,9 +9,9 @@ const DecimalExtractor = require('../lib/extractors/value-type-extractors/Decima
 const EvaluationErrorExtractor = require('../lib/extractors/EvaluationErrorExtractor.js');
 const IntegerExtractor = require('../lib/extractors/value-type-extractors/IntegerExtractor.js');
 const NullEmptyExtractor = require('../lib/extractors/NullEmptyExtractor.js');
-const PeriodExtractor = require('../lib/extractors/value-type-extractors/PeriodExtractor.js');
+const DateTimeIntervalExtractor = require('../lib/extractors/value-type-extractors/DateTimeIntervalExtractor.js');
 const QuantityExtractor = require('../lib/extractors/value-type-extractors/QuantityExtractor.js');
-const RangeExtractor = require('../lib/extractors/value-type-extractors/RangeExtractor.js');
+const QuantityIntervalExtractor = require('../lib/extractors/value-type-extractors/QuantityIntervalExtractor.js');
 const RatioExtractor = require('../lib/extractors/value-type-extractors/RatioExtractor.js');
 const StringExtractor = require('../lib/extractors/value-type-extractors/StringExtractor.js');
 const TimeExtractor = require('../lib/extractors/value-type-extractors/TimeExtractor.js');
@@ -34,8 +34,8 @@ beforeAll(() => {
             .setNextExtractor(new TimeExtractor())
             .setNextExtractor(new QuantityExtractor())
             .setNextExtractor(new RatioExtractor())
-            .setNextExtractor(new PeriodExtractor())
-            .setNextExtractor(new RangeExtractor())
+            .setNextExtractor(new DateTimeIntervalExtractor())
+            .setNextExtractor(new QuantityIntervalExtractor())
             .setNextExtractor(new CodeExtractor())
             .setNextExtractor(new ConceptExtractor());
     extractor = new ResultExtractor(extractors);
@@ -120,20 +120,19 @@ test('value types response check', () => {
                 }
             ]
         })
-    ).toBe("{" +
-                "get_bool:true," +
-                "get_date:@2025-01-01," +
-                "get_datetime:@2025-01-01T12:34:56.789-04:00," +
-                "get_decimal:1.23," +
-                "get_integer:1," +
-                "get_string:'abc'," +
-                "get_time:@T12:34:56.789," +
-                "get_period:Interval[@2025-01-01T00:00:00-05:00,@2025-12-31T00:00:00-05:00}]," +
-                "get_quantity:{value:123,unit:'kg'}," +
-                "get_code:{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'}," +
-                "get_concept:{coding:{{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'},{code:'8462-4',display:'Diastolic blood pressure',system:'http://loinc.org',version:'1.0'}}}" +
-            "}"
-    );
+    ).toStrictEqual({
+        get_bool: true,
+        get_date: '@2025-01-01',
+        get_datetime: '@2025-01-01T12:34:56.789-04:00',
+        get_decimal: 1.23,
+        get_integer:1,
+        get_string: 'abc',
+        get_time: '@T12:34:56.789',
+        get_period: { low: '@2025-01-01T00:00:00-05:00', lowClosed: true, high: '@2025-12-31T00:00:00-05:00', highClosed: true },
+        get_quantity: {value:123,unit:'kg'},
+        get_code:{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'},
+        get_concept:{codes:[{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'},{code:'8462-4',display:'Diastolic blood pressure',system:'http://loinc.org',version:'1.0'}],display:undefined}
+    });
 });
 
 test('lists response check', () => {
@@ -269,17 +268,16 @@ test('lists response check', () => {
                 }
             ]
         })
-    ).toBe("{" +
-                "get_list_of_booleans:{true,false,true}" +
-                ",get_list_of_codes:{{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'},{code:'8462-4',display:'Diastolic blood pressure',system:'http://loinc.org',version:'1.0'}}" +
-                ",get_list_of_decimals:{1.1,2.2,3.3}" +
-                ",get_list_of_integer:{1,2,3}" +
-                ",get_list_of_mixed_values:{1,2.2,'a'}" +
-                ",get_list_of_string:{'a','b','c'}" +
-                ",get_list_of_datetime:{@2025-05-05T05:05:05-05:00,@2026-06-06T06:06:06-06:00,@2027-07-07T07:07:07-07:00}" +
-                ",get_list_of_date:{@2025-05-05T,@2026-06-06T,@2027-07-07T}" +
-                ",get_list_of_time:{@T05:05:05-05:00,@T06:06:06-06:00,@T07:07:07-07:00}" +
-                ",get_list_of_period:{Interval[@2025-01-01T00:00:00-05:00,@2025-12-31T00:00:00-05:00}],Interval[@2026-01-01T00:00:00-05:00,@2026-12-31T00:00:00-05:00}],Interval[@2027-01-01T00:00:00-05:00,@2027-12-31T00:00:00-05:00}]}" +
-            "}"
-    );
+    ).toStrictEqual({
+        get_list_of_booleans:[true,false,true],
+        get_list_of_codes:[{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'},{code:'8462-4',display:'Diastolic blood pressure',system:'http://loinc.org',version:'1.0'}],
+        get_list_of_decimals:[1.1,2.2,3.3],
+        get_list_of_integer:[1,2,3],
+        get_list_of_mixed_values:[1,2.2,'a'],
+        get_list_of_string:['a','b','c'],
+        get_list_of_datetime:['@2025-05-05T05:05:05-05:00','@2026-06-06T06:06:06-06:00','@2027-07-07T07:07:07-07:00'],
+        get_list_of_date:['@2025-05-05T','@2026-06-06T','@2027-07-07T'],
+        get_list_of_time:['@T05:05:05-05:00','@T06:06:06-06:00','@T07:07:07-07:00'],
+        get_list_of_period:[{low:'@2025-01-01T00:00:00-05:00',lowClosed:true,high:'@2025-12-31T00:00:00-05:00',highClosed:true},{low:'@2026-01-01T00:00:00-05:00',lowClosed:true,high:'@2026-12-31T00:00:00-05:00',highClosed:true},{low:'@2027-01-01T00:00:00-05:00',lowClosed:true,high:'@2027-12-31T00:00:00-05:00',highClosed:true}]
+    });
 });

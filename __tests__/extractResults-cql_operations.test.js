@@ -9,9 +9,9 @@ const DecimalExtractor = require('../lib/extractors/value-type-extractors/Decima
 const EvaluationErrorExtractor = require('../lib/extractors/EvaluationErrorExtractor.js');
 const IntegerExtractor = require('../lib/extractors/value-type-extractors/IntegerExtractor.js');
 const NullEmptyExtractor = require('../lib/extractors/NullEmptyExtractor.js');
-const PeriodExtractor = require('../lib/extractors/value-type-extractors/PeriodExtractor.js');
+const DateTimeIntervalExtractor = require('../lib/extractors/value-type-extractors/DateTimeIntervalExtractor.js');
 const QuantityExtractor = require('../lib/extractors/value-type-extractors/QuantityExtractor.js');
-const RangeExtractor = require('../lib/extractors/value-type-extractors/RangeExtractor.js');
+const QuantityIntervalExtractor = require('../lib/extractors/value-type-extractors/QuantityIntervalExtractor.js');
 const RatioExtractor = require('../lib/extractors/value-type-extractors/RatioExtractor.js');
 const StringExtractor = require('../lib/extractors/value-type-extractors/StringExtractor.js');
 const TimeExtractor = require('../lib/extractors/value-type-extractors/TimeExtractor.js');
@@ -34,8 +34,8 @@ beforeAll(() => {
             .setNextExtractor(new TimeExtractor())
             .setNextExtractor(new QuantityExtractor())
             .setNextExtractor(new RatioExtractor())
-            .setNextExtractor(new PeriodExtractor())
-            .setNextExtractor(new RangeExtractor())
+            .setNextExtractor(new DateTimeIntervalExtractor())
+            .setNextExtractor(new QuantityIntervalExtractor())
             .setNextExtractor(new CodeExtractor())
             .setNextExtractor(new ConceptExtractor());
     extractor = new ResultExtractor(extractors);
@@ -52,7 +52,7 @@ test('boolean response check', () => {
                 }
             ]
         })
-    ).toBe('true')
+    ).toBe(true)
 });
 
 test('integer response check', () => {
@@ -66,7 +66,7 @@ test('integer response check', () => {
                 }
             ]
         })
-    ).toBe('1');
+    ).toBe(1);
 });
 
 test('decimal(0.1) response check', () => {
@@ -80,7 +80,7 @@ test('decimal(0.1) response check', () => {
                 }
             ]
         })
-    ).toBe('0.1');
+    ).toBe(0.1);
 });
 
 test('decimal(1.0) response check', () => {
@@ -94,7 +94,7 @@ test('decimal(1.0) response check', () => {
                 }
             ]
         })
-    ).toBe('1.0');
+    ).toBe(1.0);
 });
 
 test('decimal(1.1) response check', () => {
@@ -108,7 +108,7 @@ test('decimal(1.1) response check', () => {
                 }
             ]
         })
-    ).toBe('1.1');
+    ).toBe(1.1);
 });
 
 test('decimal(-0.1) response check', () => {
@@ -122,7 +122,7 @@ test('decimal(-0.1) response check', () => {
                 }
             ]
         })
-    ).toBe('-0.1');
+    ).toBe(-0.1);
 });
 
 test('string response check', () => {
@@ -136,7 +136,7 @@ test('string response check', () => {
                 }
             ]
         })
-    ).toBe("'abc'");
+    ).toBe("abc");
 });
 
 test('date response check', () => {
@@ -197,7 +197,7 @@ test('quantity response check', () => {
                 }
             ]
         })
-    ).toBe("{value:123,unit:'kg'}");
+    ).toStrictEqual({ value: 123, unit:'kg' });
 });
 
 test('ratio of integers response check', () => {
@@ -224,7 +224,7 @@ test('ratio of integers response check', () => {
                 }
             ]
         })
-    ).toBe("{numerator:{value:1},denominator:{value:2}}");
+    ).toStrictEqual({ numerator: { value: 1, unit: '1' }, denominator: { value: 2, unit: '1' } });
 });
 
 test('ratio of quantity response check', () => {
@@ -251,7 +251,7 @@ test('ratio of quantity response check', () => {
                 }
             ]
         })
-    ).toBe("{numerator:{value:1,unit:'ml'},denominator:{value:2,unit:'ml'}}");
+    ).toStrictEqual({ numerator: { value: 1, unit: 'ml' }, denominator: { value: 2, unit: 'ml' } });
 });
 
 test('null response check', () => {
@@ -272,7 +272,7 @@ test('null response check', () => {
                 }
             ]
         })
-    ).toBe('null');
+    ).toBe(null);
 });
 
 test('error response check', () => {
@@ -313,7 +313,7 @@ test('period datetime response check', () => {
                 }
             ]
         })
-    ).toBe('Interval[@2025-01-01T00:00:00-05:00,@2025-12-31T00:00:00-05:00}]');
+    ).toStrictEqual({ low: '@2025-01-01T00:00:00-05:00', lowClosed: true, high: '@2025-12-31T00:00:00-05:00', highClosed: true });
 });
 
 test('code response check', () => {
@@ -332,7 +332,7 @@ test('code response check', () => {
                 }
             ]
         })
-    ).toBe("{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'}");
+    ).toStrictEqual({code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'});
 });
 
 test('code response check missing properties', () => {
@@ -350,7 +350,7 @@ test('code response check missing properties', () => {
                 }
             ]
         })
-    ).toBe("{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org'}");
+    ).toStrictEqual({code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org'});
 });
 
 test('concept response check', () => {
@@ -379,7 +379,7 @@ test('concept response check', () => {
                 }
             ]
         })
-    ).toBe("{coding:{{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'},{code:'8462-4',display:'Diastolic blood pressure',system:'http://loinc.org',version:'1.0'}}}");
+    ).toStrictEqual({codes:[{code:'8480-6',display:'Systolic blood pressure',system:'http://loinc.org',version:'1.0'},{code:'8462-4',display:'Diastolic blood pressure',system:'http://loinc.org',version:'1.0'}],display:undefined});
 });
 
 test('tuple response check', () => {
@@ -402,7 +402,7 @@ test('tuple response check', () => {
                 }
             ]
         })
-    ).toBe("{name:'Patrick',birthDate:@2014-01-01}");
+    ).toStrictEqual({name:'Patrick',birthDate:'@2014-01-01'});
 });
 
 test('list of integers response check', () => {
@@ -424,7 +424,7 @@ test('list of integers response check', () => {
                 }
             ]
         })
-    ).toBe('{1,2,3}');
+    ).toStrictEqual([1,2,3]);
 });
 
 test('list of decimals response check', () => {
@@ -446,7 +446,7 @@ test('list of decimals response check', () => {
                 }
             ]
         })
-    ).toBe('{1.0,2.0,3.0}');
+    ).toStrictEqual([1.0,2.0,3.0]);
 });
 
 test('list of strings response check', () => {
@@ -468,7 +468,7 @@ test('list of strings response check', () => {
                 }
             ]
         })
-    ).toBe("{'a','b','c'}");
+    ).toStrictEqual(['a','b','c']);
 });
 
 test('nested list of integers response check', () => {
@@ -512,5 +512,5 @@ test('nested list of integers response check', () => {
                 }
             ]
         })
-    ).toBe('{{1,2,3},{4,5,6}}');
+    ).toStrictEqual([[1,2,3],[4,5,6]]);
 });

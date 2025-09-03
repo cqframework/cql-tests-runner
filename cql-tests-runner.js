@@ -1,6 +1,5 @@
 #!/usr/bin/node
 
-const lodash = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const { format } = require('date-fns');
@@ -16,7 +15,7 @@ const resultsShared = require('./resultsShared');
 const CQLTestResults = require('./lib/test-results/CQLTestResults.js');
 
 const BooleanExtractor = require('./lib/extractors/value-type-extractors/BooleanExtractor');
-const CodeExtractor = require('./lib/extractors/value-type-extractors/CodeExtractor');
+const CodeExtractor = require('./lib/extractors/value-type-extractors/CodeExtractor.js');
 const ConceptExtractor = require('./lib/extractors/value-type-extractors/ConceptExtractor');
 const DateExtractor = require('./lib/extractors/value-type-extractors/DateExtractor');
 const DateTimeExtractor = require('./lib/extractors/value-type-extractors/DateTimeExtractor');
@@ -24,9 +23,9 @@ const DecimalExtractor = require('./lib/extractors/value-type-extractors/Decimal
 const EvaluationErrorExtractor = require('./lib/extractors/EvaluationErrorExtractor');
 const IntegerExtractor = require('./lib/extractors/value-type-extractors/IntegerExtractor');
 const NullEmptyExtractor = require('./lib/extractors/NullEmptyExtractor');
-const PeriodExtractor = require('./lib/extractors/value-type-extractors/PeriodExtractor');
+const PeriodExtractor = require('./lib/extractors/value-type-extractors/DateTimeIntervalExtractor.js');
 const QuantityExtractor = require('./lib/extractors/value-type-extractors/QuantityExtractor');
-const RangeExtractor = require('./lib/extractors/value-type-extractors/RangeExtractor');
+const RangeExtractor = require('./lib/extractors/value-type-extractors/QuantityIntervalExtractor.js');
 const RatioExtractor = require('./lib/extractors/value-type-extractors/RatioExtractor');
 const StringExtractor = require('./lib/extractors/value-type-extractors/StringExtractor');
 const TimeExtractor = require('./lib/extractors/value-type-extractors/TimeExtractor');
@@ -213,20 +212,38 @@ async function runTest(result, apiUrl, cvl, resultExtractor, skipMap) {
 };
 
 function resultsEqual(expected, actual) {
-    if (expected === undefined && actual === undefined)
+    if (expected === undefined && actual === undefined) {
         return true;
-    
-    if (expected === null && actual == 'null')
-        return true;
-
-    if (typeof expected === 'boolean' && typeof actual === 'string') {
-        actual = (actual === 'true')
     }
     
-    if (typeof expected === 'number')
-        return Math.abs(actual - expected) < 0.00000001;
+    if (expected === null && actual === null) {
+        return true;
+    }
 
-    return lodash.isEqual(expected, actual);
+    if (typeof expected === 'number') {
+        return Math.abs(actual - expected) < 0.00000001;
+    }
+
+    if (expected === actual) {
+        return true;
+    }
+
+    if (typeof expected !== 'object' || expected === null || typeof actual !== 'object' || actual === null) {
+        return false;
+    }
+
+    const expectedKeys = Object.keys(expected);
+    const actualKeys = Object.keys(actual);
+
+    if (expectedKeys.length !== actualKeys.length) return false;
+
+    for (const key of expectedKeys) {
+        if (!actualKeys.includes(key) || !resultsEqual(expected[key], actual[key])) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 // Output test results

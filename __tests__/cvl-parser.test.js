@@ -17,7 +17,7 @@ test('boolean literal false', () => {
 });
 
 test('string literal', () => {
-    expect(_cvl.parse("'abc''")
+    expect(_cvl.parse("'abc'")
     ).toBe('abc');
 });
 
@@ -138,22 +138,22 @@ test('ratio literal', () => {
 
 test('interval literal hi and low closed', () => {
     expect(_cvl.parse("Interval[1,2]")
-    ).toStrictEqual({hi:2,hiClosed:true,low:1,lowClosed:true});
+    ).toStrictEqual({high:2,highClosed:true,low:1,lowClosed:true});
 });
 
 test('interval literal only hi closed', () => {
     expect(_cvl.parse("Interval[1,2)")
-    ).toStrictEqual({hi:2,hiClosed:false,low:1,lowClosed:true});
+    ).toStrictEqual({high:2,highClosed:false,low:1,lowClosed:true});
 });
 
 test('interval literal only low closed', () => {
     expect(_cvl.parse("Interval(1,2]")
-    ).toStrictEqual({hi:2,hiClosed:true,low:1,lowClosed:false});
+    ).toStrictEqual({high:2,highClosed:true,low:1,lowClosed:false});
 });
 
 test('interval literal hi and low open', () => {
     expect(_cvl.parse("Interval(1,2)")
-    ).toStrictEqual({hi:2,hiClosed:false,low:1,lowClosed:false});
+    ).toStrictEqual({high:2,highClosed:false,low:1,lowClosed:false});
 });
 
 test('tuple literal', () => {
@@ -168,5 +168,5 @@ test('tuple literal with declaration', () => {
 
 test('list literal', () => {
     expect(_cvl.parse("{1,2,3}")
-    ).toStrictEqual(['{',1,',',2,',',3,'}']);
+    ).toStrictEqual([1,2,3]);
 });

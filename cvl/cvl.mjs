@@ -126,8 +126,8 @@ class cvlParseVisitor extends cvlVisitor {
 		return {
 			lowClosed: ctx.children[1].getText() === '[',
 			low: ctx.children[2].accept(this),
-			hiClosed: ctx.children[5].getText() === ']',
-			hi: ctx.children[4].accept(this)
+			highClosed: ctx.children[5].getText() === ']',
+			high: ctx.children[4].accept(this)
 		}
 	}
 
@@ -186,7 +186,12 @@ class cvlParseVisitor extends cvlVisitor {
 
 	// Visit a parse tree produced by cvlParser#listSelector.
 	visitListSelector(ctx) {
-		return this.visitChildren(ctx);
+		let result = [ ];
+		for (let term of ctx.term()) {
+			let element = term.accept(this);
+			result.push(element);
+		}
+		return result;
 	}
 
 

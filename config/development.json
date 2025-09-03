@@ -8,7 +8,7 @@
     "CqlOutputPath": "./cql"
   },
   "Debug": {
-    "QuickTest": true
+    "QuickTest": false
   },
   "Tests": {
     "ResultsPath": "./results",
