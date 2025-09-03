@@ -5,7 +5,8 @@
     "main": "cql-tests-runner.js",
     "scripts": {
         "test": "node cql-tests-runner.js",
-        "build": "node build-libraries.js"
+        "build": "node build-libraries.js",
+        "unit-tests": "vitest"
     },
     "author": "",
     "license": "Apache-2.0",
@@ -18,5 +19,8 @@
         "config": "^3.3.12",
         "date-fns": "^2.23.0",
         "fast-xml-parser": "^4.3.6"
+    },
+    "devDependencies": {
+        "vitest": "^3.1.4"
     }
 }

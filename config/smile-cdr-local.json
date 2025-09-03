@@ -1,6 +1,7 @@
 {
   "FhirServer": {
-    "BaseUrl": "https://cloud.alphora.com/sandbox/r4/cds/fhir/",
+    "BaseUrl": "http://localhost:8000/",
+    "ogBaseUrl": "https://cloud.alphora.com/sandbox/r4/cds/fhir/",
     "CqlOperation": "$cql"
   },
   "Build": {

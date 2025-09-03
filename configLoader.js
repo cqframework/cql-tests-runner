@@ -4,6 +4,7 @@ const config = require('config');
 class ConfigLoader {
     
     constructor() {
+        console.log(process.env.NODE_ENV)
 
         const baseURL = process.env.SERVER_BASE_URL || config.get('FhirServer.BaseUrl') || 'https://cloud.alphora.com/sandbox/r4/cds/fhir';
 
