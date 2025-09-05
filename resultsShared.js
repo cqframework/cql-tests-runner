@@ -11,8 +11,13 @@ class Result {
         this.testName = test.name;
 
         if (typeof test.expression !== 'string') {
-            this.invalid = test.expression.invalid;
-            this.expression = test.expression.text;
+            if(test.expression === undefined){
+                this.invalid = "undefined";
+                this.expression = "undefined";
+            }else {
+                this.invalid = test.expression.invalid;
+                this.expression = test.expression.text;
+            }
         }
         else {
             this.invalid = 'false';
