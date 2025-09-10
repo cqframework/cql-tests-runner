@@ -4,6 +4,8 @@ Test Runner for the [CQL Tests](https://github.com/cqframework/cql-tests) reposi
 
 The application runs all the tests in the repository and outputs the results as a JSON file in the `results` directory. If the output directory does not exist, it will be created.
 
+Results output from running these tests can be posted to the [CQL Tests Results](https://github.com/cqframework/cql-tests-results) repository.
+
 ## Setting up the Environment
 
 This application requires Node v18 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
