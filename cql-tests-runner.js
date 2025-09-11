@@ -207,7 +207,7 @@ async function runTest(result, apiUrl, cvl, resultExtractor, skipMap) {
         result.error = {message: error.message, stack: error.stack};
     };
 
-    console.log('Test %s:%s:%s status: %s expected: %s actual: %s', result.testsName, result.groupName, result.name, result.testStatus, result.expected, result.actual);
+    console.log('Test %s:%s:%s status: %s expected: %s actual: %s', result.testsName, result.groupName, result.testName, result.testStatus, result.expected, result.actual);
     return result;
 };
 
