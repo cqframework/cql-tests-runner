@@ -178,7 +178,7 @@ async function runGroupTest(group, apiUrl, cvl) {
         }
     }
 
-    var body = 'library ' + testsName + os.EOL + os.EOL + body;
+    var body = 'library ' + testsName + ' version \'1.0.000\'' + os.EOL + os.EOL + body;
 
     const cqlOutputPath = './cql';
     if (!fs.existsSync(cqlOutputPath)) {
