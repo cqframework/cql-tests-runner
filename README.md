@@ -174,12 +174,10 @@ docker build -t cql-tests-runner .
 docker buildx build --platform linux/arm64,linux/amd64 -t hlseven/quality-cql-tests-runner:latest .
 
 # Run with built image
-docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
-  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json results
+docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json results
 
 # Using host networking with built image
-docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
-  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json results
+docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json results
 ```
 
 ### Server Command
@@ -222,7 +220,8 @@ cql-tests server --port 3000
 # In another terminal, run tests via API
 curl -X POST http://localhost:3000/ \
   -H "Content-Type: application/json" \
-  -d @conf/localhost.json
+  -d @conf/localhost.json \
+  -o results.json
 
 # Check server health
 curl http://localhost:3000/health
