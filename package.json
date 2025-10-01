@@ -1,26 +1,53 @@
 {
     "name": "cql-tests-runner",
-    "version": "0.1.0",
-    "description": "Node application for running CQL tests",
-    "main": "cql-tests-runner.js",
+    "version": "1.0.1",
+    "description": "Node application and command line tools for running CQL tests",
+    "type": "module",
+    "main": "dist/bin/cql-tests.js",
+    "bin": {
+        "cql-tests": "dist/bin/cql-tests.js"
+    },
     "scripts": {
-        "test": "node cql-tests-runner.js",
-        "build": "node build-libraries.js",
-        "unit-tests": "vitest"
+        "build": "tsc && node fix-imports.cjs",
+        "dev": "tsc --watch",
+        "dev:run": "node --import tsx src/bin/cql-tests.ts run-tests conf/localhost.json",
+        "dev:build": "node --import tsx src/bin/cql-tests.ts build-cql conf/localhost.json",
+        "dev:watch": "node --import tsx --watch src/bin/cql-tests.ts",
+        "test": "vitest run test/",
+        "test:cql": "node --import tsx src/bin/cql-tests.ts run-tests conf/localhost.json",
+        "build-libs": "npm run build && node dist/bin/cql-tests.js build-cql conf/localhost.json",
+        "unit-tests": "vitest run test/",
+        "clean": "rm -rf dist",
+        "format": "prettier --write \"src/**/*.{ts,js,json}\" \"test/**/*.{ts,js,json}\" \"*.{ts,js,json,md}\"",
+        "format:check": "prettier --check \"src/**/*.{ts,js,json}\" \"test/**/*.{ts,js,json}\" \"*.{ts,js,json,md}\"",
+        "format:staged": "prettier --write"
     },
     "author": "",
     "license": "Apache-2.0",
     "dependencies": {
         "ajv": "^8.17.1",
         "ajv-formats": "^3.0.1",
-        "antlr4": "4.13.1-patch-1",
-        "axios": "^1.6.8",
+        "antlr4": "4.13.2",
+        "axios": "^1.12.2",
         "colors": "^1.4.0",
-        "config": "^3.3.12",
-        "date-fns": "^2.23.0",
-        "fast-xml-parser": "^4.3.6"
+        "commander": "^12.0.0",
+        "config": "^4.1.1",
+        "date-fns": "^4.1.0",
+        "cors": "^2.8.5",
+        "express": "^4.21.1",
+        "fast-xml-parser": "^5.2.5"
     },
     "devDependencies": {
-        "vitest": "^3.1.4"
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.0",
+        "@types/fhir": "^0.0.41",
+        "@types/node": "^22.0.0",
+        "@types/supertest": "^6.0.2",
+        "prettier": "^3.3.3",
+        "supertest": "^7.0.0",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.7.0",
+        "typescript": "^5.5.0",
+        "vitest": "^3.2.4"
     }
 }

@@ -4,5 +4,13 @@
 .vscode
 /config/production.json
 
-
 .DS_Store
+.cursorrules
+
+# Compiled output and generated files
+dist/
+cql/
+
+# Generated CommonJS wrapper
+cvl/cvl.cjs
+

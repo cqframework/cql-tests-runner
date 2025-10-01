@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CQL Test Configuration",
+  "description": "Schema for validating CQL test configuration files",
+  "type": "object",
+  "properties": {
+    "FhirServer": {
+      "type": "object",
+      "description": "FHIR server configuration",
+      "properties": {
+        "BaseUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Base URL of the FHIR server"
+        },
+        "ogBaseUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Original base URL (optional, used for fallback)"
+        },
+        "CqlOperation": {
+          "type": "string",
+          "description": "CQL operation endpoint",
+          "default": "$cql"
+        }
+      },
+      "required": ["BaseUrl", "CqlOperation"],
+      "additionalProperties": false
+    },
+    "Build": {
+      "type": "object",
+      "description": "Build configuration settings",
+      "properties": {
+        "CqlFileVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "CQL file version in semantic versioning format"
+        },
+        "CqlOutputPath": {
+          "type": "string",
+          "description": "Path where CQL files are output"
+        }
+      },
+      "required": ["CqlFileVersion", "CqlOutputPath"],
+      "additionalProperties": false
+    },
+    "Debug": {
+      "type": "object",
+      "description": "Debug configuration settings",
+      "properties": {
+        "QuickTest": {
+          "type": "boolean",
+          "description": "Whether to run quick tests only"
+        }
+      },
+      "required": ["QuickTest"],
+      "additionalProperties": false
+    },
+    "Tests": {
+      "type": "object",
+      "description": "Test configuration settings",
+      "properties": {
+        "ResultsPath": {
+          "type": "string",
+          "description": "Path where test results are stored"
+        },
+        "SkipList": {
+          "type": "array",
+          "description": "List of tests to skip",
+          "items": {
+            "type": "object",
+            "properties": {
+              "testsName": {
+                "type": "string",
+                "description": "Name of the test suite"
+              },
+              "groupName": {
+                "type": "string",
+                "description": "Name of the test group"
+              },
+              "testName": {
+                "type": "string",
+                "description": "Name of the specific test"
+              },
+              "reason": {
+                "type": "string",
+                "description": "Reason for skipping the test"
+              }
+            },
+            "required": ["testsName", "groupName", "testName", "reason"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["ResultsPath", "SkipList"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["FhirServer", "Build", "Debug", "Tests"],
+  "additionalProperties": false
+}
