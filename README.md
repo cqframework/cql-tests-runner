@@ -10,7 +10,7 @@ Results output from running these tests can be posted to the [CQL Tests Results]
 
 This application requires Node v18 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
 
-Install the application using
+Install application dependencies using
 
 ```
 npm install
@@ -56,24 +56,28 @@ The CLI now requires a configuration file path as an argument. Run the tests wit
 
 #### Build CQL Libraries
 ```bash
-# Using npm scripts (recommended)
-npm run dev:build                    # Development build
+# Using tsx (recommended for development)
+npx tsx src/bin/cql-tests.ts build-cql conf/localhost.json ./cql
+
+# Using npm scripts (production)
 npm run build-libs                   # Production build
 
 # Direct CLI usage
-cql-tests build-cql conf/localhost.json
-node dist/bin/cql-tests.js build-cql conf/localhost.json
+cql-tests build-cql conf/localhost.json ./cql
+node dist/bin/cql-tests.js build-cql conf/localhost.json ./cql
 ```
 
 #### Run CQL Tests
 ```bash
-# Using npm scripts (recommended)
-npm run dev:run                      # Development run
-npm run test                         # Production run
+# Using tsx (recommended for development)
+npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results
+
+# Using npm scripts (production)
+npm run test:cql                     # Production run
 
 # Direct CLI usage
-cql-tests run-tests conf/localhost.json
-node dist/bin/cql-tests.js run-tests conf/localhost.json
+cql-tests run-tests conf/localhost.json ./results
+node dist/bin/cql-tests.js run-tests conf/localhost.json ./results
 ```
 
 #### Using Custom Configuration Files
@@ -83,8 +87,8 @@ cp conf/localhost.json conf/my-config.json
 # Edit conf/my-config.json with your settings
 
 # Use your custom config
-cql-tests build-cql conf/my-config.json
-cql-tests run-tests conf/my-config.json
+cql-tests build-cql conf/my-config.json ./cql
+cql-tests run-tests conf/my-config.json ./results
 ```
 
 #### Environment Variable Overrides
@@ -92,7 +96,7 @@ You can still override specific settings using environment variables:
 ```bash
 export SERVER_BASE_URL=http://fhirServerBaseEndpoint
 export CQL_OPERATION=$cql
-cql-tests run-tests conf/localhost.json
+cql-tests run-tests conf/localhost.json ./results
 ```
 
 ### Development Environment
@@ -125,7 +129,7 @@ If using vscode for development, below are some examples for running the tests w
 
 ### Running from Source
 
-To run the application directly from source without building:
+To run the application directly from source:
 
 ```bash
 # Install dependencies
@@ -134,26 +138,26 @@ npm install
 # Initialize the cql-tests submodule
 git submodule update --init --recursive
 
-# Run commands directly from source
-npm run dev:build                    # Build CQL libraries
-npm run dev:run                      # Run CQL tests
-npm run dev:watch                    # Watch mode for development
+# Run commands directly from TypeScript source
+npx tsx src/bin/cql-tests.ts build-cql conf/localhost.json ./cql    # Build CQL libraries
+npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results # Run CQL tests
+npx tsx --watch src/bin/cql-tests.ts                                 # Watch mode for development
 ```
 
 ### Running with Docker
 
-The application is available as a pre-built Docker image `hlseven/quality-cql-tests-runner:latest`.
+The application is available as the pre-built Docker image `hlseven/quality-cql-tests-runner:latest`.
 
 #### Using the Docker Image
 
 ```bash
 # Run CQL tests with a configuration file
 docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
-  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json
+  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
 
 # Build CQL libraries
 docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/cql:/app/cql \
-  hlseven/quality-cql-tests-runner:latest build-cql conf/localhost.json
+  hlseven/quality-cql-tests-runner:latest build-cql conf/localhost.json ./cql
 
 # Start the server mode
 docker run --rm -p 3000:3000 -v $(pwd)/conf:/app/conf \
@@ -161,7 +165,7 @@ docker run --rm -p 3000:3000 -v $(pwd)/conf:/app/conf \
 
 # Using host networking to test against a server running on the host machine
 docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
-  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json
+  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
 ```
 
 #### Building the Docker Image
@@ -174,21 +178,21 @@ docker build -t cql-tests-runner .
 docker buildx build --platform linux/arm64,linux/amd64 -t hlseven/quality-cql-tests-runner:latest .
 
 # Run with built image
-docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json results
+docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
 
 # Using host networking with built image
-docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json results
+docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
 ```
 
 ### Server Command
 
-The server command starts an Express HTTP server that provides a REST API for running CQL tests.
+The server command starts an HTTP server that provides a REST API for running CQL tests. This is mainly intended to be used by [CQL Tests UI](https://github.com/cqframework/cql-tests-ui)
 
 #### Starting the Server
 
 ```bash
-# Using npm scripts (development mode)
-node --import tsx src/bin/cql-tests.ts server
+# Using tsx (development mode)
+npx tsx src/bin/cql-tests.ts server
 
 # Direct CLI usage
 cql-tests server
