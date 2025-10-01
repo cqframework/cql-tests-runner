@@ -127,7 +127,7 @@ If using vscode for development, below are some examples for running the tests w
 }
 ```
 
-### Running from Source
+### Running from Source Code
 
 To run the application directly from source:
 
@@ -144,11 +144,13 @@ npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results # Run CQL t
 npx tsx --watch src/bin/cql-tests.ts                                 # Watch mode for development
 ```
 
-### Running with Docker
+### Running from Pre-Built OCI/Docker Image
 
-The application is available as the pre-built Docker image `hlseven/quality-cql-tests-runner:latest`.
+The application is available as the pre-built image tag `hlseven/quality-cql-tests-runner:latest`.
 
 #### Using the Docker Image
+
+By default, the image runs the CLI. When you bind in any local directories (such as configuration and results directories) you may use it as you would any other command line utility.
 
 ```bash
 # Run CQL tests with a configuration file
@@ -159,7 +161,7 @@ docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
 docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/cql:/app/cql \
   hlseven/quality-cql-tests-runner:latest build-cql conf/localhost.json ./cql
 
-# Start the server mode
+# Start in REST server mode listening on port 3000.
 docker run --rm -p 3000:3000 -v $(pwd)/conf:/app/conf \
   hlseven/quality-cql-tests-runner:latest server
 
