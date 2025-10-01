@@ -9,6 +9,8 @@ class Result {
         this.testsName = testsName;
         this.groupName = groupName;
         this.testName = test.name;
+        this.testVersion = test.version;
+        this.testVersionTo = test.versionTo;
 
         if (typeof test.expression !== 'string') {
             if(test.expression === undefined){

@@ -30,7 +30,8 @@ const RatioExtractor = require('./lib/extractors/value-type-extractors/RatioExtr
 const StringExtractor = require('./lib/extractors/value-type-extractors/StringExtractor');
 const TimeExtractor = require('./lib/extractors/value-type-extractors/TimeExtractor');
 const UndefinedExtractor = require('./lib/extractors/UndefinedExtractor');
-const ResultExtractor = require('./lib/extractors/ResultExtractor.js')
+const ResultExtractor = require('./lib/extractors/ResultExtractor.js');
+const { group } = require('console');
 
 
 // Setup for running both $cql and Library/$evaluate
@@ -135,7 +136,11 @@ async function main() {
 
     //TODO: CQLEngine needs adjustments to handle Library/$evaluate. Config forces use of proper operation name and baseURL
     let cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
-    cqlEngine.cqlVersion = '1.5';
+    cqlEngine.cqlVersion = '1.5'; //default value
+    const cqlVersion = config?.Build?.CqlVersion;
+    if (typeof cqlVersion === 'string' && obj.cqlVersion.trim() !== '') {
+        cqlEngine.cqlVersion = cqlVersion;
+    }
 
     var x;
     await require('./cvl/cvlLoader.js').then(([{ default: cvl }]) => { x = cvl });
@@ -148,10 +153,14 @@ async function main() {
 
     const emptyResults = await resultsShared.generateEmptyResults(tests, quickTest);
     const skipMap = config.skipListMap();
-
     let results = new CQLTestResults(cqlEngine);
     for (let testFile of emptyResults) {
         for (let result of testFile) {
+            if(shouldSkipVersionTest(cqlEngine, result)){
+                //add to skipMap
+                const skipReason = "test version " + result.testVersion + " not applicable to engine version " + cqlEngine.cqlVersion;
+                addToSkipList(skipMap, tests[0].name, tests[0].group[0].name, result.testName, skipReason);
+            }
             await runTest(result, cqlEngine.apiUrl, x, resultExtractor, skipMap);
             results.add(result);
         }
@@ -160,14 +169,50 @@ async function main() {
     results.validate();
 };
 
+function addToSkipList(skipMap, testsName, groupName, testName, reason){
+    skipMap.set( `${testsName}-${groupName}-${testName}`, reason);
+}
+
 main();
+
+function compareVersions(versionA, versionB) {
+    // Split into numeric parts (e.g., "1.5.2" → [1,5,2])
+    const partsA = String(versionA ?? '').trim().split('.').map(n => parseInt(n, 10) || 0);
+    const partsB = String(versionB ?? '').trim().split('.').map(n => parseInt(n, 10) || 0);
+
+    const maxLength = Math.max(partsA.length, partsB.length);
+
+    for (let i = 0; i < maxLength; i++) {
+        const numA = partsA[i] ?? 0;
+        const numB = partsB[i] ?? 0;
+
+        if (numA !== numB) {
+            return numA < numB ? -1 : 1; // -1 if A < B, 1 if A > B
+        }
+    }
+    return 0; // versions are equal
+}
+
+function shouldSkipVersionTest(cqlEngine, result) {
+    const engineVersion = cqlEngine?.cqlVersion;
+    if (!engineVersion) return false; // no version to compare against
+    // Rule 1: if test.version is set, engine must be >= test.version
+    if (result.testVersion && compareVersions(engineVersion, result.testVersion) < 0) {
+        return true;
+    }
+    // Rule 2: if test.versionTo is set, engine must be <= test.versionTo
+    if (result.testVersionTo && compareVersions(engineVersion, result.testVersionTo) > 0) {
+        return true;
+    }
+    return false; // passes all checks
+}
 
 async function runTest(result, apiUrl, cvl, resultExtractor, skipMap) {
     const key = `${result.testsName}-${result.groupName}-${result.testName}`;
     if (result.testStatus === 'skip') {
         result.SkipMessage = 'Skipped by cql-tests-runner';
         return result;
-    } else if (skipMap.has(key)) {        
+    } else if (skipMap.has(key)) {
         let reason = skipMap.get(key);
         result.SkipMessage = `Skipped by config: ${reason}"`;
         result.testStatus = 'skip';
@@ -215,7 +260,7 @@ function resultsEqual(expected, actual) {
     if (expected === undefined && actual === undefined) {
         return true;
     }
-    
+
     if (expected === null && actual === null) {
         return true;
     }
