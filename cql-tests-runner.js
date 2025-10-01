@@ -158,7 +158,6 @@ async function main() {
         for (let result of testFile) {
             if(shouldSkipVersionTest(cqlEngine, result)){
                 //add to skipMap
-                console.log("skip this test  " + result.testName + ' ' + result.testVersion);
                 const skipReason = "test version " + result.testVersion + " not applicable to engine version " + cqlEngine.cqlVersion;
                 addToSkipList(skipMap, tests[0].name, tests[0].group[0].name, result.testName, skipReason);
             }
