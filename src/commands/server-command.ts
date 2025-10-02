@@ -125,8 +125,8 @@ export class ServerCommand {
       res.json({ status: 'healthy', timestamp: new Date().toISOString() });
     });
 
-    // 404 handler
-    this._app.use('*', (req: Request, res: Response) => {
+    // 404 handler - Express 5.x compatible catch-all
+    this._app.use((req: Request, res: Response) => {
       res.status(404).json({
         error: 'Not Found',
         message: `Endpoint ${req.method} ${req.originalUrl} not found`
