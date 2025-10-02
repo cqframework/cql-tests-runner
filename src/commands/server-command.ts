@@ -9,6 +9,8 @@ import { TestLoader } from '../loaders/test-loader';
 import { CQLEngine } from '../cql-engine/cql-engine';
 import { generateEmptyResults, generateParametersResource } from '../shared/results-shared';
 import { TestResult } from '../models/test-types';
+import { JobManager } from '../jobs/job-manager';
+import { JobProcessor } from '../jobs/job-processor';
 
 // Import extractors
 import { EvaluationErrorExtractor } from '../extractors/evaluation-error-extractor';
@@ -36,10 +38,14 @@ export class ServerCommand {
   private _app: express.Application;
   private _server: Server | null = null;
   private port: number;
+  private jobManager: JobManager;
+  private jobProcessor: JobProcessor;
 
   constructor(port: number = 3000) {
     this.port = port;
     this._app = express();
+    this.jobManager = new JobManager('./jobs');
+    this.jobProcessor = new JobProcessor(this.jobManager);
     this.setupMiddleware();
     this.setupRoutes();
     this.setupSignalHandlers();
@@ -80,7 +86,10 @@ export class ServerCommand {
         instructions: 'To run tests, send a POST request with a configuration document in the request body',
         endpoints: {
           'GET /': 'This endpoint - shows server information',
-          'POST /': 'Run CQL tests with provided configuration'
+          'POST /': 'Run CQL tests with provided configuration (synchronous)',
+          'POST /jobs': 'Create a new job to run CQL tests asynchronously',
+          'GET /jobs/:id': 'Get job status and results by job ID',
+          'GET /health': 'Health check endpoint'
         }
       });
     });
@@ -126,6 +135,93 @@ export class ServerCommand {
     // Health check endpoint
     this._app.get('/health', (req: Request, res: Response) => {
       res.json({ status: 'healthy', timestamp: new Date().toISOString() });
+    });
+
+    // POST /jobs endpoint - Create a new job
+    this._app.post('/jobs', async (req: Request, res: Response) => {
+      try {
+        const configData = req.body;
+        
+        if (!configData || typeof configData !== 'object') {
+          return res.status(400).json({
+            error: 'Bad Request',
+            message: 'Request body must contain a valid configuration object'
+          });
+        }
+
+        // Validate configuration using JSON schema
+        const validator = new ConfigValidator();
+        const validation = validator.validateConfig(configData);
+        
+        if (!validation.isValid) {
+          return res.status(400).json({
+            error: 'Configuration Validation Failed',
+            message: 'The provided configuration does not match the required schema',
+            details: validator.formatErrors(validation.errors)
+          });
+        }
+
+        // Create job and start processing asynchronously
+        const jobResponse = await this.jobManager.createJob(configData);
+        
+        // Start processing the job asynchronously (don't await)
+        this.jobProcessor.processJob(jobResponse.jobId).catch(error => {
+          console.error(`Failed to process job ${jobResponse.jobId}:`, error);
+        });
+
+        res.status(202).json(jobResponse);
+
+      } catch (error: any) {
+        console.error('Error creating job:', error);
+        res.status(500).json({
+          error: 'Internal Server Error',
+          message: 'Failed to create job',
+          details: error.message
+        });
+      }
+    });
+
+    // GET /jobs/:id endpoint - Get job status and results
+    this._app.get('/jobs/:id', async (req: Request, res: Response) => {
+      try {
+        const jobId = req.params.id;
+        
+        if (!jobId) {
+          return res.status(400).json({
+            error: 'Bad Request',
+            message: 'Job ID is required'
+          });
+        }
+
+        const jobStatus = await this.jobManager.getJobStatus(jobId);
+        
+        if (!jobStatus) {
+          return res.status(404).json({
+            error: 'Not Found',
+            message: `Job with ID ${jobId} not found`
+          });
+        }
+
+        // Return appropriate status code based on job status
+        let statusCode = 200;
+        if (jobStatus.status === 'pending') {
+          statusCode = 202; // Accepted
+        } else if (jobStatus.status === 'running') {
+          statusCode = 202; // Accepted
+        } else if (jobStatus.status === 'failed') {
+          statusCode = 500; // Internal Server Error
+        }
+
+        res.status(statusCode).json(jobStatus);
+
+      } catch (error: any) {
+        console.error('Error getting job status:', error);
+        res.status(500).json({
+          error: 'Internal Server Error',
+          message: 'Failed to get job status',
+          details: error.message
+        });
+      }
     });
 
     // 404 handler - Express 5.x compatible catch-all
@@ -310,7 +406,13 @@ export class ServerCommand {
   public stop(): void {
     if (this._server) {
       console.log('Shutting down server...');
-      this._server.close(() => {
+      this._server.close(async () => {
+        // Clean up old jobs before shutting down
+        try {
+          await this.jobManager.cleanupOldJobs(24); // Clean up jobs older than 24 hours
+        } catch (error) {
+          console.error('Error cleaning up old jobs:', error);
+        }
         console.log('Server has been shut down');
         process.exit(0);
       });

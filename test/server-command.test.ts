@@ -103,7 +103,10 @@ describe('ServerCommand', () => {
         instructions: 'To run tests, send a POST request with a configuration document in the request body',
         endpoints: {
           'GET /': 'This endpoint - shows server information',
-          'POST /': 'Run CQL tests with provided configuration'
+          'POST /': 'Run CQL tests with provided configuration (synchronous)',
+          'POST /jobs': 'Create a new job to run CQL tests asynchronously',
+          'GET /jobs/:id': 'Get job status and results by job ID',
+          'GET /health': 'Health check endpoint'
         }
       });
     });

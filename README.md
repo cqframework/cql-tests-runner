@@ -214,8 +214,26 @@ docker run --rm --network host -v $(pwd)/conf:/app/conf \
 The server provides the following endpoints:
 
 - **GET /** - Server information and available endpoints
-- **POST /** - Run CQL tests with configuration in request body
+- **POST /** - Run CQL tests with configuration in request body (synchronous)
+- **POST /jobs** - Create a new job to run CQL tests asynchronously
+- **GET /jobs/:id** - Get job status and results by job ID
 - **GET /health** - Health check endpoint
+
+#### Asynchronous Job Processing
+
+For long-running test suites, the server supports asynchronous job processing:
+
+```bash
+# Create a job (returns immediately with job ID)
+curl -X POST http://localhost:3000/jobs \
+  -H "Content-Type: application/json" \
+  -d @conf/localhost.json
+
+# Poll job status and results
+curl http://localhost:3000/jobs/{job-id}
+```
+
+Jobs support progress tracking and can be polled for status updates. The original synchronous endpoint (`POST /`) remains available for quick tests.
 
 #### Example Usage
 
@@ -223,7 +241,7 @@ The server provides the following endpoints:
 # Start the server
 cql-tests server --port 3000
 
-# In another terminal, run tests via API
+# In another terminal, run tests via synchronous execution API
 curl -X POST http://localhost:3000/ \
   -H "Content-Type: application/json" \
   -d @conf/localhost.json \

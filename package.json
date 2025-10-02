@@ -8,7 +8,8 @@
         "cql-tests": "dist/bin/cql-tests.js"
     },
     "scripts": {
-        "build": "tsc && node fix-imports.cjs",
+        "build": "tsc && node fix-imports.cjs && npm run copy-assets",
+        "copy-assets": "cp -r assets dist/ && cp -r cvl dist/ && cp -r cql-tests dist/",
         "dev": "tsc --watch",
         "test": "vitest run test/",
         "test:cql": "node --import tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results",
@@ -22,6 +23,7 @@
     "author": "",
     "license": "Apache-2.0",
     "dependencies": {
+        "@types/uuid": "^10.0.0",
         "ajv": "^8.17.1",
         "ajv-formats": "^3.0.1",
         "antlr4": "4.13.2",
@@ -29,10 +31,11 @@
         "colors": "^1.4.0",
         "commander": "^14.0.1",
         "config": "^4.1.1",
-        "date-fns": "^4.1.0",
         "cors": "^2.8.5",
+        "date-fns": "^4.1.0",
         "express": "^5.1.0",
-        "fast-xml-parser": "^5.2.5"
+        "fast-xml-parser": "^5.2.5",
+        "uuid": "^13.0.0"
     },
     "devDependencies": {
         "@types/cors": "^2.8.19",

@@ -1,5 +1,6 @@
 /node_modules
 /results
+/jobs
 .vs
 .vscode
 /config/production.json
