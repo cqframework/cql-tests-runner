@@ -37,8 +37,9 @@ RUN addgroup -g 1001 -S nodejs && \
 RUN chown -R cql-tests:nodejs /app
 USER cql-tests
 
-# Expose port (if needed for future web interface)
+# Expose port for server
 EXPOSE 3000
 
 # Set the entrypoint to run the compiled cql-tests.js
+# The Node.js process will handle SIGINT/SIGTERM signals for graceful shutdown
 ENTRYPOINT ["node", "dist/src/bin/cql-tests.js"]

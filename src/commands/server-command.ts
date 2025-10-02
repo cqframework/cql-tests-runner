@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { Server } from 'http';
 import cors from 'cors';
 import { RunCommand } from './run-tests-command';
 import { ConfigLoader } from '../conf/config-loader';
@@ -33,6 +34,7 @@ declare const cvlLoader: () => Promise<[{ default: any }]>;
 
 export class ServerCommand {
   private _app: express.Application;
+  private _server: Server | null = null;
   private port: number;
 
   constructor(port: number = 3000) {
@@ -40,6 +42,7 @@ export class ServerCommand {
     this._app = express();
     this.setupMiddleware();
     this.setupRoutes();
+    this.setupSignalHandlers();
   }
 
   // Getter for testing purposes
@@ -281,21 +284,40 @@ export class ServerCommand {
     return true;
   }
 
+  private setupSignalHandlers(): void {
+    // Handle SIGINT (CTRL-C) and SIGTERM signals
+    const gracefulShutdown = (signal: string) => {
+      console.log(`\nReceived ${signal}. Starting graceful shutdown...`);
+      this.stop();
+    };
+
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+  }
+
   public async start(): Promise<void> {
     return new Promise((resolve) => {
-      this._app.listen(this.port, () => {
+      this._server = this._app.listen(this.port, () => {
         console.log(`CQL Tests Runner server listening on port ${this.port}`);
         console.log(`Server running at http://localhost:${this.port}`);
         console.log('Send POST requests with configuration to run tests');
+        console.log('Press CTRL-C to stop the server');
         resolve();
       });
     });
   }
 
   public stop(): void {
-    // Express doesn't provide a built-in stop method, but we can track the server instance
-    // For now, this is a placeholder for future enhancement
-    console.log('Server stop requested');
+    if (this._server) {
+      console.log('Shutting down server...');
+      this._server.close(() => {
+        console.log('Server has been shut down');
+        process.exit(0);
+      });
+    } else {
+      console.log('Server is not running');
+      process.exit(0);
+    }
   }
 
   private createConfigFromData(configData: any): ConfigLoader {
