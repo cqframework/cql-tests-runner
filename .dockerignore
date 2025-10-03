@@ -65,6 +65,8 @@ temp/
 
 # Generated stuff
 dist/
+jobs/
+
 
 # CQL files that will be generated during build
 cql/
