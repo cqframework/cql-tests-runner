@@ -1,6 +1,6 @@
 {
     "name": "cql-tests-runner",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Node application and command line tools for running CQL tests",
     "type": "module",
     "main": "dist/bin/cql-tests.js",
@@ -23,7 +23,7 @@
     "author": "",
     "license": "Apache-2.0",
     "dependencies": {
-        "@types/uuid": "^10.0.0",
+        "@types/uuid": "^11.0.0",
         "ajv": "^8.17.1",
         "ajv-formats": "^3.0.1",
         "antlr4": "4.13.2",
@@ -41,7 +41,7 @@
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.3",
         "@types/fhir": "^0.0.41",
-        "@types/node": "^24.6.1",
+        "@types/node": "^24.6.2",
         "@types/supertest": "^6.0.3",
         "prettier": "^3.6.2",
         "supertest": "^7.1.4",
