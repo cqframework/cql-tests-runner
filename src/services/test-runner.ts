@@ -59,7 +59,11 @@ export class TestRunner {
     const cqlEndpoint = config.CqlEndpoint;
 
     const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
-    cqlEngine.cqlVersion = '1.5';
+    cqlEngine.cqlVersion = '1.5'; //default value
+    const cqlVersion = config.Build?.CqlVersion;
+    if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
+      cqlEngine.cqlVersion = cqlVersion;
+    }
 
     // Load CVL using dynamic import
     // @ts-ignore
@@ -79,6 +83,11 @@ export class TestRunner {
 
     for (const testFile of emptyResults) {
       for (const result of testFile) {
+        if (this.shouldSkipVersionTest(cqlEngine, result)) {
+          //add to skipMap
+          const skipReason = "test version " + result.testVersion + " not applicable to engine version " + cqlEngine.cqlVersion;
+          this.addToSkipList(skipMap, result.testsName, result.groupName, result.testName, skipReason);
+        }
         await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, config, options.useAxios);
         results.add(result);
         
@@ -225,7 +234,8 @@ export class TestRunner {
     
     config.Build = {
       CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
-      CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql'
+      CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
+      CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion
     };
     
     config.Tests = {
@@ -265,5 +275,40 @@ export class TestRunner {
     }
 
     return true;
+  }
+
+  private compareVersions(versionA: string | undefined, versionB: string | undefined): number {
+    // Split into numeric parts (e.g., "1.5.2" → [1,5,2])
+    const partsA = String(versionA ?? '').trim().split('.').map(n => parseInt(n, 10) || 0);
+    const partsB = String(versionB ?? '').trim().split('.').map(n => parseInt(n, 10) || 0);
+
+    const maxLength = Math.max(partsA.length, partsB.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      const numA = partsA[i] ?? 0;
+      const numB = partsB[i] ?? 0;
+      if (numA !== numB) {
+        return numA < numB ? -1 : 1; // -1 if A < B, 1 if A > B
+      }
+    }
+    return 0; // versions are equal
+  }
+
+  private shouldSkipVersionTest(cqlEngine: CQLEngine, result: TestResult): boolean {
+    const engineVersion = cqlEngine?.cqlVersion;
+    if (!engineVersion) return false; // no version to compare against
+    // Rule 1: if test.version is set, engine must be >= test.version
+    if (result.testVersion && this.compareVersions(engineVersion, result.testVersion) < 0) {
+      return true;
+    }
+    // Rule 2: if test.versionTo is set, engine must be <= test.versionTo
+    if (result.testVersionTo && this.compareVersions(engineVersion, result.testVersionTo) > 0) {
+      return true;
+    }
+    return false; // passes all checks
+  }
+
+  private addToSkipList(skipMap: Map<string, string>, testsName: string, groupName: string, testName: string, reason: string): void {
+    skipMap.set(`${testsName}-${groupName}-${testName}`, reason);
   }
 }

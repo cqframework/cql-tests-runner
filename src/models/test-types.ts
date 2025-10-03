@@ -11,6 +11,7 @@ export interface TestOutput {
 export interface Test {
   name: string;
   version?: string;
+  versionTo?: string;
   description?: string;
   reference?: string;
   inputFile?: string;
@@ -52,6 +53,8 @@ export interface TestResult {
   testsName: string;
   groupName: string;
   testName: string;
+  testVersion?: string;
+  testVersionTo?: string;
   invalid: 'false' | 'true' | 'semantic' | 'undefined';
   expression: string;
   SkipMessage?: string;

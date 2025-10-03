@@ -13,6 +13,8 @@ export class Result {
   testsName: string;
   groupName: string;
   testName: string;
+  testVersion?: string;
+  testVersionTo?: string;
   invalid: 'false' | 'true' | 'semantic' | 'undefined';
   expression: string;
 
@@ -20,6 +22,8 @@ export class Result {
     this.testsName = testsName;
     this.groupName = groupName;
     this.testName = test.name;
+    this.testVersion = test.version;
+    this.testVersionTo = test.versionTo;
 
     if (typeof test.expression !== 'string') {
       if (test.expression === undefined) {

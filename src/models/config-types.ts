@@ -13,6 +13,7 @@ export interface Config {
   Build: {
     CqlFileVersion: string;
     CqlOutputPath: string;
+    CqlVersion?: string;
   };
   Tests: {
     ResultsPath: string;

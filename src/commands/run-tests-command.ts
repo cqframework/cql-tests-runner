@@ -48,7 +48,8 @@ export class RunCommand {
       },
       Build: {
         CqlFileVersion: config.Build.CqlFileVersion,
-        CqlOutputPath: config.Build.CqlOutputPath
+        CqlOutputPath: config.Build.CqlOutputPath,
+        CqlVersion: config.Build.CqlVersion
       },
       Tests: {
         ResultsPath: config.Tests.ResultsPath,
