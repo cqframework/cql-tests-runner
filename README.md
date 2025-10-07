@@ -1,6 +1,6 @@
 # cql-tests-runner
 
-Test Runner for the [CQL Tests](https://github.com/cqframework/cql-tests) repository. This node application allows you to run the tests in the CQL Tests repository against a server of your choice using the [$cql](https://hl7.org/fhir/uv/cql/OperationDefinition-cql-cql.html) operation. The runner in its current state uses only this operation, and there is no expectation of any other FHIR server capability made by this runner. Additional capabilities may be required in the future as we expand the runner to support full Library/$evaluate as well, but currently on the $cql operation is required, and none of the tests in the repository have any expectation of being able to access data (i.e. the tests have no retrieve expressions).
+Test Runner for the [CQL Tests](https://github.com/cqframework/cql-tests) repository. This node application allows you to run the tests in the CQL Tests repository against a server of your choice using the [$cql](https://hl7.org/fhir/uv/cql/OperationDefinition-cql-cql.html) operation. The runner in its current state uses only this operation, and there is no expectation of any other FHIR server capability made by this runner. Additional capabilities may be required in the future as we expand the runner to support full Library/$evaluate as well. None of the tests in the repository have any expectation of being able to access data (i.e. the tests have no retrieve expressions).
 
 The application runs all the tests in the repository and outputs the results as a JSON file in the `results` directory. If the output directory does not exist, it will be created.
 
@@ -8,7 +8,7 @@ Results output from running these tests can be posted to the [CQL Tests Results]
 
 ## Setting up the Environment
 
-This application requires Node v18 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
+This application requires Node v24 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
 
 Install application dependencies using
 
@@ -48,55 +48,82 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
 }
 ```
 
-Create your own configuration file and reference it when running the commands. You can copy `conf/localhost.json` to create a new configuration file with your desired settings.
+Create your own configuration file and reference it when running the commands. You can use `conf/localhost.json` as a template for a new configuration with your own settings.
 
 ### Running the tests
 
 The CLI now requires a configuration file path as an argument. Run the tests with the following commands:
 
-#### Build CQL Libraries
+#
+
+### Running from Source Code
+
+To run the application directly from source:
+
 ```bash
-# Using tsx (recommended for development)
-npx tsx src/bin/cql-tests.ts build-cql conf/localhost.json ./cql
+# Install dependencies
+npm install
 
-# Using npm scripts (production)
-npm run build-libs                   # Production build
+# Initialize the cql-tests submodule
+git submodule update --init --recursive
 
-# Direct CLI usage
-cql-tests build-cql conf/localhost.json ./cql
-node dist/bin/cql-tests.js build-cql conf/localhost.json ./cql
+# Run commands directly from TypeScript source
+npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results # Run CQL tests
+npx tsx src/bin/cql-tests.ts server                               # Run in server API mode
+npx tsx src/bin/cql-tests.ts help                               # Hetailed command help
+
+npx tsx src/bin/cql-tests.ts build-cql conf/localhost.json ./cql    # Unused legacy tool
+
 ```
 
-#### Run CQL Tests
+### Running from Pre-Built OCI/Docker Image
+
+The application is available as the pre-built image tag `hlseven/quality-cql-tests-runner:latest`.
+
+#### Using the Docker Image
+
+By default, the image runs the CLI. When you bind in any local directories (such as configuration and results directories) you may use it as you would any other command line utility.
+
 ```bash
-# Using tsx (recommended for development)
-npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results
+# Run CQL tests with a configuration file
+docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
+  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
 
-# Using npm scripts (production)
-npm run test:cql                     # Production run
+# Build CQL libraries (Unused)
+docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/cql:/app/cql \
+  hlseven/quality-cql-tests-runner:latest build-cql conf/localhost.json ./cql
 
-# Direct CLI usage
-cql-tests run-tests conf/localhost.json ./results
-node dist/bin/cql-tests.js run-tests conf/localhost.json ./results
+# Start in REST server mode listening on port 3000.
+docker run --rm -p 3000:3000 -v $(pwd)/conf:/app/conf \
+  hlseven/quality-cql-tests-runner:latest server
+
+# Using host networking to test against a server running on the host machine
+docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
+  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
 ```
 
-#### Using Custom Configuration Files
-```bash
-# Create your own config file
-cp conf/localhost.json conf/my-config.json
-# Edit conf/my-config.json with your settings
+#### Building the Docker Image
 
-# Use your custom config
-cql-tests build-cql conf/my-config.json ./cql
-cql-tests run-tests conf/my-config.json ./results
+```bash
+# Build the Docker image locally
+docker build -t cql-tests-runner .
+
+# Build multi-platform image for distribution
+docker buildx build --platform linux/arm64,linux/amd64 -t hlseven/quality-cql-tests-runner:latest .
+
+# Run with built image
+docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
+
+# Using host networking with built image
+docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
 ```
+
 
 #### Environment Variable Overrides
 You can still override specific settings using environment variables:
-```bash
+```sh
 export SERVER_BASE_URL=http://fhirServerBaseEndpoint
 export CQL_OPERATION=$cql
-cql-tests run-tests conf/localhost.json ./results
 ```
 
 ### Development Environment
@@ -127,65 +154,6 @@ If using vscode for development, below are some examples for running the tests w
 }
 ```
 
-### Running from Source Code
-
-To run the application directly from source:
-
-```bash
-# Install dependencies
-npm install
-
-# Initialize the cql-tests submodule
-git submodule update --init --recursive
-
-# Run commands directly from TypeScript source
-npx tsx src/bin/cql-tests.ts build-cql conf/localhost.json ./cql    # Build CQL libraries
-npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results # Run CQL tests
-npx tsx --watch src/bin/cql-tests.ts                                 # Watch mode for development
-```
-
-### Running from Pre-Built OCI/Docker Image
-
-The application is available as the pre-built image tag `hlseven/quality-cql-tests-runner:latest`.
-
-#### Using the Docker Image
-
-By default, the image runs the CLI. When you bind in any local directories (such as configuration and results directories) you may use it as you would any other command line utility.
-
-```bash
-# Run CQL tests with a configuration file
-docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
-  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
-
-# Build CQL libraries
-docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/cql:/app/cql \
-  hlseven/quality-cql-tests-runner:latest build-cql conf/localhost.json ./cql
-
-# Start in REST server mode listening on port 3000.
-docker run --rm -p 3000:3000 -v $(pwd)/conf:/app/conf \
-  hlseven/quality-cql-tests-runner:latest server
-
-# Using host networking to test against a server running on the host machine
-docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
-  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
-```
-
-#### Building the Docker Image
-
-```bash
-# Build the Docker image locally
-docker build -t cql-tests-runner .
-
-# Build multi-platform image for distribution
-docker buildx build --platform linux/arm64,linux/amd64 -t hlseven/quality-cql-tests-runner:latest .
-
-# Run with built image
-docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
-
-# Using host networking with built image
-docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
-```
-
 ### Server Command
 
 The server command starts an HTTP server that provides a REST API for running CQL tests. This is mainly intended to be used by [CQL Tests UI](https://github.com/cqframework/cql-tests-ui)
@@ -195,10 +163,6 @@ The server command starts an HTTP server that provides a REST API for running CQ
 ```bash
 # Using tsx (development mode)
 npx tsx src/bin/cql-tests.ts server
-
-# Direct CLI usage
-cql-tests server
-cql-tests server --port 3000
 
 # Using Docker
 docker run --rm -p 3000:3000 -v $(pwd)/conf:/app/conf \
@@ -239,7 +203,7 @@ Jobs support progress tracking and can be polled for status updates. The origina
 
 ```bash
 # Start the server
-cql-tests server --port 3000
+npx tsx src/bin/cql-tests server --port 3000
 
 # In another terminal, run tests via synchronous execution API
 curl -X POST http://localhost:3000/ \

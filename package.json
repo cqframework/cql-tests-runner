@@ -1,6 +1,6 @@
 {
     "name": "cql-tests-runner",
-    "version": "1.1.0",
+    "version": "1.1.2",
     "description": "Node application and command line tools for running CQL tests",
     "type": "module",
     "main": "dist/bin/cql-tests.js",
