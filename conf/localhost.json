@@ -1,0 +1,36 @@
+{
+  "FhirServer": {
+    "BaseUrl": "http://localhost:8080/fhir/",
+    "CqlOperation": "$cql"
+  },
+  "Build": {
+    "CqlFileVersion": "1.0.000",
+    "CqlOutputPath": "./cql"
+  },
+  "Debug": {
+    "QuickTest": false
+  },
+  "Tests": {
+    "ResultsPath": "./results",
+    "SkipList": [
+      {
+        "testsName": "CqlAggregateTest",
+        "groupName": "AggregateTests",
+        "testName": "RolledOutIntervals",
+        "reason": "CQLtoELM - Could not resolve identifier MedicationRequestIntervals in the current library"
+      },
+      {
+        "testsName": "CqlDateTimeOperatorsTest",
+        "groupName": "DateTimeComponentFrom",
+        "testName": "DateTimeComponentFromTimezone",
+        "reason": "CQLtoElm - Timezone keyword is only valid in 1.3 or lower"
+      },
+      {
+        "testsName": "CqlDateTimeOperatorsTest",
+        "groupName": "Uncertainty tests",
+        "testName": "TimeDurationBetweenHourDiffPrecision",
+        "reason": "CQLtoELM - Syntax error at Z"
+      }
+    ]
+  }
+}

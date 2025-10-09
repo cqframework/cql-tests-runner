@@ -1,26 +1,53 @@
 {
     "name": "cql-tests-runner",
-    "version": "0.1.0",
-    "description": "Node application for running CQL tests",
-    "main": "cql-tests-runner.js",
+    "version": "1.1.2",
+    "description": "Node application and command line tools for running CQL tests",
+    "type": "module",
+    "main": "dist/bin/cql-tests.js",
+    "bin": {
+        "cql-tests": "dist/bin/cql-tests.js"
+    },
     "scripts": {
-        "test": "node cql-tests-runner.js",
-        "build": "node build-libraries.js",
-        "unit-tests": "vitest"
+        "build": "tsc && node fix-imports.cjs && npm run copy-assets",
+        "copy-assets": "cp -r assets dist/ && cp -r cvl dist/ && cp -r cql-tests dist/",
+        "dev": "tsc --watch",
+        "test": "vitest run test/",
+        "test:cql": "node --import tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results",
+        "build-libs": "npm run build && node dist/bin/cql-tests.js build-cql conf/localhost.json ./cql",
+        "unit-tests": "vitest run test/",
+        "clean": "rm -rf dist",
+        "format": "prettier --write \"src/**/*.{ts,js,json}\" \"test/**/*.{ts,js,json}\" \"*.{ts,js,json,md}\"",
+        "format:check": "prettier --check \"src/**/*.{ts,js,json}\" \"test/**/*.{ts,js,json}\" \"*.{ts,js,json,md}\"",
+        "format:staged": "prettier --write"
     },
     "author": "",
     "license": "Apache-2.0",
     "dependencies": {
+        "@types/uuid": "^11.0.0",
         "ajv": "^8.17.1",
         "ajv-formats": "^3.0.1",
-        "antlr4": "4.13.1-patch-1",
-        "axios": "^1.6.8",
+        "antlr4": "4.13.2",
+        "axios": "^1.12.2",
         "colors": "^1.4.0",
-        "config": "^3.3.12",
-        "date-fns": "^2.23.0",
-        "fast-xml-parser": "^4.3.6"
+        "commander": "^14.0.1",
+        "config": "^4.1.1",
+        "cors": "^2.8.5",
+        "date-fns": "^4.1.0",
+        "express": "^5.1.0",
+        "fast-xml-parser": "^5.2.5",
+        "uuid": "^13.0.0"
     },
     "devDependencies": {
-        "vitest": "^3.1.4"
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.3",
+        "@types/fhir": "^0.0.41",
+        "@types/node": "^24.6.2",
+        "@types/supertest": "^6.0.3",
+        "prettier": "^3.6.2",
+        "supertest": "^7.1.4",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.20.6",
+        "typescript": "^5.9.3",
+        "vitest": "^3.2.4"
     }
 }

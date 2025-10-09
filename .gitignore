@@ -3,3 +3,9 @@
 .vs
 .vscode
 /config/production.json
+.cursorrules
+/cql
+/dist
+/jobs
+
+.DS_Store
