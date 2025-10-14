@@ -102,7 +102,7 @@ export class ServerCommand {
         if (!configData || typeof configData !== 'object') {
           return res.status(400).json({
             error: 'Bad Request',
-            message: 'Request body must contain a valid configuration object'
+            message: 'Request body is required and must be a valid JSON object'
           });
         }
 
@@ -111,9 +111,9 @@ export class ServerCommand {
         const validation = validator.validateConfig(configData);
         
         if (!validation.isValid) {
-          return res.status(400).json({
-            error: 'Configuration Validation Failed',
-            message: 'The provided configuration does not match the required schema',
+          return res.status(422).json({
+            error: 'Unprocessable Entity',
+            message: 'Configuration validation failed',
             details: validator.formatErrors(validation.errors)
           });
         }
@@ -145,7 +145,7 @@ export class ServerCommand {
         if (!configData || typeof configData !== 'object') {
           return res.status(400).json({
             error: 'Bad Request',
-            message: 'Request body must contain a valid configuration object'
+            message: 'Request body is required and must be a valid JSON object'
           });
         }
 
@@ -154,9 +154,9 @@ export class ServerCommand {
         const validation = validator.validateConfig(configData);
         
         if (!validation.isValid) {
-          return res.status(400).json({
-            error: 'Configuration Validation Failed',
-            message: 'The provided configuration does not match the required schema',
+          return res.status(422).json({
+            error: 'Unprocessable Entity',
+            message: 'Configuration validation failed',
             details: validator.formatErrors(validation.errors)
           });
         }
@@ -186,10 +186,10 @@ export class ServerCommand {
       try {
         const jobId = req.params.id;
         
-        if (!jobId) {
+        if (!jobId || jobId.trim() === '') {
           return res.status(400).json({
             error: 'Bad Request',
-            message: 'Job ID is required'
+            message: 'Job ID parameter is required and cannot be empty'
           });
         }
 
