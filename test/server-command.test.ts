@@ -29,11 +29,6 @@ const createMockResults = () => ({
   results: []
 });
 
-const expectErrorResponse = (response: any, error: string, message: string) => {
-  expect(response.body).toHaveProperty('error', error);
-  expect(response.body).toHaveProperty('message', message);
-};
-
 // Mock implementations
 vi.mock('../src/conf/config-loader', () => ({
   ConfigLoader: vi.fn().mockImplementation((configData) => ({
