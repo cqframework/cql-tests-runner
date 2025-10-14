@@ -5,6 +5,7 @@ import { CQLTestResults } from '../test-results/cql-test-results';
 import { generateEmptyResults, generateParametersResource } from '../shared/results-shared';
 import { TestResult } from '../models/test-types';
 import { ResultExtractor } from '../extractors/result-extractor';
+import { ServerConnectivity, ServerConnectivityError } from '../shared/server-connectivity';
 
 // Import extractors
 import { EvaluationErrorExtractor } from '../extractors/evaluation-error-extractor';
@@ -57,6 +58,9 @@ export class TestRunner {
     const config = this.createConfigFromData(configData);
     const serverBaseUrl = config.FhirServer.BaseUrl;
     const cqlEndpoint = config.CqlEndpoint;
+
+    // Verify server connectivity before proceeding
+    await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
 
     const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
     cqlEngine.cqlVersion = '1.5'; //default value
@@ -311,4 +315,5 @@ export class TestRunner {
   private addToSkipList(skipMap: Map<string, string>, testsName: string, groupName: string, testName: string, reason: string): void {
     skipMap.set(`${testsName}-${groupName}-${testName}`, reason);
   }
+
 }

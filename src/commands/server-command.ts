@@ -11,6 +11,7 @@ import { generateEmptyResults, generateParametersResource } from '../shared/resu
 import { TestResult } from '../models/test-types';
 import { JobManager } from '../jobs/job-manager';
 import { JobProcessor } from '../jobs/job-processor';
+import { ServerConnectivity, ServerConnectivityError } from '../shared/server-connectivity';
 
 // Import extractors
 import { EvaluationErrorExtractor } from '../extractors/evaluation-error-extractor';
@@ -124,11 +125,22 @@ export class ServerCommand {
 
       } catch (error: any) {
         console.error('Error running tests:', error);
-        res.status(500).json({
-          error: 'Internal Server Error',
-          message: 'Failed to run tests',
-          details: error.message
-        });
+        
+        // Check if it's a connectivity error using proper type checking
+        if (error instanceof ServerConnectivityError) {
+          res.status(503).json({
+            error: 'Service Unavailable',
+            message: 'Test runner cannot connect to the specified FHIR server',
+            details: error.message,
+            code: error.code
+          });
+        } else {
+          res.status(500).json({
+            error: 'Internal Server Error',
+            message: 'Failed to run tests',
+            details: error.message
+          });
+        }
       }
     });
 
@@ -161,6 +173,11 @@ export class ServerCommand {
           });
         }
 
+        // Verify server connectivity before creating the job
+        const config = this.createConfigFromData(configData);
+        const serverBaseUrl = config.FhirServer.BaseUrl;
+        await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
+
         // Create job and start processing asynchronously
         const jobResponse = await this.jobManager.createJob(configData);
         
@@ -173,11 +190,22 @@ export class ServerCommand {
 
       } catch (error: any) {
         console.error('Error creating job:', error);
-        res.status(500).json({
-          error: 'Internal Server Error',
-          message: 'Failed to create job',
-          details: error.message
-        });
+        
+        // Check if it's a connectivity error using proper type checking
+        if (error instanceof ServerConnectivityError) {
+          res.status(503).json({
+            error: 'Service Unavailable',
+            message: 'Test runner cannot connect to the specified FHIR server',
+            details: error.message,
+            code: error.code
+          });
+        } else {
+          res.status(500).json({
+            error: 'Internal Server Error',
+            message: 'Failed to create job',
+            details: error.message
+          });
+        }
       }
     });
 
@@ -239,8 +267,11 @@ export class ServerCommand {
     const serverBaseUrl = config.FhirServer.BaseUrl;
     const cqlEndpoint = config.CqlEndpoint;
 
+    // Verify server connectivity before proceeding
+    await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
+
     const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
-    cqlEngine.cqlVersion = '1.5';
+    cqlEngine.cqlVersion = config.Build?.CqlVersion || '1.5';
 
     // Load CVL using dynamic import
     // @ts-ignore
@@ -477,4 +508,5 @@ export class ServerCommand {
 
     return true;
   }
+
 }
