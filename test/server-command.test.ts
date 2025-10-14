@@ -2,7 +2,34 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import request from 'supertest';
 import { ServerCommand } from '../src/commands/server-command.js';
 
-// Mock the external dependencies
+// Test data and mock helpers
+const createMockConfig = (overrides = {}) => ({
+  FhirServer: {
+    BaseUrl: 'http://localhost:8080/fhir/',
+    CqlOperation: '$cql'
+  },
+  Build: {
+    CqlFileVersion: '1.0.000',
+    CqlOutputPath: './cql'
+  },
+  Debug: {
+    QuickTest: false
+  },
+  Tests: {
+    ResultsPath: './results',
+    SkipList: []
+  },
+  ...overrides
+});
+
+const createMockResults = () => ({
+  cqlengine: { apiUrl: 'http://localhost:8080/fhir/$cql', cqlVersion: '1.5' },
+  testsRunDateTime: '2025-01-01T00:00:00.000Z',
+  testResultsSummary: { passCount: 0, skipCount: 0, failCount: 0, errorCount: 0 },
+  results: []
+});
+
+// Mock implementations
 vi.mock('../src/conf/config-loader', () => ({
   ConfigLoader: vi.fn().mockImplementation((configData) => ({
     FhirServer: {
@@ -17,64 +44,43 @@ vi.mock('../src/conf/config-loader', () => ({
   }))
 }));
 
-// Mock the ConfigValidator
 vi.mock('../src/conf/config-validator', () => ({
   ConfigValidator: vi.fn().mockImplementation(() => ({
     validateConfig: vi.fn().mockImplementation((configData) => {
-      // Simulate validation logic
-      const hasRequiredFields = configData && 
-        configData.FhirServer && 
-        configData.Build && 
-        configData.Debug && 
-        configData.Tests;
+      const requiredFields = ['FhirServer', 'Build', 'Debug', 'Tests'];
+      const hasRequiredFields = requiredFields.every(field => configData?.[field]);
       
-      if (!hasRequiredFields) {
-        return {
-          isValid: false,
-          errors: [
-            { message: 'must have required property \'FhirServer\' at #/required', dataPath: '', schemaPath: '' },
-            { message: 'must have required property \'Build\' at #/required', dataPath: '', schemaPath: '' },
-            { message: 'must have required property \'Debug\' at #/required', dataPath: '', schemaPath: '' },
-            { message: 'must have required property \'Tests\' at #/required', dataPath: '', schemaPath: '' }
-          ]
-        };
-      }
-      
-      return { isValid: true, errors: [] };
+      return hasRequiredFields 
+        ? { isValid: true, errors: [] }
+        : {
+            isValid: false,
+            errors: requiredFields.filter(field => !configData?.[field]).map(field => ({
+              message: `must have required property '${field}' at #/required`,
+              dataPath: '',
+              schemaPath: ''
+            }))
+          };
     }),
     formatErrors: vi.fn().mockImplementation((errors) => 
       errors.map((error: any, index: number) => `${index + 1}. ${error.message}`).join('\n')
     )
   }))
 }));
-
-vi.mock('../src/loaders/test-loader', () => ({
-  TestLoader: {
-    load: vi.fn().mockReturnValue([])
-  }
-}));
-
-vi.mock('../src/cql-engine/cql-engine', () => ({
+vi.mock('../src/loaders/test-loader', () => ({ TestLoader: { load: vi.fn().mockReturnValue([]) } }));
+vi.mock('../src/cql-engine/cql-engine', () => ({ 
   CQLEngine: vi.fn().mockImplementation(() => ({
     apiUrl: 'http://localhost:8080/fhir/$cql',
     cqlVersion: '1.5'
   }))
 }));
-
 vi.mock('../src/shared/results-shared', () => ({
   generateEmptyResults: vi.fn().mockResolvedValue([]),
   generateParametersResource: vi.fn().mockReturnValue({})
 }));
-
 vi.mock('../src/test-results/cql-test-results', () => ({
   CQLTestResults: vi.fn().mockImplementation(() => ({
     add: vi.fn(),
-    toJSON: vi.fn().mockReturnValue({
-      cqlengine: { apiUrl: 'http://localhost:8080/fhir/$cql', cqlVersion: '1.5' },
-      testsRunDateTime: '2025-01-01T00:00:00.000Z',
-      testResultsSummary: { passCount: 0, skipCount: 0, failCount: 0, errorCount: 0 },
-      results: []
-    })
+    toJSON: vi.fn().mockReturnValue(createMockResults())
   }))
 }));
 
@@ -123,23 +129,7 @@ describe('ServerCommand', () => {
 
   describe('POST /', () => {
     it('should handle valid configuration', async () => {
-      const validConfig = {
-        FhirServer: {
-          BaseUrl: 'http://localhost:8080/fhir/',
-          CqlOperation: '$cql'
-        },
-        Build: {
-          CqlFileVersion: '1.0.000',
-          CqlOutputPath: './cql'
-        },
-        Debug: {
-          QuickTest: false
-        },
-        Tests: {
-          ResultsPath: './results',
-          SkipList: []
-        }
-      };
+      const validConfig = createMockConfig();
 
       const response = await request(serverCommand.app)
         .post('/')
@@ -154,11 +144,11 @@ describe('ServerCommand', () => {
       const response = await request(serverCommand.app)
         .post('/')
         .send({})
-        .expect(400);
+        .expect(422);
 
       expect(response.body).toEqual({
-        error: 'Configuration Validation Failed',
-        message: 'The provided configuration does not match the required schema',
+        error: 'Unprocessable Entity',
+        message: 'Configuration validation failed',
         details: '1. must have required property \'FhirServer\' at #/required\n2. must have required property \'Build\' at #/required\n3. must have required property \'Debug\' at #/required\n4. must have required property \'Tests\' at #/required'
       });
     });
@@ -184,13 +174,17 @@ describe('ServerCommand', () => {
   });
 
   describe('CORS', () => {
+    const testCorsHeaders = (response: any) => {
+      expect(response.headers['access-control-allow-origin']).toBe('*');
+    };
+
     it('should include CORS headers', async () => {
       const response = await request(serverCommand.app)
         .get('/')
         .set('Origin', 'https://example.com')
         .expect(200);
 
-      expect(response.headers['access-control-allow-origin']).toBe('*');
+      testCorsHeaders(response);
     });
 
     it('should handle preflight requests', async () => {
@@ -200,7 +194,7 @@ describe('ServerCommand', () => {
         .set('Access-Control-Request-Method', 'POST')
         .expect(204);
 
-      expect(response.headers['access-control-allow-origin']).toBe('*');
+      testCorsHeaders(response);
     });
   });
 

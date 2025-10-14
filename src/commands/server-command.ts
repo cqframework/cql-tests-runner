@@ -11,6 +11,7 @@ import { generateEmptyResults, generateParametersResource } from '../shared/resu
 import { TestResult } from '../models/test-types';
 import { JobManager } from '../jobs/job-manager';
 import { JobProcessor } from '../jobs/job-processor';
+import { ServerConnectivity, ServerConnectivityError } from '../shared/server-connectivity';
 
 // Import extractors
 import { EvaluationErrorExtractor } from '../extractors/evaluation-error-extractor';
@@ -102,7 +103,7 @@ export class ServerCommand {
         if (!configData || typeof configData !== 'object') {
           return res.status(400).json({
             error: 'Bad Request',
-            message: 'Request body must contain a valid configuration object'
+            message: 'Request body is required and must be a valid JSON object'
           });
         }
 
@@ -111,9 +112,9 @@ export class ServerCommand {
         const validation = validator.validateConfig(configData);
         
         if (!validation.isValid) {
-          return res.status(400).json({
-            error: 'Configuration Validation Failed',
-            message: 'The provided configuration does not match the required schema',
+          return res.status(422).json({
+            error: 'Unprocessable Entity',
+            message: 'Configuration validation failed',
             details: validator.formatErrors(validation.errors)
           });
         }
@@ -124,11 +125,22 @@ export class ServerCommand {
 
       } catch (error: any) {
         console.error('Error running tests:', error);
-        res.status(500).json({
-          error: 'Internal Server Error',
-          message: 'Failed to run tests',
-          details: error.message
-        });
+        
+        // Check if it's a connectivity error using proper type checking
+        if (error instanceof ServerConnectivityError) {
+          res.status(503).json({
+            error: 'Service Unavailable',
+            message: 'Test runner cannot connect to the specified FHIR server',
+            details: error.message,
+            code: error.code
+          });
+        } else {
+          res.status(500).json({
+            error: 'Internal Server Error',
+            message: 'Failed to run tests',
+            details: error.message
+          });
+        }
       }
     });
 
@@ -145,7 +157,7 @@ export class ServerCommand {
         if (!configData || typeof configData !== 'object') {
           return res.status(400).json({
             error: 'Bad Request',
-            message: 'Request body must contain a valid configuration object'
+            message: 'Request body is required and must be a valid JSON object'
           });
         }
 
@@ -154,12 +166,17 @@ export class ServerCommand {
         const validation = validator.validateConfig(configData);
         
         if (!validation.isValid) {
-          return res.status(400).json({
-            error: 'Configuration Validation Failed',
-            message: 'The provided configuration does not match the required schema',
+          return res.status(422).json({
+            error: 'Unprocessable Entity',
+            message: 'Configuration validation failed',
             details: validator.formatErrors(validation.errors)
           });
         }
+
+        // Verify server connectivity before creating the job
+        const config = this.createConfigFromData(configData);
+        const serverBaseUrl = config.FhirServer.BaseUrl;
+        await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
 
         // Create job and start processing asynchronously
         const jobResponse = await this.jobManager.createJob(configData);
@@ -173,11 +190,22 @@ export class ServerCommand {
 
       } catch (error: any) {
         console.error('Error creating job:', error);
-        res.status(500).json({
-          error: 'Internal Server Error',
-          message: 'Failed to create job',
-          details: error.message
-        });
+        
+        // Check if it's a connectivity error using proper type checking
+        if (error instanceof ServerConnectivityError) {
+          res.status(503).json({
+            error: 'Service Unavailable',
+            message: 'Test runner cannot connect to the specified FHIR server',
+            details: error.message,
+            code: error.code
+          });
+        } else {
+          res.status(500).json({
+            error: 'Internal Server Error',
+            message: 'Failed to create job',
+            details: error.message
+          });
+        }
       }
     });
 
@@ -186,10 +214,10 @@ export class ServerCommand {
       try {
         const jobId = req.params.id;
         
-        if (!jobId) {
+        if (!jobId || jobId.trim() === '') {
           return res.status(400).json({
             error: 'Bad Request',
-            message: 'Job ID is required'
+            message: 'Job ID parameter is required and cannot be empty'
           });
         }
 
@@ -239,8 +267,11 @@ export class ServerCommand {
     const serverBaseUrl = config.FhirServer.BaseUrl;
     const cqlEndpoint = config.CqlEndpoint;
 
+    // Verify server connectivity before proceeding
+    await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
+
     const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
-    cqlEngine.cqlVersion = '1.5';
+    cqlEngine.cqlVersion = config.Build?.CqlVersion || '1.5';
 
     // Load CVL using dynamic import
     // @ts-ignore
@@ -477,4 +508,5 @@ export class ServerCommand {
 
     return true;
   }
+
 }
