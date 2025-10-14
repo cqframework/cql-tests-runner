@@ -70,6 +70,29 @@
             "type": "string",
             "enum": ["true", "false", "semantic"]
           },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "code":   { "type": "string" },
+                "value":  {
+                  "anyOf": [
+                    { "type": "boolean" },
+                    { "type": "string" },
+                    { "type": "number" },
+                    { "type": "object" },
+                    { "type": "array" }
+                  ]
+                },
+                "system":  { "type": "string" },
+                "display": { "type": "string" },
+                "version": { "type": "string" }
+              },
+              "required": ["code"]
+            }
+          },
           "expression": {
             "type": "string"
           }
