@@ -91,7 +91,7 @@
                 "display": { "type": "string" },
                 "version": { "type": "string" }
               },
-              "required": ["code", "value"]
+              "required": ["code"]
             }
           },
           "expression": {
