@@ -71,7 +71,28 @@
             "enum": ["true", "false", "semantic"]
           },
           "capabilities": {
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "code":   { "type": "string" },
+                "value":  {
+                  "anyOf": [
+                    { "type": "boolean" },
+                    { "type": "string" },
+                    { "type": "number" },
+                    { "type": "object" },
+                    { "type": "array" },
+                    { "type": "null" }
+                  ]
+                },
+                "system":  { "type": "string" },
+                "display": { "type": "string" },
+                "version": { "type": "string" }
+              },
+              "required": ["code", "value"]
+            }
           },
           "expression": {
             "type": "string"
