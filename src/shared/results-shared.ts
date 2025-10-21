@@ -1,4 +1,4 @@
-import { Tests, Test, TestResult } from '../models/test-types.js';
+import { Tests, Test, TestResult, CapabilityKV } from '../models/test-types.js';
 import { Parameters } from 'fhir/r4';
 
 export class Result {
@@ -17,6 +17,7 @@ export class Result {
   testVersionTo?: string;
   invalid: 'false' | 'true' | 'semantic' | 'undefined';
   expression: string;
+  capability: CapabilityKV[] = [];
 
   constructor(testsName: string, groupName: string, test: Test) {
     this.testsName = testsName;
@@ -48,6 +49,8 @@ export class Result {
     } else {
       this.testStatus = 'skip';
     }
+
+    this.capability = Array.isArray(test.capability) ? test.capability.map(({ code, value }) => ({ code, value })) : [];
   }
 }
 
