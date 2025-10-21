@@ -20,6 +20,7 @@ export interface Test {
   ordered?: boolean;
   checkOrderedFunctions?: boolean;
   expression: string | TestExpression;
+  capability: CapabilityKV[];
   output?: string | TestOutput | string[] | TestOutput[];
 }
 
@@ -41,6 +42,11 @@ export interface Tests {
   group: TestGroup[];
 }
 
+export interface CapabilityKV {
+  code: string;
+  value?: string;
+}
+
 export interface TestResult {
   testStatus: 'pass' | 'fail' | 'skip' | 'error';
   responseStatus?: number;
@@ -57,5 +63,6 @@ export interface TestResult {
   testVersionTo?: string;
   invalid: 'false' | 'true' | 'semantic' | 'undefined';
   expression: string;
+  capability: CapabilityKV[];
   SkipMessage?: string;
 }
