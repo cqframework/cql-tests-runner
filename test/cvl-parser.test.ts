@@ -23,6 +23,24 @@ test('string literal', () => {
     ).toBe('abc');
 });
 
+// Based on https://github.com/cqframework/clinical_quality_language/blob/master/Src/java/cql-to-elm/src/jvmTest/kotlin/org/cqframework/cql/cql2elm/StringEscapeUtilsTest.kt
+test('string literal with escape sequences', () => {
+	expect(_cvl.parse("'Hello \\'World\\''")).toBe("Hello 'World'");
+	expect(_cvl.parse('\'Hello \\"World\\"\'')).toBe('Hello "World"');
+	expect(_cvl.parse("'Hello \\`World\\`'")).toBe('Hello `World`');
+	expect(_cvl.parse("'Hello \\'World\\'2'")).toBe("Hello 'World'2");
+	expect(_cvl.parse('\'Hello \\"World\\"2\'')).toBe('Hello "World"2');
+	expect(_cvl.parse("'\\f\\n\\r\\t\\/\\\\'")).toBe('\u000c\n\r\t/\\');
+	expect(_cvl.parse("'\\u110f'")).toBe('ᄏ');
+	expect(
+		_cvl.parse(
+			'\'This is an identifier with \\"multiple\\" embedded \\t escapes\u0020\\r\\nno really, \\r\\n\\f\\t\\/\\\\lots of them\''
+		)
+	).toBe(
+		'This is an identifier with "multiple" embedded \t escapes\u0020\r\nno really, \r\n\u000c\t/\\lots of them'
+	);
+});
+
 test('number literal integer 1', () => {
     expect(_cvl.parse("1")
     ).toBe(1);
