@@ -3,6 +3,7 @@ import antlr4 from 'antlr4';
 import cvlLexer from './.antlr/cvlLexer.mjs';
 import cvlParser from './.antlr/cvlParser.mjs';
 import cvlVisitor from './.antlr/cvlVisitor.mjs';
+import { unescapeString } from './string-escape-utils.mjs';
 
 class cvlParseVisitor extends cvlVisitor {
 	visitChildren(ctx) {
@@ -74,8 +75,7 @@ class cvlParseVisitor extends cvlVisitor {
 
 	// Visit a parse tree produced by cvlParser#stringLiteral.
 	visitStringLiteral(ctx) {
-		// TODO: Unescape
-		return ctx.getText().slice(1, -1);
+		return unescapeString(ctx.getText().slice(1, -1));
 	}
 
 
