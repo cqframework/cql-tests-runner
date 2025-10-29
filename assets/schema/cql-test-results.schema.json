@@ -22,14 +22,16 @@
         "passCount": { "type": "integer" },
         "skipCount": { "type": "integer" },
         "failCount": { "type": "integer" },
-        "errorCount": { "type": "integer" },
-        "testRunDescription": {"type":  "string"}
+        "errorCount": { "type": "integer" }
       },
       "required": ["passCount", "skipCount", "failCount", "errorCount"]
     },
     "testsRunDateTime": {
       "type": "string",
       "format": "date-time"
+    },
+    "testsRunDescription": {
+      "type":  "string"
     },
     "results": {
       "type": "array",

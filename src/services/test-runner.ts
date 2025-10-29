@@ -49,7 +49,7 @@ export class TestRunner {
       .setNextExtractor(new QuantityIntervalExtractor())
       .setNextExtractor(new CodeExtractor())
       .setNextExtractor(new ConceptExtractor());
-    
+
     return new ResultExtractor(extractors);
   }
 
@@ -58,6 +58,7 @@ export class TestRunner {
     const config = this.createConfigFromData(configData);
     const serverBaseUrl = config.FhirServer.BaseUrl;
     const cqlEndpoint = config.CqlEndpoint;
+    const testsRunDescription = config.Build.testsRunDescription;
 
     // Verify server connectivity before proceeding
     await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
@@ -81,7 +82,7 @@ export class TestRunner {
     const skipMap = config.skipListMap();
 
     const results = new CQLTestResults(cqlEngine);
-    
+
     const totalTests = emptyResults.reduce((sum, testFile) => sum + testFile.length, 0);
     let completedTests = 0;
 
@@ -94,37 +95,36 @@ export class TestRunner {
         }
         await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, config, options.useAxios);
         results.add(result);
-        
+
         completedTests++;
         if (options.onProgress) {
           await options.onProgress(
-            completedTests, 
-            totalTests, 
+            completedTests,
+            totalTests,
             `Running test ${result.testsName}:${result.groupName}:${result.testName}`
           );
         }
       }
     }
-
     // Return the CQLTestResults instance
     return results;
   }
 
   private async runTest(
-    result: TestResult, 
-    apiUrl: string, 
-    cvl: any, 
-    resultExtractor: ResultExtractor, 
+    result: TestResult,
+    apiUrl: string,
+    cvl: any,
+    resultExtractor: ResultExtractor,
     skipMap: Map<string, string>,
     config: ConfigLoader,
     useAxios: boolean = false
   ): Promise<TestResult> {
     const key = `${result.testsName}-${result.groupName}-${result.testName}`;
-    
+
     if (result.testStatus === 'skip') {
       result.SkipMessage = 'Skipped by cql-tests-runner';
       return result;
-    } else if (skipMap.has(key)) {        
+    } else if (skipMap.has(key)) {
       const reason = skipMap.get(key) || '';
       result.SkipMessage = `Skipped by config: ${reason}`;
       result.testStatus = 'skip';
@@ -135,7 +135,7 @@ export class TestRunner {
 
     try {
       console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.testName);
-      
+
       let response: any;
       if (useAxios) {
         // Use axios for backward compatibility
@@ -168,7 +168,7 @@ export class TestRunner {
       const responseBody = response.data;
       result.actual = resultExtractor.extract(responseBody);
       const invalid = result.invalid;
-      
+
       if (invalid === 'true' || invalid === 'semantic') {
         result.testStatus = response.status === 200 ? 'fail' : 'pass';
       } else {
@@ -183,9 +183,9 @@ export class TestRunner {
       result.error = { message: error.message, stack: error.stack };
     }
 
-    console.log('Test %s:%s:%s status: %s expected: %s actual: %s', 
+    console.log('Test %s:%s:%s status: %s expected: %s actual: %s',
       result.testsName, result.groupName, result.testName, result.testStatus, result.expected, result.actual);
-    
+
     return result;
   }
 
@@ -193,7 +193,7 @@ export class TestRunner {
     if (expected === undefined && actual === undefined) {
       return true;
     }
-    
+
     if (expected === null && actual === null) {
       return true;
     }
@@ -227,32 +227,33 @@ export class TestRunner {
   private createConfigFromData(configData: any): ConfigLoader {
     // Create a temporary config loader without validation (we already validated)
     const config = new ConfigLoader(undefined, false);
-    
+
     // Manually populate the config from the provided data
     const baseURL = process.env.SERVER_BASE_URL || configData.FhirServer?.BaseUrl || 'https://cloud.alphora.com/sandbox/r4/cds/fhir';
-    
+
     config.FhirServer = {
       BaseUrl: this.removeTrailingSlash(baseURL),
       CqlOperation: process.env.CQL_OPERATION || configData.FhirServer?.CqlOperation || '$cql'
     };
-    
+
     config.Build = {
       CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
       CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
-      CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion
+      CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
+      testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription
     };
-    
+
     config.Tests = {
       ResultsPath: process.env.RESULTS_PATH || configData.Tests?.ResultsPath || './results',
       SkipList: process.env.SKIP_LIST || configData.Tests?.SkipList || []
     };
-    
+
     config.Debug = {
       QuickTest: this.setQuickTestSetting(configData)
     };
 
     config.CqlEndpoint = this.cqlEndPoint(config.FhirServer.CqlOperation);
-    
+
     return config;
   }
 

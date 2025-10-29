@@ -17,12 +17,12 @@ export class CQLTestResults {
     pass: 0,
     skip: 0,
     fail: 0,
-    error: 0,
-    testRunDescription: ""
+    error: 0
   };
 
   private _cqlengine: CQLEngine;
   private _testsRunDateTime: Date;
+  public _testsRunDescription: string;
   /**
    * Array containing CQLTestResult objects.
    */
@@ -34,12 +34,13 @@ export class CQLTestResults {
    * @param testsRunDateTime - The date and time when the tests were run.
    * @throws Error If cqlengine is not an instance of CQLEngine.
    */
-  constructor(cqlengine: CQLEngine, testsRunDateTime: Date | null = null) {
+  constructor(cqlengine: CQLEngine, testsRunDateTime: Date | null = null, testsDescription: string | null = null) {
     if (!(cqlengine instanceof CQLEngine)) {
       throw new Error('Invalid CQLEngine Instance');
     }
     this._cqlengine = cqlengine;
     this._testsRunDateTime = testsRunDateTime || new Date();
+    this._testsRunDescription = (testsDescription ?? '').trim();
   }
 
   /**
@@ -69,8 +70,7 @@ export class CQLTestResults {
       pass: 0,
       skip: 0,
       fail: 0,
-      error: 0,
-      testRunDescription: ""
+      error: 0
     };
 
     for (const result of this.results) {
@@ -94,6 +94,7 @@ export class CQLTestResults {
         failCount: this.counts.fail,
         errorCount: this.counts.error
       },
+      testsRunDescription: this._testsRunDescription,
       results: this.results
     };
   }

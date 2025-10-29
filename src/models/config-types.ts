@@ -14,11 +14,11 @@ export interface Config {
     CqlFileVersion: string;
     CqlOutputPath: string;
     CqlVersion?: string;
+    testsRunDescription?: string;
   };
   Tests: {
     ResultsPath: string;
     SkipList: SkipItem[];
-    testRunDescription: string;
   };
   Debug: {
     QuickTest: boolean;
