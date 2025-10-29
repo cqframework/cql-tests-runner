@@ -22,7 +22,8 @@
         "passCount": { "type": "integer" },
         "skipCount": { "type": "integer" },
         "failCount": { "type": "integer" },
-        "errorCount": { "type": "integer" }
+        "errorCount": { "type": "integer" },
+        "testRunDescription": {"type":  "string"}
       },
       "required": ["passCount", "skipCount", "failCount", "errorCount"]
     },

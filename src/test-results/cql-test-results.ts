@@ -17,7 +17,8 @@ export class CQLTestResults {
     pass: 0,
     skip: 0,
     fail: 0,
-    error: 0
+    error: 0,
+    testRunDescription: ""
   };
 
   private _cqlengine: CQLEngine;
@@ -68,7 +69,8 @@ export class CQLTestResults {
       pass: 0,
       skip: 0,
       fail: 0,
-      error: 0
+      error: 0,
+      testRunDescription: ""
     };
 
     for (const result of this.results) {
@@ -165,7 +167,7 @@ export class CQLTestResults {
   static async validateSchema(data: any): Promise<boolean> {
     const ajv = new Ajv();
     addFormats(ajv);
-    
+
     // Load schema using dynamic import for ES modules
     const schemaModule = await import('../../assets/schema/cql-test-results.schema.json', { with: { type: 'json' } });
     const cqlTestResultSchema = schemaModule.default;

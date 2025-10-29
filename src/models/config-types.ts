@@ -18,6 +18,7 @@ export interface Config {
   Tests: {
     ResultsPath: string;
     SkipList: SkipItem[];
+    testRunDescription: string;
   };
   Debug: {
     QuickTest: boolean;

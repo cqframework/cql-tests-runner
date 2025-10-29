@@ -5,6 +5,7 @@ export interface TestResultsSummary {
   skip: number;
   fail: number;
   error: number;
+  testRunDescription: string;
 }
 
 export interface CQLTestResultsData {

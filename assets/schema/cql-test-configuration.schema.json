@@ -94,6 +94,11 @@
             },
             "required": ["testsName", "groupName", "testName", "reason"],
             "additionalProperties": false
+          },
+          "testRunDescription":{
+            "type": "string",
+            "description": "Information about this test run",
+            "additionalProperties": false
           }
         }
       },
