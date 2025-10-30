@@ -12,6 +12,7 @@ export class ConfigLoader implements Config {
     CqlFileVersion: string;
     CqlOutputPath: string;
     CqlVersion?: string;
+    testsRunDescription: string;
   };
   Tests: {
     ResultsPath: string;
@@ -40,7 +41,8 @@ export class ConfigLoader implements Config {
     this.Build = {
       CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
       CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
-      CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion
+      CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
+      testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription
     };
     
     this.Tests = {

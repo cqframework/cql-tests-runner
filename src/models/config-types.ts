@@ -14,6 +14,7 @@ export interface Config {
     CqlFileVersion: string;
     CqlOutputPath: string;
     CqlVersion?: string;
+    testsRunDescription?: string;
   };
   Tests: {
     ResultsPath: string;
