@@ -40,7 +40,7 @@ export class CQLTestResults {
     }
     this._cqlengine = cqlengine;
     this._testsRunDateTime = testsRunDateTime || new Date();
-    this._testsRunDescription = testsDescription || "Development test run"
+    this._testsRunDescription = testsDescription || ""
   }
 
   /**

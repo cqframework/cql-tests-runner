@@ -7,7 +7,7 @@
     "CqlFileVersion": "1.0.000",
     "CqlOutputPath": "./cql",
     "CqlVersion": "1.5",
-    "testsRunDescription": ""
+    "testsRunDescription": "Development test run"
   },
   "Debug": {
     "QuickTest": false
