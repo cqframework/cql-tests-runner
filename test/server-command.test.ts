@@ -31,22 +31,23 @@ const createMockResults = () => ({
 
 // Mock implementations
 vi.mock('../src/conf/config-loader', () => ({
-  ConfigLoader: vi.fn().mockImplementation((configData) => ({
-    FhirServer: {
+  ConfigLoader: vi.fn().mockImplementation(function(this: any, configData?: any) {
+    this.FhirServer = {
       BaseUrl: configData?.FhirServer?.BaseUrl || 'http://localhost:8080/fhir/',
       CqlOperation: configData?.FhirServer?.CqlOperation || '$cql'
-    },
-    CqlEndpoint: (configData?.FhirServer?.BaseUrl || 'http://localhost:8080/fhir/') + (configData?.FhirServer?.CqlOperation || '$cql'),
-    Debug: {
+    };
+    this.CqlEndpoint = (configData?.FhirServer?.BaseUrl || 'http://localhost:8080/fhir/') + (configData?.FhirServer?.CqlOperation || '$cql');
+    this.Debug = {
       QuickTest: configData?.Debug?.QuickTest || false
-    },
-    skipListMap: () => new Map()
-  }))
+    };
+    this.skipListMap = vi.fn().mockReturnValue(new Map());
+    return this;
+  })
 }));
 
 vi.mock('../src/conf/config-validator', () => ({
-  ConfigValidator: vi.fn().mockImplementation(() => ({
-    validateConfig: vi.fn().mockImplementation((configData) => {
+  ConfigValidator: vi.fn().mockImplementation(function(this: any) {
+    this.validateConfig = vi.fn().mockImplementation((configData: any) => {
       const requiredFields = ['FhirServer', 'Build', 'Debug', 'Tests'];
       const hasRequiredFields = requiredFields.every(field => configData?.[field]);
       
@@ -60,28 +61,31 @@ vi.mock('../src/conf/config-validator', () => ({
               schemaPath: ''
             }))
           };
-    }),
-    formatErrors: vi.fn().mockImplementation((errors) => 
+    });
+    this.formatErrors = vi.fn().mockImplementation((errors: any[]) => 
       errors.map((error: any, index: number) => `${index + 1}. ${error.message}`).join('\n')
-    )
-  }))
+    );
+    return this;
+  })
 }));
 vi.mock('../src/loaders/test-loader', () => ({ TestLoader: { load: vi.fn().mockReturnValue([]) } }));
 vi.mock('../src/cql-engine/cql-engine', () => ({ 
-  CQLEngine: vi.fn().mockImplementation(() => ({
-    apiUrl: 'http://localhost:8080/fhir/$cql',
-    cqlVersion: '1.5'
-  }))
+  CQLEngine: vi.fn().mockImplementation(function(this: any) {
+    this.apiUrl = 'http://localhost:8080/fhir/$cql';
+    this.cqlVersion = '1.5';
+    return this;
+  })
 }));
 vi.mock('../src/shared/results-shared', () => ({
   generateEmptyResults: vi.fn().mockResolvedValue([]),
   generateParametersResource: vi.fn().mockReturnValue({})
 }));
 vi.mock('../src/test-results/cql-test-results', () => ({
-  CQLTestResults: vi.fn().mockImplementation(() => ({
-    add: vi.fn(),
-    toJSON: vi.fn().mockReturnValue(createMockResults())
-  }))
+  CQLTestResults: vi.fn().mockImplementation(function(this: any) {
+    this.add = vi.fn();
+    this.toJSON = vi.fn().mockReturnValue(createMockResults());
+    return this;
+  })
 }));
 
 // Mock fetch for HTTP requests

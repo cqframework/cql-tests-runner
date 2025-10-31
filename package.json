@@ -1,6 +1,6 @@
 {
     "name": "cql-tests-runner",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Server API and command line tools for running CQL tests",
     "type": "module",
     "main": "dist/bin/cql-tests.js",
@@ -27,9 +27,9 @@
         "ajv": "^8.17.1",
         "ajv-formats": "^3.0.1",
         "antlr4": "4.13.2",
-        "axios": "^1.12.2",
+        "axios": "^1.13.1",
         "colors": "^1.4.0",
-        "commander": "^14.0.1",
+        "commander": "^14.0.2",
         "config": "^4.1.1",
         "cors": "^2.8.5",
         "date-fns": "^4.1.0",
@@ -39,15 +39,15 @@
     },
     "devDependencies": {
         "@types/cors": "^2.8.19",
-        "@types/express": "^5.0.3",
+        "@types/express": "^5.0.5",
         "@types/fhir": "^0.0.41",
-        "@types/node": "^24.7.2",
+        "@types/node": "^24.9.2",
         "@types/supertest": "^6.0.3",
         "prettier": "^3.6.2",
         "supertest": "^7.1.4",
         "ts-node": "^10.9.2",
         "tsx": "^4.20.6",
         "typescript": "^5.9.3",
-        "vitest": "^3.2.4"
+        "vitest": "^4.0.6"
     }
 }
