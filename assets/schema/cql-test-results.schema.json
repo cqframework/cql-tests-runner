@@ -30,6 +30,9 @@
       "type": "string",
       "format": "date-time"
     },
+    "testsRunDescription": {
+      "type":  "string"
+    },
     "results": {
       "type": "array",
       "items": {
