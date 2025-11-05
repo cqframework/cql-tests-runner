@@ -10,12 +10,14 @@ const UNESCAPE_MAP = new Map([
 	['\\t', '\t'],
 	// Unicode escapes handled separately
 ]);
+const escapeRegex = (s) => s.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+
 
 // Longer escape sequences should be matched first to avoid partial matches
 const MULTI_CHAR_UNESCAPE = [...UNESCAPE_MAP.keys()].toSorted((a, b) => b.length - a.length);
 
 const UNESCAPE_REGEX = new RegExp(
-	MULTI_CHAR_UNESCAPE.map(RegExp.escape).join('|') + '|\\\\u[0-9a-fA-F]{4}',
+  	MULTI_CHAR_UNESCAPE.map(escapeRegex).join('|') + '|\\\\u[0-9a-fA-F]{4}',
 	'g'
 );
 
