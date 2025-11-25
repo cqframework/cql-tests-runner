@@ -22,6 +22,7 @@ export class CQLTestResults {
 
   private _cqlengine: CQLEngine;
   private _testsRunDateTime: Date;
+  public _testsRunDescription: string;
   /**
    * Array containing CQLTestResult objects.
    */
@@ -33,12 +34,13 @@ export class CQLTestResults {
    * @param testsRunDateTime - The date and time when the tests were run.
    * @throws Error If cqlengine is not an instance of CQLEngine.
    */
-  constructor(cqlengine: CQLEngine, testsRunDateTime: Date | null = null) {
+  constructor(cqlengine: CQLEngine, testsRunDateTime: Date | null = null, testsDescription: string | null = null) {
     if (!(cqlengine instanceof CQLEngine)) {
       throw new Error('Invalid CQLEngine Instance');
     }
     this._cqlengine = cqlengine;
     this._testsRunDateTime = testsRunDateTime || new Date();
+    this._testsRunDescription = testsDescription || ""
   }
 
   /**
@@ -92,6 +94,7 @@ export class CQLTestResults {
         failCount: this.counts.fail,
         errorCount: this.counts.error
       },
+      testsRunDescription: this._testsRunDescription,
       results: this.results
     };
   }
@@ -165,7 +168,7 @@ export class CQLTestResults {
   static async validateSchema(data: any): Promise<boolean> {
     const ajv = new Ajv();
     addFormats(ajv);
-    
+
     // Load schema using dynamic import for ES modules
     const schemaModule = await import('../../assets/schema/cql-test-results.schema.json', { with: { type: 'json' } });
     const cqlTestResultSchema = schemaModule.default;

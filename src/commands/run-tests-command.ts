@@ -33,9 +33,9 @@ export class RunCommand {
         console.log('Results file validation failed, but continuing to save file...');
       }
     }
-
+    results._testsRunDescription = configData.Build.testsRunDescription;
     results.save(outputPath);
-    
+
     // Always run validation after saving (existing behavior)
     await results.validate();
   }
@@ -49,7 +49,8 @@ export class RunCommand {
       Build: {
         CqlFileVersion: config.Build.CqlFileVersion,
         CqlOutputPath: config.Build.CqlOutputPath,
-        CqlVersion: config.Build.CqlVersion
+        CqlVersion: config.Build.CqlVersion,
+        testsRunDescription: config.Build?.testsRunDescription
       },
       Tests: {
         ResultsPath: config.Tests.ResultsPath,

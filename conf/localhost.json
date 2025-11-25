@@ -5,7 +5,9 @@
   },
   "Build": {
     "CqlFileVersion": "1.0.000",
-    "CqlOutputPath": "./cql"
+    "CqlOutputPath": "./cql",
+    "CqlVersion": "1.5",
+    "testsRunDescription": ""
   },
   "Debug": {
     "QuickTest": false

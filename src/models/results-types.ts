@@ -16,6 +16,7 @@ export interface CQLTestResultsData {
     failCount: number;
     errorCount: number;
   };
+  testsRunDescription: string;
   results: TestResult[];
 }
 
