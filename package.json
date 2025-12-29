@@ -13,6 +13,7 @@
         "dev": "tsc --watch",
         "test": "vitest run test/",
         "test:cql": "node --import tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results",
+        "cql-tests:dev": "tsx src/bin/cql-tests.ts run-tests conf/development.json ./results",
         "build-libs": "npm run build && node dist/bin/cql-tests.js build-cql conf/localhost.json ./cql",
         "unit-tests": "vitest run test/",
         "clean": "rm -rf dist",
