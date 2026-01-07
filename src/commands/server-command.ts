@@ -427,13 +427,26 @@ export class ServerCommand {
   }
 
   public async start(): Promise<void> {
-    return new Promise((resolve) => {
-      this._server = this._app.listen(this.port, () => {
+    return new Promise((resolve, reject) => {
+      this._server = this._app.listen(this.port, '0.0.0.0', () => {
         console.log(`CQL Tests Runner server listening on port ${this.port}`);
-        console.log(`Server running at http://localhost:${this.port}`);
+        console.log(`Server running at http://0.0.0.0:${this.port}`);
         console.log('Send POST requests with configuration to run tests');
         console.log('Press CTRL-C to stop the server');
         resolve();
+      });
+
+      this._server.on('error', (error: NodeJS.ErrnoException) => {
+        if (error.code === 'EADDRINUSE') {
+          console.error(`Error: Port ${this.port} is already in use`);
+          reject(new Error(`Port ${this.port} is already in use`));
+        } else if (error.code === 'EACCES') {
+          console.error(`Error: Permission denied to bind to port ${this.port}`);
+          reject(new Error(`Permission denied to bind to port ${this.port}`));
+        } else {
+          console.error(`Error starting server: ${error.message}`);
+          reject(error);
+        }
       });
     });
   }
