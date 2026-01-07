@@ -1,5 +1,5 @@
-import { TestRunner } from '../services/test-runner';
-import { ConfigLoader } from '../conf/config-loader';
+import { TestRunner } from '../services/test-runner.js';
+import { ConfigLoader } from '../conf/config-loader.js';
 
 // Type declaration for CVL loader
 declare const cvlLoader: () => Promise<[{ default: any }]>;

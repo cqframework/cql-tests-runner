@@ -1,29 +1,29 @@
-import { ConfigLoader } from '../conf/config-loader';
-import { CQLEngine } from '../cql-engine/cql-engine';
-import { TestLoader } from '../loaders/test-loader';
-import { CQLTestResults } from '../test-results/cql-test-results';
-import { generateEmptyResults, generateParametersResource } from '../shared/results-shared';
-import { TestResult } from '../models/test-types';
-import { ResultExtractor } from '../extractors/result-extractor';
-import { ServerConnectivity, ServerConnectivityError } from '../shared/server-connectivity';
+import { ConfigLoader } from '../conf/config-loader.js';
+import { CQLEngine } from '../cql-engine/cql-engine.js';
+import { TestLoader } from '../loaders/test-loader.js';
+import { CQLTestResults } from '../test-results/cql-test-results.js';
+import { generateEmptyResults, generateParametersResource } from '../shared/results-shared.js';
+import { InternalTestResult } from '../models/test-types.js';
+import { ResultExtractor } from '../extractors/result-extractor.js';
+import { ServerConnectivity, ServerConnectivityError } from '../shared/server-connectivity.js';
 
 // Import extractors
-import { EvaluationErrorExtractor } from '../extractors/evaluation-error-extractor';
-import { NullEmptyExtractor } from '../extractors/null-empty-extractor';
-import { UndefinedExtractor } from '../extractors/undefined-extractor';
-import { StringExtractor } from '../extractors/value-type-extractors/string-extractor';
-import { BooleanExtractor } from '../extractors/value-type-extractors/boolean-extractor';
-import { IntegerExtractor } from '../extractors/value-type-extractors/integer-extractor';
-import { DecimalExtractor } from '../extractors/value-type-extractors/decimal-extractor';
-import { DateExtractor } from '../extractors/value-type-extractors/date-extractor';
-import { DateTimeExtractor } from '../extractors/value-type-extractors/datetime-extractor';
-import { TimeExtractor } from '../extractors/value-type-extractors/time-extractor';
-import { QuantityExtractor } from '../extractors/value-type-extractors/quantity-extractor';
-import { RatioExtractor } from '../extractors/value-type-extractors/ratio-extractor';
-import { DateTimeIntervalExtractor } from '../extractors/value-type-extractors/datetime-interval-extractor';
-import { QuantityIntervalExtractor } from '../extractors/value-type-extractors/quantity-interval-extractor';
-import { CodeExtractor } from '../extractors/value-type-extractors/code-extractor';
-import { ConceptExtractor } from '../extractors/value-type-extractors/concept-extractor';
+import { EvaluationErrorExtractor } from '../extractors/evaluation-error-extractor.js';
+import { NullEmptyExtractor } from '../extractors/null-empty-extractor.js';
+import { UndefinedExtractor } from '../extractors/undefined-extractor.js';
+import { StringExtractor } from '../extractors/value-type-extractors/string-extractor.js';
+import { BooleanExtractor } from '../extractors/value-type-extractors/boolean-extractor.js';
+import { IntegerExtractor } from '../extractors/value-type-extractors/integer-extractor.js';
+import { DecimalExtractor } from '../extractors/value-type-extractors/decimal-extractor.js';
+import { DateExtractor } from '../extractors/value-type-extractors/date-extractor.js';
+import { DateTimeExtractor } from '../extractors/value-type-extractors/datetime-extractor.js';
+import { TimeExtractor } from '../extractors/value-type-extractors/time-extractor.js';
+import { QuantityExtractor } from '../extractors/value-type-extractors/quantity-extractor.js';
+import { RatioExtractor } from '../extractors/value-type-extractors/ratio-extractor.js';
+import { DateTimeIntervalExtractor } from '../extractors/value-type-extractors/datetime-interval-extractor.js';
+import { QuantityIntervalExtractor } from '../extractors/value-type-extractors/quantity-interval-extractor.js';
+import { CodeExtractor } from '../extractors/value-type-extractors/code-extractor.js';
+import { ConceptExtractor } from '../extractors/value-type-extractors/concept-extractor.js';
 
 export interface TestRunnerOptions {
   onProgress?: (current: number, total: number, message?: string) => Promise<void>;
@@ -111,14 +111,14 @@ export class TestRunner {
   }
 
   private async runTest(
-    result: TestResult,
+    result: InternalTestResult,
     apiUrl: string,
     cvl: any,
     resultExtractor: ResultExtractor,
     skipMap: Map<string, string>,
     config: ConfigLoader,
     useAxios: boolean = false
-  ): Promise<TestResult> {
+  ): Promise<InternalTestResult> {
     const key = `${result.testsName}-${result.groupName}-${result.testName}`;
 
     if (result.testStatus === 'skip') {
@@ -180,7 +180,11 @@ export class TestRunner {
       }
     } catch (error: any) {
       result.testStatus = 'error';
-      result.error = { message: error.message, stack: error.stack };
+      result.error = { 
+        message: error.message, 
+        name: error.name || 'Error',
+        stack: error.stack 
+      };
     }
 
     console.log('Test %s:%s:%s status: %s expected: %s actual: %s',
@@ -299,7 +303,7 @@ export class TestRunner {
     return 0; // versions are equal
   }
 
-  private shouldSkipVersionTest(cqlEngine: CQLEngine, result: TestResult): boolean {
+  private shouldSkipVersionTest(cqlEngine: CQLEngine, result: InternalTestResult): boolean {
     const engineVersion = cqlEngine?.cqlVersion;
     if (!engineVersion) return false; // no version to compare against
     // Rule 1: if test.version is set, engine must be >= test.version

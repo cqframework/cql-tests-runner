@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { BuildCommand } from '../commands/build-cql-command';
-import { RunCommand } from '../commands/run-tests-command';
-import { ServerCommand } from '../commands/server-command';
+import { BuildCommand } from '../commands/build-cql-command.js';
+import { RunCommand } from '../commands/run-tests-command.js';
+import { ServerCommand } from '../commands/server-command.js';
 import * as fs from 'fs';
 import * as path from 'path';
 

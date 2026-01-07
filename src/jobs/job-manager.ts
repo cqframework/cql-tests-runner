@@ -3,7 +3,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { promises as fs } from 'fs';
 import { join } from 'path';
-import { JobStatus, JobRequest, JobResponse } from '../models/job-types';
+import { JobStatus, JobRequest, JobResponse } from '../models/job-types.js';
 
 export class JobManager {
   private jobsDir: string;

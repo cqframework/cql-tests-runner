@@ -8,7 +8,7 @@
         "cql-tests": "dist/bin/cql-tests.js"
     },
     "scripts": {
-        "build": "tsc && node fix-imports.cjs && npm run copy-assets",
+        "build": "tsc && npm run copy-assets",
         "copy-assets": "cp -r assets dist/ && cp -r cvl dist/ && cp -r cql-tests dist/",
         "dev": "tsc --watch",
         "test": "vitest run test/",

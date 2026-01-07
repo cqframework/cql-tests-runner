@@ -1,14 +1,15 @@
-import { Tests, Test, TestResult, CapabilityKV } from '../models/test-types.js';
+import { Tests, Test, InternalTestResult, CapabilityKV } from '../models/test-types.js';
 import { Parameters } from 'fhir/r4';
 
-export class Result {
+export class Result implements InternalTestResult {
   testStatus!: 'pass' | 'fail' | 'skip' | 'error';
   responseStatus?: number;
   actual?: any;
   expected?: string;
   error?: {
     message: string;
-    stack: string;
+    name?: string;
+    stack?: string;
   };
   testsName: string;
   groupName: string;
@@ -92,7 +93,7 @@ export async function generateEmptyResults(tests: Tests[], quickTest: boolean): 
   return groupResults;
 }
 
-export function generateParametersResource(result: TestResult, cqlEndpoint: string): Parameters {
+export function generateParametersResource(result: InternalTestResult, cqlEndpoint: string): Parameters {
   let data: Parameters;
 
   // Check if the last part is $cql or $evaluate

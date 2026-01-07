@@ -1,7 +1,7 @@
 // Author: Preston Lee
 
-import { JobManager } from './job-manager';
-import { TestRunner } from '../services/test-runner';
+import { JobManager } from './job-manager.js';
+import { TestRunner } from '../services/test-runner.js';
 
 export class JobProcessor {
   private jobManager: JobManager;
