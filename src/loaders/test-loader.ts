@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { XMLParser } from 'fast-xml-parser';
-import { Tests } from '../models/test-types';
+import { Tests } from '../models/test-types.js';
 
 const testsPath = 'cql-tests/tests/cql';
 

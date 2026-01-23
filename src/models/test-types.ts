@@ -44,25 +44,49 @@ export interface Tests {
 
 export interface CapabilityKV {
   code: string;
-  value?: string;
+  value?: boolean | string | number | object | any[];
+  system?: string;
+  display?: string;
+  version?: string;
 }
 
-export interface TestResult {
-  testStatus: 'pass' | 'fail' | 'skip' | 'error';
+// Internal Result type used during test execution (allows 'undefined' for invalid)
+export interface InternalTestResult {
+  testStatus?: 'pass' | 'fail' | 'skip' | 'error';
   responseStatus?: number;
   actual?: any;
   expected?: string;
   error?: {
     message: string;
-    stack: string;
+    name?: string;
+    stack?: string;
   };
   testsName: string;
   groupName: string;
   testName: string;
   testVersion?: string;
   testVersionTo?: string;
-  invalid: 'false' | 'true' | 'semantic' | 'undefined';
+  invalid?: 'false' | 'true' | 'semantic' | 'undefined';
   expression: string;
-  capability: CapabilityKV[];
+  capability?: CapabilityKV[];
   SkipMessage?: string;
+}
+
+// Schema-compliant TestResult type (strictly matches cql-test-results.schema.json)
+export interface TestResult {
+  testStatus?: 'pass' | 'fail' | 'skip' | 'error';
+  responseStatus?: number;
+  actual?: string;
+  expected?: string;
+  error?: {
+    message: string;
+    name?: string;
+    stack?: string;
+  };
+  testsName: string;
+  groupName: string;
+  testName: string;
+  invalid?: 'false' | 'true' | 'semantic';
+  capabilities?: CapabilityKV[];
+  expression: string;
 }

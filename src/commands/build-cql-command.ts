@@ -1,9 +1,9 @@
 import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
-import { ConfigLoader } from '../conf/config-loader';
-import { TestLoader } from '../loaders/test-loader';
-import { generateEmptyResults } from '../shared/results-shared';
+import { ConfigLoader } from '../conf/config-loader.js';
+import { TestLoader } from '../loaders/test-loader.js';
+import { generateEmptyResults } from '../shared/results-shared.js';
 
 export class BuildCommand {
   async execute(options: any): Promise<void> {

@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { CQLEngine } from '../cql-engine/cql-engine';
+import { CQLEngine } from '../cql-engine/cql-engine.js';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
-import { TestResult } from '../models/test-types';
-import { TestResultsSummary, CQLTestResultsData } from '../models/results-types';
+import { TestResult, InternalTestResult } from '../models/test-types.js';
+import { TestResultsSummary, CQLTestResultsData } from '../models/results-types.js';
 
 /**
  * Represents the results of running CQL tests.
@@ -24,9 +24,9 @@ export class CQLTestResults {
   private _testsRunDateTime: Date;
   public _testsRunDescription: string;
   /**
-   * Array containing CQLTestResult objects.
+   * Array containing CQLTestResult objects (internal type during execution).
    */
-  public results: TestResult[] = [];
+  public results: InternalTestResult[] = [];
 
   /**
    * Initializes CQLTestResults object with counts and results array.
@@ -47,8 +47,9 @@ export class CQLTestResults {
    * Adds a test result to the counts and results array.
    * @param result - The test result to add.
    */
-  add(result: TestResult): void {
-    this.counts[result.testStatus]++;
+  add(result: InternalTestResult): void {
+    const status = result.testStatus || 'skip';
+    this.counts[status]++;
     this.results.push(result);
   }
 
@@ -74,7 +75,8 @@ export class CQLTestResults {
     };
 
     for (const result of this.results) {
-      this.counts[result.testStatus]++;
+      const status = result.testStatus || 'skip';
+      this.counts[status]++;
     }
 
     return this.summaryCount();
@@ -82,20 +84,46 @@ export class CQLTestResults {
 
   /**
    * Converts CQLTestResults object to JSON format.
-   * @returns JSON representation of CQLTestResults.
+   * @returns JSON representation of CQLTestResults (strictly schema-compliant).
    */
   toJSON(): CQLTestResultsData {
+    // Transform internal results to strict schema-compliant TestResult format
+    const transformedResults: TestResult[] = this.results.map(result => {
+      const transformed: TestResult = {
+        // Required fields
+        testsName: result.testsName,
+        groupName: result.groupName,
+        testName: result.testName,
+        expression: result.expression,
+        // Optional fields (only include if present)
+        ...(result.testStatus && { testStatus: result.testStatus }),
+        ...(result.responseStatus !== undefined && { responseStatus: result.responseStatus }),
+        ...(result.actual !== undefined && { actual: String(result.actual) }),
+        ...(result.expected && { expected: result.expected }),
+        ...(result.error && {
+          error: {
+            message: result.error.message,
+            ...(result.error.name && { name: result.error.name }),
+            ...(result.error.stack && { stack: result.error.stack })
+          }
+        }),
+        ...(result.invalid && result.invalid !== 'undefined' && { invalid: result.invalid as 'false' | 'true' | 'semantic' }),
+        ...(result.capability && result.capability.length > 0 && { capabilities: result.capability })
+      };
+      return transformed;
+    });
+
     return {
-      cqlengine: this._cqlengine,
-      testsRunDateTime: this._testsRunDateTime,
+      cqlengine: this._cqlengine.toJSON(),
+      testsRunDateTime: this._testsRunDateTime.toISOString(),
       testResultsSummary: {
         passCount: this.counts.pass,
         skipCount: this.counts.skip,
         failCount: this.counts.fail,
         errorCount: this.counts.error
       },
-      testsRunDescription: this._testsRunDescription,
-      results: this.results
+      testsRunDescription: this._testsRunDescription || undefined,
+      results: transformedResults
     };
   }
 
@@ -140,12 +168,15 @@ export class CQLTestResults {
       const exp = r?.expected;
       const act = r?.actual;
       if (typeof act === 'boolean' && typeof exp === 'string') {
-        r.actual = act.toString();
+        r.actual = String(act);
       } else if (exp === 'null' && act === null) {
-        r.actual = null;
+        r.actual = 'null';
       } else if (typeof exp === 'undefined' && act === undefined) {
         r.actual = undefined;
       } else if (typeof act === 'number' && typeof exp === 'string') {
+        r.actual = String(act);
+      } else if (act !== undefined && act !== null && typeof act !== 'string') {
+        // Convert any non-string value to string for schema compliance
         r.actual = String(act);
       }
     }

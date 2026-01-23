@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { CQLEngineInfo } from '../models/results-types';
+import { CQLEngineInfo } from '../models/results-types.js';
 
 /**
  * Represents a CQL Engine.
@@ -42,7 +42,7 @@ export class CQLEngine {
     '1.5'
   ];
 
-  private info: CQLEngineInfo = {};
+  private info: Partial<CQLEngineInfo> = {};
   private baseURL?: string;
   private metadata?: any;
 
@@ -206,7 +206,16 @@ export class CQLEngine {
    * @returns The JSON representation of the CQLEngine object.
    */
   toJSON(): CQLEngineInfo {
-    return this.info;
+    // Ensure all required fields are present with defaults if missing
+    return {
+      apiUrl: this.info.apiUrl || '',
+      description: this.info.description || '',
+      cqlVersion: this.info.cqlVersion || '',
+      cqlTranslator: this.info.cqlTranslator || '',
+      cqlTranslatorVersion: this.info.cqlTranslatorVersion || '',
+      cqlEngine: this.info.cqlEngine || '',
+      cqlEngineVersion: this.info.cqlEngineVersion || ''
+    };
   }
 
   /**

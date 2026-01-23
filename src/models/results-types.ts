@@ -8,23 +8,24 @@ export interface TestResultsSummary {
 }
 
 export interface CQLTestResultsData {
-  cqlengine: any;
-  testsRunDateTime: Date;
+  cqlengine: CQLEngineInfo;
+  testsRunDateTime: string; // ISO date-time string
   testResultsSummary: {
     passCount: number;
     skipCount: number;
     failCount: number;
     errorCount: number;
   };
-  testsRunDescription: string;
+  testsRunDescription?: string;
   results: TestResult[];
 }
 
 export interface CQLEngineInfo {
-  apiUrl?: string;
-  cqlVersion?: string;
-  cqlTranslator?: string;
-  cqlTranslatorVersion?: string;
-  cqlEngine?: string;
-  cqlEngineVersion?: string;
+  apiUrl: string;
+  description: string;
+  cqlVersion: string;
+  cqlTranslator: string;
+  cqlTranslatorVersion: string;
+  cqlEngine: string;
+  cqlEngineVersion: string;
 }
