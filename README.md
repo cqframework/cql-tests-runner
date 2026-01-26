@@ -118,9 +118,10 @@ docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/
 docker run --rm --network host -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
 ```
 
-
 #### Environment Variable Overrides
+
 You can still override specific settings using environment variables:
+
 ```sh
 export SERVER_BASE_URL=http://fhirServerBaseEndpoint
 export CQL_OPERATION=$cql
@@ -216,6 +217,23 @@ curl http://localhost:3000/health
 ```
 
 The server accepts a configuration object in the request body and returns the test results as JSON.
+
+### MCP (Model Context Protocol) Support for AI and Agentic Clients
+
+The server exposes MCP endpoints using Streamable HTTP transport, enabling AI agents to discover and interact with the CQL tests runner autonomously.
+
+#### Using the MCP Inspector
+
+To explore the MCP features of your running server, use the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) with Streamable HTTP transport:
+
+```bash
+# Run the inspector
+npx @modelcontextprotocol/inspector --server-url http://localhost:3000/mcp --transport http
+```
+
+Connection Type should be set to "Via Proxy".
+
+The inspector provides an interactive UI to browse test resources, view schemas, and invoke tools for running tests and managing jobs.
 
 ### Unit Testing
 

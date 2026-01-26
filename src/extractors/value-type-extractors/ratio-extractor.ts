@@ -1,33 +1,33 @@
 import { BaseExtractor } from '../base-extractor.js';
 
 export class RatioExtractor extends BaseExtractor {
-  protected _process(parameter: any): any {
-    function getQuantity(value: any): any {
-      if (value.hasOwnProperty("value")) {
-        return {
-          value: value.value,
-          unit: value.hasOwnProperty("code") ? value.code : null
-        };
-      }
-      
-      return null;
-    }
+	protected _process(parameter: any): any {
+		function getQuantity(value: any): any {
+			if (value.hasOwnProperty('value')) {
+				return {
+					value: value.value,
+					unit: value.hasOwnProperty('code') ? value.code : null,
+				};
+			}
 
-    if (parameter.hasOwnProperty("valueRatio")) {
-      const numerator = parameter.valueRatio.hasOwnProperty("numerator")
-          ? getQuantity(parameter.valueRatio.numerator)
-          : null;
+			return null;
+		}
 
-      const denominator = parameter.valueRatio.hasOwnProperty("denominator")
-          ? getQuantity(parameter.valueRatio.denominator)
-          : null;
+		if (parameter.hasOwnProperty('valueRatio')) {
+			const numerator = parameter.valueRatio.hasOwnProperty('numerator')
+				? getQuantity(parameter.valueRatio.numerator)
+				: null;
 
-      return {
-        numerator: numerator,
-        denominator: denominator
-      };
-    }
+			const denominator = parameter.valueRatio.hasOwnProperty('denominator')
+				? getQuantity(parameter.valueRatio.denominator)
+				: null;
 
-    return undefined;
-  }
+			return {
+				numerator: numerator,
+				denominator: denominator,
+			};
+		}
+
+		return undefined;
+	}
 }

@@ -23,9 +23,8 @@
     "author": "",
     "license": "Apache-2.0",
     "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.25.3",
         "@types/uuid": "^11.0.0",
-        "ajv": "^8.17.1",
-        "ajv-formats": "^3.0.1",
         "antlr4": "4.13.2",
         "axios": "^1.13.3",
         "colors": "^1.4.0",
@@ -35,7 +34,9 @@
         "date-fns": "^4.1.0",
         "express": "^5.2.1",
         "fast-xml-parser": "^5.3.3",
-        "uuid": "^13.0.0"
+        "uuid": "^13.0.0",
+        "zod": "^4.3.6",
+        "zod-from-json-schema": "^0.5.2"
     },
     "devDependencies": {
         "@types/cors": "^2.8.19",
