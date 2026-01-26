@@ -1,6 +1,6 @@
 {
     "name": "cql-tests-runner",
-    "version": "1.3.2",
+    "version": "1.4.0",
     "description": "Server API and command line tools for running CQL tests",
     "type": "module",
     "main": "dist/bin/cql-tests.js",
@@ -27,7 +27,7 @@
         "ajv": "^8.17.1",
         "ajv-formats": "^3.0.1",
         "antlr4": "4.13.2",
-        "axios": "^1.13.2",
+        "axios": "^1.13.3",
         "colors": "^1.4.0",
         "commander": "^14.0.2",
         "config": "^4.2.0",
