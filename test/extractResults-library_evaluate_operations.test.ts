@@ -1,44 +1,12 @@
 import { beforeAll, expect, test } from 'vitest';
 
-import { BooleanExtractor } from '../src/extractors/value-type-extractors/boolean-extractor.js';
-import { CodeExtractor } from '../src/extractors/value-type-extractors/code-extractor.js';
-import { ConceptExtractor } from '../src/extractors/value-type-extractors/concept-extractor.js';
-import { DateExtractor } from '../src/extractors/value-type-extractors/date-extractor.js';
-import { DateTimeExtractor } from '../src/extractors/value-type-extractors/datetime-extractor.js';
-import { DecimalExtractor } from '../src/extractors/value-type-extractors/decimal-extractor.js';
-import { EvaluationErrorExtractor } from '../src/extractors/evaluation-error-extractor.js';
-import { IntegerExtractor } from '../src/extractors/value-type-extractors/integer-extractor.js';
-import { NullEmptyExtractor } from '../src/extractors/null-empty-extractor.js';
-import { DateTimeIntervalExtractor } from '../src/extractors/value-type-extractors/datetime-interval-extractor.js';
-import { QuantityExtractor } from '../src/extractors/value-type-extractors/quantity-extractor.js';
-import { QuantityIntervalExtractor } from '../src/extractors/value-type-extractors/quantity-interval-extractor.js';
-import { RatioExtractor } from '../src/extractors/value-type-extractors/ratio-extractor.js';
-import { StringExtractor } from '../src/extractors/value-type-extractors/string-extractor.js';
-import { TimeExtractor } from '../src/extractors/value-type-extractors/time-extractor.js';
-import { UndefinedExtractor } from '../src/extractors/undefined-extractor.js';
 import { ResultExtractor } from '../src/extractors/result-extractor.js';
+import { buildExtractor } from '../src/server/extractor-builder.js';
 
 let extractor: ResultExtractor | null = null;
 
 beforeAll(() => {
-	let extractors = new EvaluationErrorExtractor();
-	extractors
-		.setNextExtractor(new NullEmptyExtractor())
-		.setNextExtractor(new UndefinedExtractor())
-		.setNextExtractor(new StringExtractor())
-		.setNextExtractor(new BooleanExtractor())
-		.setNextExtractor(new IntegerExtractor())
-		.setNextExtractor(new DecimalExtractor())
-		.setNextExtractor(new DateExtractor())
-		.setNextExtractor(new DateTimeExtractor())
-		.setNextExtractor(new TimeExtractor())
-		.setNextExtractor(new QuantityExtractor())
-		.setNextExtractor(new RatioExtractor())
-		.setNextExtractor(new DateTimeIntervalExtractor())
-		.setNextExtractor(new QuantityIntervalExtractor())
-		.setNextExtractor(new CodeExtractor())
-		.setNextExtractor(new ConceptExtractor());
-	extractor = new ResultExtractor(extractors);
+	extractor = buildExtractor();
 });
 
 test('value types response check', () => {

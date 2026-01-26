@@ -5,25 +5,10 @@ import { CQLTestResults } from '../test-results/cql-test-results.js';
 import { generateEmptyResults, generateParametersResource } from '../shared/results-shared.js';
 import { InternalTestResult } from '../models/test-types.js';
 import { ResultExtractor } from '../extractors/result-extractor.js';
-import { ServerConnectivity, ServerConnectivityError } from '../shared/server-connectivity.js';
-
-// Import extractors
-import { EvaluationErrorExtractor } from '../extractors/evaluation-error-extractor.js';
-import { NullEmptyExtractor } from '../extractors/null-empty-extractor.js';
-import { UndefinedExtractor } from '../extractors/undefined-extractor.js';
-import { StringExtractor } from '../extractors/value-type-extractors/string-extractor.js';
-import { BooleanExtractor } from '../extractors/value-type-extractors/boolean-extractor.js';
-import { IntegerExtractor } from '../extractors/value-type-extractors/integer-extractor.js';
-import { DecimalExtractor } from '../extractors/value-type-extractors/decimal-extractor.js';
-import { DateExtractor } from '../extractors/value-type-extractors/date-extractor.js';
-import { DateTimeExtractor } from '../extractors/value-type-extractors/datetime-extractor.js';
-import { TimeExtractor } from '../extractors/value-type-extractors/time-extractor.js';
-import { QuantityExtractor } from '../extractors/value-type-extractors/quantity-extractor.js';
-import { RatioExtractor } from '../extractors/value-type-extractors/ratio-extractor.js';
-import { DateTimeIntervalExtractor } from '../extractors/value-type-extractors/datetime-interval-extractor.js';
-import { QuantityIntervalExtractor } from '../extractors/value-type-extractors/quantity-interval-extractor.js';
-import { CodeExtractor } from '../extractors/value-type-extractors/code-extractor.js';
-import { ConceptExtractor } from '../extractors/value-type-extractors/concept-extractor.js';
+import { ServerConnectivity } from '../shared/server-connectivity.js';
+import { buildExtractor } from '../server/extractor-builder.js';
+import { createConfigFromData } from '../server/config-utils.js';
+import { resultsEqual } from '../shared/results-utils.js';
 
 export interface TestRunnerOptions {
 	onProgress?: (current: number, total: number, message?: string) => Promise<void>;
@@ -31,37 +16,14 @@ export interface TestRunnerOptions {
 }
 
 export class TestRunner {
-	private buildExtractor(): ResultExtractor {
-		const extractors = new EvaluationErrorExtractor();
-		extractors
-			.setNextExtractor(new NullEmptyExtractor())
-			.setNextExtractor(new UndefinedExtractor())
-			.setNextExtractor(new StringExtractor())
-			.setNextExtractor(new BooleanExtractor())
-			.setNextExtractor(new IntegerExtractor())
-			.setNextExtractor(new DecimalExtractor())
-			.setNextExtractor(new DateExtractor())
-			.setNextExtractor(new DateTimeExtractor())
-			.setNextExtractor(new TimeExtractor())
-			.setNextExtractor(new QuantityExtractor())
-			.setNextExtractor(new RatioExtractor())
-			.setNextExtractor(new DateTimeIntervalExtractor())
-			.setNextExtractor(new QuantityIntervalExtractor())
-			.setNextExtractor(new CodeExtractor())
-			.setNextExtractor(new ConceptExtractor());
-
-		return new ResultExtractor(extractors);
-	}
-
 	public async runTests(
 		configData: any,
 		options: TestRunnerOptions = {}
 	): Promise<CQLTestResults> {
 		// Create a temporary config loader from the provided data
-		const config = this.createConfigFromData(configData);
+		const config = createConfigFromData(configData);
 		const serverBaseUrl = config.FhirServer.BaseUrl;
 		const cqlEndpoint = config.CqlEndpoint;
-		const testsRunDescription = config.Build.testsRunDescription;
 
 		// Verify server connectivity before proceeding
 		await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
@@ -80,7 +42,7 @@ export class TestRunner {
 
 		const tests = TestLoader.load();
 		const quickTest = config.Debug?.QuickTest || false;
-		const resultExtractor = this.buildExtractor();
+		const resultExtractor = buildExtractor();
 		const emptyResults = await generateEmptyResults(tests, quickTest);
 		const skipMap = config.skipListMap();
 
@@ -199,7 +161,7 @@ export class TestRunner {
 				result.testStatus = response.status === 200 ? 'fail' : 'pass';
 			} else {
 				if (response.status === 200) {
-					result.testStatus = this.resultsEqual(cvl.parse(result.expected), result.actual)
+					result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual)
 						? 'pass'
 						: 'fail';
 				} else {
@@ -226,111 +188,6 @@ export class TestRunner {
 		);
 
 		return result;
-	}
-
-	private resultsEqual(expected: any, actual: any): boolean {
-		if (expected === undefined && actual === undefined) {
-			return true;
-		}
-
-		if (expected === null && actual === null) {
-			return true;
-		}
-
-		if (typeof expected === 'number') {
-			return Math.abs(actual - expected) < 0.00000001;
-		}
-
-		if (expected === actual) {
-			return true;
-		}
-
-		if (
-			typeof expected !== 'object' ||
-			expected === null ||
-			typeof actual !== 'object' ||
-			actual === null
-		) {
-			return false;
-		}
-
-		const expectedKeys = Object.keys(expected);
-		const actualKeys = Object.keys(actual);
-
-		if (expectedKeys.length !== actualKeys.length) return false;
-
-		for (const key of expectedKeys) {
-			if (!actualKeys.includes(key) || !this.resultsEqual(expected[key], actual[key])) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	private createConfigFromData(configData: any): ConfigLoader {
-		// Create a temporary config loader without validation (we already validated)
-		const config = new ConfigLoader(undefined, false);
-
-		// Manually populate the config from the provided data
-		const baseURL =
-			process.env.SERVER_BASE_URL ||
-			configData.FhirServer?.BaseUrl ||
-			'https://cloud.alphora.com/sandbox/r4/cds/fhir';
-
-		config.FhirServer = {
-			BaseUrl: this.removeTrailingSlash(baseURL),
-			CqlOperation:
-				process.env.CQL_OPERATION || configData.FhirServer?.CqlOperation || '$cql',
-		};
-
-		config.Build = {
-			CqlFileVersion:
-				process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
-			CqlOutputPath:
-				process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
-			CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
-			testsRunDescription:
-				process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription,
-		};
-
-		config.Tests = {
-			ResultsPath: process.env.RESULTS_PATH || configData.Tests?.ResultsPath || './results',
-			SkipList: process.env.SKIP_LIST || configData.Tests?.SkipList || [],
-		};
-
-		config.Debug = {
-			QuickTest: this.setQuickTestSetting(configData),
-		};
-
-		config.CqlEndpoint = this.cqlEndPoint(config.FhirServer.CqlOperation);
-
-		return config;
-	}
-
-	private removeTrailingSlash(url: string): string {
-		return url.endsWith('/') ? url.slice(0, -1) : url;
-	}
-
-	private cqlEndPoint(cqlOperation: string): string {
-		if (cqlOperation === '$cql') {
-			return '$cql';
-		} else {
-			return 'Library' + '/$evaluate';
-		}
-	}
-
-	private setQuickTestSetting(configData: any): boolean {
-		if (process.env.QUICK_TEST !== undefined) {
-			return process.env.QUICK_TEST === 'true';
-		}
-
-		const configValue = configData.Debug?.QuickTest;
-		if (configValue !== undefined) {
-			return configValue as boolean;
-		}
-
-		return true;
 	}
 
 	private compareVersions(versionA: string | undefined, versionB: string | undefined): number {

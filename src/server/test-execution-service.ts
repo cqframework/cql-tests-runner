@@ -12,49 +12,12 @@ import { ServerConnectivity } from '../shared/server-connectivity.js';
 import { ResultExtractor } from '../extractors/result-extractor.js';
 import { buildExtractor } from './extractor-builder.js';
 import { createConfigFromData } from './config-utils.js';
+import { resultsEqual } from '../shared/results-utils.js';
 
 // Type declaration for CVL loader
 declare const cvlLoader: () => Promise<[{ default: any }]>;
 
 export class TestExecutionService {
-  /**
-   * Compares two results for equality, handling nested objects and numbers
-   */
-  private resultsEqual(expected: any, actual: any): boolean {
-    if (expected === undefined && actual === undefined) {
-      return true;
-    }
-    
-    if (expected === null && actual === null) {
-      return true;
-    }
-
-    if (typeof expected === 'number') {
-      return Math.abs(actual - expected) < 0.00000001;
-    }
-
-    if (expected === actual) {
-      return true;
-    }
-
-    if (typeof expected !== 'object' || expected === null || typeof actual !== 'object' || actual === null) {
-      return false;
-    }
-
-    const expectedKeys = Object.keys(expected);
-    const actualKeys = Object.keys(actual);
-
-    if (expectedKeys.length !== actualKeys.length) return false;
-
-    for (const key of expectedKeys) {
-      if (!actualKeys.includes(key) || !this.resultsEqual(expected[key], actual[key])) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   /**
    * Runs a single test
    */
@@ -67,7 +30,7 @@ export class TestExecutionService {
     config: ConfigLoader
   ): Promise<InternalTestResult> {
     const key = `${result.testsName}-${result.groupName}-${result.testName}`;
-    
+
     if (result.testStatus === 'skip') {
       result.SkipMessage = 'Skipped by cql-tests-runner';
       return result;
@@ -94,12 +57,12 @@ export class TestExecutionService {
       const responseBody = await response.json();
       result.actual = resultExtractor.extract(responseBody);
       const invalid = result.invalid;
-      
+
       if (invalid === 'true' || invalid === 'semantic') {
         result.testStatus = response.status === 200 ? 'fail' : 'pass';
       } else {
         if (response.status === 200) {
-          result.testStatus = this.resultsEqual(cvl.parse(result.expected), result.actual) ? 'pass' : 'fail';
+          result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual) ? 'pass' : 'fail';
         } else {
           result.testStatus = 'fail';
         }
@@ -109,13 +72,13 @@ export class TestExecutionService {
       result.error = {
         message: error.message,
         name: error.name || 'Error',
-        stack: error.stack 
+        stack: error.stack
       };
     }
 
-    console.log('Test %s:%s:%s status: %s expected: %s actual: %s', 
+    console.log('Test %s:%s:%s status: %s expected: %s actual: %s',
       result.testsName, result.groupName, result.testName, result.testStatus, result.expected, result.actual);
-    
+
     return result;
   }
 
@@ -146,7 +109,7 @@ export class TestExecutionService {
     const skipMap = config.skipListMap();
 
     const results = new CQLTestResults(cqlEngine);
-    
+
     for (const testFile of emptyResults) {
       for (const result of testFile) {
         await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, config);
