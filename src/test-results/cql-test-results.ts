@@ -1,10 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { CQLEngine } from '../cql-engine/cql-engine.js';
-import { z } from 'zod';
-import { convertJsonSchemaToZod } from 'zod-from-json-schema';
 import { TestResult, InternalTestResult } from '../models/test-types.js';
 import { TestResultsSummary, CQLTestResultsData } from '../models/results-types.js';
+import { ResultsValidator } from '../conf/results-validator.js';
 
 /**
  * Represents the results of running CQL tests.
@@ -209,22 +208,15 @@ export class CQLTestResults {
 	 * @returns True if the data is valid, otherwise false.
 	 */
 	static async validateSchema(data: any): Promise<boolean> {
-		// Load schema using dynamic import for ES modules
-		const schemaModule = await import('../../assets/schema/cql-test-results.schema.json', {
-			with: { type: 'json' },
-		});
-		const jsonSchema = schemaModule.default;
-		
-		// Convert JSON Schema to Zod schema at runtime
-		// Cast to any to handle JSON Schema draft-07 format
-		const zodSchema = convertJsonSchemaToZod(jsonSchema as any);
-		const result = zodSchema.safeParse(data);
+		// Use ResultsValidator for validation (eliminates code duplication)
+		const validator = new ResultsValidator();
+		const validation = validator.validateResults(data);
 
-		if (result.success) {
-			console.log('JSON is valid');
+		if (validation.isValid) {
+			// console.log('JSON is valid');
 			return true;
 		} else {
-			console.log('JSON is invalid:', result.error.issues);
+			// console.log('JSON is invalid:', validation.errors);
 			return false;
 		}
 	}

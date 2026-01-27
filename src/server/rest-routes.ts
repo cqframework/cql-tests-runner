@@ -1,11 +1,14 @@
 import express, { Request, Response } from 'express';
+import * as fs from 'fs';
 import { ConfigValidator } from '../conf/config-validator.js';
+import { ResultsValidator } from '../conf/results-validator.js';
 import { JobManager } from '../jobs/job-manager.js';
 import { JobProcessor } from '../jobs/job-processor.js';
 import { ServerConnectivity, ServerConnectivityError } from '../shared/server-connectivity.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { TestExecutionService } from './test-execution-service.js';
 import { createConfigFromData } from './config-utils.js';
+import { getSchemaPath } from './schema-utils.js';
 
 export interface RestRoutesDependencies {
   app: express.Application;
@@ -31,6 +34,10 @@ export function setupRestRoutes(deps: RestRoutesDependencies): void {
         'POST /': 'Run CQL tests with provided configuration (synchronous)',
         'POST /jobs': 'Create a new job to run CQL tests asynchronously',
         'GET /jobs/:id': 'Get job status and results by job ID',
+        'POST /validate/configuration': 'Validate a test configuration JSON against the schema',
+        'POST /validate/results': 'Validate a test results JSON against the schema',
+        'GET /schema/configuration': 'Get the raw JSON schema for test configuration',
+        'GET /schema/results': 'Get the raw JSON schema for test results',
         'GET /health': 'Health check endpoint',
         'POST /mcp': 'MCP (Model Context Protocol) endpoint for JSON-RPC requests',
         'GET /mcp': 'MCP endpoint for Server-Sent Events (SSE) streaming',
@@ -190,6 +197,132 @@ export function setupRestRoutes(deps: RestRoutesDependencies): void {
       res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to get job status',
+        details: error.message
+      });
+    }
+  });
+
+  // POST /validate/configuration endpoint - Validate test configuration
+  app.post('/validate/configuration', async (req: Request, res: Response) => {
+    try {
+      const configData = req.body;
+      
+      if (!configData || typeof configData !== 'object') {
+        return res.status(400).json({
+          error: 'Bad Request',
+          message: 'Request body is required and must be a valid JSON object'
+        });
+      }
+
+      const validator = new ConfigValidator();
+      const validation = validator.validateConfig(configData);
+      
+      if (validation.isValid) {
+        return res.status(200).json({
+          valid: true,
+          message: 'Configuration is valid'
+        });
+      } else {
+        return res.status(422).json({
+          valid: false,
+          error: 'Unprocessable Entity',
+          message: 'Configuration validation failed',
+          details: validator.formatErrors(validation.errors),
+          errors: validation.errors
+        });
+      }
+    } catch (error: any) {
+      console.error('Error validating configuration:', error);
+      res.status(500).json({
+        error: 'Internal Server Error',
+        message: 'Failed to validate configuration',
+        details: error.message
+      });
+    }
+  });
+
+  // POST /validate/results endpoint - Validate test results
+  app.post('/validate/results', async (req: Request, res: Response) => {
+    try {
+      const resultsData = req.body;
+      
+      if (!resultsData || typeof resultsData !== 'object') {
+        return res.status(400).json({
+          error: 'Bad Request',
+          message: 'Request body is required and must be a valid JSON object'
+        });
+      }
+
+      const validator = new ResultsValidator();
+      const validation = validator.validateResults(resultsData);
+      
+      if (validation.isValid) {
+        return res.status(200).json({
+          valid: true,
+          message: 'Results are valid'
+        });
+      } else {
+        return res.status(422).json({
+          valid: false,
+          error: 'Unprocessable Entity',
+          message: 'Results validation failed',
+          details: validator.formatErrors(validation.errors),
+          errors: validation.errors
+        });
+      }
+    } catch (error: any) {
+      console.error('Error validating results:', error);
+      res.status(500).json({
+        error: 'Internal Server Error',
+        message: 'Failed to validate results',
+        details: error.message
+      });
+    }
+  });
+
+  // GET /schema/configuration endpoint - Get configuration schema
+  app.get('/schema/configuration', (req: Request, res: Response) => {
+    try {
+      const schemaPath = getSchemaPath('cql-test-configuration');
+      if (!schemaPath || !fs.existsSync(schemaPath)) {
+        return res.status(404).json({
+          error: 'Not Found',
+          message: 'Configuration schema file not found'
+        });
+      }
+      const schemaContent = fs.readFileSync(schemaPath, 'utf8');
+      const schema = JSON.parse(schemaContent);
+      res.setHeader('Content-Type', 'application/json');
+      res.json(schema);
+    } catch (error: any) {
+      console.error('Error reading configuration schema:', error);
+      res.status(500).json({
+        error: 'Internal Server Error',
+        message: 'Failed to read configuration schema',
+        details: error.message
+      });
+    }
+  });
+
+  // GET /schema/results endpoint - Get results schema
+  app.get('/schema/results', (req: Request, res: Response) => {
+    try {
+      const schemaPath = getSchemaPath('cql-test-results');
+      if (!schemaPath || !fs.existsSync(schemaPath)) {
+        return res.status(404).json({
+          error: 'Not Found',
+          message: 'Results schema file not found'
+        });
+      }
+      const schemaContent = fs.readFileSync(schemaPath, 'utf8');
+      const schema = JSON.parse(schemaContent);
+      res.setHeader('Content-Type', 'application/json');
+      res.json(schema);
+    } catch (error: any) {
+      console.error('Error reading results schema:', error);
+      res.status(500).json({
+        error: 'Internal Server Error',
+        message: 'Failed to read results schema',
         details: error.message
       });
     }

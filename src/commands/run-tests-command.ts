@@ -11,12 +11,12 @@ export class RunCommand {
 		this.testRunner = new TestRunner();
 	}
 
-	async execute(options: { config: string; output: string; validate?: boolean }): Promise<void> {
+	async execute(options: { config: string; output: string; validate?: boolean; quick?: boolean }): Promise<void> {
 		const config = new ConfigLoader(options.config);
 		const outputPath = options.output || config.Tests.ResultsPath;
 
 		// Convert ConfigLoader to the format expected by TestRunner
-		const configData = this.convertConfigToData(config);
+		const configData = this.convertConfigToData(config, options.quick);
 
 		// Run tests using the shared TestRunner with axios for backward compatibility
 		const results = await this.testRunner.runTests(configData, {
@@ -40,7 +40,7 @@ export class RunCommand {
 		await results.validate();
 	}
 
-	private convertConfigToData(config: ConfigLoader): any {
+	private convertConfigToData(config: ConfigLoader, quick?: boolean): any {
 		return {
 			FhirServer: {
 				BaseUrl: config.FhirServer.BaseUrl,
@@ -57,7 +57,7 @@ export class RunCommand {
 				SkipList: config.Tests.SkipList,
 			},
 			Debug: {
-				QuickTest: config.Debug.QuickTest,
+				QuickTest: quick !== undefined ? quick : config.Debug.QuickTest,
 			},
 		};
 	}
