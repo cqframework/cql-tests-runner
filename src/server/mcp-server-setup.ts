@@ -5,6 +5,7 @@ import type { ReadResourceTemplateCallback } from '@modelcontextprotocol/sdk/ser
 import * as fs from 'fs';
 import { TestLoader } from '../loaders/test-loader.js';
 import { ConfigValidator } from '../conf/config-validator.js';
+import { ResultsValidator } from '../conf/results-validator.js';
 import { JobManager } from '../jobs/job-manager.js';
 import { JobProcessor } from '../jobs/job-processor.js';
 import { ServerConnectivity, ServerConnectivityError } from '../shared/server-connectivity.js';
@@ -597,6 +598,154 @@ export function setupMcpServer(deps: McpServerSetupDependencies): void {
           },
         ],
       };
+    }
+  );
+
+  mcpServer.registerTool(
+    'validate_configuration',
+    {
+      description: 'Validate a test configuration JSON against the schema (equivalent to POST /validate/configuration endpoint)',
+      inputSchema: z.object({
+        config: z
+          .any()
+          .describe('Configuration object to validate against cql-test-configuration.schema.json'),
+      }),
+    },
+    async (args: { config?: any }, extra?: any) => {
+      const { config } = args;
+      if (!config) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(
+                {
+                  error: 'Bad Request',
+                  message: 'config parameter is required',
+                },
+                null,
+                2
+              ),
+            },
+          ],
+          isError: true,
+        };
+      }
+
+      const validator = new ConfigValidator();
+      const validation = validator.validateConfig(config);
+
+      if (validation.isValid) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(
+                {
+                  valid: true,
+                  message: 'Configuration is valid',
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      } else {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(
+                {
+                  valid: false,
+                  error: 'Configuration validation failed',
+                  message: 'Configuration validation failed',
+                  details: validator.formatErrors(validation.errors),
+                  errors: validation.errors,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  mcpServer.registerTool(
+    'validate_results',
+    {
+      description: 'Validate a test results JSON against the schema (equivalent to POST /validate/results endpoint)',
+      inputSchema: z.object({
+        results: z
+          .any()
+          .describe('Results object to validate against cql-test-results.schema.json'),
+      }),
+    },
+    async (args: { results?: any }, extra?: any) => {
+      const { results } = args;
+      if (!results) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(
+                {
+                  error: 'Bad Request',
+                  message: 'results parameter is required',
+                },
+                null,
+                2
+              ),
+            },
+          ],
+          isError: true,
+        };
+      }
+
+      const validator = new ResultsValidator();
+      const validation = validator.validateResults(results);
+
+      if (validation.isValid) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(
+                {
+                  valid: true,
+                  message: 'Results are valid',
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      } else {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(
+                {
+                  valid: false,
+                  error: 'Results validation failed',
+                  message: 'Results validation failed',
+                  details: validator.formatErrors(validation.errors),
+                  errors: validation.errors,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+          isError: true,
+        };
+      }
     }
   );
 
