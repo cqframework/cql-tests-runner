@@ -69,6 +69,7 @@ git submodule update --init --recursive
 
 # Run commands directly from TypeScript source
 npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results # Run CQL tests
+npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results --quick # Run with quick test mode enabled
 npx tsx src/bin/cql-tests.ts server                               # Run in server API mode
 npx tsx src/bin/cql-tests.ts help                               # Hetailed command help
 
@@ -88,6 +89,10 @@ By default, the image runs the CLI. When you bind in any local directories (such
 # Run CQL tests with a configuration file
 docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
   hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results
+
+# Run CQL tests with quick test mode enabled
+docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/results:/app/results \
+  hlseven/quality-cql-tests-runner:latest run-tests conf/localhost.json ./results --quick
 
 # Build CQL libraries (Unused)
 docker run --rm -v $(pwd)/conf:/app/conf -v $(pwd)/cql:/app/cql \

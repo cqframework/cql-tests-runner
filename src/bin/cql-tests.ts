@@ -56,6 +56,7 @@ program
 		'-v, --validate',
 		'Validate the results file before writing (does not prevent writing if invalid)'
 	)
+	.option('-q, --quick', 'Enable quick test mode (sets QuickTest to true)')
 	.action(async (configPath, outputPath, options) => {
 		try {
 			const runCommand = new RunCommand();
@@ -63,6 +64,7 @@ program
 				config: configPath,
 				output: outputPath,
 				validate: options.validate,
+				quick: options.quick,
 			});
 		} catch (error: any) {
 			if (error.message.includes('Configuration validation failed')) {
