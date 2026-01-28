@@ -59,11 +59,15 @@ export class TestRunner {
     const serverBaseUrl = config.FhirServer.BaseUrl;
     const cqlEndpoint = config.CqlEndpoint;
     const testsRunDescription = config.Build.testsRunDescription;
+    const cqlTranslator = config.Build.cqlTranslator;
+    const cqlTranslatorVersion = config.Build.cqlTranslatorVersion;
+    const cqlEngineString = config.Build.cqlEngine;
+    const cqlEngineVersion = config.Build.cqlEngineVersion;
 
     // Verify server connectivity before proceeding
     await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
 
-    const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
+    const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint, cqlTranslator, cqlTranslatorVersion, cqlEngineString, cqlEngineVersion);
     cqlEngine.cqlVersion = '1.5'; //default value
     const cqlVersion = config.Build?.CqlVersion;
     if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
@@ -240,7 +244,11 @@ export class TestRunner {
       CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
       CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
       CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
-      testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription
+      testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription,
+      cqlTranslator: process.env.CQL_TRANSLATOR || configData.Build?.cqlTranslator || 'Unknown',
+      cqlTranslatorVersion: process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || 'Unknown',
+      cqlEngine: process.env.CQL_ENGINE || configData.Build?.cqlEngine || 'Unknown',
+      cqlEngineVersion: process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown'
     };
 
     config.Tests = {

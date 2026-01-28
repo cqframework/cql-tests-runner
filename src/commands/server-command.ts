@@ -467,7 +467,12 @@ export class ServerCommand {
     
     config.Build = {
       CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
-      CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql'
+      CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
+      testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription || ' ',
+      cqlTranslator: config.Build?.cqlTranslator,
+      cqlTranslatorVersion: config.Build?.cqlTranslatorVersion,
+      cqlEngine: config.Build?.cqlEngine,
+      cqlEngineVersion: config.Build?.cqlEngineVersion
     };
     
     config.Tests = {

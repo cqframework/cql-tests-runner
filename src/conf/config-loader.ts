@@ -13,6 +13,10 @@ export class ConfigLoader implements Config {
     CqlOutputPath: string;
     CqlVersion?: string;
     testsRunDescription: string;
+    cqlTranslator: string;
+    cqlTranslatorVersion: string;
+    cqlEngine: string;
+    cqlEngineVersion: string;
   };
   Tests: {
     ResultsPath: string;
@@ -25,7 +29,7 @@ export class ConfigLoader implements Config {
 
   constructor(configPath?: string, validateConfig: boolean = true) {
     const configData = this.#loadConfig(configPath);
-    
+
     // Validate configuration if a path was provided and validation is enabled
     if (configPath && validateConfig) {
       this.#validateConfig(configPath, configData);
@@ -37,19 +41,23 @@ export class ConfigLoader implements Config {
       BaseUrl: this.#removeTrailingSlash(baseURL),
       CqlOperation: process.env.CQL_OPERATION || configData.FhirServer?.CqlOperation || '$cql'
     };
-    
+
     this.Build = {
       CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
       CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
       CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
-      testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription
+      testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription,
+      cqlTranslator: process.env.CQL_TRANSLATOR || configData.Build?.cqlTranslator || 'Unknown',
+      cqlTranslatorVersion: process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || 'Unknown',
+      cqlEngine: process.env.CQL_ENGINE || configData.Build?.cqlEngine || 'Unknown',
+      cqlEngineVersion: process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown'
     };
     
     this.Tests = {
       ResultsPath: process.env.RESULTS_PATH || configData.Tests?.ResultsPath || './results',
       SkipList: process.env.SKIP_LIST || configData.Tests?.SkipList || []
     };
-    
+
     this.Debug = {
       QuickTest: this.#setQuickTestSetting(configData)
     };
@@ -126,13 +134,13 @@ export class ConfigLoader implements Config {
     try {
       const validator = new ConfigValidator();
       const validation = validator.validateConfig(configData);
-      
+
       if (!validation.isValid) {
         const errorMessage = `Configuration validation failed for ${configPath}:\n${validator.formatErrors(validation.errors)}`;
         console.error(errorMessage);
         throw new Error(errorMessage);
       }
-      
+
       console.log(`✓ Configuration file validated successfully: ${configPath}`);
     } catch (error: any) {
       if (error.message.includes('Configuration validation failed')) {

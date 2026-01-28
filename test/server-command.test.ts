@@ -10,7 +10,12 @@ const createMockConfig = (overrides = {}) => ({
   },
   Build: {
     CqlFileVersion: '1.0.000',
-    CqlOutputPath: './cql'
+    CqlOutputPath: './cql',
+    testsRunDescription: '',
+    cqlTranslator: config.Build?.cqlTranslator,
+    cqlTranslatorVersion: config.Build?.cqlTranslatorVersion,
+    cqlEngine: config.Build?.cqlEngine,
+    cqlEngineVersion: config.Build?.cqlEngineVersion
   },
   Debug: {
     QuickTest: false
@@ -49,8 +54,8 @@ vi.mock('../src/conf/config-validator', () => ({
     validateConfig: vi.fn().mockImplementation((configData) => {
       const requiredFields = ['FhirServer', 'Build', 'Debug', 'Tests'];
       const hasRequiredFields = requiredFields.every(field => configData?.[field]);
-      
-      return hasRequiredFields 
+
+      return hasRequiredFields
         ? { isValid: true, errors: [] }
         : {
             isValid: false,
@@ -61,13 +66,13 @@ vi.mock('../src/conf/config-validator', () => ({
             }))
           };
     }),
-    formatErrors: vi.fn().mockImplementation((errors) => 
+    formatErrors: vi.fn().mockImplementation((errors) =>
       errors.map((error: any, index: number) => `${index + 1}. ${error.message}`).join('\n')
     )
   }))
 }));
 vi.mock('../src/loaders/test-loader', () => ({ TestLoader: { load: vi.fn().mockReturnValue([]) } }));
-vi.mock('../src/cql-engine/cql-engine', () => ({ 
+vi.mock('../src/cql-engine/cql-engine', () => ({
   CQLEngine: vi.fn().mockImplementation(() => ({
     apiUrl: 'http://localhost:8080/fhir/$cql',
     cqlVersion: '1.5'
@@ -157,7 +162,7 @@ describe('ServerCommand', () => {
       // Mock console.error to suppress error logging during this test
       const originalConsoleError = console.error;
       console.error = vi.fn();
-      
+
       try {
         const response = await request(serverCommand.app)
           .post('/')

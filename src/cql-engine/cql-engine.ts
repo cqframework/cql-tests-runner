@@ -45,14 +45,23 @@ export class CQLEngine {
   private info: CQLEngineInfo = {};
   private baseURL?: string;
   private metadata?: any;
+  private description?: string;
+  private cqlTranslator?: string;
+  private cqlTranslatorVersion?: string;
+  private cqlEngine?: string;
+  private cqlEngineVersion?: string;
 
   /**
    * Creates an instance of CQLEngine.
    * @param baseURL - The base URL for the CQL engine.
    * @param cqlPath - The path for the CQL engine (optional).
    */
-  constructor(baseURL: string, cqlPath: string | null = null) {
+  constructor(baseURL: string, cqlPath: string | null = null,
+              cqlTranslator: string, cqlTranslatorVersion: string,
+              cqlEngine: string, cqlEngineVersion: string) {
     this._prepareBaseURL(baseURL, cqlPath);
+    this._setInformationFields(cqlTranslator, cqlTranslatorVersion,
+        cqlEngine, cqlEngineVersion);
   }
 
   /**
@@ -85,6 +94,14 @@ export class CQLEngine {
     }
   }
 
+  private _setInformationFields(cqlTranslator: string, cqlTranslatorVersion: string,
+                                     cqlEngine: string, cqlEngineVersion: string)
+  {
+    this.info.cqlTranslator = cqlTranslator;
+    this.info.cqlTranslatorVersion = cqlTranslatorVersion;
+    this.info.cqlEngine = cqlEngine;
+    this.info.cqlEngineVersion =  cqlEngineVersion;
+  }
   /**
    * Fetches metadata from the CQL engine.
    * @param force - Whether to force fetching metadata.
@@ -142,7 +159,7 @@ export class CQLEngine {
    * @param translator - The CQL translator.
    */
   set cqlTranslator(translator: string) {
-    this.info['cqlTranslator'] = translator;
+    this.info['cqlTranslator'] = translator ?? null;
   }
 
   /**
@@ -158,7 +175,7 @@ export class CQLEngine {
    * @param version - The CQL translator version.
    */
   set cqlTranslatorVersion(version: string) {
-    this.info['cqlTranslatorVersion'] = version;
+    this.info['cqlTranslatorVersion'] = version ?? null;
   }
 
   /**
@@ -174,7 +191,7 @@ export class CQLEngine {
    * @param engine - The CQL engine.
    */
   set cqlEngine(engine: string) {
-    this.info['cqlEngine'] = engine;
+    this.info['cqlEngine'] = engine ?? null;
   }
 
   /**
@@ -190,7 +207,7 @@ export class CQLEngine {
    * @param version - The CQL engine version.
    */
   set cqlEngineVersion(version: string) {
-    this.info['cqlEngineVersion'] = version;
+    this.info['cqlEngineVersion'] = version ?? null;
   }
 
   /**

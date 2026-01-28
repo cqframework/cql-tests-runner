@@ -8,7 +8,11 @@
     "CqlFileVersion": "1.0.000",
     "CqlOutputPath": "./cql",
     "CqlVersion": "1.5",
-    "testsRunDescription": ""
+    "testsRunDescription": "Smile-cdr-local test run",
+    "cqlTranslator": "Java CQFramework Translator",
+    "cqlTranslatorVersion": "Unknown",
+    "cqlEngine": "Java CQFramework Engine",
+    "cqlEngineVersion": "Unknown",
   },
   "Debug": {
     "QuickTest": false
