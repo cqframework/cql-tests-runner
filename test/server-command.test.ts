@@ -10,7 +10,12 @@ const createMockConfig = (overrides = {}) => ({
   },
   Build: {
     CqlFileVersion: '1.0.000',
-    CqlOutputPath: './cql'
+    CqlOutputPath: './cql',
+    testsRunDescription: '',
+    cqlTranslator: config.Build?.cqlTranslator,
+    cqlTranslatorVersion: config.Build?.cqlTranslatorVersion,
+    cqlEngine: config.Build?.cqlEngine,
+    cqlEngineVersion: config.Build?.cqlEngineVersion
   },
   Debug: {
     QuickTest: false

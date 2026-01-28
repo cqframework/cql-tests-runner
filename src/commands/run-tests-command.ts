@@ -50,7 +50,11 @@ export class RunCommand {
         CqlFileVersion: config.Build.CqlFileVersion,
         CqlOutputPath: config.Build.CqlOutputPath,
         CqlVersion: config.Build.CqlVersion,
-        testsRunDescription: config.Build?.testsRunDescription
+        testsRunDescription: config.Build?.testsRunDescription,
+        cqlTranslator: config.Build?.cqlTranslator,
+        cqlTranslatorVersion: config.Build?.cqlTranslatorVersion,
+        cqlEngine: config.Build?.cqlEngine,
+        cqlEngineVersion: config.Build?.cqlEngineVersion
       },
       Tests: {
         ResultsPath: config.Tests.ResultsPath,
