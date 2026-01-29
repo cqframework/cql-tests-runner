@@ -40,32 +40,36 @@ export function setQuickTestSetting(configData: any): boolean {
 export function createConfigFromData(configData: any): ConfigLoader {
   // Create a temporary config loader without validation (we already validated)
   const config = new ConfigLoader(undefined, false);
-  
+
   // Manually populate the config from the provided data
   const baseURL = process.env.SERVER_BASE_URL || configData.FhirServer?.BaseUrl || 'https://cloud.alphora.com/sandbox/r4/cds/fhir';
-  
+
   config.FhirServer = {
     BaseUrl: removeTrailingSlash(baseURL),
     CqlOperation: process.env.CQL_OPERATION || configData.FhirServer?.CqlOperation || '$cql'
   };
-  
+
   config.Build = {
-    CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
-    CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
-    CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
-    testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription || ''
+      CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
+      CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
+      CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
+      testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription || '',
+	  cqlTranslator: process.env.CQL_TRANSLATOR || configData.Build?.cqlTranslator || 'Unknown',
+	  cqlTranslatorVersion: process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || 'Unknown',
+	  cqlEngine: process.env.CQL_ENGINE || configData.Build?.cqlEngine || 'Unknown',
+	  cqlEngineVersion: process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown'
   };
-  
+
   config.Tests = {
     ResultsPath: process.env.RESULTS_PATH || configData.Tests?.ResultsPath || './results',
     SkipList: process.env.SKIP_LIST || configData.Tests?.SkipList || []
   };
-  
+
   config.Debug = {
     QuickTest: setQuickTestSetting(configData)
   };
 
   config.CqlEndpoint = cqlEndPoint(config.FhirServer.CqlOperation);
-  
+
   return config;
 }

@@ -36,7 +36,13 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
     },
     "Build": {
       "CqlFileVersion": "1.0.000",
-      "CqlOutputPath": "./cql"
+      "CqlOutputPath": "./cql",
+      "testsRunDescription": '',
+      "testsRunDescription": "Local host test run",
+      "cqlTranslator": "Java CQFramework Translator",
+      "cqlTranslatorVersion": "Unknown",
+      "cqlEngine": "Java CQFramework Engine",
+      "cqlEngineVersion": "4.1.0"
     },
     "Tests": {
       "ResultsPath": "./results",
