@@ -28,14 +28,15 @@ export class TestRunner {
 		// Verify server connectivity before proceeding
 		await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
 
+    const build = config.Build;
     const cqlEngine = new CQLEngine(
-		serverBaseUrl,
-		cqlEndpoint,
-		configData.Build.cqlTranslator,
-		configData.Build.cqlTranslatorVersion,
-		configData.Build.cqlEngine,
-		configData.Build.cqlEngineVersion
-	);
+      serverBaseUrl,
+      cqlEndpoint,
+      build.cqlTranslator ?? '',
+      build.cqlTranslatorVersion ?? '',
+      build.cqlEngine ?? '',
+      build.cqlEngineVersion ?? ''
+    );
     cqlEngine.cqlVersion = '1.5'; //default value
     const cqlVersion = config.Build?.CqlVersion;
     if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
