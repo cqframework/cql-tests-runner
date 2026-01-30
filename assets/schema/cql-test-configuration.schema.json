@@ -44,10 +44,26 @@
           "type": "string",
           "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
           "description": "CQL engine version for version-based test filtering (optional)"
-      },
-      "testsRunDescription":{
-        "type": "string",
+        },
+        "testsRunDescription":{
+          "type": "string",
           "description": "Information about this test run"
+        },
+        "cqlTranslator": {
+          "type": "string",
+          "description": "Which CQL Translator is used in this test run."
+        },
+        "cqlTranslatorVersion": {
+          "type": "string",
+          "description": "Which CQL translator version is used in this test run"
+        },
+        "cqlEngine": {
+          "type": "string",
+          "description": "Which CQL engine is used in this test run"
+        },
+        "cqlEngineVersion": {
+          "type": "string",
+          "description": "Which version of the CQL engine is used in this test run"
         }
       },
       "required": ["CqlFileVersion", "CqlOutputPath"],

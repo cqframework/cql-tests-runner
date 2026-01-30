@@ -16,7 +16,7 @@ export class CQLTestResults {
 		pass: 0,
 		skip: 0,
 		fail: 0,
-		error: 0,
+		error: 0
 	};
 
 	private _cqlengine: CQLEngine;
@@ -76,7 +76,7 @@ export class CQLTestResults {
 			pass: 0,
 			skip: 0,
 			fail: 0,
-			error: 0,
+			error: 0
 		};
 
 		for (const result of this.results) {

@@ -28,12 +28,19 @@ export class TestRunner {
 		// Verify server connectivity before proceeding
 		await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
 
-		const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
-		cqlEngine.cqlVersion = '1.5'; //default value
-		const cqlVersion = config.Build?.CqlVersion;
-		if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
-			cqlEngine.cqlVersion = cqlVersion;
-		}
+    const cqlEngine = new CQLEngine(
+		serverBaseUrl,
+		cqlEndpoint,
+		configData.Build.cqlTranslator,
+		configData.Build.cqlTranslatorVersion,
+		configData.Build.cqlEngine,
+		configData.Build.cqlEngineVersion
+	);
+    cqlEngine.cqlVersion = '1.5'; //default value
+    const cqlVersion = config.Build?.CqlVersion;
+    if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
+      cqlEngine.cqlVersion = cqlVersion;
+    }
 
 		// Load CVL using dynamic import
 		// @ts-ignore

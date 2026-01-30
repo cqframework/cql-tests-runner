@@ -27,7 +27,7 @@ export class CQLEngine {
 		'2.1.0',
 		'2.2.0',
 		'2.3.0',
-		'2.4.0',
+		'2.4.0'
 	];
 
 	/**
@@ -38,15 +38,20 @@ export class CQLEngine {
 	private info: Partial<CQLEngineInfo> = {};
 	private baseURL?: string;
 	private metadata?: any;
+	private description?: string;
 
-	/**
-	 * Creates an instance of CQLEngine.
-	 * @param baseURL - The base URL for the CQL engine.
-	 * @param cqlPath - The path for the CQL engine (optional).
-	 */
-	constructor(baseURL: string, cqlPath: string | null = null) {
-		this._prepareBaseURL(baseURL, cqlPath);
-	}
+  /**
+   * Creates an instance of CQLEngine.
+   * @param baseURL - The base URL for the CQL engine.
+   * @param cqlPath - The path for the CQL engine (optional).
+   */
+  constructor(baseURL: string, cqlPath: string | null = null,
+              cqlTranslator: string, cqlTranslatorVersion: string,
+              cqlEngine: string, cqlEngineVersion: string) {
+    this._prepareBaseURL(baseURL, cqlPath);
+    this._setInformationFields(cqlTranslator, cqlTranslatorVersion,
+        cqlEngine, cqlEngineVersion);
+  }
 
 	/**
 	 * Prepares the base URL.
@@ -78,25 +83,34 @@ export class CQLEngine {
 		}
 	}
 
-	/**
-	 * Fetches metadata from the CQL engine.
-	 * @param force - Whether to force fetching metadata.
-	 * @returns A Promise that resolves when metadata is fetched.
-	 */
-	async fetch(force: boolean = false): Promise<void> {
-		if (this.baseURL) {
-			if (!this.metadata || force) {
-				try {
-					const response: AxiosResponse = await axios.get(`${this.baseURL}/metadata`);
-					if (response?.data) {
-						this.metadata = response.data;
-					}
-				} catch (e) {
-					console.error(e);
-				}
-			}
-		}
-	}
+  private _setInformationFields(cqlTranslator: string, cqlTranslatorVersion: string,
+                                     cqlEngine: string, cqlEngineVersion: string)
+  {
+    this.info.cqlTranslator = cqlTranslator;
+    this.info.cqlTranslatorVersion = cqlTranslatorVersion;
+    this.info.cqlEngine = cqlEngine;
+    this.info.cqlEngineVersion =  cqlEngineVersion;
+  }
+
+  /**
+   * Fetches metadata from the CQL engine.
+   * @param force - Whether to force fetching metadata.
+   * @returns A Promise that resolves when metadata is fetched.
+   */
+  async fetch(force: boolean = false): Promise<void> {
+    if (this.baseURL) {
+      if (!this.metadata || force) {
+        try {
+          const response: AxiosResponse = await axios.get(`${this.baseURL}/metadata`);
+          if (response?.data) {
+            this.metadata = response.data;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+  }
 
 	/**
 	 * Sets the API URL.
@@ -135,7 +149,7 @@ export class CQLEngine {
 	 * @param translator - The CQL translator.
 	 */
 	set cqlTranslator(translator: string) {
-		this.info['cqlTranslator'] = translator;
+		this.info['cqlTranslator'] = translator ?? null;
 	}
 
 	/**
@@ -151,7 +165,7 @@ export class CQLEngine {
 	 * @param version - The CQL translator version.
 	 */
 	set cqlTranslatorVersion(version: string) {
-		this.info['cqlTranslatorVersion'] = version;
+		this.info['cqlTranslatorVersion'] = version ?? null;
 	}
 
 	/**
@@ -167,7 +181,7 @@ export class CQLEngine {
 	 * @param engine - The CQL engine.
 	 */
 	set cqlEngine(engine: string) {
-		this.info['cqlEngine'] = engine;
+		this.info['cqlEngine'] = engine ?? null;
 	}
 
 	/**
@@ -183,7 +197,7 @@ export class CQLEngine {
 	 * @param version - The CQL engine version.
 	 */
 	set cqlEngineVersion(version: string) {
-		this.info['cqlEngineVersion'] = version;
+		this.info['cqlEngineVersion'] = version ?? null;
 	}
 
 	/**
@@ -217,7 +231,9 @@ export class CQLEngine {
 	 * @returns The CQLEngine instance.
 	 */
 	static fromJSON(cqlInfo: CQLEngineInfo): CQLEngine {
-		const engine = new CQLEngine(cqlInfo.apiUrl || '');
+		const engine = new CQLEngine(cqlInfo.apiUrl || '', null,
+			cqlInfo.cqlTranslator, cqlInfo.cqlTranslatorVersion,
+			cqlInfo.cqlEngine, cqlInfo.cqlEngineVersion);
 		if (cqlInfo?.cqlVersion) {
 			engine.cqlVersion = cqlInfo.cqlVersion;
 		}
