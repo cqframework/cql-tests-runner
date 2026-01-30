@@ -57,7 +57,7 @@ export function createConfigFromData(configData: any): ConfigLoader {
 	  cqlTranslator: process.env.CQL_TRANSLATOR || configData.Build?.cqlTranslator || '',
 	  cqlTranslatorVersion: process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || '',
 	  cqlEngine: process.env.CQL_ENGINE || configData.Build?.cqlEngine || '',
-	  cqlEngineVersion: process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown'
+	  cqlEngineVersion: process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || ''
   };
 
   config.Tests = {
