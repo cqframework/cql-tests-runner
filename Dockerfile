@@ -1,4 +1,4 @@
-# Use Node.js v24 as the base image
+# Use Node.js v25 as the base image
 FROM node:25-alpine
 
 # Set working directory

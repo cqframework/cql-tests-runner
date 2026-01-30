@@ -44,13 +44,21 @@ export class CQLEngine {
    * Creates an instance of CQLEngine.
    * @param baseURL - The base URL for the CQL engine.
    * @param cqlPath - The path for the CQL engine (optional).
+   * @param cqlTranslator - CQL translator name (optional, from config Build).
+   * @param cqlTranslatorVersion - CQL translator version (optional).
+   * @param cqlEngine - CQL engine name (optional).
+   * @param cqlEngineVersion - CQL engine version (optional).
    */
-  constructor(baseURL: string, cqlPath: string | null = null,
-              cqlTranslator: string, cqlTranslatorVersion: string,
-              cqlEngine: string, cqlEngineVersion: string) {
+  constructor(
+    baseURL: string,
+    cqlPath: string | null = null,
+    cqlTranslator: string = '',
+    cqlTranslatorVersion: string = '',
+    cqlEngine: string = '',
+    cqlEngineVersion: string = ''
+  ) {
     this._prepareBaseURL(baseURL, cqlPath);
-    this._setInformationFields(cqlTranslator, cqlTranslatorVersion,
-        cqlEngine, cqlEngineVersion);
+    this._setInformationFields(cqlTranslator, cqlTranslatorVersion, cqlEngine, cqlEngineVersion);
   }
 
 	/**
