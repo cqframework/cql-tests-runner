@@ -16,7 +16,11 @@ export interface Config {
 		CqlFileVersion: string;
 		CqlOutputPath: string;
 		CqlVersion?: string;
-		testsRunDescription?: string; // Note: schema has this misplaced but it's used in code
+		testsRunDescription?: string;
+		cqlTranslator?: string;
+		cqlTranslatorVersion?: string;
+		cqlEngine?: string;
+		cqlEngineVersion?: string;
 	};
 	Tests: {
 		ResultsPath: string;
