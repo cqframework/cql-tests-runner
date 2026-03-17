@@ -35,15 +35,17 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
       "CqlOperation": "$cql"
     },
     "Build": {
-      "CqlFileVersion": "1.0.000",
-      "CqlOutputPath": "./cql",
-      "testsRunDescription": '',
-      "testsRunDescription": "Local host test run",
-      "cqlTranslator": "Java CQFramework Translator",
-      "cqlTranslatorVersion": "Unknown",
-      "cqlEngine": "Java CQFramework Engine",
-      "cqlEngineVersion": "4.1.0"
-    },
+		"CqlFileVersion": "1.0.000",
+		"CqlOutputPath": "./cql",
+		"CqlVersion": "1.5",
+		"testsRunDescription": "Local host test run",
+		"cqlTranslator": "Java CQFramework Translator",
+		"cqlTranslatorVersion": "Unknown",
+		"cqlEngine": "Java CQFramework Engine",
+		"cqlEngineVersion": "4.1.0",
+		"SERVER_OFFSET_ISO": "-06:00",
+		"TimeZoneOffsetPolicy": "timezone-offset-policy.default-server-offset"
+  },
     "Tests": {
       "ResultsPath": "./results",
       "SkipList": []
