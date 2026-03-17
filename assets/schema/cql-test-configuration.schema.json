@@ -31,41 +31,49 @@
       "type": "object",
       "description": "Build configuration settings",
       "properties": {
-        "CqlFileVersion": {
-          "type": "string",
-          "pattern": "^\\d+\\.\\d+\\.\\d+$",
-          "description": "CQL file version in semantic versioning format"
-        },
-        "CqlOutputPath": {
-          "type": "string",
-          "description": "Path where CQL files are output"
-        },
-        "CqlVersion": {
-          "type": "string",
-          "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
-          "description": "CQL engine version for version-based test filtering (optional)"
-        },
-        "testsRunDescription":{
-          "type": "string",
-          "description": "Information about this test run"
-        },
-        "cqlTranslator": {
-          "type": "string",
-          "description": "Which CQL Translator is used in this test run."
-        },
-        "cqlTranslatorVersion": {
-          "type": "string",
-          "description": "Which CQL translator version is used in this test run"
-        },
-        "cqlEngine": {
-          "type": "string",
-          "description": "Which CQL engine is used in this test run"
-        },
-        "cqlEngineVersion": {
-          "type": "string",
-          "description": "Which version of the CQL engine is used in this test run"
-        }
-      },
+			"CqlFileVersion": {
+				"type": "string",
+				"pattern": "^\\d+\\.\\d+\\.\\d+$",
+				"description": "CQL file version in semantic versioning format"
+			},
+			"CqlOutputPath": {
+				"type": "string",
+				"description": "Path where CQL files are output"
+			},
+			"CqlVersion": {
+				"type": "string",
+				"pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+				"description": "CQL engine version for version-based test filtering (optional)"
+			},
+			"testsRunDescription": {
+				"type": "string",
+				"description": "Information about this test run"
+			},
+			"cqlTranslator": {
+				"type": "string",
+				"description": "Which CQL Translator is used in this test run."
+			},
+			"cqlTranslatorVersion": {
+				"type": "string",
+				"description": "Which CQL translator version is used in this test run"
+			},
+			"cqlEngine": {
+				"type": "string",
+				"description": "Which CQL engine is used in this test run"
+			},
+			"cqlEngineVersion": {
+				"type": "string",
+				"description": "Which version of the CQL engine is used in this test run"
+			},
+			"SERVER_OFFSET_ISO": {
+				"type": "string",
+				"description": "ISO 8601 formatted date string to offset the server start time"
+			},
+			"TimeZoneOffsetPolicy": {
+				"type": "string",
+				"description": "Which timezone offset policy is used in this test run."
+			}
+		},
       "required": ["CqlFileVersion", "CqlOutputPath"],
       "additionalProperties": false
     },

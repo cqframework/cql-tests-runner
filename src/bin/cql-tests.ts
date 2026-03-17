@@ -43,7 +43,8 @@ program
 				);
 				process.exit(1);
 			}
-			throw error;
+			console.error(error);
+			process.exit(1);
 		}
 	});
 
@@ -73,7 +74,8 @@ program
 				);
 				process.exit(1);
 			}
-			throw error;
+			console.error(error);
+			process.exit(1);
 		}
 	});
 
@@ -92,4 +94,7 @@ program
 		await serverCommand.start();
 	});
 
-program.parse();
+program.parseAsync().catch((error: any) => {
+	console.error(error);
+	process.exit(1);
+});
