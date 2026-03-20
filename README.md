@@ -58,6 +58,180 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
 
 Create your own configuration file and reference it when running the commands. You can use `conf/localhost.json` as a template for a new configuration with your own settings.
 
+### Time Zone Configuration
+
+The CQL Tests Runner uses two settings to control how **DateTime** values are evaluated:
+
+- `SERVER_OFFSET_ISO`
+- `TimeZoneOffsetPolicy`
+
+These settings are required because CQL allows **DateTime values without a timezone offset**, and different engines interpret those values differently. Without explicitly setting these, tests involving DateTime comparison and extraction may produce inconsistent results (pass, fail, or null).
+
+Reference: http://cql.hl7.org/CodeSystem/cql-language-capabilities
+
+---
+
+#### TimeZoneOffsetPolicy (what it means)
+
+A DateTime like this:
+
+```cql
+@2012-04-01T00:00
+```
+
+has **no timezone offset**.
+
+When a CQL engine evaluates this, it must decide:
+
+👉 Should this value be treated as having a timezone, or not?
+
+That decision is the **timezone offset policy**.
+
+---
+
+#### Supported policies
+
+##### `timezone-offset-policy.default-server-offset`
+
+Offset-less DateTime values are interpreted using the server’s timezone.
+
+Example (with `SERVER_OFFSET_ISO = -06:00`):
+
+```cql
+@2012-04-01T00:00
+```
+
+is treated as:
+
+```cql
+@2012-04-01T00:00-06:00
+```
+
+**Result behavior:**
+- DateTime comparisons behave as if all values have offsets
+- Equality comparisons with explicit offsets often return **true**
+- `timezoneoffset from` returns a numeric offset (e.g. `-6`)
+- Tests expecting normalization to a server offset → **pass**
+- Tests expecting strict offset behavior → **skip**
+
+---
+
+##### `timezone-offset-policy.no-default-offset`
+
+Offset-less DateTime values remain **without a timezone**.
+
+```cql
+@2012-04-01T00:00
+```
+
+remains unchanged.
+
+**Result behavior:**
+- No timezone is assumed
+- Comparisons between offset-less and offset values may return **null** or **false**
+- `timezoneoffset from` returns **null**
+- Tests expecting strict offset behavior → **pass**
+- Tests expecting server normalization → **skip**
+
+---
+
+#### SERVER_OFFSET_ISO (what it does)
+
+Provides the timezone offset value used in test expressions.
+
+- Format: ISO 8601 offset (e.g. `-06:00`, `+00:00`, `+05:30`)
+- Used when a test includes the placeholder `{{SERVER_OFFSET_ISO}}`
+
+Example:
+
+```cql
+@2012-04-01T00:00 = @2012-04-01T00:00{{SERVER_OFFSET_ISO}}
+```
+
+With:
+
+```json
+"SERVER_OFFSET_ISO": "-06:00"
+```
+
+Becomes:
+
+```cql
+@2012-04-01T00:00 = @2012-04-01T00:00-06:00
+```
+
+---
+
+#### How they work together
+
+- `TimeZoneOffsetPolicy` determines **whether offset-less DateTime values get a timezone**
+- `SERVER_OFFSET_ISO` provides **the timezone value used when needed**
+
+Example:
+
+```json
+{
+  "Build": {
+    "SERVER_OFFSET_ISO": "-06:00",
+    "TimeZoneOffsetPolicy": "timezone-offset-policy.default-server-offset"
+  }
+}
+```
+
+This means:
+- Use `-06:00` as the server timezone
+- Apply that offset to DateTime values that do not include one
+
+---
+
+#### How to set these values
+
+In your configuration file:
+
+```json
+{
+  "Build": {
+    "SERVER_OFFSET_ISO": "-06:00",
+    "TimeZoneOffsetPolicy": "timezone-offset-policy.default-server-offset"
+  }
+}
+```
+
+Or using an environment variable (policy only):
+
+```bash
+export TIME_ZONE_OFFSET_POLICY=timezone-offset-policy.no-default-offset
+```
+
+---
+
+#### How the runner determines the active policy
+
+The runner resolves `TimeZoneOffsetPolicy` in this order:
+
+1. FHIR server metadata (CapabilityStatement)
+2. Environment variable (`TIME_ZONE_OFFSET_POLICY`)
+3. Configuration file (`TimeZoneOffsetPolicy`)
+4. Runtime probe (detect behavior automatically)
+5. Default: `timezone-offset-policy.default-server-offset`
+
+---
+
+#### Expected results summary
+
+| Policy | Offset-less DateTime | timezoneoffset | Equality vs offset |
+|--------|---------------------|----------------|-------------------|
+| default-server-offset | gets server offset | number (e.g. `-6`) | often `true` |
+| no-default-offset | remains offset-less | `null` | `null` or `false` |
+
+---
+
+#### Notes
+
+- These settings do not change server behavior; they only control how the runner evaluates tests
+- If the server declares a policy in metadata, it overrides configuration
+- `SERVER_OFFSET_ISO` is only used where explicitly referenced in test expressions
+
 ### Running the tests
 
 The CLI now requires a configuration file path as an argument. Run the tests with the following commands:
