@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { CQLEngine } from '../cql-engine/cql-engine.js';
-import { TestResult, InternalTestResult } from '../models/test-types.orig';
+import { TestResult, InternalTestResult } from '../models/test-types.js';
 import { TestResultsSummary, CQLTestResultsData } from '../models/results-types.js';
 import { ResultsValidator } from '../conf/results-validator.js';
 
