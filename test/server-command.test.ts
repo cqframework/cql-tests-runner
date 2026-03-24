@@ -45,6 +45,7 @@ vi.mock('../src/conf/config-loader', () => ({
       QuickTest: configData?.Debug?.QuickTest || false,
     };
     this.skipListMap = vi.fn().mockReturnValue(new Map());
+    this.onlyListSet = vi.fn().mockReturnValue(new Set());
     return this;
   }),
 }));
