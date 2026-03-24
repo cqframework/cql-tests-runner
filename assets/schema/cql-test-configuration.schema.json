@@ -115,6 +115,29 @@
             "required": ["testsName", "groupName", "testName", "reason"],
             "additionalProperties": false
           }
+        },
+        "OnlyList": {
+          "type": "array",
+          "description": "List of tests to run exclusively",
+          "items": {
+            "type": "object",
+            "properties": {
+              "testsName": {
+                "type": "string",
+                "description": "Name of the test suite"
+              },
+              "groupName": {
+                "type": "string",
+                "description": "Name of the test group"
+              },
+              "testName": {
+                "type": "string",
+                "description": "Name of the specific test"
+              }
+            },
+            "required": ["testsName", "groupName", "testName"],
+            "additionalProperties": false
+          }
         }
       },
       "required": ["ResultsPath", "SkipList"],

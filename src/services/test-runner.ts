@@ -54,6 +54,7 @@ export class TestRunner {
 		const resultExtractor = buildExtractor();
 		const emptyResults = await generateEmptyResults(tests, quickTest);
 		const skipMap = config.skipListMap();
+		const onlySet = config.onlyListSet();
 
 		const results = new CQLTestResults(cqlEngine);
 
@@ -83,6 +84,7 @@ export class TestRunner {
 					cvl,
 					resultExtractor,
 					skipMap,
+					onlySet,
 					config,
 					options.useAxios
 				);
@@ -108,6 +110,7 @@ export class TestRunner {
 		cvl: any,
 		resultExtractor: ResultExtractor,
 		skipMap: Map<string, string>,
+		onlySet: Set<string>,
 		config: ConfigLoader,
 		useAxios: boolean = false
 	): Promise<InternalTestResult> {
@@ -115,6 +118,10 @@ export class TestRunner {
 
 		if (result.testStatus === 'skip') {
 			result.SkipMessage = 'Skipped by cql-tests-runner';
+			return result;
+		} else if (onlySet.size > 0 && !onlySet.has(key)) {
+			result.SkipMessage = 'Skipped by OnlyList filter';
+			result.testStatus = 'skip';
 			return result;
 		} else if (skipMap.has(key)) {
 			const reason = skipMap.get(key) || '';

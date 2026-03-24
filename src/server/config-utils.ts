@@ -62,7 +62,34 @@ export function createConfigFromData(configData: any): ConfigLoader {
 
   config.Tests = {
     ResultsPath: process.env.RESULTS_PATH || configData.Tests?.ResultsPath || './results',
-    SkipList: process.env.SKIP_LIST || configData.Tests?.SkipList || []
+    SkipList: (() => {
+      const env = process.env.SKIP_LIST;
+      if (env !== undefined) {
+        try {
+          const parsed = JSON.parse(env);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          console.warn(
+            'Failed to parse SKIP_LIST environment variable. Falling back to SkipList in config file.'
+          );
+        }
+      }
+      return configData.Tests?.SkipList || [];
+    })(),
+    OnlyList: (() => {
+      const env = process.env.ONLY_LIST;
+      if (env !== undefined) {
+        try {
+          const parsed = JSON.parse(env);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          console.warn(
+            'Failed to parse ONLY_LIST environment variable. Falling back to OnlyList in config file.'
+          );
+        }
+      }
+      return configData.Tests?.OnlyList || [];
+    })()
   };
 
   config.Debug = {

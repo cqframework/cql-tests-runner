@@ -24,6 +24,7 @@ interface ExecutionContext {
   tests: Tests[];
   resultExtractor: ResultExtractor;
   skipMap: Map<string, string>;
+  onlySet: Set<string>;
 }
 
 export class TestExecutionService {
@@ -55,8 +56,9 @@ export class TestExecutionService {
     const tests = TestLoader.load();
     const resultExtractor = buildExtractor();
     const skipMap = config.skipListMap();
+    const onlySet = config.onlyListSet();
 
-    return { config, cqlEngine, cvl, tests, resultExtractor, skipMap };
+    return { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet };
   }
 
   /**
@@ -68,12 +70,17 @@ export class TestExecutionService {
     cvl: any,
     resultExtractor: ResultExtractor,
     skipMap: Map<string, string>,
+    onlySet: Set<string>,
     config: ConfigLoader
   ): Promise<InternalTestResult> {
     const key = `${result.testsName}-${result.groupName}-${result.testName}`;
 
     if (result.testStatus === 'skip') {
       result.SkipMessage = 'Skipped by cql-tests-runner';
+      return result;
+    } else if (onlySet.size > 0 && !onlySet.has(key)) {
+      result.SkipMessage = 'Skipped by OnlyList filter';
+      result.testStatus = 'skip';
       return result;
     } else if (skipMap.has(key)) {
       const reason = skipMap.get(key) || '';
@@ -131,7 +138,7 @@ export class TestExecutionService {
    */
   async runTests(configData: any): Promise<any> {
     const ctx = await this.createExecutionContext(configData);
-    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap } = ctx;
+    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet } = ctx;
 
     const quickTest = config.Debug?.QuickTest || false;
     const emptyResults = await generateEmptyResults(tests, quickTest);
@@ -139,7 +146,7 @@ export class TestExecutionService {
 
     for (const testFile of emptyResults) {
       for (const result of testFile) {
-        await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, config);
+        await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, onlySet, config);
         results.add(result);
       }
     }
@@ -157,7 +164,7 @@ export class TestExecutionService {
     configData: any
   ): Promise<any> {
     const ctx = await this.createExecutionContext(configData);
-    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap } = ctx;
+    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet } = ctx;
 
     for (const testSuite of tests) {
       if (testSuite.name !== testsName) continue;
@@ -167,7 +174,7 @@ export class TestExecutionService {
           if (test.name !== testName) continue;
 
           const result = new Result(testsName, groupName, test);
-          await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, config);
+          await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, onlySet, config);
 
           const testResults = new CQLTestResults(cqlEngine);
           testResults.add(result);
@@ -188,7 +195,7 @@ export class TestExecutionService {
     configData: any
   ): Promise<any[]> {
     const ctx = await this.createExecutionContext(configData);
-    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap } = ctx;
+    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet } = ctx;
 
     const results = new CQLTestResults(cqlEngine);
 
@@ -198,7 +205,7 @@ export class TestExecutionService {
         if (group.name !== groupName || !group.test) continue;
         for (const test of group.test) {
           const result = new Result(testsName, groupName, test);
-          await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, config);
+          await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, onlySet, config);
           results.add(result);
         }
         return results.toJSON().results;
