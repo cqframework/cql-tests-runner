@@ -73,158 +73,149 @@ Reference: http://cql.hl7.org/CodeSystem/cql-language-capabilities
 
 #### TimeZoneOffsetPolicy (what it means)
 
-A DateTime like this:
+# 🔄 Timezone Offset Policy
 
-```cql
+## Background
+
+CQL allows `DateTime` literals to be specified **with or without a timezone offset**.
+
+For example:
+
+```
 @2012-04-01T00:00
 ```
 
-has **no timezone offset**.
-
-When a CQL engine evaluates this, it must decide:
-
-👉 Should this value be treated as having a timezone, or not?
-
-That decision is the **timezone offset policy**.
+This value does **not include an explicit timezone offset**.
 
 ---
 
-#### Supported policies
+## What the CQL Specification Says
 
-##### `timezone-offset-policy.default-server-offset`
-
-Offset-less DateTime values are interpreted using the server’s timezone.
-
-Example (with `SERVER_OFFSET_ISO = -06:00`):
-
-```cql
-@2012-04-01T00:00
-```
-
-is treated as:
-
-```cql
-@2012-04-01T00:00-06:00
-```
-
-**Result behavior:**
-- DateTime comparisons behave as if all values have offsets
-- Equality comparisons with explicit offsets often return **true**
-- `timezoneoffset from` returns a numeric offset (e.g. `-6`)
-- Tests expecting normalization to a server offset → **pass**
-- Tests expecting strict offset behavior → **skip**
-
----
-
-##### `timezone-offset-policy.no-default-offset`
-
-Offset-less DateTime values remain **without a timezone**.
-
-```cql
-@2012-04-01T00:00
-```
-
-remains unchanged.
-
-**Result behavior:**
-- No timezone is assumed
-- Comparisons between offset-less and offset values may return **null** or **false**
-- `timezoneoffset from` returns **null**
-- Tests expecting strict offset behavior → **pass**
-- Tests expecting server normalization → **skip**
-
----
-
-#### SERVER_OFFSET_ISO (what it does)
-
-Provides the timezone offset value used in test expressions.
-
-- Format: ISO 8601 offset (e.g. `-06:00`, `+00:00`, `+05:30`)
-- Used when a test includes the placeholder `{{SERVER_OFFSET_ISO}}`
-
-Example:
-
-```cql
-@2012-04-01T00:00 = @2012-04-01T00:00{{SERVER_OFFSET_ISO}}
-```
-
-With:
-
-```json
-"SERVER_OFFSET_ISO": "-06:00"
-```
-
-Becomes:
-
-```cql
-@2012-04-01T00:00 = @2012-04-01T00:00-06:00
-```
-
----
-
-#### How they work together
-
-- `TimeZoneOffsetPolicy` determines **whether offset-less DateTime values get a timezone**
-- `SERVER_OFFSET_ISO` provides **the timezone value used when needed**
-
-Example:
-
-```json
-{
-  "Build": {
-    "SERVER_OFFSET_ISO": "-06:00",
-    "TimeZoneOffsetPolicy": "timezone-offset-policy.default-server-offset"
-  }
-}
-```
+> If no timezone offset is specified, the timezone offset of the evaluation request timestamp is used.
 
 This means:
-- Use `-06:00` as the server timezone
-- Apply that offset to DateTime values that do not include one
+
+- A `DateTime` literal may omit an offset in its **source representation**
+- But at **evaluation time**, the engine must apply an offset
+- That offset comes from the **evaluation request timestamp**
+
+👉 In other words, under CQL semantics:
+
+- DateTimes are **always evaluated with an effective timezone offset**
+- The only question is **which offset is applied**
 
 ---
 
-#### How to set these values
+## Why This Capability Exists
 
-In your configuration file:
+Although the specification is clear, implementations have historically differed in how they handle `DateTime` values without explicit offsets.
 
-```json
-{
-  "Build": {
-    "SERVER_OFFSET_ISO": "-06:00",
-    "TimeZoneOffsetPolicy": "timezone-offset-policy.default-server-offset"
-  }
-}
-```
+Observed variations include:
 
-Or using an environment variable (policy only):
+- Applying the evaluation request timestamp offset (spec-compliant behavior)
+- Treating the value as offset-less in some operations
+- Returning `null` for operations like `timezoneoffset(...)`
+- Applying server-local or implicit defaults inconsistently
 
-```bash
-export TIME_ZONE_OFFSET_POLICY=timezone-offset-policy.no-default-offset
-```
+This capability exists to explicitly test and document how an engine behaves in these scenarios.
 
 ---
 
-#### How the runner determines the active policy
+## What Is Being Tested
 
-The runner resolves `TimeZoneOffsetPolicy` in this order:
+This capability evaluates how an engine handles `DateTime` values that omit a timezone offset, including:
 
-1. FHIR server metadata (CapabilityStatement)
-2. Environment variable (`TIME_ZONE_OFFSET_POLICY`)
-3. Configuration file (`TimeZoneOffsetPolicy`)
-4. Runtime probe (detect behavior automatically)
-5. Default: `timezone-offset-policy.default-server-offset`
+- Whether the engine applies the evaluation request timestamp offset
+- How functions like `timezoneoffset(...)` behave
+- Whether comparisons and arithmetic treat the value consistently
 
 ---
 
-#### Expected results summary
+## Clarification
 
-| Policy | Offset-less DateTime | timezoneoffset | Equality vs offset |
-|--------|---------------------|----------------|-------------------|
-| default-server-offset | gets server offset | number (e.g. `-6`) | often `true` |
-| no-default-offset | remains offset-less | `null` | `null` or `false` |
+This capability does **not** test whether a `DateTime` “has a timezone or not.”
+
+Per the CQL specification:
+
+- A `DateTime` without an explicit offset is still evaluated **as if it has one**
+- The offset is derived from the evaluation context (evaluation request timestamp)
+
+👉 The purpose of this capability is to verify that engines implement this behavior **correctly and consistently**.
 
 ---
+
+## Suggested Terminology
+
+- ❌ “Does the DateTime have a timezone?”
+- ✅ “How does the engine determine the effective timezone offset for DateTimes without an explicit offset?”
+
+---
+
+## Key Clarification
+
+> This capability is testing **implementation consistency**, not specification ambiguity.
+
+
+---
+
+# 🔗 CapabilityTests Alignment & Mapping
+
+## Capability Definition
+
+- Capability: `timezone-offset-policy`
+- Focus: Handling of DateTime values without explicit timezone offsets
+
+---
+
+## Test Mapping
+
+### 1. Default Offset Application
+- Tests: `timezone-offset-default`
+- Verifies:
+    - Missing offset uses evaluation request timestamp
+    - No null offset produced
+
+---
+
+### 2. timezoneoffset(...) Behavior
+- Tests: `timezoneoffset-from-datetime`
+- Verifies:
+    - Returns evaluation offset when not explicitly provided
+
+---
+
+### 3. Equality / Comparison Consistency
+- Tests: `datetime-equality-offset`
+- Verifies:
+    - `@2012-04-01T00:00` equals equivalent explicit-offset value
+
+---
+
+### 4. Arithmetic Behavior
+- Tests: `datetime-arithmetic-offset`
+- Verifies:
+    - Duration calculations respect derived offset
+
+---
+
+## Reviewer Traceability
+
+Spec → Behavior → Test
+
+- Spec: Offset defaults to evaluation timestamp
+- Behavior: Engine applies offset consistently
+- Tests: Confirm consistency across functions and operators
+
+---
+
+## Summary
+
+This capability ensures engines:
+
+- Correctly apply implicit timezone offsets
+- Do not treat DateTimes as offset-less at runtime
+- Maintain consistency across operations
+
 
 #### Notes
 
