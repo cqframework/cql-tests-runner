@@ -1,4 +1,4 @@
-import { TestRunner } from '../services/test-runner.js';
+import { TestRunner } from '../services/test-runner';
 import { ConfigLoader } from '../conf/config-loader.js';
 
 // Type declaration for CVL loader
@@ -54,7 +54,9 @@ export class RunCommand {
 				cqlTranslator: config.Build?.cqlTranslator,
 				cqlTranslatorVersion: config.Build?.cqlTranslatorVersion,
 				cqlEngine: config.Build?.cqlEngine,
-				cqlEngineVersion: config.Build?.cqlEngineVersion
+				cqlEngineVersion: config.Build?.cqlEngineVersion,
+				SERVER_OFFSET_ISO: config.Build?.SERVER_OFFSET_ISO,
+				TimeZoneOffsetPolicy: config.Build?.TimeZoneOffsetPolicy,
 			},
 			Tests: {
 				ResultsPath: config.Tests.ResultsPath,

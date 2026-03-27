@@ -17,6 +17,8 @@ export class ConfigLoader implements Config {
 		cqlTranslatorVersion: string;
 		cqlEngine: string;
 		cqlEngineVersion: string;
+		SERVER_OFFSET_ISO: string;
+		TimeZoneOffsetPolicy: string;
 	};
 	Tests: {
 		ResultsPath: string;
@@ -55,14 +57,18 @@ export class ConfigLoader implements Config {
 				process.env.CQL_VERSION || configData.Build?.CqlVersion,
 			testsRunDescription:
 				process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription,
-			cqlTranslator: 
+			cqlTranslator:
 				process.env.CQL_TRANSLATOR || configData.Build?.cqlTranslator || 'Unknown',
-			cqlTranslatorVersion: 
+			cqlTranslatorVersion:
 				process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || 'Unknown',
 			cqlEngine:
 				process.env.CQL_ENGINE || configData.Build?.cqlEngine || 'Unknown',
-			cqlEngineVersion: 
-				process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown'
+			cqlEngineVersion:
+				process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown',
+			SERVER_OFFSET_ISO:
+				process.env.SERVER_OFFSET_ISO || configData.Build?.SERVER_OFFSET_ISO || '+00:00',
+			TimeZoneOffsetPolicy:
+				process.env.TIME_ZONE_OFFSET_POLICY || configData.Build?.TimeZoneOffsetPolicy || '',
 		};
 
 		this.Tests = {

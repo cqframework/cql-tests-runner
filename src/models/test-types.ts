@@ -40,6 +40,7 @@ export interface TestGroup {
 	description?: string;
 	reference?: string;
 	notes?: string;
+	capability?: CapabilityKV[];
 	test: Test[];
 }
 
@@ -79,6 +80,7 @@ export interface InternalTestResult {
 	invalid?: 'false' | 'true' | 'semantic' | 'undefined';
 	expression: string;
 	capability?: CapabilityKV[];
+	groupCapability?: CapabilityKV[];
 	SkipMessage?: string;
 }
 

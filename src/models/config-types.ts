@@ -17,6 +17,7 @@ export interface Config {
 		CqlOutputPath: string;
 		CqlVersion?: string;
 		testsRunDescription?: string; // Note: schema has this misplaced but it's used in code
+		SERVER_OFFSET_ISO: string;
 	};
 	Tests: {
 		ResultsPath: string;

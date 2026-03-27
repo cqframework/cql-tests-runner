@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { CQLEngineInfo } from '../models/results-types.js';
+import { response } from 'express';
 
 /**
  * Represents a CQL Engine.
@@ -39,19 +40,36 @@ export class CQLEngine {
 	private baseURL?: string;
 	private metadata?: any;
 	private description?: string;
+	private _SERVER_OFFSET_ISO?: string;
 
-  /**
-   * Creates an instance of CQLEngine.
-   * @param baseURL - The base URL for the CQL engine.
-   * @param cqlPath - The path for the CQL engine (optional).
-   */
-  constructor(baseURL: string, cqlPath: string | null = null,
-              cqlTranslator: string, cqlTranslatorVersion: string,
-              cqlEngine: string, cqlEngineVersion: string) {
-    this._prepareBaseURL(baseURL, cqlPath);
-    this._setInformationFields(cqlTranslator, cqlTranslatorVersion,
-        cqlEngine, cqlEngineVersion);
-  }
+	/**
+	 * Creates a new CQLEngine instance.
+	 *
+	 * @param baseURL Base URL of the FHIR server (e.g. http://localhost:8080/fhir/$cql)
+	 * @param cqlPath Optional path to local CQL files
+	 * @param cqlTranslator Name of the CQL translator
+	 * @param cqlTranslatorVersion Version of the CQL translator
+	 * @param cqlEngine Name of the CQL engine
+	 * @param cqlEngineVersion Version of the CQL engine
+	 * @param SERVER_OFFSET_ISO Timezone offset used by the server (e.g. "+00:00", "-06:00")
+	 */	constructor(
+		baseURL: string,
+		cqlPath: string | null = null,
+		cqlTranslator: string = '',
+		cqlTranslatorVersion: string = '',
+		cqlEngine: string = '',
+		cqlEngineVersion: string = '',
+		SERVER_OFFSET_ISO: string = ''
+	) {
+		this._prepareBaseURL(baseURL, cqlPath);
+		this._setInformationFields(
+			cqlTranslator,
+			cqlTranslatorVersion,
+			cqlEngine,
+			cqlEngineVersion
+		);
+		this.SERVER_OFFSET_ISO = SERVER_OFFSET_ISO;
+	}
 
 	/**
 	 * Prepares the base URL.
@@ -86,31 +104,31 @@ export class CQLEngine {
   private _setInformationFields(cqlTranslator: string, cqlTranslatorVersion: string,
                                      cqlEngine: string, cqlEngineVersion: string)
   {
-    this.info.cqlTranslator = cqlTranslator;
-    this.info.cqlTranslatorVersion = cqlTranslatorVersion;
-    this.info.cqlEngine = cqlEngine;
-    this.info.cqlEngineVersion =  cqlEngineVersion;
-  }
+		this.info.cqlTranslator = cqlTranslator;
+		this.info.cqlTranslatorVersion = cqlTranslatorVersion;
+		this.info.cqlEngine = cqlEngine;
+		this.info.cqlEngineVersion = cqlEngineVersion;
+	}
 
-  /**
-   * Fetches metadata from the CQL engine.
-   * @param force - Whether to force fetching metadata.
-   * @returns A Promise that resolves when metadata is fetched.
-   */
-  async fetch(force: boolean = false): Promise<void> {
-    if (this.baseURL) {
-      if (!this.metadata || force) {
-        try {
-          const response: AxiosResponse = await axios.get(`${this.baseURL}/metadata`);
-          if (response?.data) {
-            this.metadata = response.data;
-          }
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    }
-  }
+	/**
+	 * Fetches metadata from the CQL engine.
+	 * @param force - Whether to force fetching metadata.
+	 * @returns A Promise that resolves when metadata is fetched.
+	 */
+	async fetch(force: boolean = false): Promise<void> {
+		if (this.baseURL) {
+			if (!this.metadata || force) {
+				try {
+					const response: AxiosResponse = await axios.get(`${this.baseURL}/metadata`);
+					if (response?.data) {
+						this.metadata = response.data;
+					}
+				} catch (e) {
+					console.error(e);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Sets the API URL.
@@ -208,6 +226,14 @@ export class CQLEngine {
 		return this.info?.cqlEngineVersion ?? null;
 	}
 
+	get SERVER_OFFSET_ISO(): string {
+		return <string>this._SERVER_OFFSET_ISO;
+	}
+
+	set SERVER_OFFSET_ISO(value: string) {
+		this._SERVER_OFFSET_ISO = value;
+	}
+
 	/**
 	 * Converts the CQLEngine object to JSON.
 	 * @returns The JSON representation of the CQLEngine object.
@@ -222,6 +248,7 @@ export class CQLEngine {
 			cqlTranslatorVersion: this.info.cqlTranslatorVersion || '',
 			cqlEngine: this.info.cqlEngine || '',
 			cqlEngineVersion: this.info.cqlEngineVersion || '',
+			SERVER_OFFSET_ISO: this.SERVER_OFFSET_ISO || '',
 		};
 	}
 
@@ -231,9 +258,15 @@ export class CQLEngine {
 	 * @returns The CQLEngine instance.
 	 */
 	static fromJSON(cqlInfo: CQLEngineInfo): CQLEngine {
-		const engine = new CQLEngine(cqlInfo.apiUrl || '', null,
-			cqlInfo.cqlTranslator, cqlInfo.cqlTranslatorVersion,
-			cqlInfo.cqlEngine, cqlInfo.cqlEngineVersion);
+		const engine = new CQLEngine(
+			cqlInfo.apiUrl || '',
+			null,
+			cqlInfo.cqlTranslator,
+			cqlInfo.cqlTranslatorVersion,
+			cqlInfo.cqlEngine,
+			cqlInfo.cqlEngineVersion,
+			cqlInfo.SERVER_OFFSET_ISO
+		);
 		if (cqlInfo?.cqlVersion) {
 			engine.cqlVersion = cqlInfo.cqlVersion;
 		}
@@ -248,6 +281,9 @@ export class CQLEngine {
 		}
 		if (cqlInfo?.cqlEngineVersion) {
 			engine.cqlEngineVersion = cqlInfo.cqlEngineVersion;
+		}
+		if (cqlInfo?.SERVER_OFFSET_ISO) {
+			engine._SERVER_OFFSET_ISO = cqlInfo.SERVER_OFFSET_ISO;
 		}
 		return engine;
 	}
