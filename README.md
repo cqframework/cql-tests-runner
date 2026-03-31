@@ -1,5 +1,14 @@
 # cql-tests-runner
 
+[![Website](https://shields.foundry.hl7.org/website?url=https%3A%2F%2Fcql-tests-runner.quality.hl7.org&logo=fireship&label=try%20it%20now)](https://cql-tests-runner.quality.hl7.org)
+[![GitHub contributors](https://shields.foundry.hl7.org/github/contributors/cqframework/cql-tests-runner?logo=github)](https://github.com/cqframework/cql-tests-runner/graphs/contributors)
+[![GitHub last commit](https://shields.foundry.hl7.org/github/last-commit/cqframework/cql-tests-runner?logo=github)](https://github.com/cqframework/cql-tests-runner/graphs/commit-activity)
+[![GitHub top language](https://shields.foundry.hl7.org/github/languages/top/cqframework/cql-tests-runner?logo=github)](https://github.com/cqframework/cql-tests-runner)
+[![Docker automated build](https://shields.foundry.hl7.org/docker/automated/hlseven/quality-cql-tests-runner?logo=docker)](https://hub.docker.com/r/hlseven/quality-cql-tests-runner)
+[![Docker pulls](https://shields.foundry.hl7.org/docker/pulls/hlseven/quality-cql-tests-runner?logo=docker)](https://hub.docker.com/r/hlseven/quality-cql-tests-runner)
+[![Docker image size](https://shields.foundry.hl7.org/docker/image-size/hlseven/quality-cql-tests-runner?logo=docker)](https://hub.docker.com/r/hlseven/quality-cql-tests-runner)
+
+
 Test Runner for the [CQL Tests](https://github.com/cqframework/cql-tests) repository. This node application allows you to run the tests in the CQL Tests repository against a server of your choice using the [$cql](https://hl7.org/fhir/uv/cql/OperationDefinition-cql-cql.html) operation. The runner in its current state uses only this operation, and there is no expectation of any other FHIR server capability made by this runner. Additional capabilities may be required in the future as we expand the runner to support full Library/$evaluate as well. None of the tests in the repository have any expectation of being able to access data (i.e. the tests have no retrieve expressions).
 
 The application runs all the tests in the repository and outputs the results as a JSON file in the `results` directory. If the output directory does not exist, it will be created.
