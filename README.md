@@ -8,11 +8,11 @@ Results output from running these tests can be posted to the [CQL Tests Results]
 
 ## Setting up the Environment
 
-This application requires Node v24 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
+This application requires Node v25 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
 
 Install application dependencies using
 
-```
+```sh
 npm install
 ```
 
