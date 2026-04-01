@@ -2,6 +2,32 @@ export class ValueMap {
 	static NON_NAMED_KEYWORDS = ['return', 'element', 'evaluation error'];
 	private map = new Map<string, any[]>();
 
+	/**
+	 * Builds the key set for {@link ValueMap}'s `singletonListKeys` from a parsed CQL
+	 * expected outcome (from `cvl.parse`), so FHIR list encoding matches expected List-typed expectations.
+	 * For: https://github.com/cqframework/cql-tests-runner/issues/82
+	 */
+	static singletonListKeysFromExpected(parsed: unknown): ReadonlySet<string> {
+		const keys = new Set<string>();
+		if (!Array.isArray(parsed)) {
+			return keys;
+		}
+		keys.add('return');
+		for (const item of parsed) {
+			if (Array.isArray(item)) {
+				keys.add('element');
+			}
+		}
+		return keys;
+	}
+
+	/**
+	 * @param singletonListKeys — parameter names for which a single collected value
+	 *   stays wrapped as a one-element array (matches CQL list vs scalar distinction
+	 *   when the test expectation is a list shape).
+	 */
+	constructor(private readonly singletonListKeys: ReadonlySet<string> = new Set()) {}
+
 	add(key: string, value: any): void {
 		if (!this.map.has(key)) {
 			this.map.set(key, [value]);
@@ -14,7 +40,11 @@ export class ValueMap {
 		const collapsed_map = new Map<string, any>();
 		for (const [key, value] of this.map) {
 			if (value.length === 1) {
-				collapsed_map.set(key, value[0]);
+				if (this.singletonListKeys.has(key)) {
+					collapsed_map.set(key, [...value]);
+				} else {
+					collapsed_map.set(key, value[0]);
+				}
 			} else if (value.length > 1) {
 				collapsed_map.set(key, value);
 			}

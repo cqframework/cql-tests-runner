@@ -8,6 +8,7 @@ import { ResultExtractor } from '../extractors/result-extractor.js';
 import { ServerConnectivity } from '../shared/server-connectivity.js';
 import { buildExtractor } from '../server/extractor-builder.js';
 import { createConfigFromData } from '../server/config-utils.js';
+import { ValueMap } from '../extractors/value-map.js';
 import { resultsEqual } from '../shared/results-utils.js';
 
 export interface TestRunnerOptions {
@@ -162,14 +163,17 @@ export class TestRunner {
 
 			result.responseStatus = response.status;
 			const responseBody = response.data;
-			result.actual = resultExtractor.extract(responseBody);
+			const parsedExpected = cvl.parse(result.expected);
+			result.actual = resultExtractor.extract(responseBody, {
+				singletonListKeys: ValueMap.singletonListKeysFromExpected(parsedExpected),
+			});
 			const invalid = result.invalid;
 
 			if (invalid === 'true' || invalid === 'semantic') {
 				result.testStatus = response.status === 200 ? 'fail' : 'pass';
 			} else {
 				if (response.status === 200) {
-					result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual)
+					result.testStatus = resultsEqual(parsedExpected, result.actual)
 						? 'pass'
 						: 'fail';
 				} else {
