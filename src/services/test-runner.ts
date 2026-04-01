@@ -113,15 +113,32 @@ export class TestRunner {
 		const key = `${result.testsName}-${result.groupName}-${result.testName}`;
 
 		if (result.testStatus === 'skip') {
-			result.SkipMessage = 'Skipped by cql-tests-runner';
+			if (!result.skipMessage?.trim()) {
+				result.skipMessage = 'Skipped by cql-tests-runner';
+			}
+			console.log(
+				'Test %s:%s:%s status: %s skipMessage: %s',
+				result.testsName,
+				result.groupName,
+				result.testName,
+				result.testStatus,
+				result.skipMessage
+			);
 			return result;
 		} else if (skipMap.has(key)) {
 			const reason = skipMap.get(key) || '';
-			result.SkipMessage = `Skipped by config: ${reason}`;
+			result.skipMessage = `Skipped by config: ${reason}`;
 			result.testStatus = 'skip';
+			console.log(
+				'Test %s:%s:%s status: %s skipMessage: %s',
+				result.testsName,
+				result.groupName,
+				result.testName,
+				result.testStatus,
+				result.skipMessage
+			);
 			return result;
 		}
-
 		const data = generateParametersResource(result, config.FhirServer.CqlOperation);
 
 		try {
