@@ -12,6 +12,12 @@ export class ValueMap {
 		if (!Array.isArray(parsed)) {
 			return keys;
 		}
+		// Empty list `{}` parses to `[]`. Do not mark `return` as singleton-list: the
+		// extractor already yields `[]` for FHIR empty-list encoding; wrapping would
+		// produce `[[]]` vs expected `[]` (see cqframework/cql-tests-runner#90).
+		if (parsed.length === 0) {
+			return keys;
+		}
 		keys.add('return');
 		for (const item of parsed) {
 			if (Array.isArray(item)) {

@@ -28,6 +28,10 @@ test('singletonListKeysFromExpected: non-array yields empty key set', () => {
 	expect([...ValueMap.singletonListKeysFromExpected({ a: 1 })]).toEqual([]);
 });
 
+test('singletonListKeysFromExpected: empty array adds no keys (issue #90)', () => {
+	expect([...ValueMap.singletonListKeysFromExpected([])]).toEqual([]);
+});
+
 test('singletonListKeysFromExpected: array adds return', () => {
 	expect([...ValueMap.singletonListKeysFromExpected(['a'])]).toEqual(['return']);
 	expect([...ValueMap.singletonListKeysFromExpected([1, 2])]).toEqual(['return']);
