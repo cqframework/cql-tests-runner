@@ -58,7 +58,34 @@ export class RunCommand {
 			},
 			Tests: {
 				ResultsPath: config.Tests.ResultsPath,
-				SkipList: config.Tests.SkipList,
+				SkipList: (() => {
+					const env = process.env.SKIP_LIST;
+					if (env !== undefined) {
+						try {
+							const parsed = JSON.parse(env);
+							return Array.isArray(parsed) ? parsed : [];
+						} catch {
+							console.warn(
+								'Failed to parse SKIP_LIST environment variable. Falling back to SkipList in config file.'
+							);
+						}
+					}
+					return config.Tests.SkipList;
+				})(),
+				OnlyList: (() => {
+					const env = process.env.ONLY_LIST;
+					if (env !== undefined) {
+						try {
+							const parsed = JSON.parse(env);
+							return Array.isArray(parsed) ? parsed : [];
+						} catch {
+							console.warn(
+								'Failed to parse ONLY_LIST environment variable. Falling back to OnlyList in config file.'
+							);
+						}
+					}
+					return config.Tests.OnlyList || [];
+				})()
 			},
 			Debug: {
 				QuickTest: quick !== undefined ? quick : config.Debug.QuickTest,
