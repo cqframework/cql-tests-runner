@@ -14,6 +14,7 @@ import { ServerConnectivity } from '../shared/server-connectivity.js';
 import { ResultExtractor } from '../extractors/result-extractor.js';
 import { buildExtractor } from './extractor-builder.js';
 import { createConfigFromData } from './config-utils.js';
+import { ValueMap } from '../extractors/value-map.js';
 import { resultsEqual } from '../shared/results-utils.js';
 
 interface ExecutionContext {
@@ -102,14 +103,17 @@ export class TestExecutionService {
 
       result.responseStatus = response.status;
       const responseBody = await response.json();
-      result.actual = resultExtractor.extract(responseBody);
+      const parsedExpected = cvl.parse(result.expected);
+      result.actual = resultExtractor.extract(responseBody, {
+        singletonListKeys: ValueMap.singletonListKeysFromExpected(parsedExpected),
+      });
       const invalid = result.invalid;
 
       if (invalid === 'true' || invalid === 'semantic') {
         result.testStatus = response.status === 200 ? 'fail' : 'pass';
       } else {
         if (response.status === 200) {
-          result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual) ? 'pass' : 'fail';
+          result.testStatus = resultsEqual(parsedExpected, result.actual) ? 'pass' : 'fail';
         } else {
           result.testStatus = 'fail';
         }

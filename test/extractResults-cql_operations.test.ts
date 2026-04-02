@@ -107,6 +107,23 @@ test('string response check', () => {
 	).toBe('abc');
 });
 
+test('singleton list-typed return stays array when singletonListKeys includes return (issue #82)', () => {
+	expect(
+		extractor!.extract(
+			{
+				resourceType: 'Parameters',
+				parameter: [
+					{
+						name: 'return',
+						valueString: 'a',
+					},
+				],
+			},
+			{ singletonListKeys: new Set(['return']) }
+		)
+	).toEqual(['a']);
+});
+
 test('date response check', () => {
 	expect(
 		extractor!.extract({
