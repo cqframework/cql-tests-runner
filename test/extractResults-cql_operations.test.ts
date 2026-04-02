@@ -1,6 +1,7 @@
 import { beforeAll, expect, test } from 'vitest';
 
 import { ResultExtractor } from '../src/extractors/result-extractor.js';
+import { ValueMap } from '../src/extractors/value-map.js';
 import { buildExtractor } from '../src/server/extractor-builder.js';
 
 let extractor: ResultExtractor | null = null;
@@ -122,6 +123,36 @@ test('singleton list-typed return stays array when singletonListKeys includes re
 			{ singletonListKeys: new Set(['return']) }
 		)
 	).toEqual(['a']);
+});
+
+test('FHIR empty list stays [] when expected is empty list (issue #90)', () => {
+	const emptyListParameters = {
+		resourceType: 'Parameters',
+		parameter: [
+			{
+				name: 'return',
+				extension: [
+					{
+						url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
+						valueString: 'List<System.Any>',
+					},
+				],
+				_valueBoolean: {
+					extension: [
+						{
+							url: 'http://hl7.org/fhir/StructureDefinition/cqf-isEmptyList',
+							valueBoolean: true,
+						},
+					],
+				},
+			},
+		],
+	};
+	expect(
+		extractor!.extract(emptyListParameters, {
+			singletonListKeys: ValueMap.singletonListKeysFromExpected([]),
+		})
+	).toEqual([]);
 });
 
 test('date response check', () => {
@@ -284,6 +315,32 @@ test('error response check', () => {
 	).toBe(
 		'EvaluationError:library expression loaded, but had errors: Could not resolve call to operator Expand with signature (list<interval<System.Integer>>,System.Decimal).'
 	);
+});
+
+test('evaluation error uses diagnostics when details.text is absent', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'evaluation error',
+					resource: {
+						resourceType: 'OperationOutcome',
+						issue: [{ severity: 'error', diagnostics: 'CQL engine message' }],
+					},
+				},
+			],
+		})
+	).toBe('EvaluationError:CQL engine message');
+});
+
+test('evaluation error does not throw when resource shape is minimal', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [{ name: 'evaluation error', resource: { resourceType: 'OperationOutcome', issue: [] } }],
+		})
+	).toBe('EvaluationError:{"resourceType":"OperationOutcome","issue":[]}');
 });
 
 test('period datetime response check', () => {
