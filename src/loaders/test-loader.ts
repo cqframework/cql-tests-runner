@@ -1,19 +1,18 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { XMLParser } from 'fast-xml-parser';
+import { XMLParser, type X2jOptions } from 'fast-xml-parser';
 import { Tests } from '../models/test-types.js';
 
 const testsPath = 'cql-tests/tests/cql';
 
 const alwaysArray = ['tests.group', 'tests.group.test'];
 
-const options = {
+const options: X2jOptions = {
 	ignoreAttributes: false,
 	attributeNamePrefix: '',
 	parseTagValue: false,
-	isArray: (name: string, jpath: string, isLeafNode: boolean, isAttribute: boolean): boolean => {
-		return alwaysArray.indexOf(jpath) !== -1;
-	},
+	isArray: (name, jPathOrMatcher, isLeafNode, isAttribute) =>
+		typeof jPathOrMatcher === 'string' && alwaysArray.indexOf(jPathOrMatcher) !== -1,
 	textNodeName: 'text',
 };
 
