@@ -5,6 +5,7 @@ export default defineConfig({
 		globals: true,
 		environment: 'node',
 		exclude: ['**/node_modules/**', '**/dist/**', '**/.{idea,git,cache,output,temp}/**'],
+		silent: true,
 	},
 	resolve: {
 		alias: {

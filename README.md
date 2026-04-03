@@ -29,7 +29,7 @@ npm install
 
 The cql-tests folder has been added as a submodule. After pulling, you'll find a cql-tests folder inside cql-tests-runner. However, when you peek inside that folder, depending on your Git version, you might see nothing. Newer versions of Git will handle this automatically, but older versions may require you to explicitly instruct Git to download the contents of cql-tests.
 
-```
+```bash
 git submodule update --init --recursive
 ```
 
@@ -37,29 +37,73 @@ git submodule update --init --recursive
 
 Configuration settings are set in a JSON configuration file. The file `conf/localhost.json` provides a sample configuration.
 
-```
+```json
 {
-    "FhirServer": {
-      "BaseUrl": "https://fhirServerBaseUrl",
-      "CqlOperation": "$cql"
-    },
-    "Build": {
-      "CqlFileVersion": "1.0.000",
-      "CqlOutputPath": "./cql",
-      "testsRunDescription": '',
-      "testsRunDescription": "Local host test run",
-      "cqlTranslator": "Java CQFramework Translator",
-      "cqlTranslatorVersion": "Unknown",
-      "cqlEngine": "Java CQFramework Engine",
-      "cqlEngineVersion": "4.1.0"
-    },
-    "Tests": {
-      "ResultsPath": "./results",
-      "SkipList": []
-    },
-    "Debug": {
-      "QuickTest": true
-    }
+  "FhirServer": {
+    "BaseUrl": "https://fhirServerBaseUrl",
+    "CqlOperation": "$cql"
+  },
+  "Build": {
+    "CqlFileVersion": "1.0.000",
+    "CqlOutputPath": "./cql",
+    "testsRunDescription": '',
+    "testsRunDescription": "Local host test run",
+    "cqlTranslator": "Java CQFramework Translator",
+    "cqlTranslatorVersion": "Unknown",
+    "cqlEngine": "Java CQFramework Engine",
+    "cqlEngineVersion": "4.1.0"
+  },
+  "Tests": {
+    "ResultsPath": "./results",
+    "SkipList": []
+  },
+  "Debug": {
+    "QuickTest": true
+  }
+}
+```
+
+To skip tests, add entries to the `SkipList` with the corresponding `testsName`, `groupName`, `testName`, and `reason`.
+
+```jsonc
+{
+  "FhirServer": {/* omitted */},
+  "Build": {/* omitted */},
+  "Tests": {
+    "ResultsPath": "./results",
+    "SkipList": [
+      {
+        "testsName": "CqlAggregateTest",
+        "groupName": "AggregateTests",
+        "testName": "RolledOutIntervals",
+        "reason": "CQLtoELM - Could not resolve identifier MedicationRequestIntervals in the current library"
+      },
+      // add more tests to skip as necessary...
+    ]
+  },
+  "Debug": {/* ommitted */}
+}
+```
+
+To run only a specified set of tests (and skip all others), add entries to the `OnlyList` with the corresponding `testsName`, `groupName`, and `testName`.
+
+```jsonc
+{
+  "FhirServer": {/* omitted */},
+  "Build": {/* omitted */},
+  "Tests": {
+    "ResultsPath": "./results",
+    "SkipList": [],
+    "OnlyList": [
+      {
+        "testsName": "CqlAggregateTest",
+        "groupName": "AggregateTests",
+        "testName": "RolledOutIntervals"
+      },
+      // add more tests to only run as necessary...
+    ]
+  },
+  "Debug": {/* ommitted */}
 }
 ```
 
@@ -265,6 +309,6 @@ Test cases are stored in the `test/` folder.
 
 Unit tests can be run from the command line using the following
 
-```
-$ npm run unit-tests
+```bash
+npm run unit-tests
 ```

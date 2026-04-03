@@ -1,0 +1,462 @@
+{
+	"FhirServer": {
+		"BaseUrl": "http://localhost:8000/fhir/",
+		"CqlOperation": "$cql"
+	},
+	"Build": {
+		"CqlFileVersion": "1.0.000",
+		"CqlOutputPath": "./cql",
+		"CqlVersion": "1.5",
+		"testsRunDescription": "JavaScript CQL Execution Framework local test run. See: https://github.com/cqframework/cql-execution",
+		"cqlTranslator": "Java CQFramework Translator",
+		"cqlTranslatorVersion": "4.2.0",
+		"cqlEngine": "JavaScript CQL Execution Framework",
+		"cqlEngineVersion": "3.3.0"
+	},
+	"Debug": {
+		"QuickTest": false
+	},
+	"Tests": {
+		"ResultsPath": "./results",
+		"SkipList": [
+			{
+				"testsName": "CqlAggregateFunctionsTest",
+				"groupName": "Max",
+				"testName": "MaxTestLong",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlAggregateFunctionsTest",
+				"groupName": "Min",
+				"testName": "MinTestLong",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlAggregateFunctionsTest",
+				"groupName": "Product",
+				"testName": "ProductLong",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlAggregateTest",
+				"groupName": "AggregateTests",
+				"testName": "RolledOutIntervals",
+				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Abs",
+				"testName": "AbsLong",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "MaxValue",
+				"testName": "DateTimeMaxValue",
+				"reason": "Test Runner Not Detecting Equal DateTimes (+00:00 vs Z): https://github.com/cqframework/cql-tests-runner/issues/83"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Modulo",
+				"testName": "Modulo4LBy2L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Multiply",
+				"testName": "Multiply2LBy3L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Negate",
+				"testName": "Negate1L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Negate",
+				"testName": "NegateNeg1L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Power",
+				"testName": "Power2LTo2L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Power",
+				"testName": "Power2LTo3L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Subtract",
+				"testName": "Subtract1LAnd1L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Truncated Divide",
+				"testName": "TruncatedDivide10LBy3L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAdd5Hours",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAdd5HoursWithLeftMinPrecisionSecond",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAdd5Milliseconds",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAdd5Minutes",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAdd5Seconds",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAddHoursOverflow",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAddMillisecondsOverflow",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAddMinutesOverflow",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAddSecondsOverflow",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "DateTime",
+				"testName": "DateTimeHour",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "DateTime",
+				"testName": "DateTimeMillisecond",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "DateTime",
+				"testName": "DateTimeMinute",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "DateTime",
+				"testName": "DateTimeSecond",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtract15HourPrecisionSecond",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtract1YearInSeconds",
+				"reason": "Potentially Invalid Test: Spec Unclear on Converting Seconds to Months: https://github.com/cqframework/cql-tests/issues/72"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtract5Hours",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtract5Milliseconds",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtract5Minutes",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtract5Seconds",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtractHoursUnderflow",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtractMillisecondsUnderflow",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtractMinutesUnderflow",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtractSecondsUnderflow",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Uncertainty tests",
+				"testName": "DateTime1",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Uncertainty tests",
+				"testName": "DateTime2",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Uncertainty tests",
+				"testName": "TimeDurationBetweenHourDiffPrecision2",
+				"reason": "Invalid Test: Wrong Expected Result: https://github.com/cqframework/cql-tests/issues/67"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Collapse",
+				"testName": "DateTimeCollapse2",
+				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "End",
+				"testName": "DateTimeIntervalEnd",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Except",
+				"testName": "DecimalIntervalExcept1to3",
+				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Except",
+				"testName": "Except12",
+				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Except",
+				"testName": "ExceptTime2",
+				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Except",
+				"testName": "ExceptTimeInterval",
+				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Except",
+				"testName": "IntegerIntervalExcept1to3",
+				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPer2Days",
+				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPerDay",
+				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "In",
+				"testName": "TestInNullBoundaries",
+				"reason": "Invalid Test: Wrong Expected Result: https://github.com/cqframework/cql-tests/issues/69"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "In",
+				"testName": "TestPeriod1",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "In",
+				"testName": "TestPeriod2",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Intersect",
+				"testName": "TestIntersectNull",
+				"reason": "Possibly Invalid Test: Engine returns Interval[5, Uncertainty<5, 10>] which is technically more accurate"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Interval",
+				"testName": "DateTimeIntervalTest",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Start",
+				"testName": "DateTimeIntervalStart",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlListOperatorsTest",
+				"groupName": "IncludedIn",
+				"testName": "IncludedInNullLeft",
+				"reason": "Translation Error: Java Translator Chooses Wrong Overload: https://github.com/cqframework/cql-tests/issues/65"
+			},
+			{
+				"testsName": "CqlListOperatorsTest",
+				"groupName": "IncludedIn",
+				"testName": "IncludedInNullRight",
+				"reason": "Translation Error: Java Translator Chooses Wrong Overload: https://github.com/cqframework/cql-tests/issues/65"
+			},
+			{
+				"testsName": "CqlListOperatorsTest",
+				"groupName": "Includes",
+				"testName": "IncludesNullLeft",
+				"reason": "Translation Error: Java Translator Chooses Wrong Overload: https://github.com/cqframework/cql-tests/issues/65"
+			},
+			{
+				"testsName": "CqlListOperatorsTest",
+				"groupName": "Includes",
+				"testName": "IncludesNullRight",
+				"reason": "Translation Error: Java Translator Chooses Wrong Overload: https://github.com/cqframework/cql-tests/issues/65"
+			},
+			{
+				"testsName": "CqlListOperatorsTest",
+				"groupName": "Sort",
+				"testName": "SortDatesAsc",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlListOperatorsTest",
+				"groupName": "Sort",
+				"testName": "SortDatesDesc",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlListOperatorsTest",
+				"groupName": "Sort",
+				"testName": "simpleSortAsc",
+				"reason": "Invalid Test: Expected Results Should Be Distinct: https://github.com/cqframework/cql-tests/issues/71"
+			},
+			{
+				"testsName": "CqlListOperatorsTest",
+				"groupName": "Sort",
+				"testName": "simpleSortDesc",
+				"reason": "Invalid Test: Expected Results Should Be Distinct: https://github.com/cqframework/cql-tests/issues/71"
+			},
+			{
+				"testsName": "CqlQueryTest",
+				"groupName": "Sort",
+				"testName": "DateTimeAscending",
+				"reason": "Test Runner Not Detecting Equal DateTimes (+00:00 vs Z): https://github.com/cqframework/cql-tests-runner/issues/83"
+			},
+			{
+				"testsName": "CqlQueryTest",
+				"groupName": "Sort",
+				"testName": "DateTimeDescending",
+				"reason": "Test Runner Not Detecting Equal DateTimes (+00:00 vs Z): https://github.com/cqframework/cql-tests-runner/issues/83"
+			},
+			{
+				"testsName": "CqlStringOperatorsTest",
+				"groupName": "toString tests",
+				"testName": "DateTimeToString2",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlTypeOperatorsTest",
+				"groupName": "ToConcept",
+				"testName": "CodeToConcept1",
+				"reason": "Test Runner Not Detecting Equal Concept Values: https://github.com/cqframework/cql-tests-runner/issues/81"
+			},
+			{
+				"testsName": "CqlTypeOperatorsTest",
+				"groupName": "ToDateTime",
+				"testName": "ToDateTime2",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlTypeOperatorsTest",
+				"groupName": "ToDateTime",
+				"testName": "ToDateTime3",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlTypesTest",
+				"groupName": "DateTime",
+				"testName": "DateTimeMax",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlTypesTest",
+				"groupName": "DateTime",
+				"testName": "DateTimeMin",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlTypesTest",
+				"groupName": "DateTime",
+				"testName": "DateTimeProper",
+				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlTypesTest",
+				"groupName": "Quantity",
+				"testName": "QuantityTest2",
+				"reason": "Invalid Test: Custom UCUM Units Cannot Have Spaces: https://github.com/cqframework/cql-tests/pull/97"
+			}
+		]
+	}
+}
