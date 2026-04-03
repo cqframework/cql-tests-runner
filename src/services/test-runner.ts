@@ -62,12 +62,12 @@ export class TestRunner {
 		for (const testFile of emptyResults) {
 			for (const result of testFile) {
 				if (this.shouldSkipVersionTest(cqlEngine, result)) {
+					//add to skipMap
 					const skipReason =
-						result.testVersionTo &&
-						this.compareVersions(cqlEngine.cqlVersion, result.testVersionTo) > 0
-							? `test versionTo ${result.testVersionTo} not applicable to engine version ${cqlEngine.cqlVersion}`
-							: `test version ${result.testVersion} not applicable to engine version ${cqlEngine.cqlVersion}`;
-
+						'test version ' +
+						result.testVersion +
+						' not applicable to engine version ' +
+						cqlEngine.cqlVersion;
 					this.addToSkipList(
 						skipMap,
 						result.testsName,
