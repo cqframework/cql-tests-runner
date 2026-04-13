@@ -102,6 +102,7 @@ export class CQLTestResults {
 				expression: result.expression,
 				// Optional fields (only include if present)
 				...(result.testStatus && { testStatus: result.testStatus }),
+				...(result.skipMessage?.trim() && { skipMessage: result.skipMessage.trim() }),
 				...(result.responseStatus !== undefined && {
 					responseStatus: result.responseStatus,
 				}),

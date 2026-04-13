@@ -64,12 +64,12 @@ export class TestRunner {
 		for (const testFile of emptyResults) {
 			for (const result of testFile) {
 				if (this.shouldSkipVersionTest(cqlEngine, result)) {
-					//add to skipMap
 					const skipReason =
-						'test version ' +
-						result.testVersion +
-						' not applicable to engine version ' +
-						cqlEngine.cqlVersion;
+						result.testVersionTo &&
+						this.compareVersions(cqlEngine.cqlVersion, result.testVersionTo) > 0
+							? `test versionTo ${result.testVersionTo} not applicable to engine version ${cqlEngine.cqlVersion}`
+							: `test version ${result.testVersion} not applicable to engine version ${cqlEngine.cqlVersion}`;
+
 					this.addToSkipList(
 						skipMap,
 						result.testsName,
@@ -117,7 +117,17 @@ export class TestRunner {
 		const key = `${result.testsName}-${result.groupName}-${result.testName}`;
 
 		if (result.testStatus === 'skip') {
-			result.SkipMessage = 'Skipped by cql-tests-runner';
+			if (!result.skipMessage?.trim()) {
+				result.skipMessage = 'Skipped by cql-tests-runner';
+			}
+			console.log(
+				'Test %s:%s:%s status: %s skipMessage: %s',
+				result.testsName,
+				result.groupName,
+				result.testName,
+				result.testStatus,
+				result.skipMessage
+			);
 			return result;
 		} else if (onlySet.size > 0 && !onlySet.has(key)) {
 			result.SkipMessage = 'Skipped by OnlyList filter';
@@ -125,11 +135,18 @@ export class TestRunner {
 			return result;
 		} else if (skipMap.has(key)) {
 			const reason = skipMap.get(key) || '';
-			result.SkipMessage = `Skipped by config: ${reason}`;
+			result.skipMessage = `Skipped by config: ${reason}`;
 			result.testStatus = 'skip';
+			console.log(
+				'Test %s:%s:%s status: %s skipMessage: %s',
+				result.testsName,
+				result.groupName,
+				result.testName,
+				result.testStatus,
+				result.skipMessage
+			);
 			return result;
 		}
-
 		const data = generateParametersResource(result, config.FhirServer.CqlOperation);
 
 		try {
