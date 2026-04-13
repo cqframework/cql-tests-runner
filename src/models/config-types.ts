@@ -5,6 +5,12 @@ export interface SkipItem {
 	reason: string;
 }
 
+export interface OnlyItem {
+	testsName: string;
+	groupName: string;
+	testName: string;
+}
+
 // Schema-compliant Config type (strictly matches cql-test-configuration.schema.json)
 export interface Config {
 	FhirServer: {
@@ -16,12 +22,17 @@ export interface Config {
 		CqlFileVersion: string;
 		CqlOutputPath: string;
 		CqlVersion?: string;
-		testsRunDescription?: string; // Note: schema has this misplaced but it's used in code
+		testsRunDescription?: string;
+		cqlTranslator?: string;
+		cqlTranslatorVersion?: string;
+		cqlEngine?: string;
+		cqlEngineVersion?: string;
 		SERVER_OFFSET_ISO: string;
 	};
 	Tests: {
 		ResultsPath: string;
 		SkipList: SkipItem[];
+		OnlyList?: OnlyItem[];
 	};
 	Debug: {
 		QuickTest: boolean;

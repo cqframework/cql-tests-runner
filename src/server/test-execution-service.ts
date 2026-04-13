@@ -7,17 +7,58 @@ import {
   generateParametersResource,
   Result,
 } from '../shared/results-shared.js';
-import { InternalTestResult } from '../models/test-types.js';
+import { InternalTestResult, Tests } from '../models/test-types.js';
 import { ServerConnectivity } from '../shared/server-connectivity.js';
 import { ResultExtractor } from '../extractors/result-extractor.js';
 import { buildExtractor } from './extractor-builder.js';
 import { createConfigFromData } from './config-utils.js';
+import { ValueMap } from '../extractors/value-map.js';
 import { resultsEqual } from '../shared/results-utils.js';
 
-// Type declaration for CVL loader
-declare const cvlLoader: () => Promise<[{ default: any }]>;
+interface ExecutionContext {
+  config: ConfigLoader;
+  cqlEngine: CQLEngine;
+  cvl: any;
+  tests: Tests[];
+  resultExtractor: ResultExtractor;
+  skipMap: Map<string, string>;
+  onlySet: Set<string>;
+}
 
 export class TestExecutionService {
+  /**
+   * Builds shared execution context from config data (engine, CVL, tests, extractor, skip map).
+   */
+  private async createExecutionContext(configData: any): Promise<ExecutionContext> {
+    const config = createConfigFromData(configData);
+    const serverBaseUrl = config.FhirServer.BaseUrl;
+    const cqlEndpoint = config.CqlEndpoint;
+
+    await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
+
+    const build = config.Build;
+    const cqlEngine = new CQLEngine(
+      serverBaseUrl,
+      cqlEndpoint,
+      build?.cqlTranslator ?? '',
+      build?.cqlTranslatorVersion ?? '',
+      build?.cqlEngine ?? '',
+      build?.cqlEngineVersion ?? ''
+    );
+    cqlEngine.cqlVersion = config.Build?.CqlVersion || '1.5';
+
+    // @ts-expect-error - cvl.mjs has no declaration file
+    const cvlModule = await import('../../cvl/cvl.mjs');
+    const cvl = cvlModule.default;
+
+    const tests = TestLoader.load();
+    const resultExtractor = buildExtractor();
+    const skipMap = config.skipListMap();
+    const onlySet = config.onlyListSet();
+
+    return { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet };
+  }
+
   /**
    * Runs a single test
    */
@@ -27,12 +68,17 @@ export class TestExecutionService {
     cvl: any,
     resultExtractor: ResultExtractor,
     skipMap: Map<string, string>,
+    onlySet: Set<string>,
     config: ConfigLoader
   ): Promise<InternalTestResult> {
     const key = `${result.testsName}-${result.groupName}-${result.testName}`;
 
     if (result.testStatus === 'skip') {
       result.SkipMessage = 'Skipped by cql-tests-runner';
+      return result;
+    } else if (onlySet.size > 0 && !onlySet.has(key)) {
+      result.SkipMessage = 'Skipped by OnlyList filter';
+      result.testStatus = 'skip';
       return result;
     } else if (skipMap.has(key)) {
       const reason = skipMap.get(key) || '';
@@ -55,14 +101,17 @@ export class TestExecutionService {
 
       result.responseStatus = response.status;
       const responseBody = await response.json();
-      result.actual = resultExtractor.extract(responseBody);
+      const parsedExpected = cvl.parse(result.expected);
+      result.actual = resultExtractor.extract(responseBody, {
+        singletonListKeys: ValueMap.singletonListKeysFromExpected(parsedExpected),
+      });
       const invalid = result.invalid;
 
       if (invalid === 'true' || invalid === 'semantic') {
         result.testStatus = response.status === 200 ? 'fail' : 'pass';
       } else {
         if (response.status === 200) {
-          result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual) ? 'pass' : 'fail';
+          result.testStatus = resultsEqual(parsedExpected, result.actual) ? 'pass' : 'fail';
         } else {
           result.testStatus = 'fail';
         }
@@ -86,38 +135,20 @@ export class TestExecutionService {
    * Runs all tests based on configuration
    */
   async runTests(configData: any): Promise<any> {
-    // Create a temporary config loader from the provided data
-    const config = createConfigFromData(configData);
-    const serverBaseUrl = config.FhirServer.BaseUrl;
-    const cqlEndpoint = config.CqlEndpoint;
+    const ctx = await this.createExecutionContext(configData);
+    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet } = ctx;
 
-    // Verify server connectivity before proceeding
-    await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
-
-    const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
-    cqlEngine.cqlVersion = config.Build?.CqlVersion || '1.5';
-
-    // Load CVL using dynamic import
-    // @ts-ignore
-    const cvlModule = await import('../../cvl/cvl.mjs');
-    const cvl = cvlModule.default;
-
-    const tests = TestLoader.load();
     const quickTest = config.Debug?.QuickTest || false;
-    const resultExtractor = buildExtractor();
     const emptyResults = await generateEmptyResults(tests, quickTest);
-    const skipMap = config.skipListMap();
-
     const results = new CQLTestResults(cqlEngine);
 
     for (const testFile of emptyResults) {
       for (const result of testFile) {
-        await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, config);
+        await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, onlySet, config);
         results.add(result);
       }
     }
 
-    // Return the results data that would normally be written to file
     return results.toJSON();
   }
 
@@ -130,50 +161,22 @@ export class TestExecutionService {
     testName: string,
     configData: any
   ): Promise<any> {
-    const config = createConfigFromData(configData);
-    const serverBaseUrl = config.FhirServer.BaseUrl;
-    const cqlEndpoint = config.CqlEndpoint;
+    const ctx = await this.createExecutionContext(configData);
+    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet } = ctx;
 
-    await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
-
-    const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
-    cqlEngine.cqlVersion = config.Build?.CqlVersion || '1.5';
-
-    // @ts-ignore
-    const cvlModule = await import('../../cvl/cvl.mjs');
-    const cvl = cvlModule.default;
-
-    const tests = TestLoader.load();
-    const resultExtractor = buildExtractor();
-    const skipMap = config.skipListMap();
-
-    // Find the specific test
     for (const testSuite of tests) {
-      if (testSuite.name === testsName) {
-        for (const group of testSuite.group) {
-          if (group.name === groupName && group.test) {
-            for (const test of group.test) {
-              if (test.name === testName) {
-                const result = new Result(testsName, groupName, test);
-                await this.runTest(
-                  result,
-                  cqlEngine.apiUrl!,
-                  cvl,
-                  resultExtractor,
-                  skipMap,
-                  config
-                );
+      if (testSuite.name !== testsName) continue;
+      for (const group of testSuite.group) {
+        if (group.name !== groupName || !group.test) continue;
+        for (const test of group.test) {
+          if (test.name !== testName) continue;
 
-                // Convert to schema-compliant format
-                const testResults = new CQLTestResults(cqlEngine);
-                testResults.add(result);
-                const jsonResults = testResults.toJSON();
+          const result = new Result(testsName, groupName, test);
+          await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, onlySet, config);
 
-                // Return just the single test result
-                return jsonResults.results[0] || null;
-              }
-            }
-          }
+          const testResults = new CQLTestResults(cqlEngine);
+          testResults.add(result);
+          return testResults.toJSON().results[0] ?? null;
         }
       }
     }
@@ -189,50 +192,24 @@ export class TestExecutionService {
     groupName: string,
     configData: any
   ): Promise<any[]> {
-    const config = createConfigFromData(configData);
-    const serverBaseUrl = config.FhirServer.BaseUrl;
-    const cqlEndpoint = config.CqlEndpoint;
-
-    await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
-
-    const cqlEngine = new CQLEngine(serverBaseUrl, cqlEndpoint);
-    cqlEngine.cqlVersion = config.Build?.CqlVersion || '1.5';
-
-    // @ts-ignore
-    const cvlModule = await import('../../cvl/cvl.mjs');
-    const cvl = cvlModule.default;
-
-    const tests = TestLoader.load();
-    const resultExtractor = buildExtractor();
-    const skipMap = config.skipListMap();
+    const ctx = await this.createExecutionContext(configData);
+    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet } = ctx;
 
     const results = new CQLTestResults(cqlEngine);
 
-    // Find and run tests in the specified group
     for (const testSuite of tests) {
-      if (testSuite.name === testsName) {
-        for (const group of testSuite.group) {
-          if (group.name === groupName && group.test) {
-            for (const test of group.test) {
-              const result = new Result(testsName, groupName, test);
-              await this.runTest(
-                result,
-                cqlEngine.apiUrl!,
-                cvl,
-                resultExtractor,
-                skipMap,
-                config
-              );
-              results.add(result);
-            }
-            break;
-          }
+      if (testSuite.name !== testsName) continue;
+      for (const group of testSuite.group) {
+        if (group.name !== groupName || !group.test) continue;
+        for (const test of group.test) {
+          const result = new Result(testsName, groupName, test);
+          await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, onlySet, config);
+          results.add(result);
         }
-        break;
+        return results.toJSON().results;
       }
     }
 
-    const jsonResults = results.toJSON();
-    return jsonResults.results;
+    return results.toJSON().results;
   }
 }

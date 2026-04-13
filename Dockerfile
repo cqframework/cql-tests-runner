@@ -1,4 +1,4 @@
-# Use Node.js v24 as the base image
+# Use Node.js v25 as the base image
 FROM node:25-alpine
 
 # Set working directory
@@ -24,7 +24,7 @@ RUN cp -r assets dist/
 RUN cp -r cvl dist/
 
 # Run the build-cql subcommand to generate CQL libraries
-RUN node dist/src/bin/cql-tests.js build-cql conf/localhost.json ./cql
+RUN node dist/bin/cql-tests.js build-cql conf/localhost.json ./cql
 
 # Remove dev dependencies to reduce image size
 RUN npm prune --production
@@ -42,4 +42,4 @@ EXPOSE 3000
 
 # Set the entrypoint to run the compiled cql-tests.js
 # The Node.js process will handle SIGINT/SIGTERM signals for graceful shutdown
-ENTRYPOINT ["node", "dist/src/bin/cql-tests.js"]
+ENTRYPOINT ["node", "dist/bin/cql-tests.js"]

@@ -3,6 +3,7 @@ import { Parameters } from 'fhir/r4';
 
 export class Result implements InternalTestResult {
 	testStatus!: 'pass' | 'fail' | 'skip' | 'error';
+	skipMessage?: string;
 	responseStatus?: number;
 	actual?: any;
 	expected?: string;
@@ -21,12 +22,7 @@ export class Result implements InternalTestResult {
 	capability: CapabilityKV[] = [];
 	groupCapability: CapabilityKV[] = [];
 
-	constructor(
-		testsName: string,
-		groupName: string,
-		test: Test,
-		groupCapability: CapabilityKV[] = []
-	) {
+	constructor(testsName: string, groupName: string, test: Test, groupCapability: CapabilityKV[] = []) {
 		this.testsName = testsName;
 		this.groupName = groupName;
 		this.testName = test.name;
@@ -55,6 +51,7 @@ export class Result implements InternalTestResult {
 			}
 		} else {
 			this.testStatus = 'skip';
+			this.skipMessage = 'No output specified';
 		}
 
 		this.capability = Array.isArray(test.capability)

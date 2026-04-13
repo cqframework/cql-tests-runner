@@ -16,8 +16,8 @@
 		"allowSyntheticDefaultImports": true,
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
-		"downlevelIteration": true
+		"rootDir": "./src"
 	},
-	"include": ["src/**/*", "test/**/*"],
+	"include": ["src/**/*"],
 	"exclude": ["node_modules", "dist", "cvl", "cql-tests", "results", "cql"]
 }

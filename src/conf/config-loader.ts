@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Config, SkipItem } from '../models/config-types.js';
+import { Config, SkipItem, OnlyItem } from '../models/config-types.js';
 import { ConfigValidator, ValidationError } from './config-validator.js';
 
 export class ConfigLoader implements Config {
@@ -23,6 +23,7 @@ export class ConfigLoader implements Config {
 	Tests: {
 		ResultsPath: string;
 		SkipList: SkipItem[];
+		OnlyList?: OnlyItem[];
 	};
 	Debug: {
 		QuickTest: boolean;
@@ -73,7 +74,34 @@ export class ConfigLoader implements Config {
 
 		this.Tests = {
 			ResultsPath: process.env.RESULTS_PATH || configData.Tests?.ResultsPath || './results',
-			SkipList: process.env.SKIP_LIST || configData.Tests?.SkipList || [],
+			SkipList: (() => {
+				const env = process.env.SKIP_LIST;
+				if (env !== undefined) {
+					try {
+						const parsed = JSON.parse(env);
+						return Array.isArray(parsed) ? parsed : [];
+					} catch {
+						console.warn(
+							'Failed to parse SKIP_LIST environment variable. Falling back to SkipList in config file.'
+						);
+					}
+				}
+				return configData.Tests?.SkipList || [];
+			})(),
+			OnlyList: (() => {
+				const env = process.env.ONLY_LIST;
+				if (env !== undefined) {
+					try {
+						const parsed = JSON.parse(env);
+						return Array.isArray(parsed) ? parsed : [];
+					} catch {
+						console.warn(
+							'Failed to parse ONLY_LIST environment variable. Falling back to OnlyList in config file.'
+						);
+					}
+				}
+				return configData.Tests?.OnlyList || [];
+			})()
 		};
 
 		this.Debug = {
@@ -146,6 +174,15 @@ export class ConfigLoader implements Config {
 			])
 		);
 		return skipMap;
+	}
+
+	onlyListSet(): Set<string> {
+		const onlyList = this.Tests.OnlyList ?? [];
+		return new Set(
+			onlyList.map(
+				onlyItem => `${onlyItem.testsName}-${onlyItem.groupName}-${onlyItem.testName}`
+			)
+		);
 	}
 
 	#validateConfig(configPath: string, configData: any): void {

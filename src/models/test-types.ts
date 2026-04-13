@@ -64,6 +64,7 @@ export interface CapabilityKV {
 // Internal Result type used during test execution (allows 'undefined' for invalid)
 export interface InternalTestResult {
 	testStatus?: 'pass' | 'fail' | 'skip' | 'error';
+	skipMessage?: string;
 	responseStatus?: number;
 	actual?: any;
 	expected?: string;
@@ -87,6 +88,7 @@ export interface InternalTestResult {
 // Schema-compliant TestResult type (strictly matches cql-test-results.schema.json)
 export interface TestResult {
 	testStatus?: 'pass' | 'fail' | 'skip' | 'error';
+	skipMessage?: string;
 	responseStatus?: number;
 	actual?: string;
 	expected?: string;

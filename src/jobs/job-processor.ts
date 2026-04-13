@@ -30,7 +30,7 @@ export class JobProcessor {
 
 			// Process the tests using the shared TestRunner
 			const results = await this.testRunner.runTests(jobRequest.config, {
-				onProgress: async (current: number, total: number, message?: string) => {
+				onProgress: async (current, total, message) => {
 					await this.jobManager.updateJobProgress(jobId, current, total, message);
 				},
 			});

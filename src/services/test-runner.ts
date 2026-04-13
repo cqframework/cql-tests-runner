@@ -8,6 +8,7 @@ import { ResultExtractor } from '../extractors/result-extractor.js';
 import { ServerConnectivity } from '../shared/server-connectivity.js';
 import { buildExtractor } from '../server/extractor-builder.js';
 import { createConfigFromData } from '../server/config-utils.js';
+import { ValueMap } from '../extractors/value-map.js';
 import { resultsEqual } from '../shared/results-utils.js';
 
 export interface TestRunnerOptions {
@@ -28,15 +29,16 @@ export class TestRunner {
 		// Verify server connectivity before proceeding
 		await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
 
+    const build = config.Build;
     const cqlEngine = new CQLEngine(
-		serverBaseUrl,
-		cqlEndpoint,
-		configData.Build.cqlTranslator,
-		configData.Build.cqlTranslatorVersion,
-		configData.Build.cqlEngine,
-			configData.Build.cqlEngineVersion,
-			configData.Build.SERVER_OFFSET_ISO
-	);
+      serverBaseUrl,
+      cqlEndpoint,
+      build.cqlTranslator ?? '',
+      build.cqlTranslatorVersion ?? '',
+      build.cqlEngine ?? '',
+      build.cqlEngineVersion ?? '',
+	  build.SERVER_OFFSET_ISO
+    );
     cqlEngine.cqlVersion = '1.5'; //default value
     const cqlVersion = config.Build?.CqlVersion;
     if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
@@ -62,6 +64,7 @@ export class TestRunner {
 		const resultExtractor = buildExtractor();
 		const emptyResults = await generateEmptyResults(tests, quickTest);
 		const skipMap = config.skipListMap();
+		const onlySet = config.onlyListSet();
 
 		const results = new CQLTestResults(cqlEngine);
 
@@ -71,12 +74,12 @@ export class TestRunner {
 		for (const testFile of emptyResults) {
 			for (const result of testFile) {
 				if (this.shouldSkipVersionTest(cqlEngine, result)) {
-					//add to skipMap
 					const skipReason =
-						'test version ' +
-						result.testVersion +
-						' not applicable to engine version ' +
-						cqlEngine.cqlVersion;
+						result.testVersionTo &&
+						this.compareVersions(cqlEngine.cqlVersion, result.testVersionTo) > 0
+							? `test versionTo ${result.testVersionTo} not applicable to engine version ${cqlEngine.cqlVersion}`
+							: `test version ${result.testVersion} not applicable to engine version ${cqlEngine.cqlVersion}`;
+
 					this.addToSkipList(
 						skipMap,
 						result.testsName,
@@ -91,6 +94,7 @@ export class TestRunner {
 					cvl,
 					resultExtractor,
 					skipMap,
+					onlySet,
 					config,
 					cqlEngine,
 					activeTimeZonePolicy,
@@ -118,6 +122,7 @@ export class TestRunner {
 		cvl: any,
 		resultExtractor: ResultExtractor,
 		skipMap: Map<string, string>,
+		onlySet: Set<string>,
 		config: ConfigLoader,
 		cqlEngine: CQLEngine,
 		activeTimeZonePolicy: string,
@@ -126,12 +131,34 @@ export class TestRunner {
 		const key = `${result.testsName}-${result.groupName}-${result.testName}`;
 
 		if (result.testStatus === 'skip') {
-			result.SkipMessage = 'Skipped by cql-tests-runner';
+			if (!result.skipMessage?.trim()) {
+				result.skipMessage = 'Skipped by cql-tests-runner';
+			}
+			console.log(
+				'Test %s:%s:%s status: %s skipMessage: %s',
+				result.testsName,
+				result.groupName,
+				result.testName,
+				result.testStatus,
+				result.skipMessage
+			);
+			return result;
+		} else if (onlySet.size > 0 && !onlySet.has(key)) {
+			result.SkipMessage = 'Skipped by OnlyList filter';
+			result.testStatus = 'skip';
 			return result;
 		} else if (skipMap.has(key)) {
 			const reason = skipMap.get(key) || '';
 			result.SkipMessage = `Skipped by config: ${reason}`;
 			result.testStatus = 'skip';
+			console.log(
+				'Test %s:%s:%s status: %s skipMessage: %s',
+				result.testsName,
+				result.groupName,
+				result.testName,
+				result.testStatus,
+				result.skipMessage
+			);
 			return result;
 		}
 
@@ -187,14 +214,17 @@ export class TestRunner {
 
 			result.responseStatus = response.status;
 			const responseBody = response.data;
-			result.actual = resultExtractor.extract(responseBody);
+			const parsedExpected = cvl.parse(result.expected);
+			result.actual = resultExtractor.extract(responseBody, {
+				singletonListKeys: ValueMap.singletonListKeysFromExpected(parsedExpected),
+			});
 			const invalid = result.invalid;
 
 			if (invalid === 'true' || invalid === 'semantic') {
 				result.testStatus = response.status === 200 ? 'fail' : 'pass';
 			} else {
 				if (response.status === 200) {
-					result.testStatus = resultsEqual(cvl.parse(result.expected), result.actual)
+					result.testStatus = resultsEqual(parsedExpected, result.actual)
 						? 'pass'
 						: 'fail';
 				} else {

@@ -6,23 +6,22 @@ import { ServerCommand } from '../src/commands/server-command.js';
 
 // Test data and mock helpers
 const createMockConfig = (overrides = {}) => ({
-	FhirServer: {
-		BaseUrl: 'http://localhost:8080/fhir/',
-		CqlOperation: '$cql',
-	},
-	Build: {
-		CqlFileVersion: '1.0.000',
-		CqlOutputPath: './cql',
-		SERVER_OFFSET_ISO: '+00:00'
-	},
-	Debug: {
-		QuickTest: false,
-	},
-	Tests: {
-		ResultsPath: './results',
-		SkipList: [],
-	},
-	...overrides,
+  FhirServer: {
+    BaseUrl: 'http://localhost:8080/fhir/',
+    CqlOperation: '$cql',
+  },
+  Build: {
+    CqlFileVersion: '1.0.000',
+    CqlOutputPath: './cql',
+  },
+  Debug: {
+    QuickTest: false,
+  },
+  Tests: {
+    ResultsPath: './results',
+    SkipList: [],
+  },
+  ...overrides,
 });
 
 const createMockResults = () => ({
@@ -46,6 +45,7 @@ vi.mock('../src/conf/config-loader', () => ({
       QuickTest: configData?.Debug?.QuickTest || false,
     };
     this.skipListMap = vi.fn().mockReturnValue(new Map());
+    this.onlyListSet = vi.fn().mockReturnValue(new Set());
     return this;
   }),
 }));

@@ -50,21 +50,48 @@ export function createConfigFromData(configData: any): ConfigLoader {
   };
 
   config.Build = {
-		CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
-		CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
-		CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
-		testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription || 'No configuration provided',
-		cqlTranslator: process.env.CQL_TRANSLATOR || configData.Build?.cqlTranslator || 'No configuration provided',
-		cqlTranslatorVersion: process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || 'No configuration provided',
-		cqlEngine: process.env.CQL_ENGINE || configData.Build?.cqlEngine || 'No configuration provided',
-		cqlEngineVersion: process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'No configuration provided',
-		SERVER_OFFSET_ISO: process.env.SERVER_OFFSET_ISO || configData.Build?.SERVER_OFFSET_ISO || '+00:00',
-		TimeZoneOffsetPolicy: process.env.TIME_ZONE_OFFSET_POLICY || configData.Build?.TimeZoneOffsetPolicy || '',
+      CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
+      CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
+      CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
+      testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription || 'No configuration provided',
+	  cqlTranslator: process.env.CQL_TRANSLATOR || configData.Build?.cqlTranslator || 'No configuration provided',
+	  cqlTranslatorVersion: process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || 'No configuration provided',
+	  cqlEngine: process.env.CQL_ENGINE || configData.Build?.cqlEngine || 'No configuration provided',
+	  cqlEngineVersion: process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'No configuration provided',
+	  SERVER_OFFSET_ISO: process.env.SERVER_OFFSET_ISO || configData.Build?.SERVER_OFFSET_ISO || '+00:00',
+	  TimeZoneOffsetPolicy: process.env.TIME_ZONE_OFFSET_POLICY || configData.Build?.TimeZoneOffsetPolicy || '',
   };
 
   config.Tests = {
     ResultsPath: process.env.RESULTS_PATH || configData.Tests?.ResultsPath || './results',
-    SkipList: process.env.SKIP_LIST || configData.Tests?.SkipList || []
+    SkipList: (() => {
+      const env = process.env.SKIP_LIST;
+      if (env !== undefined) {
+        try {
+          const parsed = JSON.parse(env);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          console.warn(
+            'Failed to parse SKIP_LIST environment variable. Falling back to SkipList in config file.'
+          );
+        }
+      }
+      return configData.Tests?.SkipList || [];
+    })(),
+    OnlyList: (() => {
+      const env = process.env.ONLY_LIST;
+      if (env !== undefined) {
+        try {
+          const parsed = JSON.parse(env);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          console.warn(
+            'Failed to parse ONLY_LIST environment variable. Falling back to OnlyList in config file.'
+          );
+        }
+      }
+      return configData.Tests?.OnlyList || [];
+    })()
   };
 
   config.Debug = {

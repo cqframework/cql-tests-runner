@@ -1,5 +1,14 @@
 # cql-tests-runner
 
+[![Website](https://shields.foundry.hl7.org/website?url=https%3A%2F%2Fcql-tests-runner.quality.hl7.org&logo=fireship&label=try%20it%20now)](https://cql-tests-runner.quality.hl7.org)
+[![GitHub contributors](https://shields.foundry.hl7.org/github/contributors/cqframework/cql-tests-runner?logo=github)](https://github.com/cqframework/cql-tests-runner/graphs/contributors)
+[![GitHub last commit](https://shields.foundry.hl7.org/github/last-commit/cqframework/cql-tests-runner?logo=github)](https://github.com/cqframework/cql-tests-runner/graphs/commit-activity)
+[![GitHub top language](https://shields.foundry.hl7.org/github/languages/top/cqframework/cql-tests-runner?logo=github)](https://github.com/cqframework/cql-tests-runner)
+[![Docker automated build](https://shields.foundry.hl7.org/docker/automated/hlseven/quality-cql-tests-runner?logo=docker)](https://hub.docker.com/r/hlseven/quality-cql-tests-runner)
+[![Docker pulls](https://shields.foundry.hl7.org/docker/pulls/hlseven/quality-cql-tests-runner?logo=docker)](https://hub.docker.com/r/hlseven/quality-cql-tests-runner)
+[![Docker image size](https://shields.foundry.hl7.org/docker/image-size/hlseven/quality-cql-tests-runner?logo=docker)](https://hub.docker.com/r/hlseven/quality-cql-tests-runner)
+
+
 Test Runner for the [CQL Tests](https://github.com/cqframework/cql-tests) repository. This node application allows you to run the tests in the CQL Tests repository against a server of your choice using the [$cql](https://hl7.org/fhir/uv/cql/OperationDefinition-cql-cql.html) operation. The runner in its current state uses only this operation, and there is no expectation of any other FHIR server capability made by this runner. Additional capabilities may be required in the future as we expand the runner to support full Library/$evaluate as well. None of the tests in the repository have any expectation of being able to access data (i.e. the tests have no retrieve expressions).
 
 The application runs all the tests in the repository and outputs the results as a JSON file in the `results` directory. If the output directory does not exist, it will be created.
@@ -8,11 +17,11 @@ Results output from running these tests can be posted to the [CQL Tests Results]
 
 ## Setting up the Environment
 
-This application requires Node v24 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
+This application requires Node v25 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
 
 Install application dependencies using
 
-```
+```sh
 npm install
 ```
 
@@ -20,7 +29,7 @@ npm install
 
 The cql-tests folder has been added as a submodule. After pulling, you'll find a cql-tests folder inside cql-tests-runner. However, when you peek inside that folder, depending on your Git version, you might see nothing. Newer versions of Git will handle this automatically, but older versions may require you to explicitly instruct Git to download the contents of cql-tests.
 
-```
+```bash
 git submodule update --init --recursive
 ```
 
@@ -28,7 +37,7 @@ git submodule update --init --recursive
 
 Configuration settings are set in a JSON configuration file. The file `conf/localhost.json` provides a sample configuration.
 
-```
+```json
 {
     "FhirServer": {
       "BaseUrl": "https://fhirServerBaseUrl",
@@ -37,14 +46,11 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
     "Build": {
 		"CqlFileVersion": "1.0.000",
 		"CqlOutputPath": "./cql",
-		"CqlVersion": "1.5",
 		"testsRunDescription": "Local host test run",
 		"cqlTranslator": "Java CQFramework Translator",
 		"cqlTranslatorVersion": "Unknown",
 		"cqlEngine": "Java CQFramework Engine",
-		"cqlEngineVersion": "4.1.0",
-		"SERVER_OFFSET_ISO": "-06:00",
-		"TimeZoneOffsetPolicy": "timezone-offset-policy.default-server-offset"
+    "cqlEngineVersion": "4.1.0"
   },
     "Tests": {
       "ResultsPath": "./results",
@@ -53,6 +59,50 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
     "Debug": {
       "QuickTest": true
     }
+}
+```
+
+To skip tests, add entries to the `SkipList` with the corresponding `testsName`, `groupName`, `testName`, and `reason`.
+
+```jsonc
+{
+  "FhirServer": {/* omitted */},
+  "Build": {/* omitted */},
+  "Tests": {
+    "ResultsPath": "./results",
+    "SkipList": [
+      {
+        "testsName": "CqlAggregateTest",
+        "groupName": "AggregateTests",
+        "testName": "RolledOutIntervals",
+        "reason": "CQLtoELM - Could not resolve identifier MedicationRequestIntervals in the current library"
+      },
+      // add more tests to skip as necessary...
+    ]
+  },
+  "Debug": {/* ommitted */}
+}
+```
+
+To run only a specified set of tests (and skip all others), add entries to the `OnlyList` with the corresponding `testsName`, `groupName`, and `testName`.
+
+```jsonc
+{
+  "FhirServer": {/* omitted */},
+  "Build": {/* omitted */},
+  "Tests": {
+    "ResultsPath": "./results",
+    "SkipList": [],
+    "OnlyList": [
+      {
+        "testsName": "CqlAggregateTest",
+        "groupName": "AggregateTests",
+        "testName": "RolledOutIntervals"
+      },
+      // add more tests to only run as necessary...
+    ]
+  },
+  "Debug": {/* ommitted */}
 }
 ```
 
@@ -311,14 +361,16 @@ If using vscode for development, below are some examples for running the tests w
 
 ```json
 {
-  "type": "node",
-  "request": "launch",
-  "name": "Launch Build Command",
-  "skipFiles": ["<node_internals>/**"],
-  "program": "${workspaceFolder}/src/bin/cql-tests.ts",
-  "args": ["build-cql", "conf/localhost.json"],
-  "runtimeArgs": ["--import", "tsx"]
-},
+    "type": "node",
+    "request": "launch",
+    "name": "Launch Build Command",
+    "skipFiles": ["<node_internals>/**"],
+    "program": "${workspaceFolder}/src/bin/cql-tests.ts",
+    "args": ["build-cql", "conf/localhost.json"],
+    "runtimeArgs": ["--import", "tsx"]
+}
+```
+```json
 {
   "type": "node",
   "request": "launch",
@@ -329,7 +381,7 @@ If using vscode for development, below are some examples for running the tests w
   "runtimeArgs": ["--import", "tsx"],
   "env": {
     "SERVER_BASE_URL": "http://localhost:3000"
-  }
+    }
 }
 ```
 
