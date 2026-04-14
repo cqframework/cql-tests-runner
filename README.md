@@ -475,6 +475,6 @@ Test cases are stored in the `test/` folder.
 
 Unit tests can be run from the command line using the following
 
-```
-$ npm run unit-tests
+```bash
+npm run unit-tests
 ```

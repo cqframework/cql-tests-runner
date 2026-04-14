@@ -36,8 +36,7 @@ export class TestRunner {
       build.cqlTranslator ?? '',
       build.cqlTranslatorVersion ?? '',
       build.cqlEngine ?? '',
-      build.cqlEngineVersion ?? '',
-	  build.SERVER_OFFSET_ISO
+      build.cqlEngineVersion ?? ''
     );
     cqlEngine.cqlVersion = '1.5'; //default value
     const cqlVersion = config.Build?.CqlVersion;
@@ -149,7 +148,7 @@ export class TestRunner {
 			return result;
 		} else if (skipMap.has(key)) {
 			const reason = skipMap.get(key) || '';
-			result.SkipMessage = `Skipped by config: ${reason}`;
+			result.skipMessage = `Skipped by config: ${reason}`;
 			result.testStatus = 'skip';
 			console.log(
 				'Test %s:%s:%s status: %s skipMessage: %s',
@@ -171,7 +170,6 @@ export class TestRunner {
 			result.testStatus = 'skip';
 			return result;
 		}
-
 		const data = generateParametersResource(result, config.FhirServer.CqlOperation);
 
 		try {

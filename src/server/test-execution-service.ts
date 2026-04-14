@@ -1,3 +1,5 @@
+// Author: Preston Lee
+
 import { ConfigLoader } from '../conf/config-loader.js';
 import { CQLEngine } from '../cql-engine/cql-engine.js';
 import { CQLTestResults } from '../test-results/cql-test-results.js';
