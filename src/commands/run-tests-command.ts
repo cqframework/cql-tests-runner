@@ -1,4 +1,4 @@
-import { TestRunner } from '../services/test-runner.js';
+import { TestRunner } from '../services/test-runner';
 import { ConfigLoader } from '../conf/config-loader.js';
 
 // Type declaration for CVL loader

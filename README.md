@@ -39,27 +39,26 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
 
 ```json
 {
-  "FhirServer": {
-    "BaseUrl": "https://fhirServerBaseUrl",
-    "CqlOperation": "$cql"
-  },
-  "Build": {
-    "CqlFileVersion": "1.0.000",
-    "CqlOutputPath": "./cql",
-    "testsRunDescription": '',
-    "testsRunDescription": "Local host test run",
-    "cqlTranslator": "Java CQFramework Translator",
-    "cqlTranslatorVersion": "Unknown",
-    "cqlEngine": "Java CQFramework Engine",
+    "FhirServer": {
+      "BaseUrl": "https://fhirServerBaseUrl",
+      "CqlOperation": "$cql"
+    },
+    "Build": {
+		"CqlFileVersion": "1.0.000",
+		"CqlOutputPath": "./cql",
+		"testsRunDescription": "Local host test run",
+		"cqlTranslator": "Java CQFramework Translator",
+		"cqlTranslatorVersion": "Unknown",
+		"cqlEngine": "Java CQFramework Engine",
     "cqlEngineVersion": "4.1.0"
   },
-  "Tests": {
-    "ResultsPath": "./results",
-    "SkipList": []
-  },
-  "Debug": {
-    "QuickTest": true
-  }
+    "Tests": {
+      "ResultsPath": "./results",
+      "SkipList": []
+    },
+    "Debug": {
+      "QuickTest": true
+    }
 }
 ```
 
@@ -108,6 +107,171 @@ To run only a specified set of tests (and skip all others), add entries to the `
 ```
 
 Create your own configuration file and reference it when running the commands. You can use `conf/localhost.json` as a template for a new configuration with your own settings.
+
+### Time Zone Configuration
+
+The CQL Tests Runner uses two settings to control how **DateTime** values are evaluated:
+
+- `SERVER_OFFSET_ISO`
+- `TimeZoneOffsetPolicy`
+
+These settings are required because CQL allows **DateTime values without a timezone offset**, and different engines interpret those values differently. Without explicitly setting these, tests involving DateTime comparison and extraction may produce inconsistent results (pass, fail, or null).
+
+Reference: http://cql.hl7.org/CodeSystem/cql-language-capabilities
+
+---
+
+#### TimeZoneOffsetPolicy (what it means)
+
+# 🔄 Timezone Offset Policy
+
+## Background
+
+CQL allows `DateTime` literals to be specified **with or without a timezone offset**.
+
+For example:
+
+```
+@2012-04-01T00:00
+```
+
+This value does **not include an explicit timezone offset**.
+
+---
+
+## What the CQL Specification Says
+
+> If no timezone offset is specified, the timezone offset of the evaluation request timestamp is used.
+
+This means:
+
+- A `DateTime` literal may omit an offset in its **source representation**
+- But at **evaluation time**, the engine must apply an offset
+- That offset comes from the **evaluation request timestamp**
+
+👉 In other words, under CQL semantics:
+
+- DateTimes are **always evaluated with an effective timezone offset**
+- The only question is **which offset is applied**
+
+---
+
+## Why This Capability Exists
+
+Although the specification is clear, implementations have historically differed in how they handle `DateTime` values without explicit offsets.
+
+Observed variations include:
+
+- Applying the evaluation request timestamp offset (spec-compliant behavior)
+- Treating the value as offset-less in some operations
+- Returning `null` for operations like `timezoneoffset(...)`
+- Applying server-local or implicit defaults inconsistently
+
+This capability exists to explicitly test and document how an engine behaves in these scenarios.
+
+---
+
+## What Is Being Tested
+
+This capability evaluates how an engine handles `DateTime` values that omit a timezone offset, including:
+
+- Whether the engine applies the evaluation request timestamp offset
+- How functions like `timezoneoffset(...)` behave
+- Whether comparisons and arithmetic treat the value consistently
+
+---
+
+## Clarification
+
+This capability does **not** test whether a `DateTime` “has a timezone or not.”
+
+Per the CQL specification:
+
+- A `DateTime` without an explicit offset is still evaluated **as if it has one**
+- The offset is derived from the evaluation context (evaluation request timestamp)
+
+👉 The purpose of this capability is to verify that engines implement this behavior **correctly and consistently**.
+
+---
+
+## Suggested Terminology
+
+- ❌ “Does the DateTime have a timezone?”
+- ✅ “How does the engine determine the effective timezone offset for DateTimes without an explicit offset?”
+
+---
+
+## Key Clarification
+
+> This capability is testing **implementation consistency**, not specification ambiguity.
+
+
+---
+
+# 🔗 CapabilityTests Alignment & Mapping
+
+## Capability Definition
+
+- Capability: `timezone-offset-policy`
+- Focus: Handling of DateTime values without explicit timezone offsets
+
+---
+
+## Test Mapping
+
+### 1. Default Offset Application
+- Tests: `timezone-offset-default`
+- Verifies:
+    - Missing offset uses evaluation request timestamp
+    - No null offset produced
+
+---
+
+### 2. timezoneoffset(...) Behavior
+- Tests: `timezoneoffset-from-datetime`
+- Verifies:
+    - Returns evaluation offset when not explicitly provided
+
+---
+
+### 3. Equality / Comparison Consistency
+- Tests: `datetime-equality-offset`
+- Verifies:
+    - `@2012-04-01T00:00` equals equivalent explicit-offset value
+
+---
+
+### 4. Arithmetic Behavior
+- Tests: `datetime-arithmetic-offset`
+- Verifies:
+    - Duration calculations respect derived offset
+
+---
+
+## Reviewer Traceability
+
+Spec → Behavior → Test
+
+- Spec: Offset defaults to evaluation timestamp
+- Behavior: Engine applies offset consistently
+- Tests: Confirm consistency across functions and operators
+
+---
+
+## Summary
+
+This capability ensures engines:
+
+- Correctly apply implicit timezone offsets
+- Do not treat DateTimes as offset-less at runtime
+- Maintain consistency across operations
+
+
+#### Notes
+
+- These settings do not change server behavior; they only control how the runner evaluates tests
+- If the server declares a policy in metadata, it overrides configuration
+- `SERVER_OFFSET_ISO` is only used where explicitly referenced in test expressions
 
 ### Running the tests
 
@@ -197,14 +361,16 @@ If using vscode for development, below are some examples for running the tests w
 
 ```json
 {
-  "type": "node",
-  "request": "launch",
-  "name": "Launch Build Command",
-  "skipFiles": ["<node_internals>/**"],
-  "program": "${workspaceFolder}/src/bin/cql-tests.ts",
-  "args": ["build-cql", "conf/localhost.json"],
-  "runtimeArgs": ["--import", "tsx"]
-},
+    "type": "node",
+    "request": "launch",
+    "name": "Launch Build Command",
+    "skipFiles": ["<node_internals>/**"],
+    "program": "${workspaceFolder}/src/bin/cql-tests.ts",
+    "args": ["build-cql", "conf/localhost.json"],
+    "runtimeArgs": ["--import", "tsx"]
+}
+```
+```json
 {
   "type": "node",
   "request": "launch",
@@ -215,7 +381,7 @@ If using vscode for development, below are some examples for running the tests w
   "runtimeArgs": ["--import", "tsx"],
   "env": {
     "SERVER_BASE_URL": "http://localhost:3000"
-  }
+    }
 }
 ```
 

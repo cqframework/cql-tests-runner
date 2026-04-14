@@ -20,8 +20,9 @@ export class Result implements InternalTestResult {
 	invalid: 'false' | 'true' | 'semantic' | 'undefined';
 	expression: string;
 	capability: CapabilityKV[] = [];
+	groupCapability: CapabilityKV[] = [];
 
-	constructor(testsName: string, groupName: string, test: Test) {
+	constructor(testsName: string, groupName: string, test: Test, groupCapability: CapabilityKV[] = []) {
 		this.testsName = testsName;
 		this.groupName = groupName;
 		this.testName = test.name;
@@ -56,7 +57,9 @@ export class Result implements InternalTestResult {
 		this.capability = Array.isArray(test.capability)
 			? test.capability.map(({ code, value }) => ({ code, value }))
 			: [];
-	}
+		this.groupCapability = Array.isArray(groupCapability)
+			? groupCapability.map(({ code, value }) => ({ code, value }))
+			: [];	}
 }
 
 export async function generateEmptyResults(
@@ -79,7 +82,7 @@ export async function generateEmptyResults(
 			if (test != undefined) {
 				for (const t of test) {
 					console.log('        Test: ' + t.name);
-					const r = new Result(ts.name, group.name, t);
+					const r = new Result(ts.name, group.name, t, group.capability || []);
 					results.push(r);
 					groupTests.push(r);
 				}

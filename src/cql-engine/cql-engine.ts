@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { CQLEngineInfo } from '../models/results-types.js';
+import { response } from 'express';
 
 /**
  * Represents a CQL Engine.
@@ -39,6 +40,7 @@ export class CQLEngine {
 	private baseURL?: string;
 	private metadata?: any;
 	private description?: string;
+	private _SERVER_OFFSET_ISO?: string;
 
   /**
    * Creates an instance of CQLEngine.
@@ -50,16 +52,18 @@ export class CQLEngine {
    * @param cqlEngineVersion - CQL engine version (optional).
    */
   constructor(
-    baseURL: string,
-    cqlPath: string | null = null,
-    cqlTranslator: string = '',
-    cqlTranslatorVersion: string = '',
-    cqlEngine: string = '',
-    cqlEngineVersion: string = ''
-  ) {
-    this._prepareBaseURL(baseURL, cqlPath);
-    this._setInformationFields(cqlTranslator, cqlTranslatorVersion, cqlEngine, cqlEngineVersion);
-  }
+	  baseURL: string,
+	  cqlPath: string | null = null,
+	  cqlTranslator: string = '',
+	  cqlTranslatorVersion: string = '',
+	  cqlEngine: string = '',
+	  cqlEngineVersion: string = '',
+	  SERVER_OFFSET_ISO: string = ''
+	) {
+	  this._prepareBaseURL(baseURL, cqlPath);
+	  this._setInformationFields(cqlTranslator, cqlTranslatorVersion, cqlEngine, cqlEngineVersion);
+	  this.SERVER_OFFSET_ISO = SERVER_OFFSET_ISO;
+	}
 
 	/**
 	 * Prepares the base URL.
@@ -216,6 +220,14 @@ export class CQLEngine {
 		return this.info?.cqlEngineVersion ?? null;
 	}
 
+	get SERVER_OFFSET_ISO(): string {
+		return <string>this._SERVER_OFFSET_ISO;
+	}
+
+	set SERVER_OFFSET_ISO(value: string) {
+		this._SERVER_OFFSET_ISO = value;
+	}
+
 	/**
 	 * Converts the CQLEngine object to JSON.
 	 * @returns The JSON representation of the CQLEngine object.
@@ -230,6 +242,7 @@ export class CQLEngine {
 			cqlTranslatorVersion: this.info.cqlTranslatorVersion || '',
 			cqlEngine: this.info.cqlEngine || '',
 			cqlEngineVersion: this.info.cqlEngineVersion || '',
+			SERVER_OFFSET_ISO: this.SERVER_OFFSET_ISO || '',
 		};
 	}
 
@@ -241,7 +254,7 @@ export class CQLEngine {
 	static fromJSON(cqlInfo: CQLEngineInfo): CQLEngine {
 		const engine = new CQLEngine(cqlInfo.apiUrl || '', null,
 			cqlInfo.cqlTranslator, cqlInfo.cqlTranslatorVersion,
-			cqlInfo.cqlEngine, cqlInfo.cqlEngineVersion);
+			cqlInfo.cqlEngine, cqlInfo.cqlEngineVersion, cqlInfo.SERVER_OFFSET_ISO);
 		if (cqlInfo?.cqlVersion) {
 			engine.cqlVersion = cqlInfo.cqlVersion;
 		}
@@ -256,6 +269,9 @@ export class CQLEngine {
 		}
 		if (cqlInfo?.cqlEngineVersion) {
 			engine.cqlEngineVersion = cqlInfo.cqlEngineVersion;
+		}
+		if (cqlInfo?.SERVER_OFFSET_ISO) {
+			engine._SERVER_OFFSET_ISO = cqlInfo.SERVER_OFFSET_ISO;
 		}
 		return engine;
 	}
