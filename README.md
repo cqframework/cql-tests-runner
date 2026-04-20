@@ -312,3 +312,50 @@ Unit tests can be run from the command line using the following
 ```bash
 npm run unit-tests
 ```
+### Test Flow
+
+The test flow starts with a raw CQL expression defined in a test case. The cql-tests-runner sends this expression to the server via a $cql request, where the CQL Engine evaluates it.
+
+The engine returns a result, which is serialized into a FHIR Parameters resource. CQL types are mapped to FHIR types (e.g., Interval → Range + cqf-cqlType).
+
+Back in the runner, the result extractor converts the FHIR response into a JavaScript representation of the CQL value (the actual). In parallel, the expected value from the test is parsed by cvl into the same JS shape.
+
+The runner then compares actual vs expected structurally (not as strings). If they match → PASS; otherwise → FAIL.
+
+Key points
+
+Use FHIR Range + cqf-cqlType for intervals.
+Avoid string comparison; compare structured values.
+
+```mermaid
+flowchart LR
+    %% Top row (left → right)
+    A["Test case (raw CQL)"] --> B["cql-tests-runner"]
+    B --> C["$cql request"]
+    C --> D["CQL Engine"]
+
+    %% Down from the rightmost node, then flow right → left
+    D --> E["Response: CQL in Java"]
+    E --> F["CQL in FHIR"]
+    F --> G["Result Extractor Maps CQL in FHIR to CQL in JS"]
+    G --> H["Actual (JS value)"]
+
+    %% Continue back toward the left
+    H --> I["Parse Expected (cvl) into CQL in JS"]
+    I --> J["Compare (actual vs expected)"]
+
+    %% Outcome
+    J --> K{"Match?"}
+    K -->|Yes| L["PASS"]
+    K -->|No| M["FAIL"]
+
+    %% Optional note nodes (visual hints)
+    subgraph Notes
+        N1["Interval should be mapped via FHIR Range + cqf-cqlType"]
+        N2["Avoid string compare; compare structured values"]
+    end
+
+    %% Light connections for notes (no arrows affecting flow)
+    D -.-> N1
+    H -.-> N2
+```
