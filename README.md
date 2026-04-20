@@ -127,12 +127,12 @@ npm install
 git submodule update --init --recursive
 
 # Run commands directly from TypeScript source
-npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results # Run CQL tests
-npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results --quick # Run with quick test mode enabled
+npx tsx src/bin/cql-tests.ts run-tests conf/development.json ./results # Run CQL tests
+npx tsx src/bin/cql-tests.ts run-tests conf/development.json ./results --quick # Run with quick test mode enabled
 npx tsx src/bin/cql-tests.ts server                               # Run in server API mode
 npx tsx src/bin/cql-tests.ts help                               # Hetailed command help
 
-npx tsx src/bin/cql-tests.ts build-cql conf/localhost.json ./cql    # Unused legacy tool
+npx tsx src/bin/cql-tests.ts build-cql conf/development.json ./cql    # Unused legacy tool
 
 ```
 
