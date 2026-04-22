@@ -16,7 +16,15 @@ export interface TestRunnerOptions {
 	useAxios?: boolean; // For backward compatibility with run-tests-command
 }
 
+
+
+interface CapabilityStatementMetadata {
+	resourceType?: string;
+	fhirVersion?: string;
+}
+
 export class TestRunner {
+	private readonly fhirVersionCache = new Map<string, string | undefined>();
 	public async runTests(
 		configData: any,
 		options: TestRunnerOptions = {}
@@ -29,20 +37,20 @@ export class TestRunner {
 		// Verify server connectivity before proceeding
 		await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
 
-    const build = config.Build;
-    const cqlEngine = new CQLEngine(
-      serverBaseUrl,
-      cqlEndpoint,
-      build.cqlTranslator ?? '',
-      build.cqlTranslatorVersion ?? '',
-      build.cqlEngine ?? '',
-      build.cqlEngineVersion ?? ''
-    );
-    cqlEngine.cqlVersion = '1.5'; //default value
-    const cqlVersion = config.Build?.CqlVersion;
-    if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
-      cqlEngine.cqlVersion = cqlVersion;
-    }
+		const build = config.Build;
+		const cqlEngine = new CQLEngine(
+			serverBaseUrl,
+			cqlEndpoint,
+			build.cqlTranslator ?? '',
+			build.cqlTranslatorVersion ?? '',
+			build.cqlEngine ?? '',
+			build.cqlEngineVersion ?? ''
+		);
+		cqlEngine.cqlVersion = '1.5'; //default value
+		const cqlVersion = config.Build?.CqlVersion;
+		if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
+			cqlEngine.cqlVersion = cqlVersion;
+		}
 
 		// Load CVL using dynamic import
 		// @ts-ignore
@@ -76,6 +84,21 @@ export class TestRunner {
 						result.groupName,
 						result.testName,
 						skipReason
+					);
+				}
+				if (
+					await this.shouldSkipInteger64R4OrEarlierExpressionTest(
+						serverBaseUrl,
+						result,
+						options.useAxios
+					)
+				) {
+					this.addToSkipList(
+						skipMap,
+						result.testsName,
+						result.groupName,
+						result.testName,
+						'FHIR R4 and earlier do not support Long/Integer64 values'
 					);
 				}
 				await this.runTest(
@@ -130,7 +153,7 @@ export class TestRunner {
 			);
 			return result;
 		} else if (onlySet.size > 0 && !onlySet.has(key)) {
-			result.SkipMessage = 'Skipped by OnlyList filter';
+			result.skipMessage = 'Skipped by OnlyList filter';
 			result.testStatus = 'skip';
 			return result;
 		} else if (skipMap.has(key)) {
@@ -247,6 +270,80 @@ export class TestRunner {
 			}
 		}
 		return 0; // versions are equal
+	}
+
+	private async getServerFhirVersion(
+		serverBaseUrl: string | undefined,
+		useAxios: boolean = false
+	): Promise<string | undefined> {
+		if (!serverBaseUrl) return undefined;
+
+		const normalizedBaseUrl = serverBaseUrl.replace(/\/+$/, '');
+		if (this.fhirVersionCache.has(normalizedBaseUrl)) {
+			return this.fhirVersionCache.get(normalizedBaseUrl);
+		}
+
+		let fhirVersion: string | undefined;
+
+		try {
+			const metadataUrl = `${normalizedBaseUrl}/metadata`;
+
+			if (useAxios) {
+				const axios = await import('axios');
+				const axiosResponse = await axios.default.get<CapabilityStatementMetadata>(metadataUrl, {
+					headers: {
+						Accept: 'application/fhir+json, application/json',
+					},
+				});
+				fhirVersion = axiosResponse.data?.fhirVersion;
+			} else {
+				const fetchResponse = await fetch(metadataUrl, {
+					method: 'GET',
+					headers: {
+						Accept: 'application/fhir+json, application/json',
+					},
+				});
+
+				if (fetchResponse.ok) {
+					const metadata =
+						(await fetchResponse.json()) as CapabilityStatementMetadata;
+					fhirVersion = metadata.fhirVersion;
+				}
+			}
+		} catch (error) {
+			console.warn('Unable to determine FHIR version from metadata:', error);
+		}
+
+		this.fhirVersionCache.set(normalizedBaseUrl, fhirVersion);
+		return fhirVersion;
+	}
+
+	private async isR4OrEarlierServer(
+		serverBaseUrl: string | undefined,
+		useAxios: boolean = false
+	): Promise<boolean> {
+		const fhirVersion = await this.getServerFhirVersion(serverBaseUrl, useAxios);
+		if (typeof fhirVersion === 'string' && fhirVersion.trim() !== '') {
+			const major = parseInt(fhirVersion.split('.')[0], 10);
+			if (!Number.isNaN(major)) {
+				return major <= 4;
+			}
+		}
+
+		// Fallback for URLs that explicitly include older FHIR version markers
+		return /\/(dstu2|stu3|r4)(\/|$)/i.test(serverBaseUrl ?? '');
+	}
+
+	private async shouldSkipInteger64R4OrEarlierExpressionTest(
+		serverBaseUrl: string | undefined,
+		result: InternalTestResult,
+		useAxios: boolean = false
+	): Promise<boolean> {
+		if (!(await this.isR4OrEarlierServer(serverBaseUrl, useAxios))) return false;
+		const expression = String(result.expression ?? '');
+		return /(\bLong\b|\bInteger64\b|\bSystem\.Long\b|\bSystem\.Integer64\b|\d+[lL]\b)/.test(
+			expression
+		);
 	}
 
 	private shouldSkipVersionTest(cqlEngine: CQLEngine, result: InternalTestResult): boolean {
