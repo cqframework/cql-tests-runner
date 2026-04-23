@@ -87,7 +87,7 @@ export class TestRunner {
 					);
 				}
 				if (
-					await this.shouldSkipInteger64R4OrEarlierExpressionTest(
+					await this.shouldSkipLongR4OrEarlierCapabilityTest(
 						serverBaseUrl,
 						result,
 						options.useAxios
@@ -334,16 +334,15 @@ export class TestRunner {
 		return /\/(dstu2|stu3|r4)(\/|$)/i.test(serverBaseUrl ?? '');
 	}
 
-	private async shouldSkipInteger64R4OrEarlierExpressionTest(
+	private async shouldSkipLongR4OrEarlierCapabilityTest(
 		serverBaseUrl: string | undefined,
 		result: InternalTestResult,
 		useAxios: boolean = false
 	): Promise<boolean> {
 		if (!(await this.isR4OrEarlierServer(serverBaseUrl, useAxios))) return false;
-		const expression = String(result.expression ?? '');
-		return /(\bLong\b|\bInteger64\b|\bSystem\.Long\b|\bSystem\.Integer64\b|\d+[lL]\b)/.test(
-			expression
-		);
+
+		const capabilities = Array.isArray(result.capability) ? result.capability : [];
+		return capabilities.some(cap => String(cap.code ?? '').toLowerCase() === 'system.long');
 	}
 
 	private shouldSkipVersionTest(cqlEngine: CQLEngine, result: InternalTestResult): boolean {
