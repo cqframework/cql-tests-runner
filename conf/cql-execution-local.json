@@ -38,6 +38,12 @@
 				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
 			},
 			{
+				"testsName": "CqlAggregateFunctionsTest",
+				"groupName": "Sum",
+				"testName": "SumTestLong",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
 				"testsName": "CqlAggregateTest",
 				"groupName": "AggregateTests",
 				"testName": "RolledOutIntervals",
@@ -51,14 +57,50 @@
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Add",
+				"testName": "Add1L1L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Add",
+				"testName": "Add1L2L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "MinValue",
+				"testName": "DateTimeMinValue",
+				"reason": "Test Runner Not Detecting Equal DateTimes (+00:00 vs Z): https://github.com/cqframework/cql-tests-runner/issues/83"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "MinValue",
+				"testName": "LongMinValue",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "MaxValue",
 				"testName": "DateTimeMaxValue",
 				"reason": "Test Runner Not Detecting Equal DateTimes (+00:00 vs Z): https://github.com/cqframework/cql-tests-runner/issues/83"
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "MaxValue",
+				"testName": "LongMaxValue",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "Modulo",
 				"testName": "Modulo4LBy2L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Multiply",
+				"testName": "Multiply1By1L",
 				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
 			},
 			{
@@ -71,6 +113,12 @@
 				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "Negate",
 				"testName": "Negate1L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Negate",
+				"testName": "NegateMaxLong",
 				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
 			},
 			{
@@ -93,8 +141,20 @@
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Predecessor",
+				"testName": "PredecessorOf1L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "Subtract",
 				"testName": "Subtract1LAnd1L",
+				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Successor",
+				"testName": "SuccessorOf1L",
 				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
 			},
 			{
@@ -261,12 +321,6 @@
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Collapse",
-				"testName": "DateTimeCollapse2",
-				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "End",
 				"testName": "DateTimeIntervalEnd",
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
@@ -312,6 +366,18 @@
 				"groupName": "Expand",
 				"testName": "ExpandPerDay",
 				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPerHour",
+				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPerHourOpen",
+				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
