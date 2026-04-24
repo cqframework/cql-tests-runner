@@ -57,7 +57,7 @@ export class Result implements InternalTestResult {
 			? test.capability
 			: test.capability
 				? [test.capability]
-			: [];
+				: [];
 
 		this.capability = testCapabilities.map(({ code, value }) => ({ code, value }));
 	}

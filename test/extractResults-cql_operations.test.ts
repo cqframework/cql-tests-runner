@@ -108,6 +108,61 @@ test('string response check', () => {
 	).toBe('abc');
 });
 
+
+test('R4 System.Long response check using valueString with L suffix', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [
+						{
+							url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
+							valueString: 'System.Long',
+						},
+					],
+					valueString: '1L',
+				},
+			],
+		})
+	).toBe(1n);
+});
+
+test('R4 System.Long response check using valueString without L suffix', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [
+						{
+							url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
+							valueString: 'System.Long',
+						},
+					],
+					valueString: '1',
+				},
+			],
+		})
+	).toBe(1n);
+});
+
+test('R5 System.Long response check using valueInteger64', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueInteger64: '1',
+				},
+			],
+		})
+	).toBe(1n);
+});
+
 test('singleton list-typed return stays array when singletonListKeys includes return (issue #82)', () => {
 	expect(
 		extractor!.extract(

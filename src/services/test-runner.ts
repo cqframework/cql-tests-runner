@@ -17,14 +17,7 @@ export interface TestRunnerOptions {
 }
 
 
-
-interface CapabilityStatementMetadata {
-	resourceType?: string;
-	fhirVersion?: string;
-}
-
 export class TestRunner {
-	private readonly fhirVersionCache = new Map<string, string | undefined>();
 	public async runTests(
 		configData: any,
 		options: TestRunnerOptions = {}
@@ -84,21 +77,6 @@ export class TestRunner {
 						result.groupName,
 						result.testName,
 						skipReason
-					);
-				}
-				if (
-					await this.shouldSkipLongR4OrEarlierCapabilityTest(
-						serverBaseUrl,
-						result,
-						options.useAxios
-					)
-				) {
-					this.addToSkipList(
-						skipMap,
-						result.testsName,
-						result.groupName,
-						result.testName,
-						'FHIR R4 and earlier do not support Long/Integer64 values'
 					);
 				}
 				await this.runTest(
@@ -270,79 +248,6 @@ export class TestRunner {
 			}
 		}
 		return 0; // versions are equal
-	}
-
-	private async getServerFhirVersion(
-		serverBaseUrl: string | undefined,
-		useAxios: boolean = false
-	): Promise<string | undefined> {
-		if (!serverBaseUrl) return undefined;
-
-		const normalizedBaseUrl = serverBaseUrl.replace(/\/+$/, '');
-		if (this.fhirVersionCache.has(normalizedBaseUrl)) {
-			return this.fhirVersionCache.get(normalizedBaseUrl);
-		}
-
-		let fhirVersion: string | undefined;
-
-		try {
-			const metadataUrl = `${normalizedBaseUrl}/metadata`;
-
-			if (useAxios) {
-				const axios = await import('axios');
-				const axiosResponse = await axios.default.get<CapabilityStatementMetadata>(metadataUrl, {
-					headers: {
-						Accept: 'application/fhir+json, application/json',
-					},
-				});
-				fhirVersion = axiosResponse.data?.fhirVersion;
-			} else {
-				const fetchResponse = await fetch(metadataUrl, {
-					method: 'GET',
-					headers: {
-						Accept: 'application/fhir+json, application/json',
-					},
-				});
-
-				if (fetchResponse.ok) {
-					const metadata =
-						(await fetchResponse.json()) as CapabilityStatementMetadata;
-					fhirVersion = metadata.fhirVersion;
-				}
-			}
-		} catch (error) {
-			console.warn('Unable to determine FHIR version from metadata:', error);
-		}
-
-		this.fhirVersionCache.set(normalizedBaseUrl, fhirVersion);
-		return fhirVersion;
-	}
-
-	private async isR4OrEarlierServer(
-		serverBaseUrl: string | undefined,
-		useAxios: boolean = false
-	): Promise<boolean> {
-		const fhirVersion = await this.getServerFhirVersion(serverBaseUrl, useAxios);
-		if (typeof fhirVersion === 'string' && fhirVersion.trim() !== '') {
-			const major = parseInt(fhirVersion.split('.')[0], 10);
-			if (!Number.isNaN(major)) {
-				return major <= 4;
-			}
-		}
-
-		// Fallback for URLs that explicitly include older FHIR version markers
-		return /\/(dstu2|stu3|r4)(\/|$)/i.test(serverBaseUrl ?? '');
-	}
-
-	private async shouldSkipLongR4OrEarlierCapabilityTest(
-		serverBaseUrl: string | undefined,
-		result: InternalTestResult,
-		useAxios: boolean = false
-	): Promise<boolean> {
-		if (!(await this.isR4OrEarlierServer(serverBaseUrl, useAxios))) return false;
-
-		const capabilities = Array.isArray(result.capability) ? result.capability : [];
-		return capabilities.some(cap => String(cap.code ?? '').toLowerCase() === 'system.long');
 	}
 
 	private shouldSkipVersionTest(cqlEngine: CQLEngine, result: InternalTestResult): boolean {
