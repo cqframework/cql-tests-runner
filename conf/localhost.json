@@ -138,6 +138,30 @@
 			"groupName": "Truncated Divide",
 			"testName": "TruncatedDivide10LBy3L",
 			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlAggregateFunctionsTest",
+			"groupName": "Product",
+			"testName": "ProductLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlAggregateFunctionsTest",
+			"groupName": "Max",
+			"testName": "MaxTestLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlAggregateFunctionsTest",
+			"groupName": "Min",
+			"testName": "MinTestLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlAggregateFunctionsTest",
+			"groupName": "Sum",
+			"testName": "SumTestLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
 		}
 	]
   }
