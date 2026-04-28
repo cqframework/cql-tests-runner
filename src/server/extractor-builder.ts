@@ -2,6 +2,7 @@ import { EvaluationErrorExtractor } from '../extractors/evaluation-error-extract
 import { NullEmptyExtractor } from '../extractors/null-empty-extractor.js';
 import { UndefinedExtractor } from '../extractors/undefined-extractor.js';
 import { StringExtractor } from '../extractors/value-type-extractors/string-extractor.js';
+import { LongExtractor } from '../extractors/value-type-extractors/long-extractor.js';
 import { BooleanExtractor } from '../extractors/value-type-extractors/boolean-extractor.js';
 import { IntegerExtractor } from '../extractors/value-type-extractors/integer-extractor.js';
 import { DecimalExtractor } from '../extractors/value-type-extractors/decimal-extractor.js';
@@ -24,6 +25,7 @@ export function buildExtractor(): ResultExtractor {
   extractors
     .setNextExtractor(new NullEmptyExtractor())
     .setNextExtractor(new UndefinedExtractor())
+    .setNextExtractor(new LongExtractor())
     .setNextExtractor(new StringExtractor())
     .setNextExtractor(new BooleanExtractor())
     .setNextExtractor(new IntegerExtractor())

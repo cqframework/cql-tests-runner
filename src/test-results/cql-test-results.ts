@@ -106,7 +106,7 @@ export class CQLTestResults {
 				...(result.responseStatus !== undefined && {
 					responseStatus: result.responseStatus,
 				}),
-				...(result.actual !== undefined && { actual: String(result.actual) }),
+				...(result.actual !== undefined && { actual: this.formatResultValue(result.actual) }),
 				...(result.expected && { expected: result.expected }),
 				...(result.error && {
 					error: {
@@ -172,6 +172,37 @@ export class CQLTestResults {
 		return filePath;
 	}
 
+
+	/**
+	 * Formats a value for JSON output without losing structured CQL values.
+	 */
+	private formatResultValue(value: any): string {
+		if (typeof value === 'bigint') {
+			return `${value.toString()}L`;
+		}
+
+		if (value && typeof value === 'object' && 'value' in value) {
+			const unit = value.unit ?? value.code;
+			if (unit !== undefined) {
+				return `${this.formatNumber(value.value)}'${unit}'`;
+			}
+		}
+
+		if (value && typeof value === 'object') {
+			return JSON.stringify(value);
+		}
+
+		return String(value);
+	}
+
+	private formatNumber(value: any): string {
+		const numericValue = Number(value);
+		if (!Number.isFinite(numericValue)) {
+			return String(value);
+		}
+		return Number(numericValue.toPrecision(15)).toString();
+	}
+
 	/**
 	 * Equalizes value types for comparison
 	 */
@@ -188,8 +219,7 @@ export class CQLTestResults {
 			} else if (typeof act === 'number' && typeof exp === 'string') {
 				r.actual = String(act);
 			} else if (act !== undefined && act !== null && typeof act !== 'string') {
-				// Convert any non-string value to string for schema compliance
-				r.actual = String(act);
+				r.actual = this.formatResultValue(act);
 			}
 		}
 	}
