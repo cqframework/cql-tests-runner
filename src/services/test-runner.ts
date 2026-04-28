@@ -16,6 +16,7 @@ export interface TestRunnerOptions {
 	useAxios?: boolean; // For backward compatibility with run-tests-command
 }
 
+
 export class TestRunner {
 	public async runTests(
 		configData: any,
@@ -29,20 +30,20 @@ export class TestRunner {
 		// Verify server connectivity before proceeding
 		await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
 
-    const build = config.Build;
-    const cqlEngine = new CQLEngine(
-      serverBaseUrl,
-      cqlEndpoint,
-      build.cqlTranslator ?? '',
-      build.cqlTranslatorVersion ?? '',
-      build.cqlEngine ?? '',
-      build.cqlEngineVersion ?? ''
-    );
-    cqlEngine.cqlVersion = '1.5'; //default value
-    const cqlVersion = config.Build?.CqlVersion;
-    if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
-      cqlEngine.cqlVersion = cqlVersion;
-    }
+		const build = config.Build;
+		const cqlEngine = new CQLEngine(
+			serverBaseUrl,
+			cqlEndpoint,
+			build.cqlTranslator ?? '',
+			build.cqlTranslatorVersion ?? '',
+			build.cqlEngine ?? '',
+			build.cqlEngineVersion ?? ''
+		);
+		cqlEngine.cqlVersion = '1.5'; //default value
+		const cqlVersion = config.Build?.CqlVersion;
+		if (typeof cqlVersion === 'string' && cqlVersion.trim() !== '') {
+			cqlEngine.cqlVersion = cqlVersion;
+		}
 
 		// Load CVL using dynamic import
 		// @ts-ignore
@@ -130,7 +131,7 @@ export class TestRunner {
 			);
 			return result;
 		} else if (onlySet.size > 0 && !onlySet.has(key)) {
-			result.SkipMessage = 'Skipped by OnlyList filter';
+			result.skipMessage = 'Skipped by OnlyList filter';
 			result.testStatus = 'skip';
 			return result;
 		} else if (skipMap.has(key)) {

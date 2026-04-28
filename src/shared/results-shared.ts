@@ -53,9 +53,13 @@ export class Result implements InternalTestResult {
 			this.skipMessage = 'No output specified';
 		}
 
-		this.capability = Array.isArray(test.capability)
-			? test.capability.map(({ code, value }) => ({ code, value }))
-			: [];
+		const testCapabilities = Array.isArray(test.capability)
+			? test.capability
+			: test.capability
+				? [test.capability]
+				: [];
+
+		this.capability = testCapabilities.map(({ code, value }) => ({ code, value }));
 	}
 }
 

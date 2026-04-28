@@ -19,24 +19,150 @@
   "Tests": {
     "ResultsPath": "./results",
     "SkipList": [
-      {
-        "testsName": "CqlAggregateTest",
-        "groupName": "AggregateTests",
-        "testName": "RolledOutIntervals",
-        "reason": "CQLtoELM - Could not resolve identifier MedicationRequestIntervals in the current library"
-      },
-      {
-        "testsName": "CqlDateTimeOperatorsTest",
-        "groupName": "DateTimeComponentFrom",
-        "testName": "DateTimeComponentFromTimezone",
-        "reason": "CQLtoElm - Timezone keyword is only valid in 1.3 or lower"
-      },
-      {
-        "testsName": "CqlDateTimeOperatorsTest",
-        "groupName": "Uncertainty tests",
-        "testName": "TimeDurationBetweenHourDiffPrecision",
-        "reason": "CQLtoELM - Syntax error at Z"
-      }
-    ]
+		{
+			"testsName": "CqlAggregateTest",
+			"groupName": "AggregateTests",
+			"testName": "RolledOutIntervals",
+			"reason": "CQLtoELM - Could not resolve identifier MedicationRequestIntervals in the current library"
+		},
+		{
+			"testsName": "CqlDateTimeOperatorsTest",
+			"groupName": "DateTimeComponentFrom",
+			"testName": "DateTimeComponentFromTimezone",
+			"reason": "CQLtoElm - Timezone keyword is only valid in 1.3 or lower"
+		},
+		{
+			"testsName": "CqlDateTimeOperatorsTest",
+			"groupName": "Uncertainty tests",
+			"testName": "TimeDurationBetweenHourDiffPrecision",
+			"reason": "CQLtoELM - Syntax error at Z"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Abs",
+			"testName": "AbsLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Add",
+			"testName": "Add1L2L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Add",
+			"testName": "Add1L1L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "MinValue",
+			"testName": "LongMinValue",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "MaxValue",
+			"testName": "LongMaxValue",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Modulo",
+			"testName": "Modulo4LBy2L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Multiply",
+			"testName": "Multiply2LBy3L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Multiply",
+			"testName": "Multiply1By1L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Negate",
+			"testName": "Negate1L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Negate",
+			"testName": "NegateMaxLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Negate",
+			"testName": "NegateNeg1L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Predecessor",
+			"testName": "PredecessorOf1L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Power",
+			"testName": "Power2LTo2L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Power",
+			"testName": "Power2LTo3L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Subtract",
+			"testName": "Subtract1LAnd1L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Successor",
+			"testName": "SuccessorOf1L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlArithmeticFunctionsTest",
+			"groupName": "Truncated Divide",
+			"testName": "TruncatedDivide10LBy3L",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlAggregateFunctionsTest",
+			"groupName": "Product",
+			"testName": "ProductLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlAggregateFunctionsTest",
+			"groupName": "Max",
+			"testName": "MaxTestLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlAggregateFunctionsTest",
+			"groupName": "Min",
+			"testName": "MinTestLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		},
+		{
+			"testsName": "CqlAggregateFunctionsTest",
+			"groupName": "Sum",
+			"testName": "SumTestLong",
+			"reason": "FHIR R4 does not support Long/Integer64"
+		}
+	]
   }
 }
