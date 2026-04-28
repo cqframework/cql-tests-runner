@@ -11,7 +11,7 @@ export function resultsEqual(expected: any, actual: any): boolean {
 	}
 
 	if (typeof expected === 'number') {
-		return Math.abs(actual - expected) < 0.00000001;
+		return Math.abs(Number(actual) - expected) < 0.00000001;
 	}
 
 	if (expected === actual) {
@@ -19,6 +19,10 @@ export function resultsEqual(expected: any, actual: any): boolean {
 	}
 
 	if (cqlDateTimesEqual(expected, actual)) {
+		return true;
+	}
+
+	if (quantitiesEqual(expected, actual)) {
 		return true;
 	}
 
@@ -97,4 +101,101 @@ function parseCqlDateTime(value: string): CqlDateTimeParts | undefined {
 
 function normalizeTimezone(timezone: string): string {
 	return timezone === 'Z' ? '+00:00' : timezone;
+}
+
+interface ParsedQuantity {
+	value: number;
+	unit: string;
+}
+
+interface UcumConversion {
+	canonicalUnit: string;
+	factor: number;
+}
+
+const UCUM_CONVERSIONS: Record<string, UcumConversion> = {
+	mm: { canonicalUnit: 'm', factor: 0.001 },
+	cm: { canonicalUnit: 'm', factor: 0.01 },
+	m: { canonicalUnit: 'm', factor: 1 },
+	km: { canonicalUnit: 'm', factor: 1000 },
+	mm2: { canonicalUnit: 'm2', factor: 0.000001 },
+	cm2: { canonicalUnit: 'm2', factor: 0.0001 },
+	m2: { canonicalUnit: 'm2', factor: 1 },
+	km2: { canonicalUnit: 'm2', factor: 1000000 },
+	mg: { canonicalUnit: 'g', factor: 0.001 },
+	g: { canonicalUnit: 'g', factor: 1 },
+	kg: { canonicalUnit: 'g', factor: 1000 },
+	ms: { canonicalUnit: 's', factor: 0.001 },
+	s: { canonicalUnit: 's', factor: 1 },
+	min: { canonicalUnit: 's', factor: 60 },
+	h: { canonicalUnit: 's', factor: 3600 },
+	d: { canonicalUnit: 's', factor: 86400 },
+};
+
+function quantitiesEqual(expected: any, actual: any): boolean {
+	const expectedQuantity = parseQuantity(expected);
+	const actualQuantity = parseQuantity(actual);
+
+	if (!expectedQuantity || !actualQuantity) {
+		return false;
+	}
+
+	// Same unit can be compared directly, even if we do not have a conversion rule.
+	if (expectedQuantity.unit === actualQuantity.unit) {
+		return numbersEqual(expectedQuantity.value, actualQuantity.value);
+	}
+
+	const expectedNormalized = normalizeQuantity(expectedQuantity);
+	const actualNormalized = normalizeQuantity(actualQuantity);
+
+	if (!expectedNormalized || !actualNormalized) {
+		return false;
+	}
+
+	return (
+		expectedNormalized.unit === actualNormalized.unit &&
+		numbersEqual(expectedNormalized.value, actualNormalized.value)
+	);
+}
+
+function parseQuantity(value: any): ParsedQuantity | undefined {
+	if (typeof value === 'string') {
+		const quantityMatch = /^\s*(-?\d+(?:\.\d+)?)\s*'([^']+)'\s*$/.exec(value);
+		if (!quantityMatch) return undefined;
+
+		return {
+			value: Number(quantityMatch[1]),
+			unit: quantityMatch[2],
+		};
+	}
+
+	if (value && typeof value === 'object' && 'value' in value) {
+		const quantityValue = Number(value.value);
+		const unit = value.unit ?? value.code;
+
+		if (!Number.isFinite(quantityValue) || typeof unit !== 'string') {
+			return undefined;
+		}
+
+		return {
+			value: quantityValue,
+			unit,
+		};
+	}
+
+	return undefined;
+}
+
+function normalizeQuantity(quantity: ParsedQuantity): ParsedQuantity | undefined {
+	const conversion = UCUM_CONVERSIONS[quantity.unit];
+	if (!conversion) return undefined;
+
+	return {
+		value: quantity.value * conversion.factor,
+		unit: conversion.canonicalUnit,
+	};
+}
+
+function numbersEqual(a: number, b: number): boolean {
+	return Math.abs(a - b) < 0.00000001;
 }
