@@ -187,14 +187,19 @@ export class TestRunner {
 
 			result.responseStatus = response.status;
 			const responseBody = response.data;
-			const parsedExpected = cvl.parse(result.expected);
-			result.actual = resultExtractor.extract(responseBody, {
-				singletonListKeys: ValueMap.singletonListKeysFromExpected(parsedExpected),
-			});
 			const invalid = result.invalid;
+			const parsedExpected = result.expected !== undefined ? cvl.parse(result.expected) : undefined;
+			result.actual = resultExtractor.extract(responseBody, {
+				singletonListKeys:
+					parsedExpected !== undefined
+						? ValueMap.singletonListKeysFromExpected(parsedExpected)
+						: new Set<string>(),
+			});
 
 			if (invalid === 'true' || invalid === 'semantic') {
-				result.testStatus = response.status === 200 ? 'fail' : 'pass';
+				result.testStatus = this.isExpectedInvalidResult(response.status, result.actual)
+					? 'pass'
+					: 'fail';
 			} else {
 				if (response.status === 200) {
 					result.testStatus = resultsEqual(parsedExpected, result.actual)
@@ -224,6 +229,15 @@ export class TestRunner {
 		);
 
 		return result;
+	}
+
+	private isExpectedInvalidResult(responseStatus: number, actual: any): boolean {
+		if (responseStatus !== 200) {
+			return true;
+		}
+
+		const actualText = typeof actual === 'string' ? actual : JSON.stringify(actual);
+		return /EvaluationError:|OperationOutcome|Could not resolve call to operator/i.test(actualText);
 	}
 
 	private compareVersions(versionA: string | undefined, versionB: string | undefined): number {
