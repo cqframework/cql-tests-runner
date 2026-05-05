@@ -48,14 +48,23 @@ export class Result implements InternalTestResult {
 			} else {
 				this.expected = test.output as string;
 			}
+		} else if (this.invalid === 'true' || this.invalid === 'semantic') {
+			// Invalid tests are expected to fail during translation/evaluation.
+			// They do not need an <output>; allow the runner to execute them
+			// and mark them pass if the engine reports an error.
+			this.expected = undefined;
 		} else {
 			this.testStatus = 'skip';
 			this.skipMessage = 'No output specified';
 		}
 
-		this.capability = Array.isArray(test.capability)
-			? test.capability.map(({ code, value }) => ({ code, value }))
+		const testCapabilities = Array.isArray(test.capability)
+			? test.capability
+			: test.capability
+				? [test.capability]
 			: [];
+
+		this.capability = testCapabilities.map(({ code, value }) => ({ code, value }));
 	}
 }
 
