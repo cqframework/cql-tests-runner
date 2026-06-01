@@ -220,7 +220,7 @@ export class TestRunner {
 			result.testName,
 			result.testStatus,
 			result.expected,
-			result.actual
+			CQLTestResults.formatActualValue(result.actual)
 		);
 
 		return result;

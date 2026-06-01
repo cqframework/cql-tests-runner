@@ -28,6 +28,94 @@ export class CQLTestResults {
 	public results: InternalTestResult[] = [];
 
 	/**
+	 * Returns true when a value is shaped like the runner's internal CQL Interval
+	 * representation.
+	 */
+	private static isIntervalValue(value: any): boolean {
+		return (
+			value !== null &&
+			typeof value === 'object' &&
+			('low' in value || 'high' in value) &&
+			('lowClosed' in value || 'highClosed' in value)
+		);
+	}
+
+	/**
+	 * Formats CQL date/time strings for report output.
+	 *
+	 * Preserve the value exactly as returned by the engine. Do not collapse
+	 * DateTime values at midnight with offsets (for example,
+	 * @2018-01-01T00:00:00-07:00) to Date precision, because doing so changes
+	 * the actual result reported by the server.
+	 */
+	private static formatCqlTemporalValue(value: string): string {
+		return value;
+	}
+
+	/**
+	 * Formats a primitive value for compact CQL-style report output.
+	 */
+	private static formatCqlValue(value: any): string {
+		if (value === null || value === undefined) {
+			return 'null';
+		}
+
+		if (typeof value === 'string') {
+			return CQLTestResults.formatCqlTemporalValue(value);
+		}
+
+		return String(value);
+	}
+
+	/**
+	 * Formats an internal interval object as CQL interval syntax.
+	 */
+	private static formatIntervalValue(interval: any): string {
+		const lowDelimiter = interval.lowClosed === false ? '(' : '[';
+		const highDelimiter = interval.highClosed === false ? ')' : ']';
+		return `Interval${lowDelimiter}${CQLTestResults.formatCqlValue(interval.low)}, ${CQLTestResults.formatCqlValue(interval.high)}${highDelimiter}`;
+	}
+
+	/**
+	 * Formats an actual result value for schema-compliant JSON output. Complex CQL
+	 * values are rendered in compact CQL syntax when possible; otherwise they are
+	 * JSON-serialized. String(object) produces "[object Object]" and loses
+	 * interval/list structure.
+	 */
+	public static formatActualValue(actual: any): string {
+		if (actual === null) {
+			return 'null';
+		}
+
+		if (typeof actual === 'string') {
+			return actual;
+		}
+
+		if (typeof actual === 'boolean' || typeof actual === 'number' || typeof actual === 'bigint') {
+			return String(actual);
+		}
+
+		if (CQLTestResults.isIntervalValue(actual)) {
+			return CQLTestResults.formatIntervalValue(actual);
+		}
+
+		if (Array.isArray(actual) && actual.every(CQLTestResults.isIntervalValue)) {
+			return `{ ${actual.map(interval => CQLTestResults.formatIntervalValue(interval)).join(', ')} }`;
+		}
+
+		if (Array.isArray(actual) && actual.every(value => typeof value === 'string')) {
+			return `{ ${actual.join(', ')} }`;
+		}
+
+		try {
+			const serialized = JSON.stringify(actual, null, 2);
+			return serialized === undefined ? String(actual) : serialized;
+		} catch {
+			return String(actual);
+		}
+	}
+
+	/**
 	 * Initializes CQLTestResults object with counts and results array.
 	 * @param cqlengine - The CQL engine instance used to run the tests.
 	 * @param testsRunDateTime - The date and time when the tests were run.
@@ -106,7 +194,9 @@ export class CQLTestResults {
 				...(result.responseStatus !== undefined && {
 					responseStatus: result.responseStatus,
 				}),
-				...(result.actual !== undefined && { actual: String(result.actual) }),
+				...(result.actual !== undefined && {
+					actual: CQLTestResults.formatActualValue(result.actual),
+				}),
 				...(result.expected && { expected: result.expected }),
 				...(result.error && {
 					error: {
@@ -188,8 +278,9 @@ export class CQLTestResults {
 			} else if (typeof act === 'number' && typeof exp === 'string') {
 				r.actual = String(act);
 			} else if (act !== undefined && act !== null && typeof act !== 'string') {
-				// Convert any non-string value to string for schema compliance
-				r.actual = String(act);
+				// Convert any non-string value to a schema-compliant string while
+				// preserving structure for arrays/objects.
+				r.actual = CQLTestResults.formatActualValue(act);
 			}
 		}
 	}
