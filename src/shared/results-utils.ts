@@ -1,7 +1,51 @@
 /**
- * Compares two results for equality, handling nested objects and numbers
+ * Compares two results for equality, handling nested objects and numbers.
+ *
+ * Normalization handles representation differences that are not semantically
+ * meaningful for CQL comparison:
+ * - CVL can represent singleton Concept.codes as a single Code object while
+ *   the extractor can preserve codes as Code[].
+ * - Extracted runtime objects can include optional properties with undefined
+ *   values, such as system/version/display. Those should not make an object
+ *   unequal to the same object with those properties omitted.
  */
 export function resultsEqual(expected: any, actual: any): boolean {
+	return resultsEqualNormalized(
+		normalizeForComparison(expected),
+		normalizeForComparison(actual)
+	);
+}
+
+function normalizeForComparison(value: any): any {
+	if (Array.isArray(value)) {
+		return value.map(normalizeForComparison);
+	}
+
+	if (value && typeof value === 'object') {
+		const normalized: any = {};
+
+		for (const [key, child] of Object.entries(value)) {
+			// Ignore optional fields that are present only as undefined on runtime
+			// objects. Object.keys includes these fields, causing false mismatches
+			// against expected values where the fields are absent.
+			if (child === undefined) {
+				continue;
+			}
+
+			if (key === 'codes' && Array.isArray(child) && child.length === 1) {
+				normalized[key] = normalizeForComparison(child[0]);
+			} else {
+				normalized[key] = normalizeForComparison(child);
+			}
+		}
+
+		return normalized;
+	}
+
+	return value;
+}
+
+function resultsEqualNormalized(expected: any, actual: any): boolean {
 	if (expected === undefined && actual === undefined) {
 		return true;
 	}
@@ -33,7 +77,7 @@ export function resultsEqual(expected: any, actual: any): boolean {
 	if (expectedKeys.length !== actualKeys.length) return false;
 
 	for (const key of expectedKeys) {
-		if (!actualKeys.includes(key) || !resultsEqual(expected[key], actual[key])) {
+		if (!actualKeys.includes(key) || !resultsEqualNormalized(expected[key], actual[key])) {
 			return false;
 		}
 	}
