@@ -36,7 +36,8 @@ export class TestRunner {
       build.cqlTranslator ?? '',
       build.cqlTranslatorVersion ?? '',
       build.cqlEngine ?? '',
-      build.cqlEngineVersion ?? ''
+      build.cqlEngineVersion ?? '',
+      build.SERVER_OFFSET_ISO ?? '+00:00'
     );
     cqlEngine.cqlVersion = '1.5'; //default value
     const cqlVersion = config.Build?.CqlVersion;
@@ -143,7 +144,7 @@ export class TestRunner {
 			);
 			return result;
 		} else if (onlySet.size > 0 && !onlySet.has(key)) {
-			result.SkipMessage = 'Skipped by OnlyList filter';
+			result.skipMessage = 'Skipped by OnlyList filter';
 			result.testStatus = 'skip';
 			return result;
 		} else if (skipMap.has(key)) {
@@ -166,7 +167,7 @@ export class TestRunner {
 			activeTimeZonePolicy
 		);
 		if (timezonePolicySkipReason) {
-			result.SkipMessage = timezonePolicySkipReason;
+			result.skipMessage = timezonePolicySkipReason;
 			result.testStatus = 'skip';
 			return result;
 		}
@@ -181,6 +182,15 @@ export class TestRunner {
 			);
 
 			this.applyServerOffsetToParameters(data, cqlEngine);
+
+			// Also resolve the placeholder in result.expression so the results
+			// log the actual expression sent to the server, not the raw template.
+			if (cqlEngine.SERVER_OFFSET_ISO?.trim()) {
+				result.expression = this.replaceServerOffsetPlaceholder(
+					result.expression,
+					cqlEngine.SERVER_OFFSET_ISO
+				);
+			}
 
 			let response: any;
 			if (useAxios) {

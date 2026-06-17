@@ -54,7 +54,9 @@ export class RunCommand {
 				cqlTranslator: config.Build?.cqlTranslator,
 				cqlTranslatorVersion: config.Build?.cqlTranslatorVersion,
 				cqlEngine: config.Build?.cqlEngine,
-				cqlEngineVersion: config.Build?.cqlEngineVersion
+				cqlEngineVersion: config.Build?.cqlEngineVersion,
+				SERVER_OFFSET_ISO: config.Build?.SERVER_OFFSET_ISO,
+				TimeZoneOffsetPolicy: config.Build?.TimeZoneOffsetPolicy,
 			},
 			Tests: {
 				ResultsPath: config.Tests.ResultsPath,
