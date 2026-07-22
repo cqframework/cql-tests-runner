@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1d63923a-8ad4-4799-a3b7-37befd25576a" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="226" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="38tiHZwSz6ivgCpCKvJQ5lRcBhx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.ruby.rubocop.migration.global.runOnSaveToExternalFormatter": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "feat/cql-tests-path-override",
+    "javascript.preferred.runtime.type.id": "node",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/bryantaustin/Projects/cql-tests-runner/cql-tests/tests/cql",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/Users/bryantaustin/.nvm/versions/node/v22.12.0/bin/node",
+    "nodejs_package_manager_path": "/Users/bryantaustin/.nvm/versions/node/v22.12.0/lib/node_modules/npm/bin/npm-cli.js",
+    "npm.cql-tests_dev.executor": "Run",
+    "npm.cql-tests_local.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "/Users/bryantaustin/Projects/cql-tests-runner/node_modules/prettier",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "settings.javascript.runtime",
+    "show.migrate.to.gradle.popup": "false",
+    "ts.external.directory.path": "/Users/bryantaustin/Projects/cql-tests-runner/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cql-tests/tests/cql" />
+      <recent name="$PROJECT_DIR$/cql-tests/tests/hold" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cql-tests/tests/hold" />
+    </key>
+  </component>
+  <component name="RubyModuleManagerSettings">
+    <option name="blackListedRootsPaths">
+      <list>
+        <option value="$PROJECT_DIR$" />
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="npm.cql-tests_local">
+    <list>
+      <item itemvalue="npm.build-libs_dev" />
+      <item itemvalue="npm.cql-tests_dev" />
+      <item itemvalue="npm.cql-tests_local" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1d63923a-8ad4-4799-a3b7-37befd25576a" name="Changes" comment="" />
+      <created>1769625181484</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1769625181484</updated>
+      <workItem from="1769625182995" duration="857000" />
+      <workItem from="1769627113713" duration="395000" />
+      <workItem from="1769628656111" duration="216000" />
+      <workItem from="1769628879251" duration="7125000" />
+      <workItem from="1769703337347" duration="951000" />
+      <workItem from="1769704330799" duration="300000" />
+      <workItem from="1769704705992" duration="4086000" />
+      <workItem from="1769709109009" duration="11142000" />
+      <workItem from="1770327581386" duration="3126000" />
+      <workItem from="1771339813949" duration="513000" />
+      <workItem from="1771345693863" duration="24838000" />
+      <workItem from="1772139923040" duration="49049000" />
+      <workItem from="1772936921526" duration="440000" />
+      <workItem from="1773071573702" duration="88360000" />
+      <workItem from="1773946477753" duration="18305000" />
+      <workItem from="1774279859926" duration="9561000" />
+      <workItem from="1774537828948" duration="670000" />
+      <workItem from="1774627876785" duration="3953000" />
+      <workItem from="1774879533512" duration="19514000" />
+      <workItem from="1774982862031" duration="51240000" />
+      <workItem from="1776088683080" duration="20698000" />
+      <workItem from="1776266516372" duration="123222000" />
+      <workItem from="1777396006766" duration="30231000" />
+      <workItem from="1777648288180" duration="68419000" />
+      <workItem from="1779375779631" duration="183000" />
+      <workItem from="1779459113262" duration="115643000" />
+      <workItem from="1780424384350" duration="56670000" />
+      <workItem from="1780692829433" duration="48782000" />
+      <workItem from="1782144749056" duration="33133000" />
+      <workItem from="1782918332472" duration="3766000" />
+      <workItem from="1783005243424" duration="12438000" />
+      <workItem from="1783350387105" duration="270000" />
+      <workItem from="1783350875767" duration="382000" />
+      <workItem from="1783361570584" duration="18517000" />
+      <workItem from="1783692639673" duration="9407000" />
+      <workItem from="1784048203382" duration="33249000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/test/results-utils.test.js" />
+        <option value="$PROJECT_DIR$/test/results-utils.test.js" />
+        <option value="$PROJECT_DIR$/test/results-utils.test.js" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/services/test-runner.ts</url>
+          <line>193</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

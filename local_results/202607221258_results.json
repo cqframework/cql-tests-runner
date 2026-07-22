@@ -1,0 +1,32 @@
+{
+  "cqlengine": {
+    "apiUrl": "http://localhost:8080/fhir/$cql",
+    "description": "",
+    "cqlVersion": "1.5",
+    "cqlTranslator": "Java CQFramework Translator",
+    "cqlTranslatorVersion": "Unknown",
+    "cqlEngine": "Java CQFramework Engine",
+    "cqlEngineVersion": "4.1.0"
+  },
+  "testsRunDateTime": "2026-07-22T18:58:17.294Z",
+  "testResultsSummary": {
+    "passCount": 0,
+    "skipCount": 0,
+    "failCount": 1,
+    "errorCount": 0
+  },
+  "testsRunDescription": "Local host test run",
+  "results": [
+    {
+      "testsName": "CqlTypeOperatorsTest",
+      "groupName": "SplitFails",
+      "testName": "SkipNullNumber",
+      "expression": "Skip({ 1, 2, 3 }, null as Integer)",
+      "testStatus": "fail",
+      "responseStatus": 500,
+      "actual": "{\"resourceType\":\"OperationOutcome\",\"issue\":[{\"severity\":\"error\",\"code\":\"processing\",\"diagnostics\":\"HAPI-0389: Failed to call access method: java.lang.NullPointerException: Parameter specified as non-null is null: method org.opencds.cqf.fhir.utility.OperationOutcomes.addExceptionToOperationOutcome, parameter exceptionMessage\"}]}",
+      "expected": "{ 1, 2, 3 }",
+      "invalid": "false"
+    }
+  ]
+}

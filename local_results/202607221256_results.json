@@ -1,0 +1,35 @@
+{
+  "cqlengine": {
+    "apiUrl": "http://localhost:8080/fhir/$cql",
+    "description": "",
+    "cqlVersion": "1.5",
+    "cqlTranslator": "Java CQFramework Translator",
+    "cqlTranslatorVersion": "Unknown",
+    "cqlEngine": "Java CQFramework Engine",
+    "cqlEngineVersion": "4.1.0"
+  },
+  "testsRunDateTime": "2026-07-22T18:56:08.869Z",
+  "testResultsSummary": {
+    "passCount": 0,
+    "skipCount": 0,
+    "failCount": 0,
+    "errorCount": 1
+  },
+  "testsRunDescription": "Local host test run",
+  "results": [
+    {
+      "testsName": "CqlTypeOperatorsTest",
+      "groupName": "SplitFails",
+      "testName": "SkipNullNumber",
+      "expression": "Skip({ 1, 2, 3 }, null as Integer)",
+      "testStatus": "error",
+      "expected": "{ 1, 2, 3 }",
+      "error": {
+        "message": "Request failed with status code 500",
+        "name": "AxiosError",
+        "stack": "AxiosError: Request failed with status code 500\n    at settle (file:///Users/bryantaustin/Projects/cql-tests-runner/node_modules/axios/lib/core/settle.js:20:7)\n    at IncomingMessage.handleStreamEnd (file:///Users/bryantaustin/Projects/cql-tests-runner/node_modules/axios/lib/adapters/http.js:849:13)\n    at IncomingMessage.emit (node:events:536:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (file:///Users/bryantaustin/Projects/cql-tests-runner/node_modules/axios/lib/core/Axios.js:46:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async TestRunner.runTest (/Users/bryantaustin/Projects/cql-tests-runner/src/services/test-runner.ts:168:27)\n    at async TestRunner.runTests (/Users/bryantaustin/Projects/cql-tests-runner/src/services/test-runner.ts:85:5)\n    at async RunCommand.execute (/Users/bryantaustin/Projects/cql-tests-runner/src/commands/run-tests-command.ts:22:19)\n    at async Command.<anonymous> (/Users/bryantaustin/Projects/cql-tests-runner/src/bin/cql-tests.ts:63:4)"
+      },
+      "invalid": "false"
+    }
+  ]
+}
