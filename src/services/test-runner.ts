@@ -2,7 +2,11 @@ import { ConfigLoader } from '../conf/config-loader.js';
 import { CQLEngine } from '../cql-engine/cql-engine.js';
 import { TestLoader } from '../loaders/test-loader.js';
 import { CQLTestResults } from '../test-results/cql-test-results.js';
-import { generateEmptyResults, generateParametersResource } from '../shared/results-shared.js';
+import {
+	generateEmptyResults,
+	generateParametersResource,
+	responseIndicatesError,
+} from '../shared/results-shared.js';
 import { InternalTestResult } from '../models/test-types.js';
 import { ResultExtractor } from '../extractors/result-extractor.js';
 import { ServerConnectivity } from '../shared/server-connectivity.js';
@@ -165,6 +169,11 @@ export class TestRunner {
 					headers: {
 						'Content-Type': 'application/json',
 					},
+					// Do not throw on non-2xx: a non-2xx status is a valid engine
+					// response about the expression (e.g. an OperationOutcome), which the
+					// classification logic below must see so that invalid tests can pass
+					// and valid tests fail — matching the fetch path. See responseIndicatesError.
+					validateStatus: () => true,
 				});
 				response = {
 					status: axiosResponse.status,
@@ -187,16 +196,19 @@ export class TestRunner {
 
 			result.responseStatus = response.status;
 			const responseBody = response.data;
-			const parsedExpected = cvl.parse(result.expected);
+			const parsedExpected =
+				result.expected !== undefined ? cvl.parse(result.expected) : undefined;
 			result.actual = resultExtractor.extract(responseBody, {
 				singletonListKeys: ValueMap.singletonListKeysFromExpected(parsedExpected),
 			});
 			const invalid = result.invalid;
+			const erroredOut = responseIndicatesError(response.status, responseBody);
 
 			if (invalid === 'true' || invalid === 'semantic') {
-				result.testStatus = response.status === 200 ? 'fail' : 'pass';
+				// The expression is expected to error; it passes only if the engine erred.
+				result.testStatus = erroredOut ? 'pass' : 'fail';
 			} else {
-				if (response.status === 200) {
+				if (!erroredOut) {
 					result.testStatus = resultsEqual(parsedExpected, result.actual)
 						? 'pass'
 						: 'fail';

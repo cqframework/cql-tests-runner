@@ -7,6 +7,7 @@ import { TestLoader } from '../loaders/test-loader.js';
 import {
   generateEmptyResults,
   generateParametersResource,
+  responseIndicatesError,
   Result,
 } from '../shared/results-shared.js';
 import { InternalTestResult, Tests } from '../models/test-types.js';
@@ -103,16 +104,19 @@ export class TestExecutionService {
 
       result.responseStatus = response.status;
       const responseBody = await response.json();
-      const parsedExpected = cvl.parse(result.expected);
+      const parsedExpected =
+        result.expected !== undefined ? cvl.parse(result.expected) : undefined;
       result.actual = resultExtractor.extract(responseBody, {
         singletonListKeys: ValueMap.singletonListKeysFromExpected(parsedExpected),
       });
       const invalid = result.invalid;
+      const erroredOut = responseIndicatesError(response.status, responseBody);
 
       if (invalid === 'true' || invalid === 'semantic') {
-        result.testStatus = response.status === 200 ? 'fail' : 'pass';
+        // The expression is expected to error; it passes only if the engine erred.
+        result.testStatus = erroredOut ? 'pass' : 'fail';
       } else {
-        if (response.status === 200) {
+        if (!erroredOut) {
           result.testStatus = resultsEqual(parsedExpected, result.actual) ? 'pass' : 'fail';
         } else {
           result.testStatus = 'fail';
