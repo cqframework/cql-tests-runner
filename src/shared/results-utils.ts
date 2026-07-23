@@ -1,7 +1,7 @@
 /**
  * Compares an expected CQL Long (parsed to a BigInt by cvl) against the actual value.
- * A Long result must be returned as valueString (FHIR R4 has no integer64 type) or
- * as valueInteger64 (serialized as a JSON string), so the actual is a string either way.
+ * FHIR R4 has no integer64 type, so a Long result is returned as valueString and the
+ * extracted actual is a string.
  */
 function longEquals(expected: bigint, actual: any): boolean {
 	if (typeof actual === 'bigint') {
