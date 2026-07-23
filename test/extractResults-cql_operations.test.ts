@@ -38,6 +38,20 @@ test('integer response check', () => {
 	).toBe(1);
 });
 
+test('integer64 response check', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueInteger64: '9223372036854775807',
+				},
+			],
+		})
+	).toBe('9223372036854775807');
+});
+
 test('decimal(0.1) response check', () => {
 	expect(
 		extractor!.extract({

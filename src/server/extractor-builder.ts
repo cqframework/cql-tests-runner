@@ -4,6 +4,7 @@ import { UndefinedExtractor } from '../extractors/undefined-extractor.js';
 import { StringExtractor } from '../extractors/value-type-extractors/string-extractor.js';
 import { BooleanExtractor } from '../extractors/value-type-extractors/boolean-extractor.js';
 import { IntegerExtractor } from '../extractors/value-type-extractors/integer-extractor.js';
+import { Integer64Extractor } from '../extractors/value-type-extractors/integer64-extractor.js';
 import { DecimalExtractor } from '../extractors/value-type-extractors/decimal-extractor.js';
 import { DateExtractor } from '../extractors/value-type-extractors/date-extractor.js';
 import { DateTimeExtractor } from '../extractors/value-type-extractors/datetime-extractor.js';
@@ -27,6 +28,7 @@ export function buildExtractor(): ResultExtractor {
     .setNextExtractor(new StringExtractor())
     .setNextExtractor(new BooleanExtractor())
     .setNextExtractor(new IntegerExtractor())
+    .setNextExtractor(new Integer64Extractor())
     .setNextExtractor(new DecimalExtractor())
     .setNextExtractor(new DateExtractor())
     .setNextExtractor(new DateTimeExtractor())

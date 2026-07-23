@@ -26,10 +26,10 @@ test('expected Long matches FHIR R4 valueString encoding', () => {
 	expect(resultsEqual(1n, '2')).toBe(false);
 });
 
-test('expected Long matches integer and bigint actuals', () => {
-	expect(resultsEqual(1n, 1)).toBe(true);
+test('expected Long matches bigint actuals but not numbers (valueInteger is not allowed)', () => {
 	expect(resultsEqual(1n, 1n)).toBe(true);
-	expect(resultsEqual(1n, 2)).toBe(false);
+	expect(resultsEqual(1n, 2n)).toBe(false);
+	expect(resultsEqual(1n, 1)).toBe(false);
 	expect(resultsEqual(1n, 1.5)).toBe(false);
 });
 
