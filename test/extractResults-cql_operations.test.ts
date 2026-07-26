@@ -3,12 +3,30 @@ import { beforeAll, expect, test } from 'vitest';
 import { ResultExtractor } from '../src/extractors/result-extractor.js';
 import { ValueMap } from '../src/extractors/value-map.js';
 import { buildExtractor } from '../src/server/extractor-builder.js';
+import { getIntervalMeta } from '../src/shared/interval-utils.js';
+
+const CQL_TYPE_URL = 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType';
+const PRECISION_URL = 'http://hl7.org/fhir/StructureDefinition/quantity-precision';
+const UCUM_SYSTEM = 'http://unitsofmeasure.org';
 
 let extractor: ResultExtractor | null = null;
 
 beforeAll(() => {
 	extractor = buildExtractor();
 });
+
+function extractRange(range: any, extension?: any[]): any {
+	return extractor!.extract({
+		resourceType: 'Parameters',
+		parameter: [
+			{
+				name: 'return',
+				...(extension === undefined ? {} : { extension: extension }),
+				valueRange: range,
+			},
+		],
+	});
+}
 
 test('boolean response check', () => {
 	expect(
@@ -590,4 +608,103 @@ test('nested list of integers response check', () => {
 		[1, 2, 3],
 		[4, 5, 6],
 	]);
+});
+
+// Numeric intervals mapped to Range with unity-coded boundaries (FHIR-56226)
+
+test('decimal interval response check (precision extension on the quantity)', () => {
+	const result = extractRange({
+		low: {
+			value: 1.0,
+			system: UCUM_SYSTEM,
+			code: '1',
+			extension: [{ url: PRECISION_URL, valueInteger: 1 }],
+		},
+		high: {
+			value: 1.3,
+			system: UCUM_SYSTEM,
+			code: '1',
+			extension: [{ url: PRECISION_URL, valueInteger: 1 }],
+		},
+	});
+	expect(result).toStrictEqual({ lowClosed: true, low: 1.0, highClosed: true, high: 1.3 });
+	expect(getIntervalMeta(result)).toStrictEqual({ lowPrecision: 1, highPrecision: 1 });
+});
+
+test('decimal interval response check (precision extension on Quantity.value)', () => {
+	const result = extractRange({
+		low: {
+			value: 1.0,
+			system: UCUM_SYSTEM,
+			code: '1',
+			_value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] },
+		},
+		high: {
+			value: 1.3,
+			system: UCUM_SYSTEM,
+			code: '1',
+			_value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] },
+		},
+	});
+	expect(result).toStrictEqual({ lowClosed: true, low: 1.0, highClosed: true, high: 1.3 });
+	expect(getIntervalMeta(result)).toStrictEqual({ lowPrecision: 1, highPrecision: 1 });
+});
+
+test('integer interval response check (typed by the cqlType extension)', () => {
+	const result = extractRange(
+		{
+			low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+			high: { value: 3, system: UCUM_SYSTEM, code: '1' },
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Integer>' }]
+	);
+	expect(result).toStrictEqual({ lowClosed: true, low: 1, highClosed: true, high: 3 });
+	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Integer' });
+});
+
+test('numeric interval response check with string-encoded boundary values', () => {
+	const result = extractRange({
+		low: { value: '1.0', system: UCUM_SYSTEM, code: '1' },
+		high: { value: '1.40', system: UCUM_SYSTEM, code: '1' },
+	});
+	expect(result).toStrictEqual({ lowClosed: true, low: 1.0, highClosed: true, high: 1.4 });
+	expect(getIntervalMeta(result)).toStrictEqual({ lowPrecision: 1, highPrecision: 2 });
+});
+
+test('half-open numeric interval response check (no high boundary)', () => {
+	const result = extractRange({
+		low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+	});
+	expect(result).toStrictEqual({ lowClosed: true, low: 1, highClosed: false, high: null });
+});
+
+test('quantity interval response check still yields quantity boundaries', () => {
+	const result = extractRange({
+		low: { value: 1, unit: 'ml', system: UCUM_SYSTEM, code: 'ml' },
+		high: { value: 2, unit: 'ml', system: UCUM_SYSTEM, code: 'ml' },
+	});
+	expect(result).toStrictEqual({
+		lowClosed: true,
+		low: { value: 1, unit: 'ml' },
+		highClosed: true,
+		high: { value: 2, unit: 'ml' },
+	});
+	expect(getIntervalMeta(result)).toBeUndefined();
+});
+
+test('quantity interval declared by cqlType is not treated as numeric', () => {
+	const result = extractRange(
+		{
+			low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+			high: { value: 2, system: UCUM_SYSTEM, code: '1' },
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Quantity>' }]
+	);
+	expect(result).toStrictEqual({
+		lowClosed: true,
+		low: { value: 1, unit: '1' },
+		highClosed: true,
+		high: { value: 2, unit: '1' },
+	});
+	expect(getIntervalMeta(result)).toBeUndefined();
 });

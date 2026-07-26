@@ -2,6 +2,11 @@ import { beforeAll, expect, test } from 'vitest';
 
 import { ResultExtractor } from '../src/extractors/result-extractor.js';
 import { buildExtractor } from '../src/server/extractor-builder.js';
+import { getIntervalMeta } from '../src/shared/interval-utils.js';
+
+const CQL_TYPE_URL = 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType';
+const PRECISION_URL = 'http://hl7.org/fhir/StructureDefinition/quantity-precision';
+const UCUM_SYSTEM = 'http://unitsofmeasure.org';
 
 let extractor: ResultExtractor | null = null;
 
@@ -319,4 +324,114 @@ test('lists response check', () => {
 			},
 		],
 	});
+});
+
+// Numeric intervals mapped to Range with unity-coded boundaries (FHIR-56226)
+
+test('numeric interval types response check', () => {
+	const result = extractor!.extract({
+		resourceType: 'Parameters',
+		parameter: [
+			{
+				name: 'get_decimal_interval',
+				valueRange: {
+					low: {
+						value: 1.0,
+						system: UCUM_SYSTEM,
+						code: '1',
+						extension: [{ url: PRECISION_URL, valueInteger: 1 }],
+					},
+					high: {
+						value: 1.3,
+						system: UCUM_SYSTEM,
+						code: '1',
+						extension: [{ url: PRECISION_URL, valueInteger: 1 }],
+					},
+				},
+			},
+			{
+				name: 'get_decimal_interval_primitive_extension',
+				valueRange: {
+					low: {
+						value: 1.0,
+						system: UCUM_SYSTEM,
+						code: '1',
+						_value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] },
+					},
+					high: {
+						value: 1.3,
+						system: UCUM_SYSTEM,
+						code: '1',
+						_value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] },
+					},
+				},
+			},
+			{
+				name: 'get_integer_interval',
+				extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Integer>' }],
+				valueRange: {
+					low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+					high: { value: 3, system: UCUM_SYSTEM, code: '1' },
+				},
+			},
+			{
+				name: 'get_string_valued_interval',
+				valueRange: {
+					low: { value: '1.0', system: UCUM_SYSTEM, code: '1' },
+					high: { value: '1.40', system: UCUM_SYSTEM, code: '1' },
+				},
+			},
+			{
+				name: 'get_half_open_interval',
+				valueRange: {
+					low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+				},
+			},
+			{
+				name: 'get_quantity_interval',
+				valueRange: {
+					low: { value: 1, unit: 'ml', system: UCUM_SYSTEM, code: 'ml' },
+					high: { value: 2, unit: 'ml', system: UCUM_SYSTEM, code: 'ml' },
+				},
+			},
+			{
+				name: 'get_quantity_interval_by_cql_type',
+				extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Quantity>' }],
+				valueRange: {
+					low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+					high: { value: 2, system: UCUM_SYSTEM, code: '1' },
+				},
+			},
+		],
+	});
+
+	expect(result).toStrictEqual({
+		get_decimal_interval: { lowClosed: true, low: 1.0, highClosed: true, high: 1.3 },
+		get_decimal_interval_primitive_extension: { lowClosed: true, low: 1.0, highClosed: true, high: 1.3 },
+		get_integer_interval: { lowClosed: true, low: 1, highClosed: true, high: 3 },
+		get_string_valued_interval: { lowClosed: true, low: 1.0, highClosed: true, high: 1.4 },
+		get_half_open_interval: { lowClosed: true, low: 1, highClosed: false, high: null },
+		get_quantity_interval: {
+			lowClosed: true,
+			low: { value: 1, unit: 'ml' },
+			highClosed: true,
+			high: { value: 2, unit: 'ml' },
+		},
+		get_quantity_interval_by_cql_type: {
+			lowClosed: true,
+			low: { value: 1, unit: '1' },
+			highClosed: true,
+			high: { value: 2, unit: '1' },
+		},
+	});
+
+	expect(getIntervalMeta(result.get_decimal_interval)).toStrictEqual({ lowPrecision: 1, highPrecision: 1 });
+	expect(getIntervalMeta(result.get_decimal_interval_primitive_extension)).toStrictEqual({
+		lowPrecision: 1,
+		highPrecision: 1,
+	});
+	expect(getIntervalMeta(result.get_integer_interval)).toStrictEqual({ pointType: 'Integer' });
+	expect(getIntervalMeta(result.get_string_valued_interval)).toStrictEqual({ lowPrecision: 1, highPrecision: 2 });
+	expect(getIntervalMeta(result.get_quantity_interval)).toBeUndefined();
+	expect(getIntervalMeta(result.get_quantity_interval_by_cql_type)).toBeUndefined();
 });
