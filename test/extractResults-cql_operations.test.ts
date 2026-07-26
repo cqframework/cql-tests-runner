@@ -618,41 +618,55 @@ test('nested list of integers response check', () => {
 // Numeric intervals mapped to Range with unity-coded boundaries (FHIR-56226)
 
 test('decimal interval response check (precision extension on the quantity)', () => {
-	const result = extractRange({
-		low: {
-			value: 1.0,
-			system: UCUM_SYSTEM,
-			code: '1',
-			extension: [{ url: PRECISION_URL, valueInteger: 1 }],
+	const result = extractRange(
+		{
+			low: {
+				value: 1.0,
+				system: UCUM_SYSTEM,
+				code: '1',
+				extension: [{ url: PRECISION_URL, valueInteger: 1 }],
+			},
+			high: {
+				value: 1.3,
+				system: UCUM_SYSTEM,
+				code: '1',
+				extension: [{ url: PRECISION_URL, valueInteger: 1 }],
+			},
 		},
-		high: {
-			value: 1.3,
-			system: UCUM_SYSTEM,
-			code: '1',
-			extension: [{ url: PRECISION_URL, valueInteger: 1 }],
-		},
-	});
+		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }]
+	);
 	expect(result).toStrictEqual({ lowClosed: true, low: 1.0, highClosed: true, high: 1.3 });
-	expect(getIntervalMeta(result)).toStrictEqual({ lowPrecision: 1, highPrecision: 1 });
+	expect(getIntervalMeta(result)).toStrictEqual({
+		pointType: 'Decimal',
+		lowPrecision: 1,
+		highPrecision: 1,
+	});
 });
 
 test('decimal interval response check (precision extension on Quantity.value)', () => {
-	const result = extractRange({
-		low: {
-			value: 1.0,
-			system: UCUM_SYSTEM,
-			code: '1',
-			_value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] },
+	const result = extractRange(
+		{
+			low: {
+				value: 1.0,
+				system: UCUM_SYSTEM,
+				code: '1',
+				_value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] },
+			},
+			high: {
+				value: 1.3,
+				system: UCUM_SYSTEM,
+				code: '1',
+				_value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] },
+			},
 		},
-		high: {
-			value: 1.3,
-			system: UCUM_SYSTEM,
-			code: '1',
-			_value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] },
-		},
-	});
+		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }]
+	);
 	expect(result).toStrictEqual({ lowClosed: true, low: 1.0, highClosed: true, high: 1.3 });
-	expect(getIntervalMeta(result)).toStrictEqual({ lowPrecision: 1, highPrecision: 1 });
+	expect(getIntervalMeta(result)).toStrictEqual({
+		pointType: 'Decimal',
+		lowPrecision: 1,
+		highPrecision: 1,
+	});
 });
 
 test('integer interval response check (typed by the cqlType extension)', () => {
@@ -668,19 +682,27 @@ test('integer interval response check (typed by the cqlType extension)', () => {
 });
 
 test('numeric interval response check with string-encoded boundary values', () => {
-	const result = extractRange({
-		low: { value: '1.0', system: UCUM_SYSTEM, code: '1' },
-		high: { value: '1.40', system: UCUM_SYSTEM, code: '1' },
-	});
+	const result = extractRange(
+		{
+			low: { value: '1.0', system: UCUM_SYSTEM, code: '1' },
+			high: { value: '1.40', system: UCUM_SYSTEM, code: '1' },
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }]
+	);
 	expect(result).toStrictEqual({ lowClosed: true, low: 1.0, highClosed: true, high: 1.4 });
-	expect(getIntervalMeta(result)).toStrictEqual({ lowPrecision: 1, highPrecision: 2 });
+	expect(getIntervalMeta(result)).toStrictEqual({
+		pointType: 'Decimal',
+		lowPrecision: 1,
+		highPrecision: 2,
+	});
 });
 
 test('half-open numeric interval response check (no high boundary)', () => {
-	const result = extractRange({
-		low: { value: 1, system: UCUM_SYSTEM, code: '1' },
-	});
+	const result = extractRange({ low: { value: 1, system: UCUM_SYSTEM, code: '1' } }, [
+		{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' },
+	]);
 	expect(result).toStrictEqual({ lowClosed: true, low: 1, highClosed: false, high: null });
+	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Decimal' });
 });
 
 test('quantity interval response check still yields quantity boundaries', () => {
@@ -705,6 +727,22 @@ test('quantity interval declared by cqlType is not treated as numeric', () => {
 		},
 		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Quantity>' }]
 	);
+	expect(result).toStrictEqual({
+		lowClosed: true,
+		low: { value: 1, unit: '1' },
+		highClosed: true,
+		high: { value: 2, unit: '1' },
+	});
+	expect(getIntervalMeta(result)).toBeUndefined();
+});
+
+test('unity-coded range without a cqlType extension stays a quantity interval', () => {
+	// Strict detection: unity coding alone does not identify a numeric interval, so the
+	// range falls through to QuantityIntervalExtractor.
+	const result = extractRange({
+		low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+		high: { value: 2, system: UCUM_SYSTEM, code: '1' },
+	});
 	expect(result).toStrictEqual({
 		lowClosed: true,
 		low: { value: 1, unit: '1' },

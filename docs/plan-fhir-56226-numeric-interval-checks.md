@@ -46,13 +46,18 @@ Both gaps must be fixed for numeric intervals to pass:
 
 New file `src/extractors/value-type-extractors/numeric-interval-extractor.ts`:
 
-- Handles a parameter with `valueRange` when the interval is numeric, detected by either:
-  - the `http://hl7.org/fhir/StructureDefinition/cqf-cqlType` extension on the parameter
-    naming `Interval<System.Integer>`, `Interval<System.Long>` or `Interval<System.Decimal>`
-    (authoritative when present; also resolves the existing TODO pattern in
-    `datetime-interval-extractor.ts`), or
-  - boundary quantities with `code === '1'` and `system === 'http://unitsofmeasure.org'`
-    and no human `unit` (fallback when no cqlType extension is sent).
+- Handles a parameter with `valueRange` only when the interval is *declared* numeric by the
+  `http://hl7.org/fhir/StructureDefinition/cqf-cqlType` extension on the parameter naming
+  `Interval<System.Integer>`, `Interval<System.Long>` or `Interval<System.Decimal>` (the
+  `System.` prefix is optional). Detection is strictly this: no such extension (or a
+  non-numeric interval type) means the range is not claimed and falls through to
+  `QuantityIntervalExtractor` unchanged. This also resolves the existing TODO pattern in
+  `datetime-interval-extractor.ts`.
+  - A fallback that inferred a numeric interval from boundary quantities with `code === '1'`,
+    `system === 'http://unitsofmeasure.org'` and no human `unit` was implemented and then
+    rejected in review: FHIR-56226 only defines the forward mapping (how a numeric interval
+    is represented), not an inverse detection rule, and unity coding is ambiguous with a
+    genuinely dimensionless `Interval<Quantity>`.
 - Extracts to the same shape CVL produces: `{lowClosed, low, highClosed, high}` with
   **plain-number boundaries** (missing boundary → `null` + `*Closed: false`, mirroring
   `QuantityIntervalExtractor`).
@@ -66,7 +71,8 @@ New file `src/extractors/value-type-extractors/numeric-interval-extractor.ts`:
   `src/shared/interval-utils.ts`): symbols are invisible to `Object.keys`/JSON but
   readable by the comparator.
 - Register it in `src/server/extractor-builder.ts` **before** `QuantityIntervalExtractor`
-  so unity ranges are claimed first; real quantity ranges keep their current behavior.
+  so declared numeric ranges are claimed first; every other range (including unity-coded
+  ranges without a cqlType extension) keeps its current behavior.
 
 ## Step 2 — Interval-aware comparison
 
@@ -103,11 +109,12 @@ In `src/shared/results-utils.ts` (helpers in `src/shared/interval-utils.ts`):
 ## Step 3 — Unit tests (vitest, `test/`)
 
 - `test/extractResults-cql_operations.test.ts` (and the `$evaluate` twin):
-  - unity-coded Range with precision extensions (both `extension` and `_value.extension`
-    placements) → numeric interval with plain-number boundaries;
+  - cqlType-declared Range with precision extensions (both `extension` and
+    `_value.extension` placements) → numeric interval with plain-number boundaries;
   - integer range (no precision extension) and half-open range (missing `high`);
-  - real quantity Range (e.g. `ml`) still extracts via `QuantityIntervalExtractor`
-    (regression guard on chain ordering).
+  - real quantity Range (e.g. `ml`), an `Interval<System.Quantity>` cqlType over unity
+    boundaries, and a unity-coded range with **no** cqlType extension all still extract via
+    `QuantityIntervalExtractor` (regression guards on chain ordering and strict detection).
 - `test/results-utils.test.ts`:
   - ticket example: expected `Interval[1.0, 1.4)` vs actual `[1.0, 1.3]` @ precision 1 → pass;
   - issue #85 case: expected `Interval[1.0, 3.99999999]` vs actual open `[1.0, 4.0)`
@@ -130,9 +137,10 @@ In `src/shared/results-utils.ts` (helpers in `src/shared/interval-utils.ts`):
 ## Risks / open questions
 
 - **FHIR-56226 is still "Submitted"** — the mapping is proposed, not yet applied to the
-  CQL IG. Mitigation: detection prefers the `cqf-cqlType` extension and keeps existing
-  representations working (part-based Tuple form, plain quantity ranges), so the runner
-  accepts both old and new engine behavior during the transition.
+  CQL IG. Detection *requires* the `cqf-cqlType` extension, so existing representations keep
+  working unchanged (part-based Tuple form, plain quantity ranges), but an engine that omits
+  `cqf-cqlType` will have its numeric-interval results extracted as quantity intervals and
+  will fail those tests until it declares the type.
 - **Extension placement ambiguity** — the ticket shows `low.extension`, FHIR primitive
   extension rules imply `low._value.extension`; support both until the IG publishes the
   normative shape.

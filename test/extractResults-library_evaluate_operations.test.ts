@@ -334,6 +334,7 @@ test('numeric interval types response check', () => {
 		parameter: [
 			{
 				name: 'get_decimal_interval',
+				extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }],
 				valueRange: {
 					low: {
 						value: 1.0,
@@ -351,6 +352,7 @@ test('numeric interval types response check', () => {
 			},
 			{
 				name: 'get_decimal_interval_primitive_extension',
+				extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }],
 				valueRange: {
 					low: {
 						value: 1.0,
@@ -376,6 +378,7 @@ test('numeric interval types response check', () => {
 			},
 			{
 				name: 'get_string_valued_interval',
+				extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }],
 				valueRange: {
 					low: { value: '1.0', system: UCUM_SYSTEM, code: '1' },
 					high: { value: '1.40', system: UCUM_SYSTEM, code: '1' },
@@ -383,6 +386,7 @@ test('numeric interval types response check', () => {
 			},
 			{
 				name: 'get_half_open_interval',
+				extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }],
 				valueRange: {
 					low: { value: 1, system: UCUM_SYSTEM, code: '1' },
 				},
@@ -397,6 +401,15 @@ test('numeric interval types response check', () => {
 			{
 				name: 'get_quantity_interval_by_cql_type',
 				extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Quantity>' }],
+				valueRange: {
+					low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+					high: { value: 2, system: UCUM_SYSTEM, code: '1' },
+				},
+			},
+			{
+				// Strict detection: unity coding alone is not enough, so this falls through
+				// to QuantityIntervalExtractor.
+				name: 'get_unity_range_without_cql_type',
 				valueRange: {
 					low: { value: 1, system: UCUM_SYSTEM, code: '1' },
 					high: { value: 2, system: UCUM_SYSTEM, code: '1' },
@@ -428,21 +441,34 @@ test('numeric interval types response check', () => {
 			highClosed: true,
 			high: { value: 2, unit: '1' },
 		},
+		get_unity_range_without_cql_type: {
+			lowClosed: true,
+			low: { value: 1, unit: '1' },
+			highClosed: true,
+			high: { value: 2, unit: '1' },
+		},
 	});
 
 	expect(getIntervalMeta(result.get_decimal_interval)).toStrictEqual({
+		pointType: 'Decimal',
 		lowPrecision: 1,
 		highPrecision: 1,
 	});
 	expect(getIntervalMeta(result.get_decimal_interval_primitive_extension)).toStrictEqual({
+		pointType: 'Decimal',
 		lowPrecision: 1,
 		highPrecision: 1,
 	});
 	expect(getIntervalMeta(result.get_integer_interval)).toStrictEqual({ pointType: 'Integer' });
 	expect(getIntervalMeta(result.get_string_valued_interval)).toStrictEqual({
+		pointType: 'Decimal',
 		lowPrecision: 1,
 		highPrecision: 2,
 	});
+	expect(getIntervalMeta(result.get_half_open_interval)).toStrictEqual({
+		pointType: 'Decimal',
+	});
 	expect(getIntervalMeta(result.get_quantity_interval)).toBeUndefined();
 	expect(getIntervalMeta(result.get_quantity_interval_by_cql_type)).toBeUndefined();
+	expect(getIntervalMeta(result.get_unity_range_without_cql_type)).toBeUndefined();
 });

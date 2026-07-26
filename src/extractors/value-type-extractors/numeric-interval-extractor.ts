@@ -3,7 +3,6 @@ import { IntervalMeta, IntervalPointType, setIntervalMeta } from '../../shared/i
 
 const CQL_TYPE_URL = 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType';
 const PRECISION_URL = 'http://hl7.org/fhir/StructureDefinition/quantity-precision';
-const UCUM_SYSTEM = 'http://unitsofmeasure.org';
 const NUMERIC_INTERVAL_TYPE = /^Interval<(?:System\.)?(Integer|Long|Decimal)>$/;
 
 function cqlType(parameter: any): string | undefined {
@@ -16,17 +15,6 @@ function cqlType(parameter: any): string | undefined {
 	return extension !== undefined && typeof extension.valueString === 'string'
 		? extension.valueString
 		: undefined;
-}
-
-/** A unity Quantity: code "1" in UCUM with no human-readable unit (FHIR-56226). */
-function isUnityQuantity(quantity: any): boolean {
-	return (
-		quantity !== null &&
-		typeof quantity === 'object' &&
-		quantity.code === '1' &&
-		quantity.system === UCUM_SYSTEM &&
-		!quantity.hasOwnProperty('unit')
-	);
 }
 
 function precisionExtension(extensions: any): number | undefined {
@@ -75,6 +63,18 @@ function boundaryValue(quantity: any): number | null {
 	return typeof quantity.value === 'string' ? Number(quantity.value) : quantity.value;
 }
 
+/**
+ * Extracts a `valueRange` that represents a numeric CQL interval
+ * (`Interval<Integer|Long|Decimal>`, FHIR-56226) into the plain-number shape CVL
+ * produces: `{lowClosed, low, highClosed, high}`.
+ *
+ * Detection is strict: the parameter must carry a `cqf-cqlType` extension naming
+ * `Interval<Integer>`, `Interval<Long>` or `Interval<Decimal>` (the `System.` prefix is
+ * optional). Any other `valueRange` — including one whose boundaries are unity quantities
+ * (`code: "1"`, UCUM) but which declares no cqlType — is left to
+ * `QuantityIntervalExtractor`. FHIR-56226 only defines the forward mapping, and unity
+ * coding alone is ambiguous with a dimensionless `Interval<Quantity>`.
+ */
 export class NumericIntervalExtractor extends BaseExtractor {
 	protected _process(parameter: any): any {
 		if (!parameter.hasOwnProperty('valueRange')) {
@@ -86,28 +86,17 @@ export class NumericIntervalExtractor extends BaseExtractor {
 			return undefined;
 		}
 
-		const lowQuantity = range.hasOwnProperty('low') ? range.low : undefined;
-		const highQuantity = range.hasOwnProperty('high') ? range.high : undefined;
-		if (lowQuantity === undefined && highQuantity === undefined) {
-			// Nothing to type; leave empty ranges to the existing extractors.
+		// The cqlType extension is required and authoritative: without a numeric interval
+		// type this range is not ours, whatever its boundaries look like.
+		const declaredType = cqlType(parameter);
+		const match = declaredType !== undefined ? NUMERIC_INTERVAL_TYPE.exec(declaredType) : null;
+		if (match === null) {
 			return undefined;
 		}
+		const pointType = match[1] as IntervalPointType;
 
-		let pointType: IntervalPointType | undefined = undefined;
-		const declaredType = cqlType(parameter);
-		if (declaredType !== undefined) {
-			// The cqlType extension is authoritative: a non-numeric interval type is not ours.
-			const match = NUMERIC_INTERVAL_TYPE.exec(declaredType);
-			if (match === null) {
-				return undefined;
-			}
-			pointType = match[1] as IntervalPointType;
-		} else {
-			const boundaries = [lowQuantity, highQuantity].filter(q => q !== undefined);
-			if (!boundaries.every(isUnityQuantity)) {
-				return undefined;
-			}
-		}
+		const lowQuantity = range.hasOwnProperty('low') ? range.low : undefined;
+		const highQuantity = range.hasOwnProperty('high') ? range.high : undefined;
 
 		const low = lowQuantity !== undefined ? boundaryValue(lowQuantity) : null;
 		const high = highQuantity !== undefined ? boundaryValue(highQuantity) : null;
@@ -119,10 +108,7 @@ export class NumericIntervalExtractor extends BaseExtractor {
 			high: high,
 		};
 
-		const meta: IntervalMeta = {};
-		if (pointType !== undefined) {
-			meta.pointType = pointType;
-		}
+		const meta: IntervalMeta = { pointType: pointType };
 		const lowPrecision = low !== null ? precisionOf(lowQuantity) : undefined;
 		if (lowPrecision !== undefined) {
 			meta.lowPrecision = lowPrecision;
