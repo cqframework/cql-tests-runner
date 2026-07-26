@@ -356,7 +356,12 @@ test('evaluation error does not throw when resource shape is minimal', () => {
 	expect(
 		extractor!.extract({
 			resourceType: 'Parameters',
-			parameter: [{ name: 'evaluation error', resource: { resourceType: 'OperationOutcome', issue: [] } }],
+			parameter: [
+				{
+					name: 'evaluation error',
+					resource: { resourceType: 'OperationOutcome', issue: [] },
+				},
+			],
 		})
 	).toBe('EvaluationError:{"resourceType":"OperationOutcome","issue":[]}');
 });

@@ -407,7 +407,12 @@ test('numeric interval types response check', () => {
 
 	expect(result).toStrictEqual({
 		get_decimal_interval: { lowClosed: true, low: 1.0, highClosed: true, high: 1.3 },
-		get_decimal_interval_primitive_extension: { lowClosed: true, low: 1.0, highClosed: true, high: 1.3 },
+		get_decimal_interval_primitive_extension: {
+			lowClosed: true,
+			low: 1.0,
+			highClosed: true,
+			high: 1.3,
+		},
 		get_integer_interval: { lowClosed: true, low: 1, highClosed: true, high: 3 },
 		get_string_valued_interval: { lowClosed: true, low: 1.0, highClosed: true, high: 1.4 },
 		get_half_open_interval: { lowClosed: true, low: 1, highClosed: false, high: null },
@@ -425,13 +430,19 @@ test('numeric interval types response check', () => {
 		},
 	});
 
-	expect(getIntervalMeta(result.get_decimal_interval)).toStrictEqual({ lowPrecision: 1, highPrecision: 1 });
+	expect(getIntervalMeta(result.get_decimal_interval)).toStrictEqual({
+		lowPrecision: 1,
+		highPrecision: 1,
+	});
 	expect(getIntervalMeta(result.get_decimal_interval_primitive_extension)).toStrictEqual({
 		lowPrecision: 1,
 		highPrecision: 1,
 	});
 	expect(getIntervalMeta(result.get_integer_interval)).toStrictEqual({ pointType: 'Integer' });
-	expect(getIntervalMeta(result.get_string_valued_interval)).toStrictEqual({ lowPrecision: 1, highPrecision: 2 });
+	expect(getIntervalMeta(result.get_string_valued_interval)).toStrictEqual({
+		lowPrecision: 1,
+		highPrecision: 2,
+	});
 	expect(getIntervalMeta(result.get_quantity_interval)).toBeUndefined();
 	expect(getIntervalMeta(result.get_quantity_interval_by_cql_type)).toBeUndefined();
 });

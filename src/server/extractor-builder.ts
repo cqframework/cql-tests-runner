@@ -21,24 +21,24 @@ import { ResultExtractor } from '../extractors/result-extractor.js';
  * Builds a ResultExtractor with the full chain of extractors
  */
 export function buildExtractor(): ResultExtractor {
-  const extractors = new EvaluationErrorExtractor();
-  extractors
-    .setNextExtractor(new NullEmptyExtractor())
-    .setNextExtractor(new UndefinedExtractor())
-    .setNextExtractor(new StringExtractor())
-    .setNextExtractor(new BooleanExtractor())
-    .setNextExtractor(new IntegerExtractor())
-    .setNextExtractor(new DecimalExtractor())
-    .setNextExtractor(new DateExtractor())
-    .setNextExtractor(new DateTimeExtractor())
-    .setNextExtractor(new TimeExtractor())
-    .setNextExtractor(new QuantityExtractor())
-    .setNextExtractor(new RatioExtractor())
-    .setNextExtractor(new DateTimeIntervalExtractor())
-    .setNextExtractor(new NumericIntervalExtractor())
-    .setNextExtractor(new QuantityIntervalExtractor())
-    .setNextExtractor(new CodeExtractor())
-    .setNextExtractor(new ConceptExtractor());
-  
-  return new ResultExtractor(extractors);
+	const extractors = new EvaluationErrorExtractor();
+	extractors
+		.setNextExtractor(new NullEmptyExtractor())
+		.setNextExtractor(new UndefinedExtractor())
+		.setNextExtractor(new StringExtractor())
+		.setNextExtractor(new BooleanExtractor())
+		.setNextExtractor(new IntegerExtractor())
+		.setNextExtractor(new DecimalExtractor())
+		.setNextExtractor(new DateExtractor())
+		.setNextExtractor(new DateTimeExtractor())
+		.setNextExtractor(new TimeExtractor())
+		.setNextExtractor(new QuantityExtractor())
+		.setNextExtractor(new RatioExtractor())
+		.setNextExtractor(new DateTimeIntervalExtractor())
+		.setNextExtractor(new NumericIntervalExtractor())
+		.setNextExtractor(new QuantityIntervalExtractor())
+		.setNextExtractor(new CodeExtractor())
+		.setNextExtractor(new ConceptExtractor());
+
+	return new ResultExtractor(extractors);
 }

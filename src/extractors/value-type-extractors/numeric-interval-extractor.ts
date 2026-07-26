@@ -10,8 +10,12 @@ function cqlType(parameter: any): string | undefined {
 	if (!Array.isArray(parameter.extension)) {
 		return undefined;
 	}
-	const extension = parameter.extension.find((e: any) => e !== null && typeof e === 'object' && e.url === CQL_TYPE_URL);
-	return extension !== undefined && typeof extension.valueString === 'string' ? extension.valueString : undefined;
+	const extension = parameter.extension.find(
+		(e: any) => e !== null && typeof e === 'object' && e.url === CQL_TYPE_URL
+	);
+	return extension !== undefined && typeof extension.valueString === 'string'
+		? extension.valueString
+		: undefined;
 }
 
 /** A unity Quantity: code "1" in UCUM with no human-readable unit (FHIR-56226). */
@@ -29,8 +33,12 @@ function precisionExtension(extensions: any): number | undefined {
 	if (!Array.isArray(extensions)) {
 		return undefined;
 	}
-	const extension = extensions.find((e: any) => e !== null && typeof e === 'object' && e.url === PRECISION_URL);
-	return extension !== undefined && typeof extension.valueInteger === 'number' ? extension.valueInteger : undefined;
+	const extension = extensions.find(
+		(e: any) => e !== null && typeof e === 'object' && e.url === PRECISION_URL
+	);
+	return extension !== undefined && typeof extension.valueInteger === 'number'
+		? extension.valueInteger
+		: undefined;
 }
 
 /**
@@ -41,7 +49,11 @@ function precisionExtension(extensions: any): number | undefined {
 function precisionOf(quantity: any): number | undefined {
 	const declared =
 		precisionExtension(quantity.extension) ??
-		precisionExtension(quantity._value !== null && typeof quantity._value === 'object' ? quantity._value.extension : undefined);
+		precisionExtension(
+			quantity._value !== null && typeof quantity._value === 'object'
+				? quantity._value.extension
+				: undefined
+		);
 	if (declared !== undefined) {
 		return declared;
 	}
@@ -91,7 +103,7 @@ export class NumericIntervalExtractor extends BaseExtractor {
 			}
 			pointType = match[1] as IntervalPointType;
 		} else {
-			const boundaries = [lowQuantity, highQuantity].filter((q) => q !== undefined);
+			const boundaries = [lowQuantity, highQuantity].filter(q => q !== undefined);
 			if (!boundaries.every(isUnityQuantity)) {
 				return undefined;
 			}
