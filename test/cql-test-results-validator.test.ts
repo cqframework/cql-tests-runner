@@ -129,3 +129,67 @@ describe('CQLTestResults.validateSchema', () => {
     expect(ResultsValidator).toHaveBeenCalled();
   });
 });
+
+describe('CQLTestResults.toJSON actual serialization', () => {
+  it('renders list results in CQL list syntax and stringifies scalar results', () => {
+    const results = new CQLTestResults(new CQLEngine('http://localhost:8080/fhir/$cql'));
+    results.add({
+      testsName: 'CqlListOperatorsTest',
+      groupName: 'Sort',
+      testName: 'SortDatesAsc',
+      expression: 'sort asc',
+      testStatus: 'fail',
+      invalid: 'false',
+      actual: ['@2012-01-01T', '@2012-01-01T12'],
+      expected: '{ @2012-01-01T, @2012-01-01T12 }',
+    } as any);
+    results.add({
+      testsName: 'CqlArithmeticFunctionsTest',
+      groupName: 'Power',
+      testName: 'Power2To4',
+      expression: '2^4',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: 16,
+      expected: '16',
+    } as any);
+
+    const json = results.toJSON();
+    expect(json.results[0].actual).toBe('{ @2012-01-01T, @2012-01-01T12 }');
+    expect(json.results[1].actual).toBe('16');
+  });
+
+  it('equalizeValueTypes renders array actuals in CQL list syntax', () => {
+    const results = new CQLTestResults(new CQLEngine('http://localhost:8080/fhir/$cql'));
+    results.add({
+      testsName: 'T',
+      groupName: 'G',
+      testName: 'N',
+      expression: 'e',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: [1, 2, 3],
+      expected: '{ 1, 2, 3 }',
+    } as any);
+
+    results.equalizeValueTypes();
+    expect(results.results[0].actual).toBe('{ 1, 2, 3 }');
+  });
+
+  it('renders nested lists and empty lists', () => {
+    const results = new CQLTestResults(new CQLEngine('http://localhost:8080/fhir/$cql'));
+    results.add({
+      testsName: 'T',
+      groupName: 'G',
+      testName: 'Nested',
+      expression: 'e',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: [[1, 2], []],
+      expected: '{ { 1, 2 }, {} }',
+    } as any);
+
+    const json = results.toJSON();
+    expect(json.results[0].actual).toBe('{ { 1, 2 }, {} }');
+  });
+});

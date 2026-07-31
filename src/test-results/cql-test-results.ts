@@ -6,6 +6,21 @@ import { TestResultsSummary, CQLTestResultsData } from '../models/results-types.
 import { ResultsValidator } from '../conf/results-validator.js';
 
 /**
+ * Formats an actual value for the results file. Lists are rendered in CQL list
+ * syntax (`{ a, b, c }`) so they read like the expected value, which is kept in
+ * its original CQL/CVL notation.
+ */
+function formatActualValue(value: any): string {
+	if (Array.isArray(value)) {
+		return value.length === 0 ? '{}' : `{ ${value.map(formatActualValue).join(', ')} }`;
+	}
+	if (value !== null && typeof value === 'object') {
+		return JSON.stringify(value);
+	}
+	return String(value);
+}
+
+/**
  * Represents the results of running CQL tests.
  */
 export class CQLTestResults {
@@ -106,7 +121,7 @@ export class CQLTestResults {
 				...(result.responseStatus !== undefined && {
 					responseStatus: result.responseStatus,
 				}),
-				...(result.actual !== undefined && { actual: String(result.actual) }),
+				...(result.actual !== undefined && { actual: formatActualValue(result.actual) }),
 				...(result.expected && { expected: result.expected }),
 				...(result.error && {
 					error: {
@@ -188,8 +203,9 @@ export class CQLTestResults {
 			} else if (typeof act === 'number' && typeof exp === 'string') {
 				r.actual = String(act);
 			} else if (act !== undefined && act !== null && typeof act !== 'string') {
-				// Convert any non-string value to string for schema compliance
-				r.actual = String(act);
+				// Convert any non-string value to string for schema compliance;
+				// lists are rendered in CQL list syntax to mirror the expected value
+				r.actual = formatActualValue(act);
 			}
 		}
 	}
