@@ -6,18 +6,45 @@ import { TestResultsSummary, CQLTestResultsData } from '../models/results-types.
 import { ResultsValidator } from '../conf/results-validator.js';
 
 /**
- * Formats an actual value for the results file. Lists are rendered in CQL list
- * syntax (`{ a, b, c }`) so they read like the expected value, which is kept in
- * its original CQL/CVL notation.
+ * Formats an actual value for the results file. Lists (`{ a, b, c }`), intervals
+ * (`Interval[low, high)`) and quantities (`2.0 'cm2'`) are rendered in CQL syntax
+ * so they read like the expected value, which is kept in its original CQL/CVL
+ * notation.
  */
 function formatActualValue(value: any): string {
 	if (Array.isArray(value)) {
 		return value.length === 0 ? '{}' : `{ ${value.map(formatActualValue).join(', ')} }`;
 	}
 	if (value !== null && typeof value === 'object') {
+		if (isIntervalShaped(value)) {
+			const open = value.lowClosed === true ? '[' : '(';
+			const close = value.highClosed === true ? ']' : ')';
+			return `Interval${open}${formatActualValue(value.low)}, ${formatActualValue(value.high)}${close}`;
+		}
+		if (isQuantityShaped(value)) {
+			return `${value.value} '${value.unit}'`;
+		}
 		return JSON.stringify(value);
 	}
 	return String(value);
+}
+
+function isIntervalShaped(value: any): boolean {
+	const keys = Object.keys(value);
+	return (
+		keys.length === 4 &&
+		['lowClosed', 'low', 'highClosed', 'high'].every((key) => keys.includes(key))
+	);
+}
+
+function isQuantityShaped(value: any): boolean {
+	const keys = Object.keys(value);
+	return (
+		keys.length === 2 &&
+		keys.includes('value') &&
+		keys.includes('unit') &&
+		typeof value.unit === 'string'
+	);
 }
 
 /**
