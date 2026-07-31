@@ -19,6 +19,7 @@ export class Result implements InternalTestResult {
 	testVersionTo?: string;
 	invalid: 'false' | 'true' | 'semantic' | 'undefined';
 	expression: string;
+	library?: string;
 	capability: CapabilityKV[] = [];
 
 	constructor(testsName: string, groupName: string, test: Test) {
@@ -28,7 +29,23 @@ export class Result implements InternalTestResult {
 		this.testVersion = test.version;
 		this.testVersionTo = test.versionTo;
 
-		if (typeof test.expression !== 'string') {
+		if (test.library !== undefined) {
+			// Library-style test: the whole CQL library is evaluated inline. The value sent as
+			// `expression` is the name of the define to evaluate, taken from the output's `name`
+			// attribute (defaults to 'output').
+			if (typeof test.library === 'string') {
+				this.invalid = 'false';
+				this.library = test.library;
+			} else {
+				this.invalid = test.library.invalid;
+				this.library = test.library.text;
+			}
+			const out = test.output;
+			this.expression =
+				out !== undefined && typeof out !== 'string' && !Array.isArray(out) && out.name
+					? out.name
+					: 'output';
+		} else if (typeof test.expression !== 'string') {
 			if (test.expression === undefined) {
 				this.invalid = 'undefined';
 				this.expression = 'undefined';
@@ -117,6 +134,14 @@ export function generateParametersResource(
 				},
 			],
 		};
+		// Library-style tests: pass the full CQL library inline via the `content` parameter.
+		// `expression` then names the define within that library to evaluate.
+		if (result.library !== undefined) {
+			data.parameter!.push({
+				name: 'content',
+				valueString: result.library,
+			});
+		}
 	} else if (cqlEndpoint === '$evaluate') {
 		data = {
 			resourceType: 'Parameters',

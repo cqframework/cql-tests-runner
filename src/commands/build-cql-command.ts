@@ -43,6 +43,12 @@ export class BuildCommand {
 				testsName = r.testsName;
 			}
 
+			// Library-style tests carry their own complete CQL library and are evaluated inline
+			// (via the $cql `content` parameter), so they are not wrapped as a define here.
+			if (r.library !== undefined) {
+				continue;
+			}
+
 			if (r.invalid !== 'semantic') {
 				const defineVal = `define "${r.groupName}.${r.testName}": ${r.expression}`;
 				const key = `${r.testsName}-${r.groupName}-${r.testName}`;

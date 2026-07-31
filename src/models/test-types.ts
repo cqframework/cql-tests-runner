@@ -3,8 +3,15 @@ export interface TestExpression {
 	invalid: 'false' | 'true' | 'semantic';
 }
 
+export interface TestLibrary {
+	text: string;
+	invalid: 'false' | 'true' | 'semantic';
+}
+
 export interface TestOutput {
 	text: string;
+	// For library-style tests, the name of the define whose result this output describes.
+	name?: string;
 	type?:
 		| 'boolean'
 		| 'code'
@@ -29,7 +36,9 @@ export interface Test {
 	mode?: 'strict' | 'loose';
 	ordered?: boolean;
 	checkOrderedFunctions?: boolean;
-	expression: string | TestExpression;
+	// A test provides EITHER an expression OR a full CQL library (mutually exclusive; see testSchema.xsd).
+	expression?: string | TestExpression;
+	library?: string | TestLibrary;
 	capability: CapabilityKV[];
 	output?: string | TestOutput | string[] | TestOutput[];
 }
@@ -79,6 +88,9 @@ export interface InternalTestResult {
 	testVersionTo?: string;
 	invalid?: 'false' | 'true' | 'semantic' | 'undefined';
 	expression: string;
+	// For library-style tests: the full CQL library source that is evaluated inline.
+	// (For these tests, `expression` holds the name of the define whose result is compared.)
+	library?: string;
 	capability?: CapabilityKV[];
 	SkipMessage?: string;
 }
