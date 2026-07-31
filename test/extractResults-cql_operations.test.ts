@@ -451,6 +451,95 @@ test('time interval with a missing boundary keeps the null/closed handling', () 
 	});
 });
 
+// A date interval's Period boundaries are date strings (or dateTimes with an anchored
+// time part); without the cqf-cqlType extension they would be formatted as DateTime
+// literals (@2018-01-01T), which never match expected Date literals (@2018-01-01).
+test('period with Interval<System.Date> cqlType yields date literals', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [
+						{
+							url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
+							valueString: 'Interval<System.Date>',
+						},
+					],
+					valuePeriod: {
+						start: '2018-01-01',
+						end: '2018-01-04',
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		lowClosed: true,
+		low: '@2018-01-01',
+		highClosed: true,
+		high: '@2018-01-04',
+	});
+});
+
+test('date interval strips an anchored time part from Period boundaries', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [
+						{
+							url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
+							valueString: 'Interval<Date>',
+						},
+					],
+					valuePeriod: {
+						start: '2018-01-01T00:00:00.000',
+						end: '2018-01-04T00:00:00.000',
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		lowClosed: true,
+		low: '@2018-01-01',
+		highClosed: true,
+		high: '@2018-01-04',
+	});
+});
+
+test('list of date intervals (ExpandPerDay) yields date-literal boundaries', () => {
+	const dateInterval = (start: string, end: string) => ({
+		name: 'return',
+		extension: [
+			{
+				url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
+				valueString: 'Interval<System.Date>',
+			},
+		],
+		valuePeriod: { start: start, end: end },
+	});
+
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				dateInterval('2018-01-01', '2018-01-01'),
+				dateInterval('2018-01-02', '2018-01-02'),
+				dateInterval('2018-01-03', '2018-01-03'),
+				dateInterval('2018-01-04', '2018-01-04'),
+			],
+		})
+	).toStrictEqual([
+		{ lowClosed: true, low: '@2018-01-01', highClosed: true, high: '@2018-01-01' },
+		{ lowClosed: true, low: '@2018-01-02', highClosed: true, high: '@2018-01-02' },
+		{ lowClosed: true, low: '@2018-01-03', highClosed: true, high: '@2018-01-03' },
+		{ lowClosed: true, low: '@2018-01-04', highClosed: true, high: '@2018-01-04' },
+	]);
+});
+
 test('period with a non-time cqlType still yields datetime literals', () => {
 	expect(
 		extractor!.extract({

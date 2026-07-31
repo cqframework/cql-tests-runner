@@ -1,4 +1,17 @@
 /**
+ * Formats a Period boundary of an `Interval<System.Date>` as a CQL Date literal.
+ * Unlike `format_datetime`, no trailing `T` is appended: `@2018-01-01T` is a
+ * DateTime literal, while a date interval's boundaries must stay `@2018-01-01`.
+ * A time part, if an engine includes one, is an artifact of the Period mapping
+ * and is stripped.
+ */
+export function format_date(datetime: string): string {
+	const value = datetime.toString();
+	const timeStart = value.indexOf('T');
+	return `@${timeStart >= 0 ? value.slice(0, timeStart) : value}`;
+}
+
+/**
  * Formats a Period boundary of an `Interval<System.Time>` as a CQL Time literal.
  * FHIR Period boundaries are dateTimes, so engines anchor the time-of-day to a
  * placeholder date (e.g. 0001-01-01); that date — and any timezone offset, which
