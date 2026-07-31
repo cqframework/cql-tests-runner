@@ -345,3 +345,42 @@ test('Long values compare inside lists and structures', () => {
 	expect(resultsEqual({ x: 1n }, { x: '1' })).toBe(true);
 	expect(resultsEqual([1n, 2n], ['1', '3'])).toBe(false);
 });
+
+test('integer/long point type always steps by one, whatever precision declares', () => {
+	// A precision extension cannot change the distance between integer points (PR #110
+	// review): step stays 1 even when a (bogus) precision is declared.
+	const expected = { lowClosed: true, low: 1, highClosed: false, high: 4 };
+	const actual = actualInterval(
+		{ lowClosed: true, low: 1, highClosed: true, high: 3 },
+		{ pointType: 'Integer', highPrecision: 2 }
+	);
+
+	expect(resultsEqual(expected, actual)).toBe(true);
+});
+
+test('negative or fractional precision values are ignored', () => {
+	// Only a non-negative integer is a meaningful decimal-place count; invalid values
+	// fall back to the point-type default instead of producing a step > 1.
+	const expected = { lowClosed: true, low: 1.0, highClosed: false, high: 4.0 };
+	const actualHigh = 4.0 - 0.00000001;
+
+	expect(
+		resultsEqual(
+			expected,
+			actualInterval(
+				{ lowClosed: true, low: 1.0, highClosed: true, high: actualHigh },
+				{ pointType: 'Decimal', highPrecision: -1 }
+			)
+		)
+	).toBe(true);
+
+	expect(
+		resultsEqual(
+			expected,
+			actualInterval(
+				{ lowClosed: true, low: 1.0, highClosed: true, high: actualHigh },
+				{ pointType: 'Decimal', highPrecision: 0.5 }
+			)
+		)
+	).toBe(true);
+});

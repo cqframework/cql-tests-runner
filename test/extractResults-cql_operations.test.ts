@@ -751,3 +751,27 @@ test('unity-coded range without a cqlType extension stays a quantity interval', 
 	});
 	expect(getIntervalMeta(result)).toBeUndefined();
 });
+
+test('boundary without a usable numeric value is treated as absent', () => {
+	// A present boundary quantity whose value is missing or not numeric must not produce
+	// a closed boundary with an unusable value (PR #110 review).
+	const result = extractRange(
+		{
+			low: { value: 'abc', code: '1', system: 'http://unitsofmeasure.org' },
+			high: { value: 2, code: '1', system: 'http://unitsofmeasure.org' },
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }]
+	);
+
+	expect(result).toStrictEqual({ lowClosed: false, low: null, highClosed: true, high: 2 });
+
+	expect(
+		extractRange(
+			{
+				low: { value: 1, code: '1', system: 'http://unitsofmeasure.org' },
+				high: { value: true, code: '1', system: 'http://unitsofmeasure.org' },
+			},
+			[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }]
+		)
+	).toStrictEqual({ lowClosed: true, low: 1, highClosed: false, high: null });
+});

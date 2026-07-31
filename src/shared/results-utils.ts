@@ -151,13 +151,17 @@ function stepFor(
 	meta: IntervalMeta | undefined,
 	allIntegral: boolean
 ): number {
-	const precision = side === 'low' ? meta?.lowPrecision : meta?.highPrecision;
-	if (typeof precision === 'number' && Number.isFinite(precision)) {
-		return Math.pow(10, -precision);
-	}
-
+	// Integer and Long points are one apart by definition; a precision extension cannot
+	// change that (a valid precision of 0 would yield the same step anyway).
 	if (meta?.pointType === 'Integer' || meta?.pointType === 'Long') {
 		return 1;
+	}
+
+	// Only a non-negative integer is a meaningful decimal-place count; anything else is
+	// ignored rather than producing a step greater than 1 or a fractional power of ten.
+	const precision = side === 'low' ? meta?.lowPrecision : meta?.highPrecision;
+	if (typeof precision === 'number' && Number.isInteger(precision) && precision >= 0) {
+		return Math.pow(10, -precision);
 	}
 
 	// An explicitly declared Decimal point type overrides the integrality heuristic below:

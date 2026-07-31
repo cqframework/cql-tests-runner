@@ -60,7 +60,10 @@ function boundaryValue(quantity: any): number | null {
 	if (quantity === null || typeof quantity !== 'object' || !quantity.hasOwnProperty('value')) {
 		return null;
 	}
-	return typeof quantity.value === 'string' ? Number(quantity.value) : quantity.value;
+	const value = typeof quantity.value === 'string' ? Number(quantity.value) : quantity.value;
+	// A value that is missing or not numeric makes the boundary unusable; treat it as
+	// absent so the closed flag stays consistent and no NaN/undefined reaches comparison.
+	return typeof value === 'number' && !Number.isNaN(value) ? value : null;
 }
 
 /**
