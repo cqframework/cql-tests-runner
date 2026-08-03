@@ -87,6 +87,12 @@ export class TestExecutionService {
       result.SkipMessage = `Skipped by config: ${reason}`;
       result.testStatus = 'skip';
       return result;
+    } else if (result.library !== undefined && config.FhirServer.CqlOperation !== '$evaluate') {
+      // A whole CQL library can only be passed to Library/$evaluate, not to $cql.
+      result.SkipMessage =
+        'Library-style tests require a server configured for the Library/$evaluate operation';
+      result.testStatus = 'skip';
+      return result;
     }
 
     const data = generateParametersResource(result, config.FhirServer.CqlOperation);

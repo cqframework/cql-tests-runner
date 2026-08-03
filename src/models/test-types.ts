@@ -88,8 +88,9 @@ export interface InternalTestResult {
 	testVersionTo?: string;
 	invalid?: 'false' | 'true' | 'semantic' | 'undefined';
 	expression: string;
-	// For library-style tests: the full CQL library source that is evaluated inline.
-	// (For these tests, `expression` holds the name of the define whose result is compared.)
+	// For library-style tests: the full CQL library source, sent to Library/$evaluate wrapped as
+	// a FHIR Library resource. (For these tests, `expression` holds the name of the define whose
+	// result is compared.)
 	library?: string;
 	capability?: CapabilityKV[];
 	SkipMessage?: string;

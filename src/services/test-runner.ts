@@ -146,6 +146,23 @@ export class TestRunner {
 				result.skipMessage
 			);
 			return result;
+		} else if (
+			result.library !== undefined &&
+			config.FhirServer.CqlOperation !== '$evaluate'
+		) {
+			// A whole CQL library can only be passed to Library/$evaluate, not to $cql.
+			result.skipMessage =
+				'Library-style tests require a server configured for the Library/$evaluate operation';
+			result.testStatus = 'skip';
+			console.log(
+				'Test %s:%s:%s status: %s skipMessage: %s',
+				result.testsName,
+				result.groupName,
+				result.testName,
+				result.testStatus,
+				result.skipMessage
+			);
+			return result;
 		}
 		const data = generateParametersResource(result, config.FhirServer.CqlOperation);
 
