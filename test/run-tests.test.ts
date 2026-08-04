@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
 import { TestRunner } from '../src/services/test-runner.js';
 import * as ResultsUtils from '../src/shared/results-utils.js';
+import * as ResultsShared from '../src/shared/results-shared.js';
 
 vi.mock('../src/loaders/test-loader', () => ({
   TestLoader: { load: vi.fn().mockReturnValue([]) },
@@ -348,5 +349,84 @@ describe('RunTests filtering (TestRunner)', () => {
       failCount: 0,
       errorCount: 0,
     });
+  });
+});
+
+describe('Library-style tests (TestRunner)', () => {
+  let runner: TestRunner;
+  let fetchSpy: Mock;
+
+  const libraryResult = () => ({
+    testsName: 'OverloadMatching',
+    groupName: 'OverloadMatching',
+    testName: 'SimpleOverloadMatching',
+    // For library-style tests `expression` is the name of the define to evaluate.
+    expression: 'output',
+    library: "library SimpleOverloadMatching version '1.0.0'\n\ndefine output: 'DecimalOverload'",
+    expected: "'DecimalOverload'",
+    invalid: 'false',
+    capability: [],
+  });
+
+  beforeEach(() => {
+    fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+      status: 200,
+      json: () => Promise.resolve({}),
+    } as Response);
+    vi.spyOn(ResultsUtils, 'resultsEqual').mockReturnValue(true);
+    vi.mocked(ResultsShared.generateEmptyResults).mockImplementationOnce(async () => [
+      [libraryResult()],
+    ]);
+    vi.mocked(ResultsShared.generateParametersResource).mockClear();
+    runner = new TestRunner();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('skips a library-style test when the server is configured for $cql', async () => {
+    const results = await runner.runTests(
+      { ...baseConfig, FhirServer: { ...baseConfig.FhirServer, CqlOperation: '$cql' } },
+      { useAxios: false }
+    );
+
+    const test = results.results[0];
+    expect(test.testStatus).toBe('skip');
+    expect(test.skipMessage).toMatch(/Library\/\$evaluate/);
+    // The library is never sent to an operation that cannot carry it.
+    expect(ResultsShared.generateParametersResource).not.toHaveBeenCalled();
+    // Only the server connectivity check should have hit the network.
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(results.toJSON().testResultsSummary).toEqual({
+      passCount: 0,
+      skipCount: 1,
+      failCount: 0,
+      errorCount: 0,
+    });
+  });
+
+  it('runs a library-style test when the server is configured for $evaluate', async () => {
+    const results = await runner.runTests(
+      { ...baseConfig, FhirServer: { ...baseConfig.FhirServer, CqlOperation: '$evaluate' } },
+      { useAxios: false }
+    );
+
+    expect(results.results[0].testStatus).toBe('pass');
+    expect(ResultsShared.generateParametersResource).toHaveBeenCalledTimes(1);
+    expect(ResultsShared.generateParametersResource).toHaveBeenCalledWith(
+      expect.objectContaining({ expression: 'output' }),
+      '$evaluate',
+      'https://hl7.org/fhir/uv/cql/Library/SimpleOverloadMatching|1.0.0'
+    );
+
+    // The library is published before evaluation and removed afterwards.
+    const requests = fetchSpy.mock.calls.map(([url, init]: any[]) => `${init?.method ?? 'GET'} ${url}`);
+    expect(requests).toContain(
+      'PUT http://localhost:8080/fhir/Library/cql-tests-SimpleOverloadMatching'
+    );
+    expect(requests).toContain(
+      'DELETE http://localhost:8080/fhir/Library/cql-tests-SimpleOverloadMatching'
+    );
   });
 });

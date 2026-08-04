@@ -3,6 +3,7 @@ import { CQLEngine } from '../cql-engine/cql-engine.js';
 import { TestLoader } from '../loaders/test-loader.js';
 import { CQLTestResults } from '../test-results/cql-test-results.js';
 import { generateEmptyResults, generateParametersResource } from '../shared/results-shared.js';
+import { PublishedLibrary, publishTestLibrary } from '../shared/library-publisher.js';
 import { InternalTestResult } from '../models/test-types.js';
 import { ResultExtractor } from '../extractors/result-extractor.js';
 import { ServerConnectivity } from '../shared/server-connectivity.js';
@@ -164,7 +165,7 @@ export class TestRunner {
 			);
 			return result;
 		}
-		const data = generateParametersResource(result, config.FhirServer.CqlOperation);
+		let publishedLibrary: PublishedLibrary | undefined;
 
 		try {
 			console.log(
@@ -172,6 +173,21 @@ export class TestRunner {
 				result.testsName,
 				result.groupName,
 				result.testName
+			);
+
+			// A library-style test's CQL has to exist on the server before Library/$evaluate can
+			// resolve it; it is removed again once the test has run.
+			if (result.library !== undefined) {
+				publishedLibrary = await publishTestLibrary(
+					config.FhirServer.BaseUrl,
+					result.library
+				);
+			}
+
+			const data = generateParametersResource(
+				result,
+				config.FhirServer.CqlOperation,
+				publishedLibrary?.canonical
 			);
 
 			let response: any;
@@ -228,6 +244,8 @@ export class TestRunner {
 				name: error.name || 'Error',
 				stack: error.stack,
 			};
+		} finally {
+			await publishedLibrary?.remove();
 		}
 
 		console.log(

@@ -9,6 +9,7 @@ import {
   generateParametersResource,
   Result,
 } from '../shared/results-shared.js';
+import { PublishedLibrary, publishTestLibrary } from '../shared/library-publisher.js';
 import { InternalTestResult, Tests } from '../models/test-types.js';
 import { ServerConnectivity } from '../shared/server-connectivity.js';
 import { ResultExtractor } from '../extractors/result-extractor.js';
@@ -95,10 +96,23 @@ export class TestExecutionService {
       return result;
     }
 
-    const data = generateParametersResource(result, config.FhirServer.CqlOperation);
+    let publishedLibrary: PublishedLibrary | undefined;
 
     try {
       console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.testName);
+
+      // A library-style test's CQL has to exist on the server before Library/$evaluate can
+      // resolve it; it is removed again once the test has run.
+      if (result.library !== undefined) {
+        publishedLibrary = await publishTestLibrary(config.FhirServer.BaseUrl, result.library);
+      }
+
+      const data = generateParametersResource(
+        result,
+        config.FhirServer.CqlOperation,
+        publishedLibrary?.canonical
+      );
+
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -131,6 +145,8 @@ export class TestExecutionService {
         name: error.name || 'Error',
         stack: error.stack
       };
+    } finally {
+      await publishedLibrary?.remove();
     }
 
     console.log('Test %s:%s:%s status: %s expected: %s actual: %s',

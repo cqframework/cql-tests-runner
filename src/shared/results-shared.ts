@@ -1,5 +1,5 @@
 import { Tests, Test, InternalTestResult, CapabilityKV } from '../models/test-types.js';
-import { Library, Parameters } from 'fhir/r4';
+import { Parameters } from 'fhir/r4';
 
 export class Result implements InternalTestResult {
 	testStatus!: 'pass' | 'fail' | 'skip' | 'error';
@@ -132,66 +132,18 @@ export async function generateEmptyResults(
 	return groupResults;
 }
 
-/**
- * Wraps CQL source as a FHIR Library resource conforming to the CQLLibrary profile in the
- * Using CQL IG, as required by the `library` parameter of Library/$evaluate: exactly one
- * `content` element whose contentType starts with `text/cql` (clb-1) carrying base-64 encoded
- * data (clb-2), with a name of 64 characters or less (clb-3).
- *
- * Name and version are read from the library declaration so the resource carries the same
- * identity the CQL itself declares (engines resolve and cache libraries by name and version).
- */
-export function buildCqlLibraryResource(cql: string): Library {
-	const source = cql.trim();
-	const declaration =
-		/^library\s+("[^"]+"|[A-Za-z_][A-Za-z0-9_.]*)(?:\s+version\s+'([^']*)')?/m.exec(source);
-
-	if (declaration === null) {
-		throw new Error('Library-style test CQL has no library declaration');
-	}
-
-	const name = declaration[1].replace(/^"|"$/g, '');
-	const version = declaration[2];
-
-	if (name.length > 64) {
-		throw new Error(
-			`Library name '${name}' exceeds the 64 character limit of the CQLLibrary profile`
-		);
-	}
-
-	return {
-		resourceType: 'Library',
-		url: `https://hl7.org/fhir/uv/cql/Library/${name}`,
-		name,
-		...(version !== undefined ? { version } : {}),
-		status: 'active',
-		type: {
-			coding: [
-				{
-					system: 'http://terminology.hl7.org/CodeSystem/library-type',
-					code: 'logic-library',
-				},
-			],
-		},
-		content: [
-			{
-				contentType: 'text/cql',
-				data: Buffer.from(source, 'utf8').toString('base64'),
-			},
-		],
-	};
-}
-
 export function generateParametersResource(
 	result: InternalTestResult,
-	cqlEndpoint: string
+	cqlEndpoint: string,
+	libraryCanonical?: string
 ): Parameters {
 	let data: Parameters;
 
-	// Library-style tests carry a complete CQL library, which only Library/$evaluate can accept:
-	// its `library` parameter takes the library as a FHIR resource. The $cql operation has no way
-	// to carry library source — its `library` parameter resolves by canonical url only, and its
-	// `expression` parameter is an expression of CQL, not the text of a library.
+	// Library-style tests carry a complete CQL library, which only Library/$evaluate can accept.
+	// The $cql operation has no way to carry library source — its `library` parameter resolves by
+	// canonical url only, and its `expression` parameter is an expression of CQL, not the text of
+	// a library. The library is published to the server first (see publishTestLibrary) and
+	// referenced here by canonical url.
 	if (result.library !== undefined) {
 		if (cqlEndpoint !== '$evaluate') {
 			throw new Error(
@@ -199,13 +151,18 @@ export function generateParametersResource(
 			);
 		}
 
+		if (libraryCanonical === undefined) {
+			throw new Error(
+				'Library-style tests require the canonical url of the published library'
+			);
+		}
+
 		return {
 			resourceType: 'Parameters',
 			parameter: [
-				// `library` is mutually exclusive with `url`, so no url parameter is sent here.
 				{
-					name: 'library',
-					resource: buildCqlLibraryResource(result.library),
+					name: 'url',
+					valueCanonical: libraryCanonical,
 				},
 				// `expression` (0..*) names the define to evaluate; the response is keyed by that name.
 				{
