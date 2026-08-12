@@ -502,6 +502,28 @@ test('tuple response check', () => {
 	).toStrictEqual({ name: 'Patrick', birthDate: '@2014-01-01' });
 });
 
+test('tuple response carries no interval metadata', () => {
+	const result = extractor!.extract({
+		resourceType: 'Parameters',
+		parameter: [
+			{
+				name: 'return',
+				part: [
+					{
+						name: 'name',
+						valueString: 'Patrick',
+					},
+					{
+						name: 'birthDate',
+						valueDate: '2014-01-01',
+					},
+				],
+			},
+		],
+	});
+	expect(getIntervalMeta(result)).toBeUndefined();
+});
+
 test('list of integers response check', () => {
 	expect(
 		extractor!.extract({
@@ -805,4 +827,84 @@ test('long interval boundaries extract as BigInt', () => {
 			[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Long>' }]
 		)
 	).toStrictEqual({ lowClosed: true, low: 3n, highClosed: false, high: null });
+});
+
+// Intervals in the part-based representation (issue #85): the point type is derived from
+// the wire so open boundaries can be normalized with the right step.
+
+function extractIntervalParts(parts: any[], extension?: any[]): any {
+	return extractor!.extract({
+		resourceType: 'Parameters',
+		parameter: [
+			{
+				name: 'return',
+				...(extension === undefined ? {} : { extension: extension }),
+				part: parts,
+			},
+		],
+	});
+}
+
+test('part-form integer interval derives the Integer point type', () => {
+	const result = extractIntervalParts([
+		{ name: 'low', valueInteger: 1 },
+		{ name: 'lowClosed', valueBoolean: true },
+		{ name: 'high', valueInteger: 4 },
+		{ name: 'highClosed', valueBoolean: false },
+	]);
+
+	expect(result).toStrictEqual({ low: 1, lowClosed: true, high: 4, highClosed: false });
+	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Integer' });
+});
+
+test('part-form decimal interval derives the Decimal point type', () => {
+	const result = extractIntervalParts([
+		{ name: 'low', valueDecimal: 1.0 },
+		{ name: 'lowClosed', valueBoolean: true },
+		{ name: 'high', valueDecimal: 4.0 },
+		{ name: 'highClosed', valueBoolean: false },
+	]);
+
+	expect(result).toStrictEqual({ low: 1.0, lowClosed: true, high: 4.0, highClosed: false });
+	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Decimal' });
+});
+
+test('part-form interval takes the point type from the cqlType extension when declared', () => {
+	// String boundaries derive nothing on their own (a Long and a trailing-zero decimal are
+	// both valueString), so the declared type is what identifies this as a Long interval.
+	const result = extractIntervalParts(
+		[
+			{ name: 'low', valueString: '1' },
+			{ name: 'lowClosed', valueBoolean: true },
+			{ name: 'high', valueString: '4' },
+			{ name: 'highClosed', valueBoolean: false },
+		],
+		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Long>' }]
+	);
+
+	expect(result).toStrictEqual({ low: '1', lowClosed: true, high: '4', highClosed: false });
+	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Long' });
+});
+
+test('part-form interval with mixed boundary element types derives nothing', () => {
+	const result = extractIntervalParts([
+		{ name: 'low', valueInteger: 1 },
+		{ name: 'lowClosed', valueBoolean: true },
+		{ name: 'high', valueDecimal: 4.5 },
+		{ name: 'highClosed', valueBoolean: false },
+	]);
+
+	expect(result).toStrictEqual({ low: 1, lowClosed: true, high: 4.5, highClosed: false });
+	expect(getIntervalMeta(result)).toBeUndefined();
+});
+
+test('part-form interval with string boundaries and no cqlType derives nothing', () => {
+	const result = extractIntervalParts([
+		{ name: 'low', valueString: '1' },
+		{ name: 'lowClosed', valueBoolean: true },
+		{ name: 'high', valueString: '4' },
+		{ name: 'highClosed', valueBoolean: false },
+	]);
+
+	expect(getIntervalMeta(result)).toBeUndefined();
 });

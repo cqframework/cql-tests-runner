@@ -98,7 +98,6 @@ export function intervalsEqual(expected: any, actual: any): boolean {
 	if (!extraKeysEqual(expected, actual)) return false;
 
 	const meta = getIntervalMeta(actual);
-	const integral = allBoundariesIntegral(expected, actual);
 
 	return (
 		boundariesEqual(
@@ -107,7 +106,7 @@ export function intervalsEqual(expected: any, actual: any): boolean {
 			actual.low,
 			actual.lowClosed === true,
 			'low',
-			stepFor('low', meta, integral)
+			stepFor('low', meta)
 		) &&
 		boundariesEqual(
 			expected.high,
@@ -115,7 +114,7 @@ export function intervalsEqual(expected: any, actual: any): boolean {
 			actual.high,
 			actual.highClosed === true,
 			'high',
-			stepFor('high', meta, integral)
+			stepFor('high', meta)
 		)
 	);
 }
@@ -145,12 +144,15 @@ function extraKeysEqual(expected: any, actual: any): boolean {
 /**
  * Distance between adjacent points of the interval's point type, used to convert an open
  * boundary to its closed equivalent.
+ *
+ * The integer step requires a point type recorded by an extractor — declared by the
+ * `cqf-cqlType` extension on a Range, or derived from the FHIR element type of the
+ * boundary parts in the part-based form. Inferring it from integral-looking boundary
+ * values was implemented and then rejected in review: 1 and 1.0 are the same JS number,
+ * so such a heuristic accepts both the integer-step and the decimal-step answer for the
+ * same untyped expected interval.
  */
-function stepFor(
-	side: 'low' | 'high',
-	meta: IntervalMeta | undefined,
-	allIntegral: boolean
-): number {
+function stepFor(side: 'low' | 'high', meta: IntervalMeta | undefined): number {
 	// Integer and Long points are one apart by definition; a precision extension cannot
 	// change that (a valid precision of 0 would yield the same step anyway).
 	if (meta?.pointType === 'Integer' || meta?.pointType === 'Long') {
@@ -164,40 +166,10 @@ function stepFor(
 		return Math.pow(10, -precision);
 	}
 
-	// An explicitly declared Decimal point type overrides the integrality heuristic below:
-	// 1.0 and 1 are the same JS number, so only the declaration can tell them apart.
-	if (meta?.pointType === 'Decimal') {
-		return DECIMAL_STEP;
-	}
-
-	if (allIntegral) {
-		return 1;
-	}
-
+	// Decimal points (declared or assumed) are 10^-8 apart. Quantity boundaries land here
+	// too: a CQL Quantity value is always a Decimal, so the predecessor of 2 'ml' is
+	// 1.99999999 'ml', however integral the values look.
 	return DECIMAL_STEP;
-}
-
-/**
- * True when every non-null numeric boundary on both sides is an integer (or a BigInt).
- * Heuristic for integer/long intervals whose expected values carry no type information.
- * Quantity boundaries never qualify: a CQL Quantity value is always a Decimal, so the
- * predecessor of 2 'ml' is 1.99999999 'ml', however integral the values look.
- */
-function allBoundariesIntegral(expected: any, actual: any): boolean {
-	let sawValue = false;
-
-	for (const interval of [expected, actual]) {
-		for (const side of ['low', 'high']) {
-			const boundary = interval[side];
-			if (isQuantityBoundary(boundary)) return false;
-			const value = numericValueOf(boundary);
-			if (value === null || value === undefined) continue;
-			sawValue = true;
-			if (typeof value === 'number' && !Number.isInteger(value)) return false;
-		}
-	}
-
-	return sawValue;
 }
 
 /**

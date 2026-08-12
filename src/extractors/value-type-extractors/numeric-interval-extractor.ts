@@ -1,9 +1,13 @@
 import { BaseExtractor } from '../base-extractor.js';
-import { IntervalMeta, IntervalPointType, setIntervalMeta } from '../../shared/interval-utils.js';
+import {
+	IntervalMeta,
+	IntervalPointType,
+	numericIntervalPointTypeOf,
+	setIntervalMeta,
+} from '../../shared/interval-utils.js';
 
 const CQL_TYPE_URL = 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType';
 const PRECISION_URL = 'http://hl7.org/fhir/StructureDefinition/quantity-precision';
-const NUMERIC_INTERVAL_TYPE = /^Interval<(?:System\.)?(Integer|Long|Decimal)>$/;
 
 function cqlType(parameter: any): string | undefined {
 	if (!Array.isArray(parameter.extension)) {
@@ -107,11 +111,11 @@ export class NumericIntervalExtractor extends BaseExtractor {
 		// The cqlType extension is required and authoritative: without a numeric interval
 		// type this range is not ours, whatever its boundaries look like.
 		const declaredType = cqlType(parameter);
-		const match = declaredType !== undefined ? NUMERIC_INTERVAL_TYPE.exec(declaredType) : null;
-		if (match === null) {
+		const pointType =
+			declaredType !== undefined ? numericIntervalPointTypeOf(declaredType) : undefined;
+		if (pointType === undefined) {
 			return undefined;
 		}
-		const pointType = match[1] as IntervalPointType;
 
 		const lowQuantity = range.hasOwnProperty('low') ? range.low : undefined;
 		const highQuantity = range.hasOwnProperty('high') ? range.high : undefined;

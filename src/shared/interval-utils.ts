@@ -37,6 +37,18 @@ export function getIntervalMeta(interval: any): IntervalMeta | undefined {
 	return (interval as any)[INTERVAL_META];
 }
 
+const NUMERIC_INTERVAL_TYPE = /^Interval<(?:System\.)?(Integer|Long|Decimal)>$/;
+
+/**
+ * The CQL point type named by a numeric interval type string
+ * (`Interval<Integer|Long|Decimal>`, `System.` prefix optional), or `undefined` for any
+ * other type string.
+ */
+export function numericIntervalPointTypeOf(typeString: string): IntervalPointType | undefined {
+	const match = NUMERIC_INTERVAL_TYPE.exec(typeString);
+	return match === null ? undefined : (match[1] as IntervalPointType);
+}
+
 /**
  * True when a value has the {lowClosed, low, highClosed, high} interval shape
  * produced by both the CVL parser and the interval extractors.

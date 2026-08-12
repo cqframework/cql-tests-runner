@@ -472,3 +472,77 @@ test('numeric interval types response check', () => {
 	expect(getIntervalMeta(result.get_quantity_interval_by_cql_type)).toBeUndefined();
 	expect(getIntervalMeta(result.get_unity_range_without_cql_type)).toBeUndefined();
 });
+
+// Intervals in the part-based representation (issue #85): the point type is derived from
+// the FHIR element type of the boundary parts, or from a declared cqlType extension.
+
+test('part-form interval types response check', () => {
+	const result = extractor!.extract({
+		resourceType: 'Parameters',
+		parameter: [
+			{
+				name: 'get_part_integer_interval',
+				part: [
+					{ name: 'low', valueInteger: 1 },
+					{ name: 'lowClosed', valueBoolean: true },
+					{ name: 'high', valueInteger: 4 },
+					{ name: 'highClosed', valueBoolean: false },
+				],
+			},
+			{
+				name: 'get_part_decimal_interval',
+				part: [
+					{ name: 'low', valueDecimal: 1.0 },
+					{ name: 'lowClosed', valueBoolean: true },
+					{ name: 'high', valueDecimal: 4.0 },
+					{ name: 'highClosed', valueBoolean: false },
+				],
+			},
+			{
+				// String boundaries derive nothing on their own; the declared type wins.
+				name: 'get_part_long_interval',
+				extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Long>' }],
+				part: [
+					{ name: 'low', valueString: '1' },
+					{ name: 'lowClosed', valueBoolean: true },
+					{ name: 'high', valueString: '4' },
+					{ name: 'highClosed', valueBoolean: false },
+				],
+			},
+			{
+				name: 'get_part_mixed_interval',
+				part: [
+					{ name: 'low', valueInteger: 1 },
+					{ name: 'lowClosed', valueBoolean: true },
+					{ name: 'high', valueDecimal: 4.5 },
+					{ name: 'highClosed', valueBoolean: false },
+				],
+			},
+			{
+				name: 'get_tuple',
+				part: [
+					{ name: 'name', valueString: 'Patrick' },
+					{ name: 'birthDate', valueDate: '2014-01-01' },
+				],
+			},
+		],
+	});
+
+	expect(result).toStrictEqual({
+		get_part_integer_interval: { low: 1, lowClosed: true, high: 4, highClosed: false },
+		get_part_decimal_interval: { low: 1.0, lowClosed: true, high: 4.0, highClosed: false },
+		get_part_long_interval: { low: '1', lowClosed: true, high: '4', highClosed: false },
+		get_part_mixed_interval: { low: 1, lowClosed: true, high: 4.5, highClosed: false },
+		get_tuple: { name: 'Patrick', birthDate: '@2014-01-01' },
+	});
+
+	expect(getIntervalMeta(result.get_part_integer_interval)).toStrictEqual({
+		pointType: 'Integer',
+	});
+	expect(getIntervalMeta(result.get_part_decimal_interval)).toStrictEqual({
+		pointType: 'Decimal',
+	});
+	expect(getIntervalMeta(result.get_part_long_interval)).toStrictEqual({ pointType: 'Long' });
+	expect(getIntervalMeta(result.get_part_mixed_interval)).toBeUndefined();
+	expect(getIntervalMeta(result.get_tuple)).toBeUndefined();
+});

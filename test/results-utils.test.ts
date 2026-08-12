@@ -67,9 +67,10 @@ test('issue #85: closed expected equals closed actual of the same decimal predec
 test('integer interval: open expected [1, 4) equals closed actual [1, 3]', () => {
 	const expected = { lowClosed: true, low: 1, highClosed: false, high: 4 };
 
-	// No metadata: all boundaries are integral, so the integer step is inferred.
+	// No metadata: an untyped interval uses the decimal step, however integral its
+	// boundaries look, so [1, 4) is not [1, 3].
 	expect(resultsEqual(expected, { lowClosed: true, low: 1, highClosed: true, high: 3 })).toBe(
-		true
+		false
 	);
 
 	// With a declared Integer point type the step is explicit.
@@ -82,6 +83,26 @@ test('integer interval: open expected [1, 4) equals closed actual [1, 3]', () =>
 			)
 		)
 	).toBe(true);
+});
+
+test('part-form open actual needs a recorded point type to step by one', () => {
+	// The rule after the PR #110 review: an open part-form actual [1, 4) equals the closed
+	// expected [1, 3] only when the extractor recorded a point type for it — derived from
+	// the FHIR element type of the boundary parts (valueInteger) for the part-based form.
+	const expected = { lowClosed: true, low: 1, highClosed: true, high: 3 };
+
+	expect(
+		resultsEqual(
+			expected,
+			actualInterval(
+				{ lowClosed: true, low: 1, highClosed: false, high: 4 },
+				{ pointType: 'Integer' }
+			)
+		)
+	).toBe(true);
+	expect(resultsEqual(expected, { lowClosed: true, low: 1, highClosed: false, high: 4 })).toBe(
+		false
+	);
 });
 
 test('integer interval: open low boundary is closed by adding the step', () => {
@@ -97,8 +118,9 @@ test('integer interval: open low boundary is closed by adding the step', () => {
 test('long interval: BigInt expected boundaries compare against numeric actuals', () => {
 	const expected = { lowClosed: true, low: 1n, highClosed: false, high: 4n };
 
+	// Without a recorded point type the decimal step applies, BigInt boundaries included.
 	expect(resultsEqual(expected, { lowClosed: true, low: 1, highClosed: true, high: 3 })).toBe(
-		true
+		false
 	);
 	expect(
 		resultsEqual(
@@ -116,16 +138,25 @@ test('long interval: BigInt expected boundaries compare against numeric actuals'
 
 test('long interval: BigInt boundaries beyond the safe integer range compare exactly', () => {
 	const expected = { lowClosed: true, low: 1n, highClosed: false, high: 9007199254740995n };
-	const actual = { lowClosed: true, low: 1n, highClosed: true, high: 9007199254740994n };
+	const actual = actualInterval(
+		{ lowClosed: true, low: 1n, highClosed: true, high: 9007199254740994n },
+		{ pointType: 'Long' }
+	);
 
 	expect(resultsEqual(expected, actual)).toBe(true);
 	expect(
-		resultsEqual(expected, {
-			lowClosed: true,
-			low: 1n,
-			highClosed: true,
-			high: 9007199254740995n,
-		})
+		resultsEqual(
+			expected,
+			actualInterval(
+				{
+					lowClosed: true,
+					low: 1n,
+					highClosed: true,
+					high: 9007199254740995n,
+				},
+				{ pointType: 'Long' }
+			)
+		)
 	).toBe(false);
 });
 
@@ -144,8 +175,7 @@ test('undeclared precision truncation is still a mismatch', () => {
 });
 
 test('decimal interval: open expected high does not equal a whole-number truncation', () => {
-	// A declared Decimal point type keeps the integer-step heuristic from firing: the
-	// predecessor of 4.0 is 3.99999999, not 3.0.
+	// A Decimal point type steps by 10^-8: the predecessor of 4.0 is 3.99999999, not 3.0.
 	const expected = { lowClosed: true, low: 1.0, highClosed: false, high: 4.0 };
 	const actual = actualInterval(
 		{ lowClosed: true, low: 1.0, highClosed: true, high: 3.0 },
@@ -154,7 +184,7 @@ test('decimal interval: open expected high does not equal a whole-number truncat
 
 	expect(resultsEqual(expected, actual)).toBe(false);
 
-	// Same conclusion without metadata once any boundary is non-integral.
+	// Same conclusion without metadata: an untyped interval steps by 10^-8 too.
 	expect(
 		resultsEqual(
 			{ lowClosed: true, low: 1.5, highClosed: false, high: 4.0 },
@@ -265,7 +295,10 @@ test('lists of intervals compare element-wise', () => {
 		{ lowClosed: true, low: 1.0, highClosed: false, high: 1.4 },
 	];
 	const actual = [
-		{ lowClosed: true, low: 1, highClosed: true, high: 3 },
+		actualInterval(
+			{ lowClosed: true, low: 1, highClosed: true, high: 3 },
+			{ pointType: 'Integer' }
+		),
 		actualInterval(
 			{ lowClosed: true, low: 1.0, highClosed: true, high: 1.3 },
 			{ pointType: 'Decimal', lowPrecision: 1, highPrecision: 1 }
@@ -277,27 +310,29 @@ test('lists of intervals compare element-wise', () => {
 });
 
 test('interval-shaped objects with extra properties still compare structurally', () => {
+	// The boundaries are identical on both sides so the verdict turns on the extra keys
+	// alone, whatever step the interval comparison picks.
 	expect(
 		resultsEqual(
 			{ lowClosed: true, low: 1, highClosed: false, high: 4, name: 'a' },
-			{ lowClosed: true, low: 1, highClosed: true, high: 3, name: 'a' }
+			{ lowClosed: true, low: 1, highClosed: false, high: 4, name: 'a' }
 		)
 	).toBe(true);
 	expect(
 		resultsEqual(
 			{ lowClosed: true, low: 1, highClosed: false, high: 4, name: 'a' },
-			{ lowClosed: true, low: 1, highClosed: true, high: 3, name: 'b' }
+			{ lowClosed: true, low: 1, highClosed: false, high: 4, name: 'b' }
 		)
 	).toBe(false);
 	expect(
 		resultsEqual(
 			{ lowClosed: true, low: 1, highClosed: false, high: 4 },
-			{ lowClosed: true, low: 1, highClosed: true, high: 3, name: 'b' }
+			{ lowClosed: true, low: 1, highClosed: false, high: 4, name: 'b' }
 		)
 	).toBe(false);
 });
 
-test('quantity boundaries never use the integer-step heuristic', () => {
+test('quantity boundaries always use the decimal step', () => {
 	// Quantity values are CQL Decimals: the predecessor of 2 'ml' is 1.99999999 'ml',
 	// so a whole-number truncation must not match the open expected boundary.
 	const expected = {

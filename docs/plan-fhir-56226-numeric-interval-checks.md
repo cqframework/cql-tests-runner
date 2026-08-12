@@ -88,10 +88,19 @@ In `src/shared/results-utils.ts` (helpers in `src/shared/interval-utils.ts`):
   step itself, otherwise values a full step apart land exactly on the comparison boundary
   and the verdict depends on float rounding; half a step is also the semantic rule
   ("same point at the effective precision" vs "adjacent points"):
-  - **Comparison step size**: `10^-p` from the actual boundary's `quantity-precision`
-    extension when present; otherwise the CQL default — `1` for Integer/Long boundaries,
-    `1e-8` for Decimal (this is why suite expecteds are written like
+  - **Comparison step size**, from the point type and precision the *actual*'s extractor
+    recorded as metadata: `1` for a recorded Integer/Long point type (a precision
+    extension cannot change the distance between integer points); otherwise `10^-p` from
+    the actual boundary's `quantity-precision` extension when present; otherwise the
+    Decimal default `1e-8` (this is why suite expecteds are written like
     `Interval[1.0, 3.99999999]`).
+    - The step of `1` therefore requires a *declared or wire-derived* point type — the
+      `cqf-cqlType` extension for a Range, the FHIR element type of the boundary parts
+      (`valueInteger` vs `valueDecimal`) for the `part`-based form. A heuristic that
+      inferred it from integral-looking boundary values on either side was implemented and
+      then dropped in review: `1` and `1.0` are the same JS number, so the heuristic
+      accepted both the integer-step and the decimal-step answer for the same untyped
+      expected interval. An untyped interval now always steps by `1e-8`.
   - **Expected side**: if `highClosed === false && high !== null`, replace `high` with
     `high - step` (successor for open low). With the ticket's example, expected
     `[1.0, 1.4)` at the actual's declared precision 1 → `[1.0, 1.3]`, matching the
@@ -101,6 +110,12 @@ In `src/shared/results-utils.ts` (helpers in `src/shared/interval-utils.ts`):
     Intervals from other representations (e.g. the `part`-based Tuple form in issue #85)
     may carry `highClosed: false` — normalize those the same way so open-vs-closed
     equivalence works for every numeric interval representation, not just Range.
+    `ResultExtractor` attaches the same `pointType` metadata to a part-based interval,
+    taken from the parameter's `cqf-cqlType` extension when it names a numeric interval
+    type and otherwise derived from the boundary parts' element types (`valueInteger` →
+    Integer, `valueDecimal` → Decimal; `valueString` is ambiguous and derives nothing, and
+    so does a mix). Without that metadata a part-based open boundary is normalized at the
+    decimal step.
   - **Null boundaries** compare as today (both null → equal).
   - **Long**: CVL yields `BigInt` for `1L` literals; coerce BigInt↔number safely before
     the epsilon compare (values inside FHIR decimals are within `Number` range in the
