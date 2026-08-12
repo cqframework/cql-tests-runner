@@ -76,8 +76,6 @@ export function resultsEqual(expected: any, actual: any): boolean {
 	return true;
 }
 
-const INTERVAL_KEYS = ['lowClosed', 'low', 'highClosed', 'high'];
-
 /**
  * Compares two {lowClosed, low, highClosed, high} intervals, equating open and closed
  * forms of the same interval (FHIR-56226 / issue #85).
@@ -93,10 +91,6 @@ const INTERVAL_KEYS = ['lowClosed', 'low', 'highClosed', 'high'];
  * must be `resultsEqual`.
  */
 export function intervalsEqual(expected: any, actual: any): boolean {
-	// Guard against interval-shaped objects that carry additional properties: anything
-	// beyond the four interval keys is compared exactly as before.
-	if (!extraKeysEqual(expected, actual)) return false;
-
 	const meta = getIntervalMeta(actual);
 
 	return (
@@ -117,28 +111,6 @@ export function intervalsEqual(expected: any, actual: any): boolean {
 			stepFor('high', meta)
 		)
 	);
-}
-
-function extraKeysEqual(expected: any, actual: any): boolean {
-	const expectedKeys = Object.keys(expected);
-	const actualKeys = Object.keys(actual);
-
-	if (expectedKeys.length !== actualKeys.length) return false;
-
-	for (const key of expectedKeys) {
-		if (INTERVAL_KEYS.includes(key)) continue;
-		if (!actualKeys.includes(key) || !resultsEqual(expected[key], actual[key])) {
-			return false;
-		}
-	}
-
-	// The four interval keys must be present on both sides (isIntervalShaped only
-	// guarantees the two closed flags).
-	for (const key of INTERVAL_KEYS) {
-		if (expectedKeys.includes(key) !== actualKeys.includes(key)) return false;
-	}
-
-	return true;
 }
 
 /**

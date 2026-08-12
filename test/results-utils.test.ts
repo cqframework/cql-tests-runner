@@ -456,3 +456,45 @@ test('long interval: extracted BigInt actuals compare exactly beyond 2^53', () =
 		)
 	).toBe(false);
 });
+
+test('near-miss interval shapes compare as plain objects', () => {
+	// Tuples that merely resemble intervals must keep main's value comparison: no
+	// open/closed normalization, flags compared as ordinary values.
+	const open = { lowClosed: true, low: 1, highClosed: false, high: 4 };
+
+	// Non-boolean closed flag: not interval-shaped, so flag values must match exactly.
+	expect(resultsEqual(open, { lowClosed: true, low: 1, highClosed: 'false', high: 4 })).toBe(
+		false
+	);
+	expect(
+		resultsEqual(
+			{ lowClosed: true, low: 1, highClosed: 'false', high: 4 },
+			{ lowClosed: true, low: 1, highClosed: 'false', high: 4 }
+		)
+	).toBe(true);
+
+	// Missing boundary key: not interval-shaped, generic key-count comparison applies.
+	expect(resultsEqual(open, { lowClosed: true, low: 1, highClosed: false })).toBe(false);
+
+	// Genuine four-key boolean-flag shape still gets interval semantics.
+	expect(
+		resultsEqual(
+			open,
+			actualInterval(
+				{ lowClosed: true, low: 1, highClosed: true, high: 3 },
+				{ pointType: 'Integer' }
+			)
+		)
+	).toBe(true);
+});
+
+test('decimal precision 0 steps by one', () => {
+	// Whole-number spacing is a legitimate declared precision for Decimals.
+	const expected = { lowClosed: true, low: 1.0, highClosed: false, high: 4.0 };
+	const actual = actualInterval(
+		{ lowClosed: true, low: 1.0, highClosed: true, high: 3.0 },
+		{ pointType: 'Decimal', lowPrecision: 0, highPrecision: 0 }
+	);
+
+	expect(resultsEqual(expected, actual)).toBe(true);
+});

@@ -93,7 +93,9 @@ In `src/shared/results-utils.ts` (helpers in `src/shared/interval-utils.ts`):
     extension cannot change the distance between integer points); otherwise `10^-p` from
     the actual boundary's `quantity-precision` extension when present; otherwise the
     Decimal default `1e-8` (this is why suite expecteds are written like
-    `Interval[1.0, 3.99999999]`).
+    `Interval[1.0, 3.99999999]`). A declared precision of `0` yields step `1` even for a
+    Decimal point type — whole-number spacing is a legitimate declared precision, not an
+    Integer-only behavior.
     - The step of `1` therefore requires a *declared or wire-derived* point type — the
       `cqf-cqlType` extension for a Range, the FHIR element type of the boundary parts
       (`valueInteger` vs `valueDecimal`) for the `part`-based form. A heuristic that

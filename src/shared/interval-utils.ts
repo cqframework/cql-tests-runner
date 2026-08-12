@@ -7,6 +7,14 @@
  * extracted interval object so the comparison can equate open and closed boundary
  * forms. The metadata lives under a Symbol key and is non-enumerable, so it is
  * invisible to Object.keys-based structural comparison and JSON serialization.
+ *
+ * That invisibility cuts both ways: the metadata exists only on the live extracted
+ * object. Any serialization boundary — JSON.stringify/parse round-trips,
+ * structuredClone, persisting the actual to the results file and reading it back —
+ * silently drops it, downgrading the interval to "untyped" (decimal-step) comparison.
+ * Nothing enforces the ordering, so comparison MUST run on the object the extractor
+ * returned, before any serialization. Keep this in mind when refactoring the
+ * extraction→comparison call sites (e.g. the shared runner core proposed in #108).
  */
 
 export const INTERVAL_META = Symbol.for('cql-tests-runner.intervalMeta');
@@ -49,16 +57,24 @@ export function numericIntervalPointTypeOf(typeString: string): IntervalPointTyp
 	return match === null ? undefined : (match[1] as IntervalPointType);
 }
 
+const INTERVAL_KEYS = ['lowClosed', 'low', 'highClosed', 'high'];
+
 /**
- * True when a value has the {lowClosed, low, highClosed, high} interval shape
- * produced by both the CVL parser and the interval extractors.
+ * True when a value has exactly the {lowClosed, low, highClosed, high} interval shape
+ * produced by both the CVL parser and the interval extractors, with boolean closed
+ * flags. The check is deliberately strict so that tuples which merely share some of
+ * the field names keep comparing (and rendering) by plain value: a genuine four-key
+ * tuple with boolean flags remains indistinguishable from an interval, but that
+ * ambiguity is inherent — the CVL parser produces identical shapes for both.
  */
 export function isIntervalShaped(value: any): boolean {
 	return (
 		value !== null &&
 		typeof value === 'object' &&
 		!Array.isArray(value) &&
-		Object.prototype.hasOwnProperty.call(value, 'lowClosed') &&
-		Object.prototype.hasOwnProperty.call(value, 'highClosed')
+		Object.keys(value).length === INTERVAL_KEYS.length &&
+		INTERVAL_KEYS.every(key => Object.prototype.hasOwnProperty.call(value, key)) &&
+		typeof value.lowClosed === 'boolean' &&
+		typeof value.highClosed === 'boolean'
 	);
 }
