@@ -775,3 +775,34 @@ test('boundary without a usable numeric value is treated as absent', () => {
 		)
 	).toStrictEqual({ lowClosed: true, low: 1, highClosed: false, high: null });
 });
+
+test('long interval boundaries extract as BigInt', () => {
+	// Number() would round above 2^53; string-encoded Long values must stay exact.
+	const result = extractRange(
+		{
+			low: { value: '1', code: '1', system: 'http://unitsofmeasure.org' },
+			high: { value: '9007199254740995', code: '1', system: 'http://unitsofmeasure.org' },
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Long>' }]
+	);
+
+	expect(result).toStrictEqual({
+		lowClosed: true,
+		low: 1n,
+		highClosed: true,
+		high: 9007199254740995n,
+	});
+	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Long' });
+
+	// JSON-number values also become BigInt (exact only within the safe integer range);
+	// a non-integral value is not a valid Long and is treated as an absent boundary.
+	expect(
+		extractRange(
+			{
+				low: { value: 3, code: '1', system: 'http://unitsofmeasure.org' },
+				high: { value: 4.5, code: '1', system: 'http://unitsofmeasure.org' },
+			},
+			[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Long>' }]
+		)
+	).toStrictEqual({ lowClosed: true, low: 3n, highClosed: false, high: null });
+});

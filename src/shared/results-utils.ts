@@ -1,6 +1,6 @@
 import { getIntervalMeta, isIntervalShaped, type IntervalMeta } from './interval-utils.js';
 
-/** Numeric tolerance shared by scalar and interval-boundary comparison. */
+/** Numeric tolerance for scalar comparison (interval boundaries use half their step). */
 const EPSILON = 0.00000001;
 
 /** CQL decimal successor/predecessor step (10^-8). */
@@ -273,9 +273,14 @@ function boundariesEqual(
 		}
 	}
 
+	// The tolerance must sit well below the step, otherwise two values a full step apart
+	// can compare equal purely through float rounding of the subtraction. Half a step is
+	// also the semantic rule: values closer than that are the same point at the effective
+	// precision, values a full step apart are adjacent points and therefore different.
 	return scalarsEqual(
 		closeBoundary(expectedValue, expectedClosed, side, step),
-		closeBoundary(actualValue, actualClosed, side, step)
+		closeBoundary(actualValue, actualClosed, side, step),
+		step / 2
 	);
 }
 
@@ -306,10 +311,14 @@ function closeBoundary(
 	return side === 'high' ? value - step : value + step;
 }
 
-function scalarsEqual(expected: number | bigint, actual: number | bigint): boolean {
+function scalarsEqual(
+	expected: number | bigint,
+	actual: number | bigint,
+	tolerance: number
+): boolean {
 	if (typeof expected === 'bigint' && typeof actual === 'bigint') {
 		if (isSafeBigInt(expected) && isSafeBigInt(actual)) {
-			return Math.abs(Number(expected) - Number(actual)) < EPSILON;
+			return Math.abs(Number(expected) - Number(actual)) < tolerance;
 		}
 		return expected === actual;
 	}
@@ -319,14 +328,14 @@ function scalarsEqual(expected: number | bigint, actual: number | bigint): boole
 		const other = (typeof expected === 'bigint' ? actual : expected) as number;
 
 		if (isSafeBigInt(big)) {
-			return Math.abs(Number(big) - other) < EPSILON;
+			return Math.abs(Number(big) - other) < tolerance;
 		}
 
 		// Outside the safe integer range only an exact integral comparison is meaningful.
 		return Number.isInteger(other) && BigInt(other) === big;
 	}
 
-	return Math.abs(expected - actual) < EPSILON;
+	return Math.abs(expected - actual) < tolerance;
 }
 
 function isSafeBigInt(value: bigint): boolean {

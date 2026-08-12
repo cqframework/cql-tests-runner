@@ -60,7 +60,10 @@ New file `src/extractors/value-type-extractors/numeric-interval-extractor.ts`:
     genuinely dimensionless `Interval<Quantity>`.
 - Extracts to the same shape CVL produces: `{lowClosed, low, highClosed, high}` with
   **plain-number boundaries** (missing boundary → `null` + `*Closed: false`, mirroring
-  `QuantityIntervalExtractor`).
+  `QuantityIntervalExtractor`). `Interval<Long>` boundaries extract as **BigInt** to match
+  the CVL-parsed expecteds exactly beyond 2^53; exactness there requires the engine to
+  send the value as a JSON string, since a bare JSON number is rounded by the JSON parser
+  before extraction.
 - Reads the `quantity-precision` extension from both plausible placements and records it:
   - `low.extension[]` (placement shown in the Jira example), and
   - `low._value.extension[]` (primitive-extension placement, since the extension is
@@ -81,7 +84,10 @@ In `src/shared/results-utils.ts` (helpers in `src/shared/interval-utils.ts`):
 - In `resultsEqual`, before the generic object walk, detect "interval-shaped" operands
   (objects owning `lowClosed` and `highClosed`) and delegate to `intervalsEqual(expected, actual)`.
 - `intervalsEqual` normalizes both sides to closed boundaries, then compares numerically
-  (reusing the existing `1e-8` epsilon):
+  with a tolerance of **half the boundary's step** — the tolerance must sit well below the
+  step itself, otherwise values a full step apart land exactly on the comparison boundary
+  and the verdict depends on float rounding; half a step is also the semantic rule
+  ("same point at the effective precision" vs "adjacent points"):
   - **Comparison step size**: `10^-p` from the actual boundary's `quantity-precision`
     extension when present; otherwise the CQL default — `1` for Integer/Long boundaries,
     `1e-8` for Decimal (this is why suite expecteds are written like

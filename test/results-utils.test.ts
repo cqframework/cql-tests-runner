@@ -384,3 +384,40 @@ test('negative or fractional precision values are ignored', () => {
 		)
 	).toBe(true);
 });
+
+test('boundary tolerance is half a step, not a full step', () => {
+	// With tolerance == step, values a full step apart sit exactly on the comparison
+	// boundary and the verdict depends on float rounding of the subtraction. Half a step
+	// keeps "same point at the effective precision" and "adjacent points" apart.
+	const closedAt = (high: number) => ({ lowClosed: true, low: 1.0, highClosed: true, high });
+
+	// A full decimal step apart at large magnitude: deterministically unequal.
+	expect(resultsEqual(closedAt(1000000.0), closedAt(999999.99999999))).toBe(false);
+
+	// The same open/closed pair still normalizes to equality.
+	expect(
+		resultsEqual(
+			{ lowClosed: true, low: 1.0, highClosed: false, high: 1000000.0 },
+			closedAt(999999.99999999)
+		)
+	).toBe(true);
+});
+
+test('long interval: extracted BigInt actuals compare exactly beyond 2^53', () => {
+	const expected = { lowClosed: true, low: 1n, highClosed: false, high: 9007199254740996n };
+	const actual = actualInterval(
+		{ lowClosed: true, low: 1n, highClosed: true, high: 9007199254740995n },
+		{ pointType: 'Long' }
+	);
+
+	expect(resultsEqual(expected, actual)).toBe(true);
+	expect(
+		resultsEqual(
+			expected,
+			actualInterval(
+				{ lowClosed: true, low: 1n, highClosed: true, high: 9007199254740994n },
+				{ pointType: 'Long' }
+			)
+		)
+	).toBe(false);
+});
