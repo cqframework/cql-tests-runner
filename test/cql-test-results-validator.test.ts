@@ -129,3 +129,150 @@ describe('CQLTestResults.validateSchema', () => {
     expect(ResultsValidator).toHaveBeenCalled();
   });
 });
+
+describe('CQLTestResults.toJSON actual serialization', () => {
+  it('renders list results in CQL list syntax and stringifies scalar results', () => {
+    const results = new CQLTestResults(new CQLEngine('http://localhost:8080/fhir/$cql'));
+    results.add({
+      testsName: 'CqlListOperatorsTest',
+      groupName: 'Sort',
+      testName: 'SortDatesAsc',
+      expression: 'sort asc',
+      testStatus: 'fail',
+      invalid: 'false',
+      actual: ['@2012-01-01T', '@2012-01-01T12'],
+      expected: '{ @2012-01-01T, @2012-01-01T12 }',
+    } as any);
+    results.add({
+      testsName: 'CqlArithmeticFunctionsTest',
+      groupName: 'Power',
+      testName: 'Power2To4',
+      expression: '2^4',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: 16,
+      expected: '16',
+    } as any);
+
+    const json = results.toJSON();
+    expect(json.results[0].actual).toBe('{ @2012-01-01T, @2012-01-01T12 }');
+    expect(json.results[1].actual).toBe('16');
+  });
+
+  it('equalizeValueTypes renders array actuals in CQL list syntax', () => {
+    const results = new CQLTestResults(new CQLEngine('http://localhost:8080/fhir/$cql'));
+    results.add({
+      testsName: 'T',
+      groupName: 'G',
+      testName: 'N',
+      expression: 'e',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: [1, 2, 3],
+      expected: '{ 1, 2, 3 }',
+    } as any);
+
+    results.equalizeValueTypes();
+    expect(results.results[0].actual).toBe('{ 1, 2, 3 }');
+  });
+
+  it('renders nested lists and empty lists', () => {
+    const results = new CQLTestResults(new CQLEngine('http://localhost:8080/fhir/$cql'));
+    results.add({
+      testsName: 'T',
+      groupName: 'G',
+      testName: 'Nested',
+      expression: 'e',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: [[1, 2], []],
+      expected: '{ { 1, 2 }, {} }',
+    } as any);
+
+    const json = results.toJSON();
+    expect(json.results[0].actual).toBe('{ { 1, 2 }, {} }');
+  });
+
+  it('renders interval actuals in CQL interval syntax', () => {
+    const results = new CQLTestResults(new CQLEngine('http://localhost:8080/fhir/$cql'));
+    results.add({
+      testsName: 'CqlIntervalOperatorsTest',
+      groupName: 'Interval',
+      testName: 'TimeIntervalTest',
+      expression: 'Interval[@T00:00:00.000, @T23:59:59.599]',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: {
+        lowClosed: true,
+        low: '@T00:00:00.000',
+        highClosed: true,
+        high: '@T23:59:59.599',
+      },
+      expected: 'Interval[@T00:00:00.000, @T23:59:59.599]',
+    } as any);
+    results.add({
+      testsName: 'T',
+      groupName: 'G',
+      testName: 'OpenHigh',
+      expression: 'e',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: { lowClosed: true, low: 1, highClosed: false, high: null },
+      expected: 'Interval[1, null)',
+    } as any);
+
+    const json = results.toJSON();
+    expect(json.results[0].actual).toBe('Interval[@T00:00:00.000, @T23:59:59.599]');
+    expect(json.results[1].actual).toBe('Interval[1, null)');
+  });
+
+  it('renders quantity actuals in CQL quantity syntax, standalone and as boundaries', () => {
+    const results = new CQLTestResults(new CQLEngine('http://localhost:8080/fhir/$cql'));
+    results.add({
+      testsName: 'CqlArithmeticFunctionsTest',
+      groupName: 'Multiply',
+      testName: 'Multiply1CMBy2CM',
+      expression: "1.0 'cm' * 2.0 'cm'",
+      testStatus: 'fail',
+      invalid: 'false',
+      actual: { value: 0.0002, unit: 'm2' },
+      expected: "2.0'cm2'",
+    } as any);
+    results.add({
+      testsName: 'T',
+      groupName: 'G',
+      testName: 'QuantityInterval',
+      expression: 'e',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: {
+        lowClosed: true,
+        low: { value: 1, unit: 'ml' },
+        highClosed: true,
+        high: { value: 2, unit: 'ml' },
+      },
+      expected: "Interval[1 'ml', 2 'ml']",
+    } as any);
+
+    const json = results.toJSON();
+    expect(json.results[0].actual).toBe("0.0002 'm2'");
+    expect(json.results[1].actual).toBe("Interval[1 'ml', 2 'ml']");
+  });
+
+  it('keeps JSON rendering for objects that are not intervals or quantities', () => {
+    const results = new CQLTestResults(new CQLEngine('http://localhost:8080/fhir/$cql'));
+    results.add({
+      testsName: 'T',
+      groupName: 'G',
+      testName: 'Tuple',
+      expression: 'e',
+      testStatus: 'pass',
+      invalid: 'false',
+      actual: { value: 1, unit: null },
+      expected: 'Tuple { value: 1, unit: null }',
+    } as any);
+
+    const json = results.toJSON();
+    expect(json.results[0].actual).toBe('{"value":1,"unit":null}');
+  });
+});

@@ -1,7 +1,7 @@
 import { ConfigLoader } from '../conf/config-loader.js';
 import { CQLEngine } from '../cql-engine/cql-engine.js';
 import { TestLoader } from '../loaders/test-loader.js';
-import { CQLTestResults } from '../test-results/cql-test-results.js';
+import { CQLTestResults, formatActualValue } from '../test-results/cql-test-results.js';
 import { generateEmptyResults, generateParametersResource } from '../shared/results-shared.js';
 import { InternalTestResult } from '../models/test-types.js';
 import { ResultExtractor } from '../extractors/result-extractor.js';
@@ -220,7 +220,7 @@ export class TestRunner {
 			result.testName,
 			result.testStatus,
 			result.expected,
-			CQLTestResults.formatActualValue(result.actual)
+			formatActualValue(result.actual)
 		);
 
 		return result;
