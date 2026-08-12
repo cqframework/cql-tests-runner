@@ -217,15 +217,27 @@ function boundariesEqual(
 		}
 	}
 
+	const normalizedExpected = closeBoundary(expectedValue, expectedClosed, side, step);
+	const normalizedActual = closeBoundary(actualValue, actualClosed, side, step);
+
+	// At extreme magnitudes the step underflows the float's resolution and closing an
+	// open boundary changes nothing (1e9 - 1e-8 === 1e9). If exactly one side was open,
+	// the intervals still differ by one point — the value just can't express it — so
+	// they are different by rule, not equal by rounding.
+	if (expectedClosed !== actualClosed) {
+		const openMoved = expectedClosed
+			? normalizedActual !== actualValue
+			: normalizedExpected !== expectedValue;
+		if (!openMoved) {
+			return false;
+		}
+	}
+
 	// The tolerance must sit well below the step, otherwise two values a full step apart
 	// can compare equal purely through float rounding of the subtraction. Half a step is
 	// also the semantic rule: values closer than that are the same point at the effective
 	// precision, values a full step apart are adjacent points and therefore different.
-	return scalarsEqual(
-		closeBoundary(expectedValue, expectedClosed, side, step),
-		closeBoundary(actualValue, actualClosed, side, step),
-		step / 2
-	);
+	return scalarsEqual(normalizedExpected, normalizedActual, step / 2);
 }
 
 function unitsEqual(expectedUnit: any, actualUnit: any): boolean {

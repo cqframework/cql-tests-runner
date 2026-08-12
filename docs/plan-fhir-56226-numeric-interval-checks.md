@@ -87,7 +87,10 @@ In `src/shared/results-utils.ts` (helpers in `src/shared/interval-utils.ts`):
   with a tolerance of **half the boundary's step** — the tolerance must sit well below the
   step itself, otherwise values a full step apart land exactly on the comparison boundary
   and the verdict depends on float rounding; half a step is also the semantic rule
-  ("same point at the effective precision" vs "adjacent points"):
+  ("same point at the effective precision" vs "adjacent points"). When the step
+  underflows the float's resolution at extreme magnitudes (`1e9 - 1e-8 === 1e9`),
+  normalization cannot move an open boundary; the flags still say the intervals differ
+  by one point, so an open and a closed boundary at the same value are unequal by rule:
   - **Comparison step size**, from the point type and precision the *actual*'s extractor
     recorded as metadata: `1` for a recorded Integer/Long point type (a precision
     extension cannot change the distance between integer points); otherwise `10^-p` from

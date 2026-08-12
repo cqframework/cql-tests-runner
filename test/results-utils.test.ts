@@ -498,3 +498,25 @@ test('decimal precision 0 steps by one', () => {
 
 	expect(resultsEqual(expected, actual)).toBe(true);
 });
+
+test('open vs closed at the same value is unequal at every magnitude', () => {
+	// At extreme magnitudes the decimal step underflows the float's resolution
+	// (1e9 - 1e-8 === 1e9), so normalization cannot move the open boundary; the flags
+	// still say the intervals differ by one point, so they must not compare equal.
+	for (const high of [4.0, 1000000.0, 10000000.0, 1000000000.0]) {
+		expect(
+			resultsEqual(
+				{ lowClosed: true, low: 1.5, highClosed: false, high },
+				{ lowClosed: true, low: 1.5, highClosed: true, high }
+			)
+		).toBe(false);
+	}
+
+	// Identical closed intervals at the same magnitude stay equal.
+	expect(
+		resultsEqual(
+			{ lowClosed: true, low: 1.5, highClosed: true, high: 1000000000.0 },
+			{ lowClosed: true, low: 1.5, highClosed: true, high: 1000000000.0 }
+		)
+	).toBe(true);
+});
