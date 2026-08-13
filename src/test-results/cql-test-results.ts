@@ -6,13 +6,14 @@ import { TestResultsSummary, CQLTestResultsData } from '../models/results-types.
 import { ResultsValidator } from '../conf/results-validator.js';
 
 /**
- * Formats an actual value for the results file. Lists (`{ a, b, c }`), intervals
- * (`Interval[low, high)`), quantities (`2.0 'cm2'`), Codes (`Code { code: 'x' }`)
- * and Concepts (`Concept { codes: { ... } }`) are rendered in CQL syntax so they
- * read like the expected value, which is kept in its original CQL/CVL notation.
+ * Formats an actual value for report output. Structured CQL values are rendered in
+ * CQL syntax so they read like the expected value, which is kept in its original
+ * CQL/CVL notation; anything else falls back to JSON, since String(object) yields
+ * "[object Object]" and loses the structure entirely.
  *
- * Values are reported exactly as the engine returned them; temporal values in
- * particular are never reformatted or reduced in precision.
+ * Values are reported exactly as the engine returned them: never reformatted, never
+ * reduced in precision. A DateTime at midnight with an offset, for example, keeps
+ * its offset rather than collapsing to Date precision.
  */
 export function formatActualValue(value: any): string {
 	if (Array.isArray(value)) {
@@ -287,8 +288,8 @@ export class CQLTestResults {
 				r.actual = String(act);
 			} else if (act !== undefined && act !== null && typeof act !== 'string') {
 				// Convert any non-string value to a schema-compliant string, preserving
-				// structure: lists, intervals, quantities, Codes and Concepts are
-				// rendered in CQL syntax to mirror the expected value.
+				// structure: structured values are rendered in CQL syntax to mirror
+				// the expected value.
 				r.actual = formatActualValue(act);
 			}
 		}
