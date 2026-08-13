@@ -6,6 +6,104 @@ import { TestResultsSummary, CQLTestResultsData } from '../models/results-types.
 import { ResultsValidator } from '../conf/results-validator.js';
 
 /**
+ * Formats an actual value for the results file. Lists (`{ a, b, c }`), intervals
+ * (`Interval[low, high)`), quantities (`2.0 'cm2'`), Codes (`Code { code: 'x' }`)
+ * and Concepts (`Concept { codes: { ... } }`) are rendered in CQL syntax so they
+ * read like the expected value, which is kept in its original CQL/CVL notation.
+ *
+ * Values are reported exactly as the engine returned them; temporal values in
+ * particular are never reformatted or reduced in precision.
+ */
+export function formatActualValue(value: any): string {
+	if (Array.isArray(value)) {
+		return value.length === 0 ? '{}' : `{ ${value.map(formatActualValue).join(', ')} }`;
+	}
+	if (value !== null && typeof value === 'object') {
+		if (isIntervalShaped(value)) {
+			const open = value.lowClosed === true ? '[' : '(';
+			const close = value.highClosed === true ? ']' : ')';
+			return `Interval${open}${formatActualValue(value.low)}, ${formatActualValue(value.high)}${close}`;
+		}
+		if (isQuantityShaped(value)) {
+			return `${value.value} '${value.unit}'`;
+		}
+		if (isConceptShaped(value)) {
+			return formatConceptValue(value);
+		}
+		if (isCodeShaped(value)) {
+			return formatCodeValue(value);
+		}
+		try {
+			// A nested Long is a BigInt, which JSON.stringify refuses to serialize; a
+			// circular value throws as well. Either way, fall back rather than losing
+			// the whole result to "[object Object]".
+			return JSON.stringify(value, (_key, nested) =>
+				typeof nested === 'bigint' ? nested.toString() : nested
+			);
+		} catch {
+			return String(value);
+		}
+	}
+	return String(value);
+}
+
+function isIntervalShaped(value: any): boolean {
+	const keys = Object.keys(value);
+	return (
+		keys.length === 4 &&
+		['lowClosed', 'low', 'highClosed', 'high'].every((key) => keys.includes(key))
+	);
+}
+
+function isQuantityShaped(value: any): boolean {
+	const keys = Object.keys(value);
+	return (
+		keys.length === 2 &&
+		keys.includes('value') &&
+		keys.includes('unit') &&
+		typeof value.unit === 'string'
+	);
+}
+
+/** The CQL System.Code runtime shape produced by CodeExtractor. */
+function isCodeShaped(value: any): boolean {
+	return 'code' in value;
+}
+
+/** The CQL System.Concept runtime shape produced by ConceptExtractor. */
+function isConceptShaped(value: any): boolean {
+	return Array.isArray(value.codes) && value.codes.every((code: any) => isCodeShaped(code));
+}
+
+/**
+ * Renders a Code as CQL constructor syntax. The extractor keeps optional fields as
+ * keys with undefined values, so omit anything undefined rather than printing it.
+ */
+function formatCodeValue(code: any): string {
+	const parts: string[] = [];
+
+	for (const field of ['code', 'system', 'version', 'display']) {
+		if (code[field] !== undefined) {
+			parts.push(`${field}: '${code[field]}'`);
+		}
+	}
+
+	return `Code { ${parts.join(', ')} }`;
+}
+
+/** Renders a Concept as CQL constructor syntax. */
+function formatConceptValue(concept: any): string {
+	const codes = concept.codes.map((code: any) => formatCodeValue(code)).join(', ');
+	const parts = [`codes: { ${codes} }`];
+
+	if (concept.display !== undefined) {
+		parts.push(`display: '${concept.display}'`);
+	}
+
+	return `Concept { ${parts.join(', ')} }`;
+}
+
+/**
  * Represents the results of running CQL tests.
  */
 export class CQLTestResults {
@@ -26,155 +124,6 @@ export class CQLTestResults {
 	 * Array containing CQLTestResult objects (internal type during execution).
 	 */
 	public results: InternalTestResult[] = [];
-
-
-	/**
-	 * Returns true when a value is shaped like the runner's internal CQL Interval
-	 * representation.
-	 */
-	private static isIntervalValue(value: any): boolean {
-		return (
-			value !== null &&
-			typeof value === 'object' &&
-			('low' in value || 'high' in value) &&
-			('lowClosed' in value || 'highClosed' in value)
-		);
-	}
-
-	/**
-	 * Preserve temporal values exactly as returned by the engine.
-	 */
-	private static formatCqlTemporalValue(value: string): string {
-		return value;
-	}
-
-	/**
-	 * Formats a primitive value for compact CQL-style report output.
-	 */
-	private static formatCqlValue(value: any): string {
-		if (value === null || value === undefined) {
-			return 'null';
-		}
-
-		if (typeof value === 'string') {
-			return CQLTestResults.formatCqlTemporalValue(value);
-		}
-
-		return String(value);
-	}
-
-	/**
-	 * Formats an internal interval object as CQL interval syntax.
-	 */
-	private static formatIntervalValue(interval: any): string {
-		const lowDelimiter = interval.lowClosed === false ? '(' : '[';
-		const highDelimiter = interval.highClosed === false ? ')' : ']';
-		return `Interval${lowDelimiter}${CQLTestResults.formatCqlValue(interval.low)}, ${CQLTestResults.formatCqlValue(interval.high)}${highDelimiter}`;
-	}
-
-	/**
-	 * Returns true when a value is shaped like the CQL System.Code runtime representation.
-	 */
-	private static isCodeValue(value: any): boolean {
-		return value !== null && typeof value === 'object' && 'code' in value;
-	}
-
-	/**
-	 * Formats a CQL System.Code value as CQL constructor syntax.
-	 */
-	private static formatCodeValue(code: any): string {
-		const parts: string[] = [];
-
-		if (code.code !== undefined) {
-			parts.push(`code: '${code.code}'`);
-		}
-		if (code.system !== undefined) {
-			parts.push(`system: '${code.system}'`);
-		}
-		if (code.version !== undefined) {
-			parts.push(`version: '${code.version}'`);
-		}
-		if (code.display !== undefined) {
-			parts.push(`display: '${code.display}'`);
-		}
-
-		return `Code { ${parts.join(', ')} }`;
-	}
-
-	/**
-	 * Returns true when a value is shaped like the CQL System.Concept runtime representation.
-	 */
-	private static isConceptValue(value: any): boolean {
-		return (
-			value !== null &&
-			typeof value === 'object' &&
-			Array.isArray(value.codes) &&
-			value.codes.every((code: any) => CQLTestResults.isCodeValue(code))
-		);
-	}
-
-	/**
-	 * Formats a CQL System.Concept value as CQL constructor syntax.
-	 */
-	private static formatConceptValue(concept: any): string {
-		const codes = concept.codes
-			.map((code: any) => CQLTestResults.formatCodeValue(code))
-			.join(', ');
-		const parts = [`codes: { ${codes} }`];
-
-		if (concept.display !== undefined) {
-			parts.push(`display: '${concept.display}'`);
-		}
-
-		return `Concept { ${parts.join(', ')} }`;
-	}
-
-	/**
-	 * Formats an actual result value for schema-compliant JSON and console output.
-	 * Complex CQL values are rendered in compact CQL syntax when possible;
-	 * otherwise they are JSON-serialized. String(object) produces
-	 * "[object Object]" and loses structure.
-	 */
-	public static formatActualValue(actual: any): string {
-		if (actual === null) {
-			return 'null';
-		}
-
-		if (typeof actual === 'string') {
-			return actual;
-		}
-
-		if (typeof actual === 'boolean' || typeof actual === 'number' || typeof actual === 'bigint') {
-			return String(actual);
-		}
-
-		if (CQLTestResults.isConceptValue(actual)) {
-			return CQLTestResults.formatConceptValue(actual);
-		}
-
-		if (CQLTestResults.isCodeValue(actual)) {
-			return CQLTestResults.formatCodeValue(actual);
-		}
-
-		if (CQLTestResults.isIntervalValue(actual)) {
-			return CQLTestResults.formatIntervalValue(actual);
-		}
-
-		if (Array.isArray(actual) && actual.every(CQLTestResults.isIntervalValue)) {
-			return `{ ${actual.map(interval => CQLTestResults.formatIntervalValue(interval)).join(', ')} }`;
-		}
-
-		if (Array.isArray(actual) && actual.every(value => typeof value === 'string')) {
-			return `{ ${actual.join(', ')} }`;
-		}
-
-		try {
-			const serialized = JSON.stringify(actual, null, 2);
-			return serialized === undefined ? String(actual) : serialized;
-		} catch {
-			return String(actual);
-		}
-	}
 
 	/**
 	 * Initializes CQLTestResults object with counts and results array.
@@ -255,7 +204,7 @@ export class CQLTestResults {
 				...(result.responseStatus !== undefined && {
 					responseStatus: result.responseStatus,
 				}),
-				...(result.actual !== undefined && { actual: CQLTestResults.formatActualValue(result.actual) }),
+				...(result.actual !== undefined && { actual: formatActualValue(result.actual) }),
 				...(result.expected && { expected: result.expected }),
 				...(result.error && {
 					error: {
@@ -337,9 +286,10 @@ export class CQLTestResults {
 			} else if (typeof act === 'number' && typeof exp === 'string') {
 				r.actual = String(act);
 			} else if (act !== undefined && act !== null && typeof act !== 'string') {
-				// Convert any non-string value to a schema-compliant string while
-				// preserving structure for arrays/objects.
-				r.actual = CQLTestResults.formatActualValue(act);
+				// Convert any non-string value to a schema-compliant string, preserving
+				// structure: lists, intervals, quantities, Codes and Concepts are
+				// rendered in CQL syntax to mirror the expected value.
+				r.actual = formatActualValue(act);
 			}
 		}
 	}
