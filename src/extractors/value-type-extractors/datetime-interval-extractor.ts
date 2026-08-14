@@ -1,7 +1,7 @@
 import { BaseExtractor } from '../base-extractor.js';
+import { declaredCqlType } from '../../shared/interval-utils.js';
 import { format_date, format_datetime, format_time } from './value-type-extractor-utils.js';
 
-const CQL_TYPE_URL = 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType';
 const TEMPORAL_INTERVAL_TYPE = /^Interval<(?:System\.)?(Date|DateTime|Time)>$/;
 
 /**
@@ -12,16 +12,11 @@ const TEMPORAL_INTERVAL_TYPE = /^Interval<(?:System\.)?(Date|DateTime|Time)>$/;
  * point type.
  */
 function declaredPointType(parameter: any): 'Date' | 'DateTime' | 'Time' | undefined {
-	if (!Array.isArray(parameter.extension)) {
+	const typeString = declaredCqlType(parameter);
+	if (typeString === undefined) {
 		return undefined;
 	}
-	const extension = parameter.extension.find(
-		(e: any) => e !== null && typeof e === 'object' && e.url === CQL_TYPE_URL
-	);
-	if (extension === undefined || typeof extension.valueString !== 'string') {
-		return undefined;
-	}
-	const match = TEMPORAL_INTERVAL_TYPE.exec(extension.valueString);
+	const match = TEMPORAL_INTERVAL_TYPE.exec(typeString);
 	return match === null ? undefined : (match[1] as 'Date' | 'DateTime' | 'Time');
 }
 

@@ -45,6 +45,30 @@ export function getIntervalMeta(interval: any): IntervalMeta | undefined {
 	return (interval as any)[INTERVAL_META];
 }
 
+export const CQL_TYPE_URL = 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType';
+
+/**
+ * The type string declared by the parameter's cqf-cqlType extension
+ * (e.g. `Interval<System.Decimal>`), or `undefined` when the extension is absent or
+ * malformed. Interpreting the string is left to the caller — different extractors
+ * accept different type families.
+ */
+export function declaredCqlType(parameter: any): string | undefined {
+	if (
+		parameter === null ||
+		typeof parameter !== 'object' ||
+		!Array.isArray(parameter.extension)
+	) {
+		return undefined;
+	}
+	const extension = parameter.extension.find(
+		(e: any) => e !== null && typeof e === 'object' && e.url === CQL_TYPE_URL
+	);
+	return extension !== undefined && typeof extension.valueString === 'string'
+		? extension.valueString
+		: undefined;
+}
+
 const NUMERIC_INTERVAL_TYPE = /^Interval<(?:System\.)?(Integer|Long|Decimal)>$/;
 
 /**

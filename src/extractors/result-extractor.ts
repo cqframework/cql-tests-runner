@@ -1,6 +1,7 @@
 import { ValueMap } from './value-map.js';
 import { BaseExtractor } from './base-extractor.js';
 import {
+	declaredCqlType,
 	isIntervalShaped,
 	numericIntervalPointTypeOf,
 	setIntervalMeta,
@@ -12,19 +13,10 @@ export type ExtractOptions = {
 	singletonListKeys?: ReadonlySet<string>;
 };
 
-const CQL_TYPE_URL = 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType';
-
 /** The numeric interval point type declared by the parameter's cqf-cqlType extension. */
 function declaredPointType(parameter: any): IntervalPointType | undefined {
-	if (!Array.isArray(parameter.extension)) {
-		return undefined;
-	}
-	const extension = parameter.extension.find(
-		(e: any) => e !== null && typeof e === 'object' && e.url === CQL_TYPE_URL
-	);
-	return extension !== undefined && typeof extension.valueString === 'string'
-		? numericIntervalPointTypeOf(extension.valueString)
-		: undefined;
+	const typeString = declaredCqlType(parameter);
+	return typeString !== undefined ? numericIntervalPointTypeOf(typeString) : undefined;
 }
 
 /**
