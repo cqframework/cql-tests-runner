@@ -520,3 +520,61 @@ test('open vs closed at the same value is unequal at every magnitude', () => {
 		)
 	).toBe(true);
 });
+
+// Comparison normalization rebuilds objects to collapse singleton Concept.codes and to
+// drop undefined-valued keys. Interval metadata is a non-enumerable Symbol property, so
+// a rebuild that only walks Object.entries silently loses it — and the failure is silent
+// in the worst way: every interval quietly falls back to the decimal step and nothing
+// reports an error. Guard the carry-forward.
+test('normalization preserves interval metadata through resultsEqual', () => {
+	const withMeta = (interval: any, meta: IntervalMeta) => {
+		setIntervalMeta(interval, meta);
+		return interval;
+	};
+
+	// Integer point type: the open expected high closes to 3 by stepping one, which only
+	// works if pointType survives normalization. With the decimal step this is false.
+	expect(
+		resultsEqual(
+			{ lowClosed: true, low: 1, highClosed: false, high: 4 },
+			withMeta({ lowClosed: true, low: 1, highClosed: true, high: 3 }, {
+				pointType: 'Integer',
+			})
+		)
+	).toBe(true);
+
+	// Declared quantity-precision: [1.0, 1.4) closes to 1.3 at precision 1.
+	expect(
+		resultsEqual(
+			{ lowClosed: true, low: 1.0, highClosed: false, high: 1.4 },
+			withMeta({ lowClosed: true, low: 1.0, highClosed: true, high: 1.3 }, {
+				pointType: 'Decimal',
+				lowPrecision: 1,
+				highPrecision: 1,
+			})
+		)
+	).toBe(true);
+
+	// Metadata must survive for intervals nested inside a list, since normalization
+	// recurses through arrays.
+	expect(
+		resultsEqual(
+			[{ lowClosed: true, low: 1, highClosed: false, high: 4 }],
+			[
+				withMeta({ lowClosed: true, low: 1, highClosed: true, high: 3 }, {
+					pointType: 'Integer',
+				}),
+			]
+		)
+	).toBe(true);
+
+	// Carrying metadata forward must not make genuinely different intervals equal.
+	expect(
+		resultsEqual(
+			{ lowClosed: true, low: 1, highClosed: false, high: 4 },
+			withMeta({ lowClosed: true, low: 1, highClosed: true, high: 5 }, {
+				pointType: 'Integer',
+			})
+		)
+	).toBe(false);
+});

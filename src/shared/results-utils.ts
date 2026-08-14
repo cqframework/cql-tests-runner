@@ -1,4 +1,9 @@
-import { getIntervalMeta, isIntervalShaped, type IntervalMeta } from './interval-utils.js';
+import {
+	getIntervalMeta,
+	setIntervalMeta,
+	isIntervalShaped,
+	type IntervalMeta,
+} from './interval-utils.js';
 
 /** Numeric tolerance for scalar comparison (interval boundaries use half their step). */
 const EPSILON = 0.00000001;
@@ -64,6 +69,17 @@ function normalizeForComparison(value: any): any {
 			} else {
 				normalized[key] = normalizeForComparison(child);
 			}
+		}
+
+		// The interval metadata the extractors record (FHIR-56226 point type and
+		// quantity-precision) lives under a non-enumerable Symbol key, so Object.entries
+		// above does not copy it onto the rebuilt object. Carry it across explicitly:
+		// intervalsEqual needs it to choose the boundary step, and without it every
+		// interval falls back to the decimal step. This only forwards what the wire
+		// already declared — nothing is inferred, so it cannot create a false match.
+		const meta = getIntervalMeta(value);
+		if (meta !== undefined) {
+			setIntervalMeta(normalized, meta);
 		}
 
 		return normalized;
