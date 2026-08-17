@@ -48,7 +48,10 @@ export class Result implements InternalTestResult {
 			} else {
 				this.expected = test.output as string;
 			}
-		} else {
+		} else if (this.invalid !== 'true' && this.invalid !== 'semantic') {
+			// No output is expected only when the expression is marked invalid ("true"
+			// for a run-time error, "semantic" for a translation error) — the test expects
+			// an error. Otherwise there is nothing to compare against, so skip.
 			this.testStatus = 'skip';
 			this.skipMessage = 'No output specified';
 		}
@@ -98,6 +101,26 @@ export async function generateEmptyResults(
 	}
 
 	return groupResults;
+}
+
+/**
+ * Determines whether a CQL evaluation response represents an error. Used to decide
+ * whether `invalid="true"`/`invalid="semantic"` tests pass (an error is expected).
+ *
+ * The engine does not always signal a run-time error with a non-2xx HTTP status: the
+ * FHIR `$cql`/`$evaluate` operations typically return HTTP 200 with a `Parameters`
+ * resource carrying an `evaluation error` parameter (an OperationOutcome). We treat
+ * both a non-2xx status and the presence of that parameter as an error.
+ */
+export function responseIndicatesError(status: number | undefined, responseBody: any): boolean {
+	if (status !== undefined && (status < 200 || status >= 300)) {
+		return true;
+	}
+	const parameters = responseBody?.parameter;
+	if (Array.isArray(parameters)) {
+		return parameters.some((p: any) => p?.name === 'evaluation error');
+	}
+	return false;
 }
 
 export function generateParametersResource(
