@@ -228,6 +228,14 @@ export class CQLEngine {
 	}
 
 	/**
+	 * The server's CapabilityStatement, once {@link fetch} has retrieved it. Undefined if it
+	 * has not been fetched or the server did not answer.
+	 */
+	get serverMetadata(): any {
+		return this.metadata;
+	}
+
+	/**
 	 * Converts the CQLEngine object to JSON.
 	 * @returns The JSON representation of the CQLEngine object.
 	 */

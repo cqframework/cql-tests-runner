@@ -30,7 +30,8 @@ export interface Test {
 	ordered?: boolean;
 	checkOrderedFunctions?: boolean;
 	expression: string | TestExpression;
-	capability: CapabilityKV[];
+	/** One <capability> element parses to a bare object; two or more to an array. */
+	capability?: CapabilityKV | CapabilityKV[];
 	output?: string | TestOutput | string[] | TestOutput[];
 }
 
@@ -40,7 +41,8 @@ export interface TestGroup {
 	description?: string;
 	reference?: string;
 	notes?: string;
-	capability?: CapabilityKV[];
+	/** One <capability> element parses to a bare object; two or more to an array. */
+	capability?: CapabilityKV | CapabilityKV[];
 	test: Test[];
 }
 
@@ -81,8 +83,6 @@ export interface InternalTestResult {
 	invalid?: 'false' | 'true' | 'semantic' | 'undefined';
 	expression: string;
 	capability?: CapabilityKV[];
-	groupCapability?: CapabilityKV[];
-	SkipMessage?: string;
 }
 
 // Schema-compliant TestResult type (strictly matches cql-test-results.schema.json)

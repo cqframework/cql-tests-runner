@@ -291,12 +291,12 @@ npm install
 git submodule update --init --recursive
 
 # Run commands directly from TypeScript source
-npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results # Run CQL tests
-npx tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results --quick # Run with quick test mode enabled
+npx tsx src/bin/cql-tests.ts run-tests conf/development.json ./results # Run CQL tests
+npx tsx src/bin/cql-tests.ts run-tests conf/development.json ./results --quick # Run with quick test mode enabled
 npx tsx src/bin/cql-tests.ts server                               # Run in server API mode
 npx tsx src/bin/cql-tests.ts help                               # Hetailed command help
 
-npx tsx src/bin/cql-tests.ts build-cql conf/localhost.json ./cql    # Unused legacy tool
+npx tsx src/bin/cql-tests.ts build-cql conf/development.json ./cql    # Unused legacy tool
 
 ```
 
@@ -353,7 +353,13 @@ You can still override specific settings using environment variables:
 ```sh
 export SERVER_BASE_URL=http://fhirServerBaseEndpoint
 export CQL_OPERATION=$cql
+export CQL_TESTS_PATH=cql-tests/tests/cql
 ```
+
+`CQL_TESTS_PATH` sets the directory the test loader reads test XML from, defaulting to
+`cql-tests/tests/cql`. Point it at another directory in the `cql-tests` submodule — for
+example `cql-tests/tests/connectathonTests` — to run a different suite without editing a
+configuration file.
 
 ### Development Environment
 
@@ -477,4 +483,53 @@ Unit tests can be run from the command line using the following
 
 ```bash
 npm run unit-tests
+```
+### Test Flow
+
+The test flow starts with a raw CQL expression defined in a test case. The cql-tests-runner sends this expression to the server via a $cql request, where the CQL Engine evaluates it.
+
+The engine returns a result, which is serialized into a FHIR Parameters resource. CQL types are mapped to FHIR types (e.g., Interval → Range + cqf-cqlType).
+
+Back in the runner, the result extractor converts the FHIR response into a JavaScript representation of the CQL value (the actual). In parallel, the expected value from the test is parsed by cvl into the same JS shape.
+
+The runner then compares actual vs expected structurally (not as strings). If they match → PASS; otherwise → FAIL.
+
+Key points
+
+Use FHIR Range + cqf-cqlType for intervals.
+Avoid string comparison; compare structured values.
+
+Numeric intervals (`Interval<Integer>`, `Interval<Long>`, `Interval<Decimal>`) are mapped per [FHIR-56226](https://jira.hl7.org/browse/FHIR-56226): a FHIR `Range` whose boundaries are unity quantities (`code: "1"`, `system: http://unitsofmeasure.org`) carrying a [`quantity-precision`](http://hl7.org/fhir/StructureDefinition/quantity-precision) extension. Because `Range` cannot express open boundaries, an open boundary is sent as its closed equivalent at the stated precision (e.g., `Interval[1.0, 1.4)` becomes `Range [1.0, 1.3]` with precision 1). The runner identifies numeric intervals by the [`cqf-cqlType`](http://hl7.org/fhir/StructureDefinition/cqf-cqlType) extension on the returned parameter (e.g., `Interval<System.Decimal>`); a `Range` returned without it is treated as a quantity interval, so engines must declare the type for these tests to pass. Declared numeric intervals are extracted as plain numeric intervals and, when comparing, the runner normalizes open and closed boundary forms using the declared precision (falling back to the CQL defaults: step 1 for Integer/Long, 10^-8 for Decimal), so an expected `Interval[1.0, 1.4)` matches both `[1.0, 1.3]` at precision 1 and an open-boundary representation.
+
+```mermaid
+flowchart LR
+    %% Top row (left → right)
+    A["Test case (raw CQL)"] --> B["cql-tests-runner"]
+    B --> C["$cql request"]
+    C --> D["CQL Engine"]
+
+    %% Down from the rightmost node, then flow right → left
+    D --> E["Response: CQL in Java"]
+    E --> F["CQL in FHIR"]
+    F --> G["Result Extractor Maps CQL in FHIR to CQL in JS"]
+    G --> H["Actual (JS value)"]
+
+    %% Continue back toward the left
+    H --> I["Parse Expected (cvl) into CQL in JS"]
+    I --> J["Compare (actual vs expected)"]
+
+    %% Outcome
+    J --> K{"Match?"}
+    K -->|Yes| L["PASS"]
+    K -->|No| M["FAIL"]
+
+    %% Optional note nodes (visual hints)
+    subgraph Notes
+        N1["Interval should be mapped via FHIR Range + cqf-cqlType"]
+        N2["Avoid string compare; compare structured values"]
+    end
+
+    %% Light connections for notes (no arrows affecting flow)
+    D -.-> N1
+    H -.-> N2
 ```
