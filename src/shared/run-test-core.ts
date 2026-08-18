@@ -9,6 +9,7 @@ import { buildExtractor } from '../server/extractor-builder.js';
 import { createConfigFromData } from '../server/config-utils.js';
 import { ValueMap } from '../extractors/value-map.js';
 import { resultsEqual } from './results-utils.js';
+import { formatActualValue } from '../test-results/cql-test-results.js';
 
 /**
  * Shared execution state for a test run: the resolved config, the engine, the CVL parser,
@@ -207,7 +208,9 @@ export async function runTest(
 		result.testName,
 		result.testStatus,
 		result.expected,
-		result.actual
+		// String(object) yields "[object Object]", losing list and interval structure, so
+		// render the actual in CQL syntax the way the results file does.
+		formatActualValue(result.actual)
 	);
 
 	return result;
