@@ -41,6 +41,8 @@ export interface TestGroup {
 	description?: string;
 	reference?: string;
 	notes?: string;
+	/** One <capability> element parses to a bare object; two or more to an array. */
+	capability?: CapabilityKV | CapabilityKV[];
 	test: Test[];
 }
 
