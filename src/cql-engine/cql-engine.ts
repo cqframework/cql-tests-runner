@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
 import { CQLEngineInfo } from '../models/results-types.js';
-import { response } from 'express';
 
 /**
  * Represents a CQL Engine.
