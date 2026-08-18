@@ -189,7 +189,13 @@ You can still override specific settings using environment variables:
 ```sh
 export SERVER_BASE_URL=http://fhirServerBaseEndpoint
 export CQL_OPERATION=$cql
+export CQL_TESTS_PATH=cql-tests/tests/cql
 ```
+
+`CQL_TESTS_PATH` sets the directory the test loader reads test XML from, defaulting to
+`cql-tests/tests/cql`. Point it at another directory in the `cql-tests` submodule — for
+example `cql-tests/tests/connectathonTests` — to run a different suite without editing a
+configuration file.
 
 ### Development Environment
 

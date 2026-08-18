@@ -80,7 +80,6 @@ export interface InternalTestResult {
 	invalid?: 'false' | 'true' | 'semantic' | 'undefined';
 	expression: string;
 	capability?: CapabilityKV[];
-	SkipMessage?: string;
 }
 
 // Schema-compliant TestResult type (strictly matches cql-test-results.schema.json)
