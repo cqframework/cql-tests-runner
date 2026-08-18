@@ -56,9 +56,18 @@ export class Result implements InternalTestResult {
 			this.skipMessage = 'No output specified';
 		}
 
-		this.capability = Array.isArray(test.capability)
-			? test.capability.map(({ code, value }) => ({ code, value }))
-			: [];
+		// The XML parser yields a bare object when a test declares exactly one
+		// <capability> element, and an array only for two or more. Matching on
+		// Array.isArray alone therefore dropped the capability for every
+		// single-capability test — the large majority of the suite. Normalize to an
+		// array first.
+		const testCapabilities = Array.isArray(test.capability)
+			? test.capability
+			: test.capability !== undefined && test.capability !== null
+				? [test.capability]
+				: [];
+
+		this.capability = testCapabilities.map(({ code, value }) => ({ code, value }));
 	}
 }
 

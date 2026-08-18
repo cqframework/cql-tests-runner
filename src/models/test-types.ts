@@ -30,7 +30,8 @@ export interface Test {
 	ordered?: boolean;
 	checkOrderedFunctions?: boolean;
 	expression: string | TestExpression;
-	capability: CapabilityKV[];
+	/** One <capability> element parses to a bare object; two or more to an array. */
+	capability?: CapabilityKV | CapabilityKV[];
 	output?: string | TestOutput | string[] | TestOutput[];
 }
 
