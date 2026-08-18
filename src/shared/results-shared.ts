@@ -19,6 +19,7 @@ export class Result implements InternalTestResult {
 	testVersionTo?: string;
 	invalid: 'false' | 'true' | 'semantic' | 'undefined';
 	expression: string;
+	library?: string;
 	capability: CapabilityKV[] = [];
 
 	constructor(testsName: string, groupName: string, test: Test) {
@@ -28,7 +29,38 @@ export class Result implements InternalTestResult {
 		this.testVersion = test.version;
 		this.testVersionTo = test.versionTo;
 
-		if (typeof test.expression !== 'string') {
+		if (test.library !== undefined) {
+			// Library-style test: the whole CQL library is sent to Library/$evaluate as an inline
+			// FHIR Library resource, and `expression` names the define whose result is compared.
+			// The define name comes from the output's `name` attribute (testSchema.xsd).
+			if (typeof test.library === 'string') {
+				this.invalid = 'false';
+				this.library = test.library;
+			} else {
+				this.invalid = test.library.invalid;
+				this.library = test.library.text;
+			}
+
+			this.expression = '';
+			const outputs = Array.isArray(test.output) ? test.output : [test.output];
+			if (outputs.length > 1) {
+				// The schema allows one output per define; the result model holds a single
+				// expected value, so multi-define libraries can't be compared yet.
+				this.testStatus = 'skip';
+				this.skipMessage =
+					'Library-style tests with more than one named output are not yet supported';
+			} else {
+				const out = outputs[0];
+				const defineName = typeof out === 'object' ? out.name : undefined;
+				if (defineName) {
+					this.expression = defineName;
+				} else {
+					this.testStatus = 'skip';
+					this.skipMessage =
+						"Library-style test output has no 'name' attribute naming the define to evaluate";
+				}
+			}
+		} else if (typeof test.expression !== 'string') {
 			if (test.expression === undefined) {
 				this.invalid = 'undefined';
 				this.expression = 'undefined';
@@ -134,9 +166,44 @@ export function responseIndicatesError(status: number | undefined, responseBody:
 
 export function generateParametersResource(
 	result: InternalTestResult,
-	cqlEndpoint: string
+	cqlEndpoint: string,
+	libraryCanonical?: string
 ): Parameters {
 	let data: Parameters;
+
+	// Library-style tests carry a complete CQL library, which only Library/$evaluate can accept.
+	// The $cql operation has no way to carry library source — its `library` parameter resolves by
+	// canonical url only, and its `expression` parameter is an expression of CQL, not the text of
+	// a library. The library is published to the server first (see publishTestLibrary) and
+	// referenced here by canonical url.
+	if (result.library !== undefined) {
+		if (cqlEndpoint !== '$evaluate') {
+			throw new Error(
+				`Library-style tests require the Library/$evaluate operation; configured operation is ${cqlEndpoint}`
+			);
+		}
+
+		if (libraryCanonical === undefined) {
+			throw new Error(
+				'Library-style tests require the canonical url of the published library'
+			);
+		}
+
+		return {
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'url',
+					valueCanonical: libraryCanonical,
+				},
+				// `expression` (0..*) names the define to evaluate; the response is keyed by that name.
+				{
+					name: 'expression',
+					valueString: result.expression,
+				},
+			],
+		};
+	}
 
 	// Check if the last part is $cql or $evaluate
 	if (cqlEndpoint === '$cql') {

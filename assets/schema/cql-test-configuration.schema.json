@@ -20,7 +20,8 @@
         },
         "CqlOperation": {
           "type": "string",
-          "description": "CQL operation endpoint",
+          "enum": ["$cql", "$evaluate"],
+          "description": "CQL operation used to evaluate tests: the system-level $cql operation, or Library/$evaluate",
           "default": "$cql"
         }
       },
