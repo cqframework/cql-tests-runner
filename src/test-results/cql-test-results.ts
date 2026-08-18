@@ -4,20 +4,53 @@ import { CQLEngine } from '../cql-engine/cql-engine.js';
 import { TestResult, InternalTestResult } from '../models/test-types.js';
 import { TestResultsSummary, CQLTestResultsData } from '../models/results-types.js';
 import { ResultsValidator } from '../conf/results-validator.js';
+import { isIntervalShaped } from '../shared/interval-utils.js';
 
 /**
- * Formats an actual value for the results file. Lists are rendered in CQL list
- * syntax (`{ a, b, c }`) so they read like the expected value, which is kept in
- * its original CQL/CVL notation.
+ * Formats an actual value for report output. Structured CQL values are rendered in
+ * CQL syntax so they read like the expected value, which is kept in its original
+ * CQL/CVL notation; anything else falls back to JSON, since String(object) yields
+ * "[object Object]" and loses the structure entirely.
+ *
+ * Values are reported exactly as the engine returned them: never reformatted, never
+ * reduced in precision. A DateTime at midnight with an offset, for example, keeps
+ * its offset rather than collapsing to Date precision.
  */
-function formatActualValue(value: any): string {
+export function formatActualValue(value: any): string {
 	if (Array.isArray(value)) {
 		return value.length === 0 ? '{}' : `{ ${value.map(formatActualValue).join(', ')} }`;
 	}
 	if (value !== null && typeof value === 'object') {
-		return JSON.stringify(value);
+		if (isIntervalShaped(value)) {
+			const open = value.lowClosed === true ? '[' : '(';
+			const close = value.highClosed === true ? ']' : ')';
+			return `Interval${open}${formatActualValue(value.low)}, ${formatActualValue(value.high)}${close}`;
+		}
+		if (isQuantityShaped(value)) {
+			return `${value.value} '${value.unit}'`;
+		}
+		try {
+			// A nested Long is a BigInt, which JSON.stringify refuses to serialize; a
+			// circular value throws as well. Either way, fall back rather than losing
+			// the whole result to "[object Object]".
+			return JSON.stringify(value, (_key, nested) =>
+				typeof nested === 'bigint' ? nested.toString() : nested
+			);
+		} catch {
+			return String(value);
+		}
 	}
 	return String(value);
+}
+
+function isQuantityShaped(value: any): boolean {
+	const keys = Object.keys(value);
+	return (
+		keys.length === 2 &&
+		keys.includes('value') &&
+		keys.includes('unit') &&
+		typeof value.unit === 'string'
+	);
 }
 
 /**
@@ -31,7 +64,7 @@ export class CQLTestResults {
 		pass: 0,
 		skip: 0,
 		fail: 0,
-		error: 0
+		error: 0,
 	};
 
 	private _cqlengine: CQLEngine;
@@ -91,7 +124,7 @@ export class CQLTestResults {
 			pass: 0,
 			skip: 0,
 			fail: 0,
-			error: 0
+			error: 0,
 		};
 
 		for (const result of this.results) {
@@ -203,8 +236,9 @@ export class CQLTestResults {
 			} else if (typeof act === 'number' && typeof exp === 'string') {
 				r.actual = String(act);
 			} else if (act !== undefined && act !== null && typeof act !== 'string') {
-				// Convert any non-string value to string for schema compliance;
-				// lists are rendered in CQL list syntax to mirror the expected value
+				// Convert any non-string value to a schema-compliant string, preserving
+				// structure: structured values are rendered in CQL syntax to mirror
+				// the expected value.
 				r.actual = formatActualValue(act);
 			}
 		}

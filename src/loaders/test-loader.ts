@@ -3,7 +3,7 @@ import * as path from 'path';
 import { XMLParser, type X2jOptions } from 'fast-xml-parser';
 import { Tests } from '../models/test-types.js';
 
-const testsPath = 'cql-tests/tests/cql';
+const testsPath = process.env.CQL_TESTS_PATH || 'cql-tests/tests/cql';
 
 const alwaysArray = ['tests.group', 'tests.group.test'];
 

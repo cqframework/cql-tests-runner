@@ -1,239 +1,85 @@
 // Author: Preston Lee
 
-import { ConfigLoader } from '../conf/config-loader.js';
-import { CQLEngine } from '../cql-engine/cql-engine.js';
 import { CQLTestResults } from '../test-results/cql-test-results.js';
-import { TestLoader } from '../loaders/test-loader.js';
-import {
-  generateEmptyResults,
-  generateParametersResource,
-  Result,
-} from '../shared/results-shared.js';
-import { PublishedLibrary, publishTestLibrary } from '../shared/library-publisher.js';
-import { InternalTestResult, Tests } from '../models/test-types.js';
-import { ServerConnectivity } from '../shared/server-connectivity.js';
-import { ResultExtractor } from '../extractors/result-extractor.js';
-import { buildExtractor } from './extractor-builder.js';
-import { createConfigFromData } from './config-utils.js';
-import { ValueMap } from '../extractors/value-map.js';
-import { resultsEqual } from '../shared/results-utils.js';
+import { generateEmptyResults, Result } from '../shared/results-shared.js';
+import { createExecutionContext, runTest } from '../shared/run-test-core.js';
 
-interface ExecutionContext {
-  config: ConfigLoader;
-  cqlEngine: CQLEngine;
-  cvl: any;
-  tests: Tests[];
-  resultExtractor: ResultExtractor;
-  skipMap: Map<string, string>;
-  onlySet: Set<string>;
-}
-
+/**
+ * Server/MCP-facing runner. Thin wrapper over the shared {@link runTest} core: builds the
+ * execution context and returns JSON-shaped results. Shares identical execution and
+ * classification with the CLI {@link TestRunner}.
+ */
 export class TestExecutionService {
-  /**
-   * Builds shared execution context from config data (engine, CVL, tests, extractor, skip map).
-   */
-  private async createExecutionContext(configData: any): Promise<ExecutionContext> {
-    const config = createConfigFromData(configData);
-    const serverBaseUrl = config.FhirServer.BaseUrl;
-    const cqlEndpoint = config.CqlEndpoint;
+	/**
+	 * Runs all tests based on configuration.
+	 */
+	async runTests(configData: any): Promise<any> {
+		const ctx = await createExecutionContext(configData);
+		const quickTest = ctx.config.Debug?.QuickTest || false;
+		const emptyResults = await generateEmptyResults(ctx.tests, quickTest);
+		const results = new CQLTestResults(ctx.cqlEngine);
 
-    await ServerConnectivity.verifyServerConnectivity(serverBaseUrl);
+		for (const testFile of emptyResults) {
+			for (const result of testFile) {
+				await runTest(result, ctx);
+				results.add(result);
+			}
+		}
 
-    const build = config.Build;
-    const cqlEngine = new CQLEngine(
-      serverBaseUrl,
-      cqlEndpoint,
-      build?.cqlTranslator ?? '',
-      build?.cqlTranslatorVersion ?? '',
-      build?.cqlEngine ?? '',
-      build?.cqlEngineVersion ?? ''
-    );
-    cqlEngine.cqlVersion = config.Build?.CqlVersion || '1.5';
+		return results.toJSON();
+	}
 
-    // @ts-expect-error - cvl.mjs has no declaration file
-    const cvlModule = await import('../../cvl/cvl.mjs');
-    const cvl = cvlModule.default;
+	/**
+	 * Runs a single test by identifier.
+	 */
+	async runSingleTest(
+		testsName: string,
+		groupName: string,
+		testName: string,
+		configData: any
+	): Promise<any> {
+		const ctx = await createExecutionContext(configData);
 
-    const tests = TestLoader.load();
-    const resultExtractor = buildExtractor();
-    const skipMap = config.skipListMap();
-    const onlySet = config.onlyListSet();
+		for (const testSuite of ctx.tests) {
+			if (testSuite.name !== testsName) continue;
+			for (const group of testSuite.group) {
+				if (group.name !== groupName || !group.test) continue;
+				for (const test of group.test) {
+					if (test.name !== testName) continue;
 
-    return { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet };
-  }
+					const result = new Result(testsName, groupName, test);
+					await runTest(result, ctx);
 
-  /**
-   * Runs a single test
-   */
-  private async runTest(
-    result: InternalTestResult,
-    apiUrl: string,
-    cvl: any,
-    resultExtractor: ResultExtractor,
-    skipMap: Map<string, string>,
-    onlySet: Set<string>,
-    config: ConfigLoader
-  ): Promise<InternalTestResult> {
-    const key = `${result.testsName}-${result.groupName}-${result.testName}`;
+					const testResults = new CQLTestResults(ctx.cqlEngine);
+					testResults.add(result);
+					return testResults.toJSON().results[0] ?? null;
+				}
+			}
+		}
 
-    if (result.testStatus === 'skip') {
-      result.SkipMessage = 'Skipped by cql-tests-runner';
-      return result;
-    } else if (onlySet.size > 0 && !onlySet.has(key)) {
-      result.SkipMessage = 'Skipped by OnlyList filter';
-      result.testStatus = 'skip';
-      return result;
-    } else if (skipMap.has(key)) {
-      const reason = skipMap.get(key) || '';
-      result.SkipMessage = `Skipped by config: ${reason}`;
-      result.testStatus = 'skip';
-      return result;
-    } else if (result.library !== undefined && config.FhirServer.CqlOperation !== '$evaluate') {
-      // A whole CQL library can only be passed to Library/$evaluate, not to $cql.
-      result.SkipMessage =
-        'Library-style tests require a server configured for the Library/$evaluate operation';
-      result.testStatus = 'skip';
-      return result;
-    }
+		throw new Error(`Test not found: ${testsName}/${groupName}/${testName}`);
+	}
 
-    let publishedLibrary: PublishedLibrary | undefined;
+	/**
+	 * Runs all tests in a group.
+	 */
+	async runTestGroup(testsName: string, groupName: string, configData: any): Promise<any[]> {
+		const ctx = await createExecutionContext(configData);
+		const results = new CQLTestResults(ctx.cqlEngine);
 
-    try {
-      console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.testName);
+		for (const testSuite of ctx.tests) {
+			if (testSuite.name !== testsName) continue;
+			for (const group of testSuite.group) {
+				if (group.name !== groupName || !group.test) continue;
+				for (const test of group.test) {
+					const result = new Result(testsName, groupName, test);
+					await runTest(result, ctx);
+					results.add(result);
+				}
+				return results.toJSON().results;
+			}
+		}
 
-      // A library-style test's CQL has to exist on the server before Library/$evaluate can
-      // resolve it; it is removed again once the test has run.
-      if (result.library !== undefined) {
-        publishedLibrary = await publishTestLibrary(config.FhirServer.BaseUrl, result.library);
-      }
-
-      const data = generateParametersResource(
-        result,
-        config.FhirServer.CqlOperation,
-        publishedLibrary?.canonical
-      );
-
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-      });
-
-      result.responseStatus = response.status;
-      const responseBody = await response.json();
-      const parsedExpected = cvl.parse(result.expected);
-      result.actual = resultExtractor.extract(responseBody, {
-        singletonListKeys: ValueMap.singletonListKeysFromExpected(parsedExpected),
-      });
-      const invalid = result.invalid;
-
-      if (invalid === 'true' || invalid === 'semantic') {
-        result.testStatus = response.status === 200 ? 'fail' : 'pass';
-      } else {
-        if (response.status === 200) {
-          result.testStatus = resultsEqual(parsedExpected, result.actual) ? 'pass' : 'fail';
-        } else {
-          result.testStatus = 'fail';
-        }
-      }
-    } catch (error: any) {
-      result.testStatus = 'error';
-      result.error = {
-        message: error.message,
-        name: error.name || 'Error',
-        stack: error.stack
-      };
-    } finally {
-      await publishedLibrary?.remove();
-    }
-
-    console.log('Test %s:%s:%s status: %s expected: %s actual: %s',
-      result.testsName, result.groupName, result.testName, result.testStatus, result.expected, result.actual);
-
-    return result;
-  }
-
-  /**
-   * Runs all tests based on configuration
-   */
-  async runTests(configData: any): Promise<any> {
-    const ctx = await this.createExecutionContext(configData);
-    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet } = ctx;
-
-    const quickTest = config.Debug?.QuickTest || false;
-    const emptyResults = await generateEmptyResults(tests, quickTest);
-    const results = new CQLTestResults(cqlEngine);
-
-    for (const testFile of emptyResults) {
-      for (const result of testFile) {
-        await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, onlySet, config);
-        results.add(result);
-      }
-    }
-
-    return results.toJSON();
-  }
-
-  /**
-   * Runs a single test by identifier
-   */
-  async runSingleTest(
-    testsName: string,
-    groupName: string,
-    testName: string,
-    configData: any
-  ): Promise<any> {
-    const ctx = await this.createExecutionContext(configData);
-    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet } = ctx;
-
-    for (const testSuite of tests) {
-      if (testSuite.name !== testsName) continue;
-      for (const group of testSuite.group) {
-        if (group.name !== groupName || !group.test) continue;
-        for (const test of group.test) {
-          if (test.name !== testName) continue;
-
-          const result = new Result(testsName, groupName, test);
-          await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, onlySet, config);
-
-          const testResults = new CQLTestResults(cqlEngine);
-          testResults.add(result);
-          return testResults.toJSON().results[0] ?? null;
-        }
-      }
-    }
-
-    throw new Error(`Test not found: ${testsName}/${groupName}/${testName}`);
-  }
-
-  /**
-   * Runs all tests in a group
-   */
-  async runTestGroup(
-    testsName: string,
-    groupName: string,
-    configData: any
-  ): Promise<any[]> {
-    const ctx = await this.createExecutionContext(configData);
-    const { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet } = ctx;
-
-    const results = new CQLTestResults(cqlEngine);
-
-    for (const testSuite of tests) {
-      if (testSuite.name !== testsName) continue;
-      for (const group of testSuite.group) {
-        if (group.name !== groupName || !group.test) continue;
-        for (const test of group.test) {
-          const result = new Result(testsName, groupName, test);
-          await this.runTest(result, cqlEngine.apiUrl!, cvl, resultExtractor, skipMap, onlySet, config);
-          results.add(result);
-        }
-        return results.toJSON().results;
-      }
-    }
-
-    return results.toJSON().results;
-  }
+		return results.toJSON().results;
+	}
 }

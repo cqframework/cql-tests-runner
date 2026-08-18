@@ -17,7 +17,8 @@ const makeResult = (testsName: string, groupName: string, testName: string) => (
   capability: [],
 });
 
-vi.mock('../src/shared/results-shared', () => ({
+vi.mock('../src/shared/results-shared', async orig => ({
+  ...(await orig<typeof import('../src/shared/results-shared')>()),
   generateEmptyResults: vi
     .fn()
     .mockImplementation(async () => [

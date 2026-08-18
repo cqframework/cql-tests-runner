@@ -80,14 +80,26 @@ export class Result implements InternalTestResult {
 			} else {
 				this.expected = test.output as string;
 			}
-		} else {
+		} else if (this.invalid !== 'true' && this.invalid !== 'semantic') {
+			// No output is expected only when the expression is marked invalid ("true"
+			// for a run-time error, "semantic" for a translation error) — the test expects
+			// an error. Otherwise there is nothing to compare against, so skip.
 			this.testStatus = 'skip';
 			this.skipMessage = 'No output specified';
 		}
 
-		this.capability = Array.isArray(test.capability)
-			? test.capability.map(({ code, value }) => ({ code, value }))
-			: [];
+		// The XML parser yields a bare object when a test declares exactly one
+		// <capability> element, and an array only for two or more. Matching on
+		// Array.isArray alone therefore dropped the capability for every
+		// single-capability test — the large majority of the suite. Normalize to an
+		// array first.
+		const testCapabilities = Array.isArray(test.capability)
+			? test.capability
+			: test.capability !== undefined && test.capability !== null
+				? [test.capability]
+				: [];
+
+		this.capability = testCapabilities.map(({ code, value }) => ({ code, value }));
 	}
 }
 
@@ -130,6 +142,26 @@ export async function generateEmptyResults(
 	}
 
 	return groupResults;
+}
+
+/**
+ * Determines whether a CQL evaluation response represents an error. Used to decide
+ * whether `invalid="true"`/`invalid="semantic"` tests pass (an error is expected).
+ *
+ * The engine does not always signal a run-time error with a non-2xx HTTP status: the
+ * FHIR `$cql`/`$evaluate` operations typically return HTTP 200 with a `Parameters`
+ * resource carrying an `evaluation error` parameter (an OperationOutcome). We treat
+ * both a non-2xx status and the presence of that parameter as an error.
+ */
+export function responseIndicatesError(status: number | undefined, responseBody: any): boolean {
+	if (status !== undefined && (status < 200 || status >= 300)) {
+		return true;
+	}
+	const parameters = responseBody?.parameter;
+	if (Array.isArray(parameters)) {
+		return parameters.some((p: any) => p?.name === 'evaluation error');
+	}
+	return false;
 }
 
 export function generateParametersResource(

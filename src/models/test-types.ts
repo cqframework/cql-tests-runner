@@ -39,7 +39,8 @@ export interface Test {
 	// A test provides EITHER an expression OR a full CQL library (mutually exclusive; see testSchema.xsd).
 	expression?: string | TestExpression;
 	library?: string | TestLibrary;
-	capability: CapabilityKV[];
+	/** One <capability> element parses to a bare object; two or more to an array. */
+	capability?: CapabilityKV | CapabilityKV[];
 	output?: string | TestOutput | string[] | TestOutput[];
 }
 
@@ -93,7 +94,6 @@ export interface InternalTestResult {
 	// result is compared.)
 	library?: string;
 	capability?: CapabilityKV[];
-	SkipMessage?: string;
 }
 
 // Schema-compliant TestResult type (strictly matches cql-test-results.schema.json)
