@@ -4,6 +4,7 @@ import { CQLEngine } from '../cql-engine/cql-engine.js';
 import { TestResult, InternalTestResult } from '../models/test-types.js';
 import { TestResultsSummary, CQLTestResultsData } from '../models/results-types.js';
 import { ResultsValidator } from '../conf/results-validator.js';
+import { isIntervalShaped } from '../shared/interval-utils.js';
 
 /**
  * Formats an actual value for report output. Structured CQL values are rendered in
@@ -42,14 +43,6 @@ export function formatActualValue(value: any): string {
 	return String(value);
 }
 
-function isIntervalShaped(value: any): boolean {
-	const keys = Object.keys(value);
-	return (
-		keys.length === 4 &&
-		['lowClosed', 'low', 'highClosed', 'high'].every((key) => keys.includes(key))
-	);
-}
-
 function isQuantityShaped(value: any): boolean {
 	const keys = Object.keys(value);
 	return (
@@ -71,7 +64,7 @@ export class CQLTestResults {
 		pass: 0,
 		skip: 0,
 		fail: 0,
-		error: 0
+		error: 0,
 	};
 
 	private _cqlengine: CQLEngine;
@@ -131,7 +124,7 @@ export class CQLTestResults {
 			pass: 0,
 			skip: 0,
 			fail: 0,
-			error: 0
+			error: 0,
 		};
 
 		for (const result of this.results) {

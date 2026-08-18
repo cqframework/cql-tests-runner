@@ -18,10 +18,8 @@ export class RunCommand {
 		// Convert ConfigLoader to the format expected by TestRunner
 		const configData = this.convertConfigToData(config, options.quick);
 
-		// Run tests using the shared TestRunner with axios for backward compatibility
-		const results = await this.testRunner.runTests(configData, {
-			useAxios: true, // Use axios for backward compatibility with existing behavior
-		});
+		// Run tests using the shared TestRunner
+		const results = await this.testRunner.runTests(configData);
 
 		// Validate before saving if validation option is enabled
 		if (options.validate) {

@@ -189,7 +189,13 @@ You can still override specific settings using environment variables:
 ```sh
 export SERVER_BASE_URL=http://fhirServerBaseEndpoint
 export CQL_OPERATION=$cql
+export CQL_TESTS_PATH=cql-tests/tests/cql
 ```
+
+`CQL_TESTS_PATH` sets the directory the test loader reads test XML from, defaulting to
+`cql-tests/tests/cql`. Point it at another directory in the `cql-tests` submodule — for
+example `cql-tests/tests/connectathonTests` — to run a different suite without editing a
+configuration file.
 
 ### Development Environment
 
@@ -326,6 +332,8 @@ Key points
 
 Use FHIR Range + cqf-cqlType for intervals.
 Avoid string comparison; compare structured values.
+
+Numeric intervals (`Interval<Integer>`, `Interval<Long>`, `Interval<Decimal>`) are mapped per [FHIR-56226](https://jira.hl7.org/browse/FHIR-56226): a FHIR `Range` whose boundaries are unity quantities (`code: "1"`, `system: http://unitsofmeasure.org`) carrying a [`quantity-precision`](http://hl7.org/fhir/StructureDefinition/quantity-precision) extension. Because `Range` cannot express open boundaries, an open boundary is sent as its closed equivalent at the stated precision (e.g., `Interval[1.0, 1.4)` becomes `Range [1.0, 1.3]` with precision 1). The runner identifies numeric intervals by the [`cqf-cqlType`](http://hl7.org/fhir/StructureDefinition/cqf-cqlType) extension on the returned parameter (e.g., `Interval<System.Decimal>`); a `Range` returned without it is treated as a quantity interval, so engines must declare the type for these tests to pass. Declared numeric intervals are extracted as plain numeric intervals and, when comparing, the runner normalizes open and closed boundary forms using the declared precision (falling back to the CQL defaults: step 1 for Integer/Long, 10^-8 for Decimal), so an expected `Interval[1.0, 1.4)` matches both `[1.0, 1.3]` at precision 1 and an open-boundary representation.
 
 ```mermaid
 flowchart LR
