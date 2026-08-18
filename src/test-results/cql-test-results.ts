@@ -29,6 +29,12 @@ export function formatActualValue(value: any): string {
 		if (isQuantityShaped(value)) {
 			return `${value.value} '${value.unit}'`;
 		}
+		if (isConceptShaped(value)) {
+			return formatConceptValue(value);
+		}
+		if (isCodeShaped(value)) {
+			return formatCodeValue(value);
+		}
 		try {
 			// A nested Long is a BigInt, which JSON.stringify refuses to serialize; a
 			// circular value throws as well. Either way, fall back rather than losing
@@ -51,6 +57,44 @@ function isQuantityShaped(value: any): boolean {
 		keys.includes('unit') &&
 		typeof value.unit === 'string'
 	);
+}
+
+/** The CQL System.Code runtime shape produced by CodeExtractor. */
+function isCodeShaped(value: any): boolean {
+	return 'code' in value;
+}
+
+/** The CQL System.Concept runtime shape produced by ConceptExtractor. */
+function isConceptShaped(value: any): boolean {
+	return Array.isArray(value.codes) && value.codes.every((code: any) => isCodeShaped(code));
+}
+
+/**
+ * Renders a Code as CQL constructor syntax. The extractor keeps optional fields as
+ * keys with undefined values, so omit anything undefined rather than printing it.
+ */
+function formatCodeValue(code: any): string {
+	const parts: string[] = [];
+
+	for (const field of ['code', 'system', 'version', 'display']) {
+		if (code[field] !== undefined) {
+			parts.push(`${field}: '${code[field]}'`);
+		}
+	}
+
+	return `Code { ${parts.join(', ')} }`;
+}
+
+/** Renders a Concept as CQL constructor syntax. */
+function formatConceptValue(concept: any): string {
+	const codes = concept.codes.map((code: any) => formatCodeValue(code)).join(', ');
+	const parts = [`codes: { ${codes} }`];
+
+	if (concept.display !== undefined) {
+		parts.push(`display: '${concept.display}'`);
+	}
+
+	return `Concept { ${parts.join(', ')} }`;
 }
 
 /**
