@@ -27,6 +27,7 @@ export interface Config {
 		cqlTranslatorVersion?: string;
 		cqlEngine?: string;
 		cqlEngineVersion?: string;
+		SERVER_OFFSET_ISO: string;
 	};
 	Tests: {
 		ResultsPath: string;

@@ -25,7 +25,17 @@ export interface ExecutionContext {
 	resultExtractor: ResultExtractor;
 	skipMap: Map<string, string>;
 	onlySet: Set<string>;
+	/**
+	 * The timezone-offset policy this server follows, resolved once per run. Tests that
+	 * declare a `timezone-offset-policy.*` capability only apply under the matching policy.
+	 */
+	activeTimeZonePolicy: string;
 }
+
+/** Policies a server can follow for DateTime values authored without an offset. */
+const NO_DEFAULT_OFFSET = 'timezone-offset-policy.no-default-offset';
+const DEFAULT_SERVER_OFFSET = 'timezone-offset-policy.default-server-offset';
+const TIME_ZONE_POLICIES = [NO_DEFAULT_OFFSET, DEFAULT_SERVER_OFFSET];
 
 /**
  * Builds the shared execution context from config data: resolves config, verifies server
@@ -60,7 +70,190 @@ export async function createExecutionContext(configData: any): Promise<Execution
 	const skipMap = config.skipListMap();
 	const onlySet = config.onlyListSet();
 
-	return { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet };
+	// Resolving the policy costs a metadata request and possibly a probe expression, so only
+	// do it when the loaded suite actually contains policy-dependent tests. Most suites do
+	// not, and those runs should not pay for a feature they never consult.
+	let activeTimeZonePolicy = '';
+	if (suiteDeclaresTimeZonePolicy(tests)) {
+		if (typeof cqlEngine.fetch === 'function') {
+			await cqlEngine.fetch();
+		}
+		activeTimeZonePolicy = await resolveTimeZoneOffsetPolicy(
+			config,
+			cqlEngine.apiUrl!,
+			cqlEngine.serverMetadata
+		);
+		console.log('Resolved timezone offset policy: %s', activeTimeZonePolicy);
+	}
+
+	return {
+		config,
+		cqlEngine,
+		cvl,
+		tests,
+		resultExtractor,
+		skipMap,
+		onlySet,
+		activeTimeZonePolicy,
+	};
+}
+
+/**
+ * True when any loaded test or group declares a `timezone-offset-policy.*` capability.
+ * Gates the policy resolution below, which is otherwise wasted work.
+ */
+function suiteDeclaresTimeZonePolicy(tests: Tests[]): boolean {
+	const declares = (capability: any): boolean => {
+		const declared = Array.isArray(capability) ? capability : capability ? [capability] : [];
+		return declared.some((c: any) => c?.code?.startsWith('timezone-offset-policy.'));
+	};
+
+	return tests.some(suite =>
+		suite.group?.some(
+			group =>
+				declares(group.capability) || group.test?.some(test => declares(test.capability))
+		)
+	);
+}
+
+/**
+ * Determines which timezone-offset policy the server follows, in decreasing order of
+ * authority: what the server declares in its CapabilityStatement, what the operator
+ * configured, what a probe expression reveals, and finally the more common default.
+ */
+async function resolveTimeZoneOffsetPolicy(
+	config: ConfigLoader,
+	apiUrl: string,
+	serverMetadata?: any
+): Promise<string> {
+	const declared = timeZonePolicyFromMetadata(serverMetadata);
+	if (declared) {
+		return declared;
+	}
+
+	const configured =
+		process.env.TIME_ZONE_OFFSET_POLICY?.trim() || config.Build?.TimeZoneOffsetPolicy?.trim();
+	if (configured) {
+		return configured;
+	}
+
+	const probed = await probeTimeZoneOffsetPolicy(apiUrl);
+	if (probed) {
+		return probed;
+	}
+
+	return DEFAULT_SERVER_OFFSET;
+}
+
+/**
+ * Asks the engine for the timezone offset of an offset-less DateTime. A server that
+ * defaults to its own offset returns a number; one that does not returns null.
+ */
+async function probeTimeZoneOffsetPolicy(apiUrl: string): Promise<string | null> {
+	try {
+		const response = await fetch(apiUrl, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				resourceType: 'Parameters',
+				parameter: [
+					{ name: 'expression', valueString: 'timezoneoffset from @2012-04-01T00:00' },
+				],
+			}),
+		});
+
+		if (response.status !== 200) {
+			return null;
+		}
+
+		const probed = probeResultValue(await response.json());
+
+		if (typeof probed === 'number') {
+			return DEFAULT_SERVER_OFFSET;
+		}
+		if (typeof probed === 'string') {
+			const trimmed = probed.trim().toLowerCase();
+			if (trimmed === 'null') {
+				return NO_DEFAULT_OFFSET;
+			}
+			if (/^[+-]?\d+(?:\.\d+)?$/.test(trimmed)) {
+				return DEFAULT_SERVER_OFFSET;
+			}
+		}
+		if (probed === null) {
+			return NO_DEFAULT_OFFSET;
+		}
+	} catch {
+		// A server that cannot answer the probe tells us nothing; fall through to the caller's
+		// next source rather than failing the whole run.
+	}
+
+	return null;
+}
+
+/** The scalar the probe expression evaluated to, whatever primitive type it came back as. */
+function probeResultValue(responseBody: any): any {
+	const parameters = responseBody?.parameter;
+	if (!Array.isArray(parameters) || parameters.length === 0) {
+		return undefined;
+	}
+
+	const returned = parameters.find((p: any) => p?.name === 'return') ?? parameters[0];
+
+	for (const key of ['valueInteger', 'valueDecimal', 'valueString', 'valueBoolean'] as const) {
+		if (returned?.[key] !== undefined) {
+			return returned[key];
+		}
+	}
+
+	// An explicit null result is reported as a parameter with no value at all.
+	return null;
+}
+
+/** Searches a CapabilityStatement for a declared timezone-offset policy code. */
+function timeZonePolicyFromMetadata(metadata: any): string | null {
+	if (!metadata || typeof metadata !== 'object') {
+		return null;
+	}
+
+	const search = (node: any): string | null => {
+		if (!node || typeof node !== 'object') {
+			return null;
+		}
+		if (Array.isArray(node)) {
+			for (const item of node) {
+				const found = search(item);
+				if (found) return found;
+			}
+			return null;
+		}
+		for (const value of Object.values(node)) {
+			if (typeof value === 'string' && TIME_ZONE_POLICIES.includes(value)) {
+				return value;
+			}
+			const found = search(value);
+			if (found) return found;
+		}
+		return null;
+	};
+
+	return search(metadata);
+}
+
+/**
+ * The timezone-offset policy a test requires, if it declares one. Read from the result's
+ * capabilities, which include those inherited from the enclosing group.
+ */
+function requiredTimeZonePolicy(result: InternalTestResult): string | undefined {
+	return result.capability?.find(c => c.code?.startsWith('timezone-offset-policy.'))?.code;
+}
+
+/**
+ * Substitutes the server's own offset for the `{{SERVER_OFFSET_ISO}}` placeholder that
+ * offset-dependent tests use, so one test can express the expectation for any server.
+ */
+function replaceServerOffsetPlaceholder(expression: string, serverOffsetISO: string): string {
+	return expression.replace(/\{\{SERVER_OFFSET_ISO\}\}/g, serverOffsetISO);
 }
 
 /**
@@ -130,7 +323,7 @@ export async function runTest(
 	result: InternalTestResult,
 	ctx: ExecutionContext
 ): Promise<InternalTestResult> {
-	const { config, cqlEngine, cvl, resultExtractor, skipMap, onlySet } = ctx;
+	const { config, cqlEngine, cvl, resultExtractor, skipMap, onlySet, activeTimeZonePolicy } = ctx;
 	const apiUrl = cqlEngine.apiUrl!;
 	const key = `${result.testsName}-${result.groupName}-${result.testName}`;
 
@@ -168,6 +361,24 @@ export async function runTest(
 		result.skipMessage = `Skipped: ${versionSkip}`;
 		logSkip(result);
 		return result;
+	}
+
+	// A test that declares a timezone-offset policy only has a defined answer under that
+	// policy, so it does not apply to a server following the other one.
+	const requiredPolicy = requiredTimeZonePolicy(result);
+	if (requiredPolicy !== undefined && requiredPolicy !== activeTimeZonePolicy) {
+		result.testStatus = 'skip';
+		result.skipMessage = `Skipped: requires ${requiredPolicy} but the server follows ${activeTimeZonePolicy}`;
+		logSkip(result);
+		return result;
+	}
+
+	// Resolve the offset placeholder before the request is built, so the expression that is
+	// sent and the expression recorded in the results are the same string. The request itself
+	// is built inside the try below, once any library-style test has been published.
+	const serverOffset = cqlEngine.SERVER_OFFSET_ISO;
+	if (typeof serverOffset === 'string' && serverOffset.trim() !== '') {
+		result.expression = replaceServerOffsetPlaceholder(result.expression, serverOffset);
 	}
 
 	let publishedLibrary: PublishedLibrary | undefined;

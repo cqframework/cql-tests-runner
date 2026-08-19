@@ -57,7 +57,9 @@ export function createConfigFromData(configData: any): ConfigLoader {
 	  cqlTranslator: process.env.CQL_TRANSLATOR || configData.Build?.cqlTranslator || 'No configuration provided',
 	  cqlTranslatorVersion: process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || 'No configuration provided',
 	  cqlEngine: process.env.CQL_ENGINE || configData.Build?.cqlEngine || 'No configuration provided',
-	  cqlEngineVersion: process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'No configuration provided'
+	  cqlEngineVersion: process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'No configuration provided',
+	  SERVER_OFFSET_ISO: process.env.SERVER_OFFSET_ISO || configData.Build?.SERVER_OFFSET_ISO || '+00:00',
+	  TimeZoneOffsetPolicy: process.env.TIME_ZONE_OFFSET_POLICY || configData.Build?.TimeZoneOffsetPolicy || '',
   };
 
   config.Tests = {
