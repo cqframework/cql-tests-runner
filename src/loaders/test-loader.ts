@@ -21,11 +21,16 @@ const parser = new XMLParser(options);
 export class TestLoader {
 	static load(): Tests[] {
 		const tests: Tests[] = [];
-		fs.readdirSync(testsPath).forEach(file => {
-			console.log('Loading tests from ' + file);
-			const testsContainer = parser.parse(fs.readFileSync(path.join(testsPath, file)));
-			tests.push(testsContainer.tests);
-		});
+		// Only .xml files hold test definitions. The tests directory also accumulates
+		// reference material (spec extracts, scratch files) and subdirectories, and handing
+		// any of those to the XML parser aborts the entire run rather than skipping the file.
+		fs.readdirSync(testsPath)
+			.filter(file => file.toLowerCase().endsWith('.xml'))
+			.forEach(file => {
+				console.log('Loading tests from ' + file);
+				const testsContainer = parser.parse(fs.readFileSync(path.join(testsPath, file)));
+				tests.push(testsContainer.tests);
+			});
 
 		return tests;
 	}
