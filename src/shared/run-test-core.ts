@@ -10,6 +10,7 @@ import { createConfigFromData } from '../server/config-utils.js';
 import { ValueMap } from '../extractors/value-map.js';
 import { resultsEqual } from './results-utils.js';
 import { formatActualValue } from '../test-results/cql-test-results.js';
+import { PublishedLibrary, publishTestLibrary } from './library-publisher.js';
 
 /**
  * Shared execution state for a test run: the resolved config, the engine, the CVL parser,
@@ -150,6 +151,14 @@ export async function runTest(
 		result.skipMessage = `Skipped by config: ${skipMap.get(key) || ''}`;
 		logSkip(result);
 		return result;
+	} else if (result.library !== undefined && config.FhirServer.CqlOperation !== '$evaluate') {
+		// A whole CQL library can only be evaluated via Library/$evaluate, which needs the
+		// library published first; $cql takes an expression and has no way to carry one.
+		result.testStatus = 'skip';
+		result.skipMessage =
+			'Library-style tests require a server configured for the Library/$evaluate operation';
+		logSkip(result);
+		return result;
 	}
 
 	// Version gating — applies to both the CLI and server paths.
@@ -161,10 +170,22 @@ export async function runTest(
 		return result;
 	}
 
-	const data = generateParametersResource(result, config.FhirServer.CqlOperation);
+	let publishedLibrary: PublishedLibrary | undefined;
 
 	try {
 		console.log('Running test %s:%s:%s', result.testsName, result.groupName, result.testName);
+
+		// A library-style test's CQL has to exist on the server before Library/$evaluate can
+		// resolve it by canonical url; it is removed again in the finally below.
+		if (result.library !== undefined) {
+			publishedLibrary = await publishTestLibrary(config.FhirServer.BaseUrl, result.library);
+		}
+
+		const data = generateParametersResource(
+			result,
+			config.FhirServer.CqlOperation,
+			publishedLibrary?.canonical
+		);
 
 		const response = await fetch(apiUrl, {
 			method: 'POST',
@@ -199,6 +220,10 @@ export async function runTest(
 			name: error.name || 'Error',
 			stack: error.stack,
 		};
+	} finally {
+		// Remove the library whether or not evaluation succeeded, so a failing test does not
+		// leave a resource behind on the server for the next run to trip over.
+		await publishedLibrary?.remove();
 	}
 
 	console.log(

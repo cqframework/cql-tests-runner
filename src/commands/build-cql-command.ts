@@ -43,6 +43,13 @@ export class BuildCommand {
 				testsName = r.testsName;
 			}
 
+			// Library-style tests carry their own complete CQL library and are sent to
+			// Library/$evaluate as an inline FHIR Library resource, so they are neither wrapped
+			// as a define here nor part of the generated library.
+			if (r.library !== undefined) {
+				continue;
+			}
+
 			if (r.invalid !== 'semantic') {
 				const defineVal = `define "${r.groupName}.${r.testName}": ${r.expression}`;
 				const key = `${r.testsName}-${r.groupName}-${r.testName}`;
