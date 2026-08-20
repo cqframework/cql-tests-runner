@@ -1,7 +1,7 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { XMLParser, type X2jOptions } from 'fast-xml-parser';
-import { Tests } from '../models/test-types.js';
+import type { Tests } from '../models/test-types.js';
 
 const testsPath = process.env.CQL_TESTS_PATH || 'cql-tests/tests/cql';
 

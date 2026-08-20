@@ -1,11 +1,14 @@
 {
     "name": "cql-tests-runner",
-    "version": "1.7.1",
+    "version": "1.8.0",
     "description": "Server API and command line tools for running CQL tests",
     "type": "module",
-    "main": "dist/bin/cql-tests.js",
+    "main": "./dist/bin/cql-tests.js",
     "bin": {
-        "cql-tests": "dist/bin/cql-tests.js"
+        "cql-tests": "./dist/bin/cql-tests.js"
+    },
+    "engines": {
+        "node": ">=26"
     },
     "scripts": {
         "build": "tsc && npm run copy-assets",
@@ -14,8 +17,8 @@
         "test": "vitest run test/",
         "test:cql": "node --import tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./results",
         "cql-run-tests:dev": "tsx src/bin/cql-tests.ts run-tests conf/development.json ./results",
-	    "cql-run-tests:local": "tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./local_results",
-    "cql-run-tests:local-evaluate": "tsx src/bin/cql-tests.ts run-tests conf/localhost-evaluate.json ./local_results",
+        "cql-run-tests:local": "tsx src/bin/cql-tests.ts run-tests conf/localhost.json ./local_results",
+        "cql-run-tests:local-evaluate": "tsx src/bin/cql-tests.ts run-tests conf/localhost-evaluate.json ./local_results",
         "build-libs": "npm run build && node dist/bin/cql-tests.js build-cql conf/localhost.json ./cql",
         "unit-tests": "vitest run test/",
         "clean": "rm -rf dist",
@@ -26,31 +29,30 @@
     "author": "",
     "license": "Apache-2.0",
     "dependencies": {
-        "@modelcontextprotocol/sdk": "^1.29.0",
-        "@types/uuid": "^11.0.0",
+        "@modelcontextprotocol/sdk": "^1.30.0",
         "antlr4": "4.13.2",
-        "axios": "^1.14.0",
+        "axios": "^1.19.0",
         "colors": "^1.4.0",
-        "commander": "^14.0.3",
-        "config": "^4.4.1",
+        "commander": "^15.0.0",
+        "config": "^5.0.1",
         "cors": "^2.8.6",
-        "date-fns": "^4.1.0",
+        "date-fns": "^4.4.0",
         "express": "^5.2.1",
-        "fast-xml-parser": "^5.5.9",
-        "uuid": "^13.0.0",
-        "zod": "^4.3.6",
-        "zod-from-json-schema": "^0.5.2"
+        "fast-xml-parser": "^5.11.0",
+        "uuid": "^14.0.2",
+        "zod": "^4.4.3",
+        "zod-from-json-schema": "^0.5.6"
     },
     "devDependencies": {
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.6",
-        "@types/fhir": "^0.0.41",
-        "@types/node": "^25.5.0",
-        "@types/supertest": "^7.2.0",
-        "prettier": "^3.8.1",
+        "@types/fhir": "^0.0.44",
+        "@types/node": "^26.2.0",
+        "@types/supertest": "^7.2.1",
+        "prettier": "^3.9.6",
         "supertest": "^7.2.2",
-        "tsx": "^4.21.0",
-        "typescript": "^6.0.2",
-        "vitest": "^4.1.2"
+        "tsx": "^4.23.12",
+        "typescript": "^7.0.2",
+        "vitest": "^4.1.11"
     }
 }

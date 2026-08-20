@@ -1,6 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { fileURLToPath } from 'url';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { z } from 'zod';
 import { convertJsonSchemaToZod } from 'zod-from-json-schema';
 
@@ -21,11 +20,8 @@ export class ConfigValidator {
 
 	private loadSchema(): void {
 		try {
-			// Use import.meta.url for ES modules
-			const __filename = fileURLToPath(import.meta.url);
-			const __dirname = path.dirname(__filename);
 			const schemaPath = path.join(
-				__dirname,
+				import.meta.dirname,
 				'../../assets/schema/cql-test-configuration.schema.json'
 			);
 			const schemaContent = fs.readFileSync(schemaPath, 'utf8');

@@ -1,7 +1,8 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { Config, SkipItem, OnlyItem } from '../models/config-types.js';
-import { ConfigValidator, ValidationError } from './config-validator.js';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import type { Config, SkipItem, OnlyItem } from '../models/config-types.js';
+import { ConfigValidator } from './config-validator.js';
+import type { ValidationError } from './config-validator.js';
 
 export class ConfigLoader implements Config {
 	FhirServer: {

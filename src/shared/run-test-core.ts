@@ -2,7 +2,7 @@ import { ConfigLoader } from '../conf/config-loader.js';
 import { CQLEngine } from '../cql-engine/cql-engine.js';
 import { TestLoader } from '../loaders/test-loader.js';
 import { generateParametersResource, responseIndicatesError } from './results-shared.js';
-import { InternalTestResult, Tests } from '../models/test-types.js';
+import type { InternalTestResult, Tests } from '../models/test-types.js';
 import { ServerConnectivity } from './server-connectivity.js';
 import { ResultExtractor } from '../extractors/result-extractor.js';
 import { buildExtractor } from '../server/extractor-builder.js';
@@ -10,7 +10,8 @@ import { createConfigFromData } from '../server/config-utils.js';
 import { ValueMap } from '../extractors/value-map.js';
 import { resultsEqual } from './results-utils.js';
 import { formatActualValue } from '../test-results/cql-test-results.js';
-import { PublishedLibrary, publishTestLibrary } from './library-publisher.js';
+import { publishTestLibrary } from './library-publisher.js';
+import type { PublishedLibrary } from './library-publisher.js';
 
 /**
  * Shared execution state for a test run: the resolved config, the engine, the CVL parser,

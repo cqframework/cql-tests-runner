@@ -1,5 +1,6 @@
-import express, { Request, Response, NextFunction } from 'express';
-import { Server } from 'http';
+import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import type { Server } from 'node:http';
 import cors from 'cors';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
