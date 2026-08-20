@@ -75,3 +75,84 @@ describe('Result capability normalization', () => {
 		expect(result.invalid).toBe('false');
 	});
 });
+
+describe('Result group capability merging', () => {
+	// A <capability> on the enclosing <group> applies to every test in it. 996 of the
+	// 1,016 groups in the suite declare one, and 1,670 tests declare none of their own —
+	// those tests reported no capabilities at all before the group's was carried through.
+	test('inherits the group capability when the test declares none', () => {
+		const result = new Result(
+			'CqlAggregateFunctionsTest',
+			'Count',
+			asTest({ name: 'CountNull', expression: 'Count({})', output: '0' }),
+			{ code: 'aggregate-functions', value: 'true' }
+		);
+
+		expect(result.capability).toStrictEqual([{ code: 'aggregate-functions', value: 'true' }]);
+	});
+
+	test('merges group and test capabilities, without duplicating a shared code', () => {
+		const result = new Result(
+			'CqlAggregateFunctionsTest',
+			'Product',
+			asTest({
+				name: 'ProductLong',
+				expression: 'Product({ 1L, 2L })',
+				output: '2L',
+				capability: [
+					{ code: 'aggregate-functions', value: 'true' },
+					{ code: 'system.long', value: 'true' },
+				],
+			}),
+			{ code: 'aggregate-functions', value: 'true' }
+		);
+
+		expect(result.capability).toStrictEqual([
+			{ code: 'aggregate-functions', value: 'true' },
+			{ code: 'system.long', value: 'true' },
+		]);
+	});
+
+	test("a test's own entry wins over the group's for the same code", () => {
+		const result = new Result(
+			'T',
+			'G',
+			asTest({
+				name: 'Override',
+				expression: '1',
+				output: '1',
+				capability: { code: 'interval-operators', value: 'false' },
+			}),
+			{ code: 'interval-operators', value: 'true' }
+		);
+
+		expect(result.capability).toStrictEqual([{ code: 'interval-operators', value: 'false' }]);
+	});
+
+	test('a single group <capability> is normalized like a test one', () => {
+		const asArray = new Result('T', 'G', asTest({ name: 'A', expression: '1', output: '1' }), [
+			{ code: 'list-operators', value: 'true' },
+		]);
+		const asObject = new Result('T', 'G', asTest({ name: 'A', expression: '1', output: '1' }), {
+			code: 'list-operators',
+			value: 'true',
+		});
+
+		expect(asObject.capability).toStrictEqual(asArray.capability);
+	});
+
+	test('no group capability leaves the test capability untouched', () => {
+		const result = new Result(
+			'T',
+			'G',
+			asTest({
+				name: 'A',
+				expression: '1',
+				output: '1',
+				capability: { code: 'arithmetic', value: 'true' },
+			})
+		);
+
+		expect(result.capability).toStrictEqual([{ code: 'arithmetic', value: 'true' }]);
+	});
+});

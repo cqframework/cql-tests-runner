@@ -1,6 +1,20 @@
 import type { Tests, Test, InternalTestResult, CapabilityKV } from '../models/test-types.js';
 import type { Parameters } from 'fhir/r4';
 
+/**
+ * The XML parser yields a bare object when an element declares exactly one <capability>
+ * and an array only for two or more, so both shapes have to be tolerated.
+ */
+function normalizeCapabilities(capability: CapabilityKV | CapabilityKV[] | undefined): CapabilityKV[] {
+	const declared = Array.isArray(capability)
+		? capability
+		: capability !== undefined && capability !== null
+			? [capability]
+			: [];
+
+	return declared.map(({ code, value }) => ({ code, value }));
+}
+
 export class Result implements InternalTestResult {
 	testStatus!: 'pass' | 'fail' | 'skip' | 'error';
 	skipMessage?: string;
@@ -22,7 +36,12 @@ export class Result implements InternalTestResult {
 	library?: string;
 	capability: CapabilityKV[] = [];
 
-	constructor(testsName: string, groupName: string, test: Test) {
+	constructor(
+		testsName: string,
+		groupName: string,
+		test: Test,
+		groupCapability?: CapabilityKV | CapabilityKV[]
+	) {
 		this.testsName = testsName;
 		this.groupName = groupName;
 		this.testName = test.name;
@@ -88,18 +107,21 @@ export class Result implements InternalTestResult {
 			this.skipMessage = 'No output specified';
 		}
 
-		// The XML parser yields a bare object when a test declares exactly one
-		// <capability> element, and an array only for two or more. Matching on
-		// Array.isArray alone therefore dropped the capability for every
-		// single-capability test — the large majority of the suite. Normalize to an
-		// array first.
-		const testCapabilities = Array.isArray(test.capability)
-			? test.capability
-			: test.capability !== undefined && test.capability !== null
-				? [test.capability]
-				: [];
+		// A <capability> on the enclosing <group> applies to every test in it, so the
+		// capabilities a test exercises are the union of its own and its group's. Most
+		// tests restate their group's capability, in which case the union is identical to
+		// the test's own; the ones that matter are those declaring none, which would
+		// otherwise report no capabilities at all. A test's own entry wins on a repeated
+		// code, since it is the more specific declaration.
+		const merged = new Map<string, CapabilityKV>();
+		for (const capability of normalizeCapabilities(groupCapability)) {
+			merged.set(capability.code, capability);
+		}
+		for (const capability of normalizeCapabilities(test.capability)) {
+			merged.set(capability.code, capability);
+		}
 
-		this.capability = testCapabilities.map(({ code, value }) => ({ code, value }));
+		this.capability = [...merged.values()];
 	}
 }
 
@@ -123,7 +145,7 @@ export async function generateEmptyResults(
 			if (test != undefined) {
 				for (const t of test) {
 					console.log('        Test: ' + t.name);
-					const r = new Result(ts.name, group.name, t);
+					const r = new Result(ts.name, group.name, t, group.capability);
 					results.push(r);
 					groupTests.push(r);
 				}
