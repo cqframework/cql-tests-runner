@@ -37,6 +37,12 @@ git submodule update --init --recursive
 
 Configuration settings are set in a JSON configuration file. The file `conf/localhost.json` provides a sample configuration.
 
+The authoritative definition of the configuration is the JSON Schema at
+[`assets/schema/cql-test-configuration.schema.json`](assets/schema/cql-test-configuration.schema.json).
+Configuration files are validated against it at load time, and it is also served over MCP as the
+`cql-test-configuration-schema` resource. The reference table below explains what each setting
+actually does; the schema is the place to look for the exact types and required fields.
+
 ```json
 {
   "FhirServer": {
@@ -46,7 +52,7 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
   "Build": {
     "CqlFileVersion": "1.0.000",
     "CqlOutputPath": "./cql",
-    "testsRunDescription": '',
+    "CqlVersion": "1.5",
     "testsRunDescription": "Local host test run",
     "cqlTranslator": "Java CQFramework Translator",
     "cqlTranslatorVersion": "Unknown",
@@ -62,6 +68,43 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
   }
 }
 ```
+
+#### Configuration Reference
+
+`FhirServer` — where and how tests are evaluated.
+
+| Setting | Required | Default | What it does |
+| --- | --- | --- | --- |
+| `BaseUrl` | yes | `https://cloud.alphora.com/sandbox/r4/cds/fhir` | Base URL of the FHIR server under test. A trailing slash is stripped on load. Combined with `CqlOperation` to form the request URL: `<BaseUrl>/$cql` or `<BaseUrl>/Library/$evaluate`. |
+| `CqlOperation` | yes | `$cql` | Which operation evaluates the tests. One of `$cql` (system-level) or `$evaluate` (`Library/$evaluate`). |
+| `ogBaseUrl` | no | — | Accepted by the schema and set in `conf/smile-cdr-local.json`, but **not read by any code**. Retained for backward compatibility; setting it has no effect. |
+
+`Build` — CQL generation settings, plus provenance recorded in the results report.
+
+| Setting | Required | Default | What it does |
+| --- | --- | --- | --- |
+| `CqlFileVersion` | yes | `1.0.000` | The version literal written into the `library` declaration of each `.cql` file produced by the `build-cql` command — `CqlFileVersion: "1.0.000"` yields `library CqlAggregateTest version '1.0.000'`. It has **no effect on running tests**, and is unrelated to the CQL language version (see `CqlVersion`). Only `build-cql` reads it. |
+| `CqlOutputPath` | yes | `./cql` | Directory `build-cql` writes generated `.cql` files to. The `build-cql` CLI output argument takes precedence. |
+| `CqlVersion` | no | `1.5` | The CQL language version the target engine implements. Drives version gating: tests carrying a `version`/`versionTo` outside this are skipped rather than run (for example the CQL 2.0 `Slice` tests are skipped against a 1.5 engine). |
+| `testsRunDescription` | no | — | Free-text label for the run, copied into the results report. |
+| `cqlTranslator` | no | `Unknown` | Name of the translator under test. Recorded in the results report only. |
+| `cqlTranslatorVersion` | no | `Unknown` | Version of the translator. Recorded in the results report only. |
+| `cqlEngine` | no | `Unknown` | Name of the engine under test. Recorded in the results report only. |
+| `cqlEngineVersion` | no | `Unknown` | Version of the engine. Recorded in the results report only. |
+
+`Tests` — which tests run and where results land.
+
+| Setting | Required | Default | What it does |
+| --- | --- | --- | --- |
+| `ResultsPath` | yes | `./results` | Directory the results JSON is written to. The CLI output argument takes precedence. |
+| `SkipList` | yes | `[]` | Tests to skip, each `{ testsName, groupName, testName, reason }`. Skipped tests appear in the results with status `skip` and the given reason. See below. |
+| `OnlyList` | no | `[]` | If non-empty, only these tests run and all others are skipped, each `{ testsName, groupName, testName }`. See below. |
+
+`Debug` — development aids.
+
+| Setting | Required | Default | What it does |
+| --- | --- | --- | --- |
+| `QuickTest` | yes | `false` | Smoke-test mode. When `true`, loading stops after the **first group of the first test file**, so only a handful of tests run. Use it to check connectivity to a server, not to assess conformance. Equivalent to the `--quick` CLI flag. |
 
 To skip tests, add entries to the `SkipList` with the corresponding `testsName`, `groupName`, `testName`, and `reason`.
 
@@ -192,9 +235,34 @@ export CQL_OPERATION=$cql
 export CQL_TESTS_PATH=cql-tests/tests/cql
 ```
 
-`CQL_TESTS_PATH` sets the directory the test loader reads test XML from, defaulting to
-`cql-tests/tests/cql`. Point it at another directory in the `cql-tests` submodule — for
-example `cql-tests/tests/connectathonTests` — to run a different suite without editing a
+Every environment variable below takes precedence over the corresponding value in the
+configuration file. An unset variable falls back to the file, and then to the default listed in
+the [Configuration Reference](#configuration-reference).
+
+| Environment variable | Overrides |
+| --- | --- |
+| `SERVER_BASE_URL` | `FhirServer.BaseUrl` |
+| `CQL_OPERATION` | `FhirServer.CqlOperation` |
+| `CQL_FILE_VERSION` | `Build.CqlFileVersion` |
+| `CQL_OUTPUT_PATH` | `Build.CqlOutputPath` |
+| `CQL_VERSION` | `Build.CqlVersion` |
+| `TESTS_RUN_DESCRIPTION` | `Build.testsRunDescription` |
+| `CQL_TRANSLATOR` | `Build.cqlTranslator` |
+| `CQL_TRANSLATOR_VERSION` | `Build.cqlTranslatorVersion` |
+| `CQL_ENGINE` | `Build.cqlEngine` |
+| `CQL_ENGINE_VERSION` | `Build.cqlEngineVersion` |
+| `RESULTS_PATH` | `Tests.ResultsPath` |
+| `SKIP_LIST` | `Tests.SkipList` — a JSON array string. If it fails to parse, a warning is logged and the value in the configuration file is used. |
+| `ONLY_LIST` | `Tests.OnlyList` — a JSON array string, same parse-failure behaviour as `SKIP_LIST`. |
+| `QUICK_TEST` | `Debug.QuickTest` — only the exact string `true` enables it; any other value is `false`. |
+
+There is no environment variable for `FhirServer.ogBaseUrl`, which is unused (see the
+[Configuration Reference](#configuration-reference)).
+
+`CQL_TESTS_PATH` is separate from the configuration file — it is read directly by the test loader
+and has no configuration-file equivalent. It sets the directory the loader reads test XML from,
+defaulting to `cql-tests/tests/cql`. Point it at another directory in the `cql-tests` submodule —
+for example `cql-tests/tests/connectathonTests` — to run a different suite without editing a
 configuration file.
 
 ### Development Environment
