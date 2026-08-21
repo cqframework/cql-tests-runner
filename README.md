@@ -367,3 +367,19 @@ flowchart LR
     D -.-> N1
     H -.-> N2
 ```
+
+### Version Management
+
+This repository uses simple [Github Flow](https://docs.github.com/en/get-started/using-github/github-flow) methodology to manage all changes.
+
+The main branch is always the latest development version, with releases marked on demand.
+
+While in development, the main branch will have a `-draft` appended to the version.
+
+To release:
+
+* Update the version in `package.json` to remove the `-draft` label
+* Create a github release with a version tag `v[X.Y.Z]` (e.g. `v1.0.0`)
+* Mark any issues fixed that were included in the release
+* Update the version in `package.json` to the next version (incrementing at least the minor version), including the `-draft` label
+
