@@ -11,7 +11,7 @@ const createMockConfig = (overrides = {}) => ({
     CqlOperation: '$cql',
   },
   Build: {
-    CqlFileVersion: '1.0.000',
+    CqlFileVersion: '1.0.0',
     CqlOutputPath: './cql',
   },
   Debug: {

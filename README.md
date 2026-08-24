@@ -50,7 +50,7 @@ actually does; the schema is the place to look for the exact types and required 
     "CqlOperation": "$cql"
   },
   "Build": {
-    "CqlFileVersion": "1.0.000",
+    "CqlFileVersion": "1.0.0",
     "CqlOutputPath": "./cql",
     "CqlVersion": "1.5",
     "testsRunDescription": "Local host test run",
@@ -83,14 +83,40 @@ actually does; the schema is the place to look for the exact types and required 
 
 | Setting | Required | Default | What it does |
 | --- | --- | --- | --- |
-| `CqlFileVersion` | yes | `1.0.000` | The version literal written into the `library` declaration of each `.cql` file produced by the `build-cql` command — `CqlFileVersion: "1.0.000"` yields `library CqlAggregateTest version '1.0.000'`. It has **no effect on running tests**, and is unrelated to the CQL language version (see `CqlVersion`). Only `build-cql` reads it. |
+| `CqlFileVersion` | yes | `1.0.0` | The version literal written into the `library` declaration of each `.cql` file produced by the `build-cql` command — `CqlFileVersion: "1.0.0"` yields `library CqlAggregateTest version '1.0.0'`. Use plain semantic versioning. It has **no effect on running tests**, and is unrelated to the CQL language version (see `CqlVersion`). Only `build-cql` reads it. |
 | `CqlOutputPath` | yes | `./cql` | Directory `build-cql` writes generated `.cql` files to. The `build-cql` CLI output argument takes precedence. |
-| `CqlVersion` | no | `1.5` | The CQL language version the target engine implements. Drives version gating: tests carrying a `version`/`versionTo` outside this are skipped rather than run (for example the CQL 2.0 `Slice` tests are skipped against a 1.5 engine). |
+| `CqlVersion` | no | `1.5` | The CQL language version the target engine implements. Drives version gating: tests carrying a `version`/`versionTo` outside this are skipped rather than run (for example the CQL 2.0 `Slice` tests are skipped against a 1.5 engine). Declared here, **not** detected from the server — see [Engine and version reporting](#engine-and-version-reporting). |
 | `testsRunDescription` | no | — | Free-text label for the run, copied into the results report. |
 | `cqlTranslator` | no | `Unknown` | Name of the translator under test. Recorded in the results report only. |
 | `cqlTranslatorVersion` | no | `Unknown` | Version of the translator. Recorded in the results report only. |
 | `cqlEngine` | no | `Unknown` | Name of the engine under test. Recorded in the results report only. |
 | `cqlEngineVersion` | no | `Unknown` | Version of the engine. Recorded in the results report only. |
+
+##### Engine and version reporting
+
+`CqlVersion`, `cqlTranslator`, `cqlTranslatorVersion`, `cqlEngine` and `cqlEngineVersion` are all
+**declared in the configuration file** — the runner does not discover them from the server under
+test. `CqlVersion` is the one with behavioural consequence (it drives version gating); the other
+four are provenance recorded in the results report. A wrong value is not detected, so keep them
+accurate for the server you are pointing at.
+
+The runner does not currently read the target server's `CapabilityStatement` for any of this.
+`CQLEngine.fetch()` will `GET {baseUrl}/metadata` and retain the response, but it is not called
+from anywhere and nothing parses versions out of it.
+
+Detection would also not help against the servers currently used: a `CapabilityStatement` has no
+element for a CQL language, translator or engine version, so a server would have to supply them by
+extension. HAPI FHIR 8.10.0 declares no such extension — it reports
+
+```json
+{ "fhirVersion": "4.0.1",
+  "software": { "name": "HAPI FHIR Server", "version": "8.10.0" } }
+```
+
+`software.version` is the **FHIR server** version, not the CQL engine version — reading it as one
+would silently record the wrong engine version and, if applied to `CqlVersion`, change which tests
+are gated. What a `CapabilityStatement` *does* declare is which operations a server supports
+(`$cql`, `Library/$evaluate`), which is useful for verifying `CqlOperation` before a run.
 
 `Tests` — which tests run and where results land.
 

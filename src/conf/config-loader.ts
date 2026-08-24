@@ -49,7 +49,7 @@ export class ConfigLoader implements Config {
 
 		this.Build = {
 			CqlFileVersion:
-				process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
+				process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.0',
 			CqlOutputPath:
 				process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
 			CqlVersion:

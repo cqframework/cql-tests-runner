@@ -4,7 +4,7 @@
 		"CqlOperation": "$cql"
 	},
 	"Build": {
-		"CqlFileVersion": "1.0.000",
+		"CqlFileVersion": "1.0.0",
 		"CqlOutputPath": "./cql",
 		"CqlVersion": "1.5",
 		"testsRunDescription": "JavaScript CQL Execution Framework local test run. See: https://github.com/cqframework/cql-execution",
