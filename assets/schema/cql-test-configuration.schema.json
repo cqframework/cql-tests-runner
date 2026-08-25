@@ -65,6 +65,38 @@
         "cqlEngineVersion": {
           "type": "string",
           "description": "Which version of the CQL engine is used in this test run"
+        },
+        "CapabilityVersionExtensions": {
+          "type": "object",
+          "description": "Extension urls under which the target server publishes its CQL implementation versions, read from its CapabilityStatement in preference to the values above. No extension for these is registered, so there is no default: omit this to use the configured values as-is.",
+          "properties": {
+            "cqlVersion": {
+              "type": "string",
+              "format": "uri",
+              "description": "Extension url carrying the CQL language version"
+            },
+            "cqlEngine": {
+              "type": "string",
+              "format": "uri",
+              "description": "Extension url carrying the CQL engine name"
+            },
+            "cqlEngineVersion": {
+              "type": "string",
+              "format": "uri",
+              "description": "Extension url carrying the CQL engine version"
+            },
+            "cqlTranslator": {
+              "type": "string",
+              "format": "uri",
+              "description": "Extension url carrying the CQL translator name"
+            },
+            "cqlTranslatorVersion": {
+              "type": "string",
+              "format": "uri",
+              "description": "Extension url carrying the CQL translator version"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "required": ["CqlFileVersion", "CqlOutputPath"],

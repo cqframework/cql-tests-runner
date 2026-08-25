@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import type { Config, SkipItem, OnlyItem } from '../models/config-types.js';
+import type { CapabilityVersionExtensions } from '../cql-engine/capability-statement.js';
 import { ConfigValidator } from './config-validator.js';
 import type { ValidationError } from './config-validator.js';
 
@@ -18,6 +19,7 @@ export class ConfigLoader implements Config {
 		cqlTranslatorVersion: string;
 		cqlEngine: string;
 		cqlEngineVersion: string;
+		CapabilityVersionExtensions?: CapabilityVersionExtensions;
 	};
 	Tests: {
 		ResultsPath: string;
@@ -50,7 +52,7 @@ export class ConfigLoader implements Config {
 
 		this.Build = {
 			CqlFileVersion:
-				process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
+				process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.0',
 			CqlOutputPath:
 				process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
 			CqlVersion:
@@ -63,8 +65,10 @@ export class ConfigLoader implements Config {
 				process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || 'Unknown',
 			cqlEngine:
 				process.env.CQL_ENGINE || configData.Build?.cqlEngine || 'Unknown',
-			cqlEngineVersion: 
-				process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown'
+			cqlEngineVersion:
+				process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown',
+			// No default: with no configured urls nothing is read from the CapabilityStatement.
+			CapabilityVersionExtensions: configData.Build?.CapabilityVersionExtensions
 		};
 
 		this.Tests = {

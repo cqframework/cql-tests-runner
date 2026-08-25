@@ -1,3 +1,5 @@
+import type { CapabilityVersionExtensions } from '../cql-engine/capability-statement.js';
+
 export interface SkipItem {
 	testsName: string;
 	groupName: string;
@@ -27,6 +29,12 @@ export interface Config {
 		cqlTranslatorVersion?: string;
 		cqlEngine?: string;
 		cqlEngineVersion?: string;
+		/**
+		 * Extension urls under which the target server publishes its CQL implementation versions,
+		 * keyed by the value they carry. No extension for these is registered, so there is no
+		 * default: unset means the configured version values above are used as-is.
+		 */
+		CapabilityVersionExtensions?: CapabilityVersionExtensions;
 	};
 	Tests: {
 		ResultsPath: string;
