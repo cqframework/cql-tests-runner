@@ -47,7 +47,7 @@ export class TestExecutionService {
 				for (const test of group.test) {
 					if (test.name !== testName) continue;
 
-					const result = new Result(testsName, groupName, test);
+					const result = new Result(testsName, groupName, test, group.capability);
 					await runTest(result, ctx);
 
 					const testResults = new CQLTestResults(ctx.cqlEngine);
@@ -72,7 +72,7 @@ export class TestExecutionService {
 			for (const group of testSuite.group) {
 				if (group.name !== groupName || !group.test) continue;
 				for (const test of group.test) {
-					const result = new Result(testsName, groupName, test);
+					const result = new Result(testsName, groupName, test, group.capability);
 					await runTest(result, ctx);
 					results.add(result);
 				}
