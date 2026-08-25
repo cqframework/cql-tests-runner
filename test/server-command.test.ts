@@ -116,6 +116,10 @@ vi.mock('../src/cql-engine/cql-engine', () => ({
   CQLEngine: vi.fn().mockImplementation(function (this: any) {
     this.apiUrl = 'http://localhost:8080/fhir/$cql';
     this.cqlVersion = '1.5';
+    // No CapabilityStatement: version resolution falls back to the configured values, which is
+    // also what happens against a server that cannot be queried.
+    this.fetch = vi.fn().mockResolvedValue(undefined);
+    this.capabilityStatement = undefined;
     return this;
   }),
 }));

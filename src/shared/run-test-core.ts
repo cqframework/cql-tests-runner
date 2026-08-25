@@ -11,6 +11,12 @@ import { ValueMap } from '../extractors/value-map.js';
 import { resultsEqual } from './results-utils.js';
 import { formatActualValue } from '../test-results/cql-test-results.js';
 import { PublishedLibrary, publishTestLibrary } from './library-publisher.js';
+import {
+	declaresOperation,
+	readCqlVersions,
+	readServerSoftware,
+	resolveValue,
+} from '../cql-engine/capability-statement.js';
 
 /**
  * Shared execution state for a test run: the resolved config, the engine, the CVL parser,
@@ -49,7 +55,10 @@ export async function createExecutionContext(configData: any): Promise<Execution
 		build?.cqlEngine ?? '',
 		build?.cqlEngineVersion ?? ''
 	);
-	cqlEngine.cqlVersion = config.Build?.CqlVersion || '1.5';
+	// Prefer what the server declares about its CQL implementation, falling back to the configured
+	// values. Versions are not standardised in a CapabilityStatement, so in practice most runs fall
+	// back to config; the source of each value is logged so a report is never ambiguous about it.
+	await applyEngineVersions(cqlEngine, config);
 
 	// @ts-expect-error - cvl.mjs has no declaration file
 	const cvlModule = await import('../../cvl/cvl.mjs');
@@ -61,6 +70,74 @@ export async function createExecutionContext(configData: any): Promise<Execution
 	const onlySet = config.onlyListSet();
 
 	return { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet };
+}
+
+/**
+ * Resolves the engine/translator/CQL versions onto `cqlEngine`, preferring values the server
+ * declares in its CapabilityStatement and falling back to the configuration file for anything it
+ * does not declare. Also checks that the configured operation is one the server advertises.
+ *
+ * Nothing here fails a run: an unreachable or uninformative CapabilityStatement leaves every value
+ * at its configured setting, which is the behaviour from before detection existed.
+ */
+async function applyEngineVersions(cqlEngine: CQLEngine, config: ConfigLoader): Promise<void> {
+	const build = config.Build;
+	const capabilityStatement = await cqlEngine.fetch();
+	const declared = readCqlVersions(capabilityStatement, build?.CapabilityVersionExtensions);
+
+	const resolved = {
+		cqlVersion: resolveValue(declared.cqlVersion, build?.CqlVersion || '1.5'),
+		cqlEngine: resolveValue(declared.cqlEngine, build?.cqlEngine),
+		cqlEngineVersion: resolveValue(declared.cqlEngineVersion, build?.cqlEngineVersion),
+		cqlTranslator: resolveValue(declared.cqlTranslator, build?.cqlTranslator),
+		cqlTranslatorVersion: resolveValue(
+			declared.cqlTranslatorVersion,
+			build?.cqlTranslatorVersion
+		),
+	};
+
+	cqlEngine.cqlVersion = resolved.cqlVersion.value;
+	cqlEngine.cqlEngine = resolved.cqlEngine.value;
+	cqlEngine.cqlEngineVersion = resolved.cqlEngineVersion.value;
+	cqlEngine.cqlTranslator = resolved.cqlTranslator.value;
+	cqlEngine.cqlTranslatorVersion = resolved.cqlTranslatorVersion.value;
+
+	const fromServer = Object.entries(resolved)
+		.filter(([, r]) => r.source === 'capability-statement')
+		.map(([field, r]) => `${field}=${r.value}`);
+	if (fromServer.length > 0) {
+		console.log(`Versions declared by the server: ${fromServer.join(', ')}`);
+	} else if (capabilityStatement !== undefined) {
+		// Distinguish "asked and the server said nothing" from "never asked", so a missing
+		// Build.CapabilityVersionExtensions does not look like a silent server.
+		const configuredAny =
+			Object.values(build?.CapabilityVersionExtensions ?? {}).filter(
+				url => typeof url === 'string' && url.trim() !== ''
+			).length > 0;
+		console.log(
+			configuredAny
+				? 'The server declares none of the configured version extensions; using the configured values.'
+				: 'No Build.CapabilityVersionExtensions configured; using the configured version values.'
+		);
+	}
+
+	// The FHIR server's own software is not the CQL engine's identity, so it is reported alongside
+	// rather than substituted for it.
+	const software = readServerSoftware(capabilityStatement);
+	if (software.name !== undefined || software.version !== undefined) {
+		console.log(
+			`FHIR server software: ${software.name ?? 'unknown'} ${software.version ?? ''}`.trim() +
+				(software.fhirVersion !== undefined ? ` (FHIR ${software.fhirVersion})` : '')
+		);
+	}
+
+	const operation = config.FhirServer.CqlOperation;
+	const supported = declaresOperation(capabilityStatement, operation);
+	if (supported === false) {
+		console.warn(
+			`The server's CapabilityStatement does not declare the ${operation} operation this run is configured to use; tests are likely to fail.`
+		);
+	}
 }
 
 /**

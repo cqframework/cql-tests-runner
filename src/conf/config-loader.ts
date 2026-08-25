@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Config, SkipItem, OnlyItem } from '../models/config-types.js';
+import type { CapabilityVersionExtensions } from '../cql-engine/capability-statement.js';
 import { ConfigValidator, ValidationError } from './config-validator.js';
 
 export class ConfigLoader implements Config {
@@ -17,6 +18,7 @@ export class ConfigLoader implements Config {
 		cqlTranslatorVersion: string;
 		cqlEngine: string;
 		cqlEngineVersion: string;
+		CapabilityVersionExtensions?: CapabilityVersionExtensions;
 	};
 	Tests: {
 		ResultsPath: string;
@@ -62,8 +64,10 @@ export class ConfigLoader implements Config {
 				process.env.CQL_TRANSLATOR_VERSION || configData.Build?.cqlTranslatorVersion || 'Unknown',
 			cqlEngine:
 				process.env.CQL_ENGINE || configData.Build?.cqlEngine || 'Unknown',
-			cqlEngineVersion: 
-				process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown'
+			cqlEngineVersion:
+				process.env.CQL_ENGINE_VERSION || configData.Build?.cqlEngineVersion || 'Unknown',
+			// No default: with no configured urls nothing is read from the CapabilityStatement.
+			CapabilityVersionExtensions: configData.Build?.CapabilityVersionExtensions
 		};
 
 		this.Tests = {

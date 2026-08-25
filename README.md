@@ -85,38 +85,72 @@ actually does; the schema is the place to look for the exact types and required 
 | --- | --- | --- | --- |
 | `CqlFileVersion` | yes | `1.0.0` | The version literal written into the `library` declaration of each `.cql` file produced by the `build-cql` command — `CqlFileVersion: "1.0.0"` yields `library CqlAggregateTest version '1.0.0'`. Use plain semantic versioning. It has **no effect on running tests**, and is unrelated to the CQL language version (see `CqlVersion`). Only `build-cql` reads it. |
 | `CqlOutputPath` | yes | `./cql` | Directory `build-cql` writes generated `.cql` files to. The `build-cql` CLI output argument takes precedence. |
-| `CqlVersion` | no | `1.5` | The CQL language version the target engine implements. Drives version gating: tests carrying a `version`/`versionTo` outside this are skipped rather than run (for example the CQL 2.0 `Slice` tests are skipped against a 1.5 engine). Declared here, **not** detected from the server — see [Engine and version reporting](#engine-and-version-reporting). |
+| `CqlVersion` | no | `1.5` | The CQL language version the target engine implements. Drives version gating: tests carrying a `version`/`versionTo` outside this are skipped rather than run (for example the CQL 2.0 `Slice` tests are skipped against a 1.5 engine). Used unless `CapabilityVersionExtensions` is configured and the server declares a CQL version — see [Engine and version reporting](#engine-and-version-reporting). |
 | `testsRunDescription` | no | — | Free-text label for the run, copied into the results report. |
 | `cqlTranslator` | no | `Unknown` | Name of the translator under test. Recorded in the results report only. |
 | `cqlTranslatorVersion` | no | `Unknown` | Version of the translator. Recorded in the results report only. |
 | `cqlEngine` | no | `Unknown` | Name of the engine under test. Recorded in the results report only. |
 | `cqlEngineVersion` | no | `Unknown` | Version of the engine. Recorded in the results report only. |
+| `CapabilityVersionExtensions` | no | — | Extension urls under which the target server publishes the five values above, so they can be read from its `CapabilityStatement` instead of taken from here. No such extension is registered, so there is no default and detection is off unless configured — see [Engine and version reporting](#engine-and-version-reporting). |
 
 ##### Engine and version reporting
 
-`CqlVersion`, `cqlTranslator`, `cqlTranslatorVersion`, `cqlEngine` and `cqlEngineVersion` are all
-**declared in the configuration file** — the runner does not discover them from the server under
-test. `CqlVersion` is the one with behavioural consequence (it drives version gating); the other
-four are provenance recorded in the results report. A wrong value is not detected, so keep them
-accurate for the server you are pointing at.
+At the start of a run the runner reads the target server's `CapabilityStatement` from
+`{BaseUrl}/metadata`. Where the server declares a value about its own CQL implementation, that is
+preferred; anything it does not declare falls back to the configuration file, so these settings
+remain the effective source for most servers. Which source was used is logged.
 
-The runner does not currently read the target server's `CapabilityStatement` for any of this.
-`CQLEngine.fetch()` will `GET {baseUrl}/metadata` and retain the response, but it is not called
-from anywhere and nothing parses versions out of it.
+`CqlVersion` is the one with behavioural consequence — it drives version gating. The other four
+(`cqlTranslator`, `cqlTranslatorVersion`, `cqlEngine`, `cqlEngineVersion`) are provenance recorded
+in the results report. A wrong configured value is not detected, so keep them accurate for the
+server you are pointing at.
 
-Detection would also not help against the servers currently used: a `CapabilityStatement` has no
-element for a CQL language, translator or engine version, so a server would have to supply them by
-extension. HAPI FHIR 8.10.0 declares no such extension — it reports
+**In practice, expect the fallback.** A `CapabilityStatement` has no element for a CQL language,
+translator or engine version, and **no extension for them is registered** — HL7's guidance is that a
+server documents its expression-language capabilities in the statement's narrative text rather than
+computably. Because there is no url to rely on, the runner guesses at none. Version detection is
+therefore opt-in: point `Build.CapabilityVersionExtensions` at the extension urls your server
+actually publishes.
+
+```jsonc
+"Build": {
+  "CqlVersion": "1.5",
+  "cqlEngineVersion": "4.1.0",
+  // Only needed for a server that publishes these; omit it otherwise.
+  "CapabilityVersionExtensions": {
+    "cqlVersion": "http://example.org/fhir/StructureDefinition/our-cql-version",
+    "cqlEngineVersion": "http://example.org/fhir/StructureDefinition/our-engine-version"
+  }
+}
+```
+
+Each key is optional, and any of `cqlVersion`, `cqlEngine`, `cqlEngineVersion`, `cqlTranslator` and
+`cqlTranslatorVersion` may be given a url. A url is looked for on the `CapabilityStatement` itself
+and on its `rest` entry, taking `valueString` or `valueCode`; a field with no configured url is never
+looked up. With the setting omitted the run logs
+
+```
+No Build.CapabilityVersionExtensions configured; using the configured version values.
+```
+
+which is the expected outcome against current servers. HAPI FHIR 8.10.0, for example, reports only
 
 ```json
 { "fhirVersion": "4.0.1",
   "software": { "name": "HAPI FHIR Server", "version": "8.10.0" } }
 ```
 
-`software.version` is the **FHIR server** version, not the CQL engine version — reading it as one
-would silently record the wrong engine version and, if applied to `CqlVersion`, change which tests
-are gated. What a `CapabilityStatement` *does* declare is which operations a server supports
-(`$cql`, `Library/$evaluate`), which is useful for verifying `CqlOperation` before a run.
+`software.name`/`software.version` are reported separately as **FHIR server** provenance and are
+deliberately never used as the CQL engine's identity: the FHIR server (HAPI 8.10.0) is a different
+product from the CQL engine it hosts (for example the CQF engine 4.1.0). Substituting one for the
+other would record a wrong engine version and, if applied to `CqlVersion`, change which tests are
+gated.
+
+What a `CapabilityStatement` *does* declare reliably is which operations a server supports, so the
+runner also checks that the configured `CqlOperation` is advertised — the system-level `$cql`
+operation, or `$evaluate` on the `Library` resource — and warns before running roughly 1800 tests
+against a server that does not offer it. A server that cannot be reached, or that declares no
+operations at all, is not treated as a failure: the run proceeds on the configured values.
 
 `Tests` — which tests run and where results land.
 

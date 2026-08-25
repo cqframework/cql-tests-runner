@@ -101,23 +101,44 @@ export class CQLEngine {
   }
 
   /**
-   * Fetches metadata from the CQL engine.
-   * @param force - Whether to force fetching metadata.
-   * @returns A Promise that resolves when metadata is fetched.
+   * Fetches the server's CapabilityStatement from `{baseURL}/metadata` and caches it.
+   *
+   * A server that cannot be queried is not an error: version reporting falls back to the
+   * configured values, so the run proceeds with a warning rather than failing.
+   *
+   * @param force - Re-fetch even if a statement is already cached.
+   * @returns The CapabilityStatement, or undefined when it could not be retrieved.
    */
-  async fetch(force: boolean = false): Promise<void> {
-    if (this.baseURL) {
-      if (!this.metadata || force) {
-        try {
-          const response: AxiosResponse = await axios.get(`${this.baseURL}/metadata`);
-          if (response?.data) {
-            this.metadata = response.data;
-          }
-        } catch (e) {
-          console.error(e);
-        }
-      }
+  async fetch(force: boolean = false): Promise<any | undefined> {
+    if (!this.baseURL) {
+      return undefined;
     }
+    if (this.metadata && !force) {
+      return this.metadata;
+    }
+    try {
+      const response: AxiosResponse = await axios.get(`${this.baseURL}/metadata`, {
+        headers: { Accept: 'application/fhir+json, application/json' },
+        timeout: 10000,
+      });
+      if (response?.data?.resourceType === 'CapabilityStatement') {
+        this.metadata = response.data;
+      } else if (response?.data) {
+        console.warn(
+          `Response from ${this.baseURL}/metadata is not a CapabilityStatement; ignoring it.`
+        );
+      }
+    } catch (e: any) {
+      console.warn(
+        `Could not read the CapabilityStatement from ${this.baseURL}/metadata: ${e?.message ?? e}`
+      );
+    }
+    return this.metadata;
+  }
+
+  /** The cached CapabilityStatement, if one has been fetched. */
+  get capabilityStatement(): any | undefined {
+    return this.metadata;
   }
 
 	/**
