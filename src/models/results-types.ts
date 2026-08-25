@@ -1,4 +1,4 @@
-import { TestResult } from './test-types.js';
+import type { TestResult } from './test-types.js';
 
 export interface TestResultsSummary {
 	pass: number;

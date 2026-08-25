@@ -4,18 +4,14 @@ import { Command } from 'commander';
 import { BuildCommand } from '../commands/build-cql-command.js';
 import { RunCommand } from '../commands/run-tests-command.js';
 import { ServerCommand } from '../commands/server-command.js';
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 const program = new Command();
 
-// Read package.json to get version
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 // Find package.json by walking up the directory tree
-let packageJsonPath = path.join(__dirname, 'package.json');
-let currentDir = __dirname;
+let packageJsonPath = path.join(import.meta.dirname, 'package.json');
+let currentDir = import.meta.dirname;
 while (!fs.existsSync(packageJsonPath) && currentDir !== path.dirname(currentDir)) {
 	currentDir = path.dirname(currentDir);
 	packageJsonPath = path.join(currentDir, 'package.json');

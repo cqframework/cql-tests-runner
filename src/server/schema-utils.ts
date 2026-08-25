@@ -1,5 +1,4 @@
-import * as path from 'path';
-import { fileURLToPath } from 'url';
+import * as path from 'node:path';
 
 /**
  * Gets the file path for a JSON schema file
@@ -8,16 +7,13 @@ import { fileURLToPath } from 'url';
  */
 export function getSchemaPath(schemaName: string): string | null {
   try {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-
     if (schemaName === 'cql-test-configuration') {
       return path.join(
-        __dirname,
+        import.meta.dirname,
         '../../assets/schema/cql-test-configuration.schema.json'
       );
     } else if (schemaName === 'cql-test-results') {
-      return path.join(__dirname, '../../assets/schema/cql-test-results.schema.json');
+      return path.join(import.meta.dirname, '../../assets/schema/cql-test-results.schema.json');
     }
     return null;
   } catch {

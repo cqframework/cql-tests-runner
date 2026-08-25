@@ -1,22 +1,23 @@
 {
 	"compilerOptions": {
-		"target": "ES2022",
-		"module": "ESNext",
-		"lib": ["ES2022"],
+		"target": "ES2025",
+		"lib": ["ES2025"],
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"types": ["node"],
 		"outDir": "./dist",
+		"rootDir": "./src",
 		"strict": true,
-		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
 		"resolveJsonModule": true,
-		"moduleResolution": "bundler",
-		"allowSyntheticDefaultImports": true,
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
-		"rootDir": "./src"
+		"verbatimModuleSyntax": true,
+		"paths": {
+			"fhir/r4": ["./node_modules/@types/fhir/r4.d.ts"]
+		}
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules", "dist", "cvl", "cql-tests", "results", "cql"]

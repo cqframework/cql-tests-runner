@@ -2,13 +2,11 @@
 
 import { describe, it, expect, beforeEach } from 'vitest';
 import { ResultsValidator } from '../src/conf/results-validator.js';
-import * as fs from 'fs';
-import * as path from 'path';
-import { fileURLToPath } from 'url';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 // Helper to get test data directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = import.meta.dirname;
 
 describe('ResultsValidator', () => {
   let validator: ResultsValidator;

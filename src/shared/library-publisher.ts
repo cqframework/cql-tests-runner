@@ -1,4 +1,4 @@
-import { Library } from 'fhir/r4';
+import type { Library } from 'fhir/r4';
 
 /**
  * A library-style test's CQL, published to the server as a FHIR Library resource so that

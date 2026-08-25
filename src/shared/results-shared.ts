@@ -1,5 +1,5 @@
-import { Tests, Test, InternalTestResult, CapabilityKV } from '../models/test-types.js';
-import { Parameters } from 'fhir/r4';
+import type { Tests, Test, InternalTestResult, CapabilityKV } from '../models/test-types.js';
+import type { Parameters } from 'fhir/r4';
 
 export class Result implements InternalTestResult {
 	testStatus!: 'pass' | 'fail' | 'skip' | 'error';

@@ -44,8 +44,8 @@ export class JobProcessor {
 	}
 
 	private async loadJobRequest(jobId: string): Promise<any> {
-		const { promises: fs } = await import('fs');
-		const { join } = await import('path');
+		const { promises: fs } = await import('node:fs');
+		const { join } = await import('node:path');
 
 		try {
 			const filePath = join('./jobs', `${jobId}.request.json`);

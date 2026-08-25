@@ -1,5 +1,6 @@
-import express, { Request, Response } from 'express';
-import * as fs from 'fs';
+import express from 'express';
+import type { Request, Response } from 'express';
+import * as fs from 'node:fs';
 import { ConfigValidator } from '../conf/config-validator.js';
 import { ResultsValidator } from '../conf/results-validator.js';
 import { JobManager } from '../jobs/job-manager.js';

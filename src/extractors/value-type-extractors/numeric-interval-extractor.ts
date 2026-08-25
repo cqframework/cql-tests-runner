@@ -1,11 +1,10 @@
 import { BaseExtractor } from '../base-extractor.js';
 import {
-	IntervalMeta,
-	IntervalPointType,
 	declaredCqlType,
 	numericIntervalPointTypeOf,
 	setIntervalMeta,
 } from '../../shared/interval-utils.js';
+import type { IntervalMeta, IntervalPointType } from '../../shared/interval-utils.js';
 
 const PRECISION_URL = 'http://hl7.org/fhir/StructureDefinition/quantity-precision';
 

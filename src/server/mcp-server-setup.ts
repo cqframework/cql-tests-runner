@@ -2,7 +2,7 @@ import { McpServer, ResourceTemplate } from '@modelcontextprotocol/sdk/server/mc
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { z } from 'zod';
 import type { ReadResourceTemplateCallback } from '@modelcontextprotocol/sdk/server/mcp.js';
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import { TestLoader } from '../loaders/test-loader.js';
 import { ConfigValidator } from '../conf/config-validator.js';
 import { ResultsValidator } from '../conf/results-validator.js';

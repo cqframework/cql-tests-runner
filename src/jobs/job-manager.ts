@@ -1,9 +1,9 @@
 // Author: Preston Lee
 
 import { v4 as uuidv4 } from 'uuid';
-import { promises as fs } from 'fs';
-import { join } from 'path';
-import { JobStatus, JobRequest, JobResponse } from '../models/job-types.js';
+import { promises as fs } from 'node:fs';
+import { join } from 'node:path';
+import type { JobStatus, JobRequest, JobResponse } from '../models/job-types.js';
 
 export class JobManager {
 	private jobsDir: string;

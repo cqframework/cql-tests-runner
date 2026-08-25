@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 export interface ConnectivityResult {
 	isAccessible: boolean;
 	error?: string;
@@ -17,11 +20,8 @@ export class ServerConnectivityError extends Error {
 export class ServerConnectivity {
 	private static getVersion(): string {
 		try {
-			// Use dynamic import for ES modules
-			const fs = require('fs');
-			const path = require('path');
 			const packageJson = JSON.parse(
-				fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8')
+				readFileSync(join(process.cwd(), 'package.json'), 'utf8')
 			);
 			return packageJson.version || '1.0.0';
 		} catch {
