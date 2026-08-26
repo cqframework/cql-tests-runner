@@ -1,9 +1,10 @@
 /**
- * Shared helpers for numeric interval handling (FHIR-56226).
+ * Shared helpers for numeric interval and uncertainty-range handling.
  *
  * Numeric intervals (Interval<Integer|Long|Decimal>) are mapped to FHIR Range with
  * unity-coded Quantity boundaries carrying a quantity-precision extension. The
- * extractor records that precision (and the CQL point type) as metadata on the
+ * same Range shape may serialize the uncertainty of a numeric scalar result. The
+ * extractor records boundary precision and the CQL point type as metadata on the
  * extracted interval object so the comparison can equate open and closed boundary
  * forms. The metadata lives under a Symbol key and is non-enumerable, so it is
  * invisible to Object.keys-based structural comparison and JSON serialization.
@@ -69,20 +70,20 @@ export function declaredCqlType(parameter: any): string | undefined {
 		: undefined;
 }
 
+const NUMERIC_POINT_TYPE = /^(?:System\.)?(Integer|Long|Decimal)$/;
 const NUMERIC_INTERVAL_TYPE = /^Interval<(?:System\.)?(Integer|Long|Decimal)>$/;
 const LIST_TYPE = /^List<(.+)>$/;
 
 /**
- * The CQL point type named by a numeric interval type string
- * (`Interval<Integer|Long|Decimal>` or `List<Interval<Integer|Long|Decimal>>`,
- * `System.` prefix optional), or `undefined` for any other type string. Only one direct
- * `List` wrapper is unwrapped; nested lists are not numeric interval elements at this
- * level.
+ * The point type named by a numeric CQL type string representing an interval or an
+ * uncertainty range. Accepts numeric scalar and interval types, optionally wrapped in
+ * one direct `List` and with an optional `System.` prefix. Nested lists are not numeric
+ * range elements at this level.
  */
 export function numericIntervalPointTypeOf(typeString: string): IntervalPointType | undefined {
 	const listMatch = LIST_TYPE.exec(typeString);
-	const intervalType = listMatch === null ? typeString : listMatch[1];
-	const match = NUMERIC_INTERVAL_TYPE.exec(intervalType);
+	const elementType = listMatch === null ? typeString : listMatch[1];
+	const match = NUMERIC_POINT_TYPE.exec(elementType) ?? NUMERIC_INTERVAL_TYPE.exec(elementType);
 	return match === null ? undefined : (match[1] as IntervalPointType);
 }
 
