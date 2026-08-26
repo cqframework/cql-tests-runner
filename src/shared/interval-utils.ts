@@ -70,14 +70,19 @@ export function declaredCqlType(parameter: any): string | undefined {
 }
 
 const NUMERIC_INTERVAL_TYPE = /^Interval<(?:System\.)?(Integer|Long|Decimal)>$/;
+const LIST_TYPE = /^List<(.+)>$/;
 
 /**
  * The CQL point type named by a numeric interval type string
- * (`Interval<Integer|Long|Decimal>`, `System.` prefix optional), or `undefined` for any
- * other type string.
+ * (`Interval<Integer|Long|Decimal>` or `List<Interval<Integer|Long|Decimal>>`,
+ * `System.` prefix optional), or `undefined` for any other type string. Only one direct
+ * `List` wrapper is unwrapped; nested lists are not numeric interval elements at this
+ * level.
  */
 export function numericIntervalPointTypeOf(typeString: string): IntervalPointType | undefined {
-	const match = NUMERIC_INTERVAL_TYPE.exec(typeString);
+	const listMatch = LIST_TYPE.exec(typeString);
+	const intervalType = listMatch === null ? typeString : listMatch[1];
+	const match = NUMERIC_INTERVAL_TYPE.exec(intervalType);
 	return match === null ? undefined : (match[1] as IntervalPointType);
 }
 

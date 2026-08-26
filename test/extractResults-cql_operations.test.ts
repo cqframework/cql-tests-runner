@@ -3,7 +3,7 @@ import { beforeAll, expect, test } from 'vitest';
 import { ResultExtractor } from '../src/extractors/result-extractor.js';
 import { ValueMap } from '../src/extractors/value-map.js';
 import { buildExtractor } from '../src/server/extractor-builder.js';
-import { getIntervalMeta } from '../src/shared/interval-utils.js';
+import { getIntervalMeta, numericIntervalPointTypeOf } from '../src/shared/interval-utils.js';
 
 const CQL_TYPE_URL = 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType';
 const PRECISION_URL = 'http://hl7.org/fhir/StructureDefinition/quantity-precision';
@@ -842,6 +842,15 @@ test('nested list of integers response check', () => {
 
 // Numeric intervals mapped to Range with unity-coded boundaries (FHIR-56226)
 
+test('numeric interval point types support one direct List wrapper', () => {
+	expect(numericIntervalPointTypeOf('List<Interval<System.Integer>>')).toBe('Integer');
+	expect(numericIntervalPointTypeOf('List<Interval<Decimal>>')).toBe('Decimal');
+	expect(numericIntervalPointTypeOf('List<Interval<System.Long>>')).toBe('Long');
+	expect(numericIntervalPointTypeOf('List<Interval<System.Quantity>>')).toBeUndefined();
+	expect(numericIntervalPointTypeOf('List<List<Interval<System.Integer>>>')).toBeUndefined();
+	expect(numericIntervalPointTypeOf('List<Interval<System.Integer>')).toBeUndefined();
+});
+
 test('decimal interval response check (precision extension on the quantity)', () => {
 	const result = extractRange(
 		{
@@ -906,6 +915,54 @@ test('integer interval response check (typed by the cqlType extension)', () => {
 	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Integer' });
 });
 
+test('singleton list of integer intervals extracts numeric boundaries and precision', () => {
+	const result = extractor!.extract(
+		{
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [
+						{ url: CQL_TYPE_URL, valueString: 'List<Interval<System.Integer>>' },
+					],
+					valueRange: {
+						low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+						high: { value: 19, system: UCUM_SYSTEM, code: '1' },
+					},
+				},
+			],
+		},
+		{ singletonListKeys: new Set(['return']) }
+	);
+
+	expect(result).toStrictEqual([{ lowClosed: true, low: 1, highClosed: true, high: 19 }]);
+	expect(getIntervalMeta(result[0])).toStrictEqual({ pointType: 'Integer' });
+});
+
+test('repeated list interval parameters each extract as numeric intervals', () => {
+	const rangeParameter = (low: number, high: number) => ({
+		name: 'return',
+		extension: [{ url: CQL_TYPE_URL, valueString: 'List<Interval<System.Integer>>' }],
+		valueRange: {
+			low: { value: low, system: UCUM_SYSTEM, code: '1' },
+			high: { value: high, system: UCUM_SYSTEM, code: '1' },
+		},
+	});
+	const result = extractor!.extract({
+		resourceType: 'Parameters',
+		parameter: [rangeParameter(1, 3), rangeParameter(5, 8)],
+	});
+
+	expect(result).toStrictEqual([
+		{ lowClosed: true, low: 1, highClosed: true, high: 3 },
+		{ lowClosed: true, low: 5, highClosed: true, high: 8 },
+	]);
+	expect(result.map(getIntervalMeta)).toStrictEqual([
+		{ pointType: 'Integer' },
+		{ pointType: 'Integer' },
+	]);
+});
+
 test('numeric interval response check with string-encoded boundary values', () => {
 	const result = extractRange(
 		{
@@ -951,6 +1008,23 @@ test('quantity interval declared by cqlType is not treated as numeric', () => {
 			high: { value: 2, system: UCUM_SYSTEM, code: '1' },
 		},
 		[{ url: CQL_TYPE_URL, valueString: 'Interval<System.Quantity>' }]
+	);
+	expect(result).toStrictEqual({
+		lowClosed: true,
+		low: { value: 1, unit: '1' },
+		highClosed: true,
+		high: { value: 2, unit: '1' },
+	});
+	expect(getIntervalMeta(result)).toBeUndefined();
+});
+
+test('list of quantity intervals is not treated as numeric', () => {
+	const result = extractRange(
+		{
+			low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+			high: { value: 2, system: UCUM_SYSTEM, code: '1' },
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'List<Interval<System.Quantity>>' }]
 	);
 	expect(result).toStrictEqual({
 		lowClosed: true,

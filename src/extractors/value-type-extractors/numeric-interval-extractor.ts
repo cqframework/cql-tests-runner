@@ -78,9 +78,11 @@ function boundaryValue(quantity: any, pointType: IntervalPointType): number | bi
  * produces: `{lowClosed, low, highClosed, high}`.
  *
  * Detection is strict: the parameter must carry a `cqf-cqlType` extension naming
- * `Interval<Integer>`, `Interval<Long>` or `Interval<Decimal>` (the `System.` prefix is
- * optional). Any other `valueRange` — including one whose boundaries are unity quantities
- * (`code: "1"`, UCUM) but which declares no cqlType — is left to
+ * `Interval<Integer|Long|Decimal>` or `List<Interval<Integer|Long|Decimal>>` (the
+ * `System.` prefix is optional). The list wrapper declares the parameter cardinality;
+ * each `valueRange` still represents one interval element. Any other `valueRange` —
+ * including one whose boundaries are unity quantities (`code: "1"`, UCUM) but which
+ * declares no cqlType — is left to
  * `QuantityIntervalExtractor`. FHIR-56226 only defines the forward mapping, and unity
  * coding alone is ambiguous with a dimensionless `Interval<Quantity>`.
  */
