@@ -539,7 +539,7 @@ test('list of date intervals (ExpandPerDay) yields date-literal boundaries', () 
 		extension: [
 			{
 				url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
-				valueString: 'Interval<System.Date>',
+				valueString: 'List<Interval<System.Date>>',
 			},
 		],
 		valuePeriod: { start: start, end: end },
@@ -574,6 +574,67 @@ test('period with a non-time cqlType still yields datetime literals', () => {
 						{
 							url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
 							valueString: 'Interval<System.DateTime>',
+						},
+					],
+					valuePeriod: {
+						start: '2025-01-01T00:00:00-05:00',
+						end: '2025-12-31T00:00:00-05:00',
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		lowClosed: true,
+		low: '@2025-01-01T00:00:00-05:00',
+		highClosed: true,
+		high: '@2025-12-31T00:00:00-05:00',
+	});
+});
+
+test('singleton list of time intervals yields time-literal boundaries', () => {
+	expect(
+		extractor!.extract(
+			{
+				resourceType: 'Parameters',
+				parameter: [
+					{
+						name: 'return',
+						extension: [
+							{
+								url: CQL_TYPE_URL,
+								valueString: 'List<Interval<Time>>',
+							},
+						],
+						valuePeriod: {
+							start: '0001-01-01T00:00:00.000+00:00',
+							end: '0001-01-01T23:59:59.599Z',
+						},
+					},
+				],
+			},
+			{ singletonListKeys: new Set(['return']) }
+		)
+	).toStrictEqual([
+		{
+			lowClosed: true,
+			low: '@T00:00:00.000',
+			highClosed: true,
+			high: '@T23:59:59.599',
+		},
+	]);
+});
+
+test('list of datetime intervals yields datetime-literal boundaries', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [
+						{
+							url: CQL_TYPE_URL,
+							valueString: 'List<Interval<System.DateTime>>',
 						},
 					],
 					valuePeriod: {
