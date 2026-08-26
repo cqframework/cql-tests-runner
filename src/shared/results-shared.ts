@@ -245,7 +245,9 @@ export function generateParametersResource(
 				{
 					name: 'url',
 					valueCanonical:
-						'https://hl7.org/fhir/uv/cql/Library/' + result.testsName + '|1.0.000',
+						// Version must match the `library ... version` literal build-cql stamps into
+						// the generated libraries, i.e. the configured Build.CqlFileVersion.
+						'https://hl7.org/fhir/uv/cql/Library/' + result.testsName + '|1.0.0',
 				},
 				{
 					name: 'expression',
