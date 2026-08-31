@@ -73,14 +73,16 @@ function boundaryValue(quantity: any, pointType: IntervalPointType): number | bi
 }
 
 /**
- * Extracts a `valueRange` that represents a numeric CQL interval
- * (`Interval<Integer|Long|Decimal>`, FHIR-56226) into the plain-number shape CVL
- * produces: `{lowClosed, low, highClosed, high}`.
+ * Extracts a `valueRange` that represents a numeric CQL interval (FHIR-56226) or a
+ * numeric uncertainty range into the plain-number shape CVL produces:
+ * `{lowClosed, low, highClosed, high}`.
  *
  * Detection is strict: the parameter must carry a `cqf-cqlType` extension naming
- * `Interval<Integer>`, `Interval<Long>` or `Interval<Decimal>` (the `System.` prefix is
- * optional). Any other `valueRange` — including one whose boundaries are unity quantities
- * (`code: "1"`, UCUM) but which declares no cqlType — is left to
+ * a numeric scalar or interval type, optionally wrapped in one `List` (the `System.`
+ * prefix is optional). A scalar type paired with a Range is an uncertainty result; a
+ * list wrapper declares parameter cardinality, and each `valueRange` still represents
+ * one element. Any other `valueRange` — including one whose boundaries are unity
+ * quantities (`code: "1"`, UCUM) but which declares no cqlType — is left to
  * `QuantityIntervalExtractor`. FHIR-56226 only defines the forward mapping, and unity
  * coding alone is ambiguous with a dimensionless `Interval<Quantity>`.
  */
@@ -95,8 +97,8 @@ export class NumericIntervalExtractor extends BaseExtractor {
 			return undefined;
 		}
 
-		// The cqlType extension is required and authoritative: without a numeric interval
-		// type this range is not ours, whatever its boundaries look like.
+		// The cqlType extension is required and authoritative: without a numeric scalar or
+		// interval type this range is not ours, whatever its boundaries look like.
 		const declaredType = declaredCqlType(parameter);
 		const pointType =
 			declaredType !== undefined ? numericIntervalPointTypeOf(declaredType) : undefined;

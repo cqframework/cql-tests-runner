@@ -13,7 +13,7 @@ export type ExtractOptions = {
 	singletonListKeys?: ReadonlySet<string>;
 };
 
-/** The numeric interval point type declared by the parameter's cqf-cqlType extension. */
+/** The numeric point type implied by the parameter's scalar or interval cqlType. */
 function declaredPointType(parameter: any): IntervalPointType | undefined {
 	const typeString = declaredCqlType(parameter);
 	return typeString !== undefined ? numericIntervalPointTypeOf(typeString) : undefined;
@@ -58,9 +58,9 @@ export class ResultExtractor {
 
 			// An interval in the part-based representation (issue #85) carries no Range
 			// metadata, so record the point type the wire still tells us: the declared
-			// cqlType when it names a numeric interval, otherwise the FHIR element types
-			// of the boundary parts. Without one of those the comparison uses the decimal
-			// step, as for any untyped interval.
+			// cqlType when it names a numeric scalar (an uncertainty) or interval, otherwise
+			// the FHIR element types of the boundary parts. Without one of those the
+			// comparison uses the decimal step, as for any untyped interval.
 			if (parameter.hasOwnProperty('part') && isIntervalShaped(processedValue)) {
 				const pointType =
 					declaredPointType(parameter) ??
