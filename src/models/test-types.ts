@@ -1,11 +1,13 @@
+import type { InvalidKind, ResultInvalidKind } from '../shared/invalid-utils.js';
+
 export interface TestExpression {
 	text: string;
-	invalid: 'false' | 'true' | 'semantic';
+	invalid: InvalidKind;
 }
 
 export interface TestLibrary {
 	text: string;
-	invalid: 'false' | 'true' | 'semantic';
+	invalid: InvalidKind;
 }
 
 export interface TestOutput {
@@ -89,7 +91,7 @@ export interface InternalTestResult {
 	testName: string;
 	testVersion?: string;
 	testVersionTo?: string;
-	invalid?: 'false' | 'true' | 'semantic' | 'undefined';
+	invalid?: ResultInvalidKind;
 	expression: string;
 	// For library-style tests: the full CQL library source, sent to Library/$evaluate wrapped as
 	// a FHIR Library resource. (For these tests, `expression` holds the name of the define whose
@@ -113,7 +115,7 @@ export interface TestResult {
 	testsName: string;
 	groupName: string;
 	testName: string;
-	invalid?: 'false' | 'true' | 'semantic';
+	invalid?: InvalidKind;
 	capabilities?: CapabilityKV[];
 	expression: string;
 }

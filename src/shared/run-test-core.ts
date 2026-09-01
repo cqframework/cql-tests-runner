@@ -12,6 +12,7 @@ import { resultsEqual } from './results-utils.js';
 import { formatActualValue } from '../test-results/cql-test-results.js';
 import { publishTestLibrary } from './library-publisher.js';
 import type { PublishedLibrary } from './library-publisher.js';
+import { expectsError } from './invalid-utils.js';
 
 /**
  * Shared execution state for a test run: the resolved config, the engine, the CVL parser,
@@ -121,8 +122,8 @@ function logSkip(result: InternalTestResult): void {
 /**
  * Runs a single test against the engine and records its outcome on `result`. Applies skip
  * precedence (pre-marked skip → OnlyList → config SkipList → version gating), then POSTs the
- * expression, extracts the actual value, and classifies pass/fail/error. Errors expected by
- * `invalid="true"/"semantic"` tests pass only when the engine actually erred.
+ * expression, extracts the actual value, and classifies pass/fail/error. A test whose `invalid`
+ * attribute names any of the four error kinds passes only when the engine actually erred.
  *
  * This is the single implementation shared by the CLI and server runners — both use `fetch` and
  * identical classification, so a test scores the same regardless of how it is invoked.
@@ -206,8 +207,10 @@ export async function runTest(
 		const invalid = result.invalid;
 		const erroredOut = responseIndicatesError(response.status, responseBody);
 
-		if (invalid === 'true' || invalid === 'semantic') {
-			// The expression is expected to error; it passes only if the engine erred.
+		if (expectsError(invalid)) {
+			// The expression is expected to error; it passes only if the engine erred. All four
+			// error kinds (syntax, semantic, execution, true) are treated alike here — the test
+			// asks for a failure, and the runner does not police which kind the engine produced.
 			result.testStatus = erroredOut ? 'pass' : 'fail';
 		} else if (!erroredOut) {
 			result.testStatus = resultsEqual(parsedExpected, result.actual) ? 'pass' : 'fail';
