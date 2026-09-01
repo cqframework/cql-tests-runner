@@ -1,5 +1,7 @@
 import type { Tests, Test, InternalTestResult, CapabilityKV } from '../models/test-types.js';
 import type { Parameters } from 'fhir/r4';
+import { expectsError } from './invalid-utils.js';
+import type { ResultInvalidKind } from './invalid-utils.js';
 
 /**
  * The XML parser yields a bare object when an element declares exactly one <capability>
@@ -31,7 +33,7 @@ export class Result implements InternalTestResult {
 	testName: string;
 	testVersion?: string;
 	testVersionTo?: string;
-	invalid: 'false' | 'true' | 'semantic' | 'undefined';
+	invalid: ResultInvalidKind;
 	expression: string;
 	library?: string;
 	capability: CapabilityKV[] = [];
@@ -99,10 +101,10 @@ export class Result implements InternalTestResult {
 			} else {
 				this.expected = test.output as string;
 			}
-		} else if (this.invalid !== 'true' && this.invalid !== 'semantic') {
-			// No output is expected only when the expression is marked invalid ("true"
-			// for a run-time error, "semantic" for a translation error) — the test expects
-			// an error. Otherwise there is nothing to compare against, so skip.
+		} else if (!expectsError(this.invalid)) {
+			// No output is expected only when the expression is marked invalid — any of the four
+			// error kinds means the test expects the engine to fail. Otherwise there is nothing
+			// to compare against, so skip.
 			this.testStatus = 'skip';
 			this.skipMessage = 'No output specified';
 		}
