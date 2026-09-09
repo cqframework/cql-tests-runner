@@ -12,7 +12,7 @@
     "cqlTranslator": "Java CQFramework Translator",
     "cqlTranslatorVersion": "Unknown",
     "cqlEngine": "Java CQFramework Engine",
-    "cqlEngineVersion": "Unknown",
+    "cqlEngineVersion": "Unknown"
   },
   "Debug": {
     "QuickTest": false
@@ -24,7 +24,7 @@
         "testsName": "CqlAggregateTest",
         "groupName": "AggregateTests",
         "testName": "RolledOutIntervals",
-        "reason": "CQLtoELM - Could not resolve identifier MedicationRequestIntervals in the current library"
+        "reason": "CQLtoELM - Expected an expression of type 'decimal', but found an expression of type 'System.Integer' in Quantity{ value: duration in days of X }. Tracked in https://github.com/cqframework/cql-tests-runner/issues/133"
       },
       {
         "testsName": "CqlDateTimeOperatorsTest",
