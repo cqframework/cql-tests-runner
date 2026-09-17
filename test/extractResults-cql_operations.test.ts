@@ -215,6 +215,153 @@ test('time response check', () => {
 	).toBe('@T12:30:00.000');
 });
 
+const TIME_PRECISION_URL = 'http://hl7.org/fhir/StructureDefinition/time-precision';
+
+function timePrecision(code: string): any {
+	return { extension: [{ url: TIME_PRECISION_URL, valueCode: code }] };
+}
+
+// FHIR dateTime requires minutes and seconds once an hour is present, so an engine
+// emitting valid FHIR zero-pads an hour- or minute-precision CQL DateTime and declares
+// the real precision in the time-precision extension on the primitive element.
+test('dateTime with hour time-precision drops the padded minutes and seconds', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T10:00:00Z',
+					_valueDateTime: timePrecision('h'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T10Z');
+});
+
+test('dateTime with minute time-precision drops the padded seconds and keeps the offset', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T05:10:00-05:00',
+					_valueDateTime: timePrecision('min'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T05:10-05:00');
+});
+
+test('dateTime with second time-precision drops a padded fraction only', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T05:10:30.000',
+					_valueDateTime: timePrecision('s'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T05:10:30');
+});
+
+test('dateTime with millisecond time-precision is unchanged', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T05:10:30.955Z',
+					_valueDateTime: timePrecision('ms'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T05:10:30.955Z');
+});
+
+test('dateTime with an unknown time-precision code is unchanged', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T10:00:00Z',
+					_valueDateTime: timePrecision('d'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T10:00:00Z');
+});
+
+test('date-only dateTime ignores a time-precision extension', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10',
+					_valueDateTime: timePrecision('h'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T');
+});
+
+test('time with hour time-precision drops the padded minutes and seconds', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueTime: '10:00:00',
+					_valueTime: timePrecision('h'),
+				},
+			],
+		})
+	).toBe('@T10');
+});
+
+test('time with minute time-precision drops the padded seconds', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueTime: '10:30:00',
+					_valueTime: timePrecision('min'),
+				},
+			],
+		})
+	).toBe('@T10:30');
+});
+
+test('list of times with hour time-precision yields hour literals', () => {
+	const hourTime = (value: string) => ({
+		name: 'return',
+		extension: [{ url: CQL_TYPE_URL, valueString: 'List<System.Time>' }],
+		valueTime: value,
+		_valueTime: timePrecision('h'),
+	});
+	expect(
+		extractor!.extract(
+			{
+				resourceType: 'Parameters',
+				parameter: [hourTime('10:00:00'), hourTime('11:00:00'), hourTime('12:00:00')],
+			},
+			{ singletonListKeys: new Set(['return']) }
+		)
+	).toStrictEqual(['@T10', '@T11', '@T12']);
+});
+
 test('quantity response check', () => {
 	expect(
 		extractor!.extract({
@@ -384,6 +531,57 @@ test('period datetime response check', () => {
 		low: '@2025-01-01T00:00:00-05:00',
 		lowClosed: true,
 		high: '@2025-12-31T00:00:00-05:00',
+		highClosed: true,
+	});
+});
+
+// A Period boundary coarser than seconds is zero-padded like any FHIR dateTime, with the
+// real precision declared on the `_start`/`_end` companion element.
+test('period boundaries honour a time-precision extension on _start and _end', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valuePeriod: {
+						start: '2012-01-01T10:00:00Z',
+						_start: timePrecision('h'),
+						end: '2012-01-01T12:30:00Z',
+						_end: timePrecision('min'),
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		low: '@2012-01-01T10Z',
+		lowClosed: true,
+		high: '@2012-01-01T12:30Z',
+		highClosed: true,
+	});
+});
+
+test('Interval<System.Time> period boundaries honour a time-precision extension', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Time>' }],
+					valuePeriod: {
+						start: '0001-01-01T10:00:00Z',
+						_start: timePrecision('h'),
+						end: '0001-01-01T10:00:00Z',
+						_end: timePrecision('h'),
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		low: '@T10',
+		lowClosed: true,
+		high: '@T10',
 		highClosed: true,
 	});
 });

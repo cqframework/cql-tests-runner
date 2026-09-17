@@ -1,6 +1,11 @@
 import { BaseExtractor } from '../base-extractor.js';
 import { declaredCqlType } from '../../shared/interval-utils.js';
-import { format_date, format_datetime, format_time } from './value-type-extractor-utils.js';
+import {
+	applyDeclaredTimePrecision,
+	format_date,
+	format_datetime,
+	format_time,
+} from './value-type-extractor-utils.js';
 
 const TEMPORAL_INTERVAL_TYPE = /^Interval<(?:System\.)?(Date|DateTime|Time)>$/;
 const LIST_TYPE = /^List<(.+)>$/;
@@ -34,11 +39,14 @@ export class DateTimeIntervalExtractor extends BaseExtractor {
 	protected _process(parameter: any): any {
 		if (parameter.hasOwnProperty('valuePeriod')) {
 			const format = BOUNDARY_FORMATS[declaredPointType(parameter) ?? 'DateTime'];
-			const low = parameter.valuePeriod.hasOwnProperty('start')
-				? format(parameter.valuePeriod.start)
+			// Period boundaries are FHIR dateTimes, so a boundary coarser than seconds arrives
+			// zero-padded with its real precision on the `_start`/`_end` companion element.
+			const period = parameter.valuePeriod;
+			const low = period.hasOwnProperty('start')
+				? format(applyDeclaredTimePrecision(period.start, period._start))
 				: null;
-			const high = parameter.valuePeriod.hasOwnProperty('end')
-				? format(parameter.valuePeriod.end)
+			const high = period.hasOwnProperty('end')
+				? format(applyDeclaredTimePrecision(period.end, period._end))
 				: null;
 			return {
 				lowClosed: low !== null,
