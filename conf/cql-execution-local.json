@@ -27,9 +27,33 @@
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "MinValue",
+				"testName": "DateTimeMinValue",
+				"reason": "Test Runner Not Detecting Equal DateTimes (+00:00 vs Z): https://github.com/cqframework/cql-tests-runner/issues/83"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "MaxValue",
 				"testName": "DateTimeMaxValue",
 				"reason": "Test Runner Not Detecting Equal DateTimes (+00:00 vs Z): https://github.com/cqframework/cql-tests-runner/issues/83"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Predecessor",
+				"testName": "PredecessorOf1D",
+				"reason": "Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Predecessor",
+				"testName": "PredecessorOf101D",
+				"reason": "Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Predecessor",
+				"testName": "PredecessorOf1QCM",
+				"reason": "Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
 			},
 			{
 				"testsName": "CqlDateTimeOperatorsTest",
