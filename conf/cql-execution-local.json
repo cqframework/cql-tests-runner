@@ -117,12 +117,6 @@
 			},
 			{
 				"testsName": "CqlDateTimeOperatorsTest",
-				"groupName": "Duration",
-				"testName": "DateTimeDurationBetweenYear",
-				"reason": "Test Runner Not Extracting Numeric Uncertainties From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlDateTimeOperatorsTest",
 				"groupName": "Subtract",
 				"testName": "DateTimeSubtract1YearInSeconds",
 				"reason": "Potentially Invalid Test: Spec Unclear on Converting Seconds to Months: https://github.com/cqframework/cql-tests/issues/72"
@@ -190,74 +184,8 @@
 			{
 				"testsName": "CqlDateTimeOperatorsTest",
 				"groupName": "Uncertainty tests",
-				"testName": "DateTimeDurationBetweenUncertainInterval",
-				"reason": "Test Runner Not Extracting Numeric Uncertainties From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlDateTimeOperatorsTest",
-				"groupName": "Uncertainty tests",
-				"testName": "DateTimeDurationBetweenUncertainInterval2",
-				"reason": "Test Runner Not Extracting Numeric Uncertainties From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlDateTimeOperatorsTest",
-				"groupName": "Uncertainty tests",
-				"testName": "DateTimeDurationBetweenUncertainAdd",
-				"reason": "Test Runner Not Extracting Numeric Uncertainties From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlDateTimeOperatorsTest",
-				"groupName": "Uncertainty tests",
-				"testName": "DateTimeDurationBetweenUncertainSubtract",
-				"reason": "Test Runner Not Extracting Numeric Uncertainties From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlDateTimeOperatorsTest",
-				"groupName": "Uncertainty tests",
-				"testName": "TimeDurationBetweenHourDiffPrecision",
-				"reason": "Test Runner Not Extracting Numeric Uncertainties From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlDateTimeOperatorsTest",
-				"groupName": "Uncertainty tests",
 				"testName": "TimeDurationBetweenHourDiffPrecision2",
 				"reason": "Invalid Test: Wrong Expected Result: https://github.com/cqframework/cql-tests/issues/67"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Interval",
-				"testName": "CollapseIntervalTestInteger",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Collapse",
-				"testName": "IntegerIntervalCollapse",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Collapse",
-				"testName": "IntegerIntervalCollapse2",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Collapse",
-				"testName": "IntegerIntervalCollapse3",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Collapse",
-				"testName": "DecimalIntervalCollapse",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Collapse",
-				"testName": "DecimalIntervalCollapse2",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
@@ -280,48 +208,6 @@
 			{
 				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "Expand",
-				"testName": "ExpandIntervalPer2",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandIntervalOpenPer2",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandPer0D1",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandPer1",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandPer1Open",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandPer2Days",
-				"reason": "Test Runner Not Extracting Lists of Temporal Intervals From Periods: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandPerDay",
-				"reason": "Test Runner Not Extracting Lists of Temporal Intervals From Periods: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
 				"testName": "ExpandPerHour",
 				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
 			},
@@ -330,18 +216,6 @@
 				"groupName": "Expand",
 				"testName": "ExpandPerHourOpen",
 				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandInterval",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandIntervalOpen",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
@@ -444,12 +318,6 @@
 				"groupName": "DateTime",
 				"testName": "DateTimeProper",
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
-			},
-			{
-				"testsName": "CqlTypesTest",
-				"groupName": "DateTime",
-				"testName": "DateTimeUncertain",
-				"reason": "Test Runner Not Extracting Lists of Numeric Intervals From Ranges: https://github.com/cqframework/cql-tests-runner/pull/129"
 			}
 		]
 	}
