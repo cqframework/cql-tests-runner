@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>CQL test results</title>
+		<style>
+			:root {
+				color-scheme: light;
+				font-family: system-ui, sans-serif;
+				color: #203047;
+				background: #f3f6fa;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+			}
+			main {
+				max-width: 1200px;
+				margin: auto;
+				padding: 40px 24px;
+			}
+			h1 {
+				margin: 6px 0 12px;
+				font-size: 2rem;
+				letter-spacing: -0.04em;
+			}
+			h2 {
+				font-size: 1.1rem;
+				margin: 0 0 16px;
+			}
+			p {
+				line-height: 1.6;
+			}
+			.eyebrow {
+				color: #526781;
+				font-size: 0.75rem;
+				font-weight: 700;
+				letter-spacing: 0.15em;
+				text-transform: uppercase;
+			}
+			.muted {
+				color: #576880;
+			}
+			.panel {
+				background: white;
+				border: 1px solid #dbe3ec;
+				border-radius: 12px;
+				padding: 24px;
+				margin-top: 20px;
+			}
+			.picker {
+				border: 2px dashed #b7c7da;
+			}
+			input,
+			select,
+			button {
+				font: inherit;
+			}
+			input[type='file'] {
+				display: block;
+				margin-top: 12px;
+				max-width: 100%;
+			}
+			input::file-selector-button,
+			button {
+				background: #214f91;
+				color: white;
+				border: 0;
+				border-radius: 6px;
+				padding: 10px 16px;
+				cursor: pointer;
+			}
+			input::file-selector-button {
+				margin-right: 12px;
+			}
+			button:disabled {
+				background: #e3e9f0;
+				color: #64748b;
+				cursor: default;
+			}
+			:focus-visible {
+				outline: 3px solid #548ce0;
+				outline-offset: 3px;
+			}
+			#error {
+				color: #93232e;
+				background: #fff0f1;
+				border: 1px solid #e9b2b7;
+				padding: 16px;
+				border-radius: 8px;
+			}
+			#filename {
+				overflow-wrap: anywhere;
+			}
+			.stats {
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
+				gap: 12px;
+				margin-top: 20px;
+			}
+			.stat {
+				background: white;
+				border: 1px solid #dbe3ec;
+				border-top: 4px solid #8798ad;
+				border-radius: 8px;
+				padding: 18px;
+			}
+			.stat strong {
+				display: block;
+				font-size: 1.9rem;
+				margin-top: 4px;
+			}
+			.stat.pass {
+				border-top-color: #21815b;
+			}
+			.stat.fail {
+				border-top-color: #c34250;
+			}
+			.stat.skip {
+				border-top-color: #ac780e;
+			}
+			.stat.error {
+				border-top-color: #8952ba;
+			}
+			.metadata {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 16px 24px;
+				margin-bottom: 0;
+			}
+			dt {
+				font-size: 0.8rem;
+				color: #576880;
+				margin-bottom: 4px;
+			}
+			dd {
+				margin: 0;
+				overflow-wrap: anywhere;
+			}
+			.filters {
+				display: grid;
+				grid-template-columns: 2fr 1fr 1.5fr;
+				gap: 16px;
+			}
+			label {
+				font-weight: 600;
+				font-size: 0.9rem;
+			}
+			.filters input,
+			select {
+				display: block;
+				width: 100%;
+				margin-top: 8px;
+				padding: 10px;
+				border: 1px solid #aab9cb;
+				border-radius: 6px;
+				background: white;
+				color: inherit;
+			}
+			.list-heading,
+			.pagination {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 12px;
+				margin: 20px 0 12px;
+				flex-wrap: wrap;
+			}
+			.pagination {
+				justify-content: center;
+			}
+			.test {
+				background: white;
+				border: 1px solid #dbe3ec;
+				border-radius: 8px;
+				margin-bottom: 8px;
+				overflow: hidden;
+			}
+			summary {
+				padding: 16px;
+				cursor: pointer;
+				overflow-wrap: anywhere;
+			}
+			summary:hover {
+				background: #f7f9fc;
+			}
+			.badge {
+				display: inline-block;
+				min-width: 65px;
+				text-align: center;
+				padding: 4px 8px;
+				margin: 0 12px 0 6px;
+				border-radius: 5px;
+				font-size: 0.75rem;
+				font-weight: 700;
+				text-transform: uppercase;
+			}
+			.badge.pass {
+				color: #166043;
+				background: #e3f4eb;
+			}
+			.badge.fail {
+				color: #9d2633;
+				background: #ffe7ea;
+			}
+			.badge.skip {
+				color: #785300;
+				background: #fff2cc;
+			}
+			.badge.error {
+				color: #69358f;
+				background: #f3e8ff;
+			}
+			.badge.invalid {
+				color: #43546b;
+				background: #e8edf3;
+			}
+			.path {
+				display: block;
+				margin: 8px 0 0 24px;
+				font-size: 0.8rem;
+				color: #576880;
+			}
+			.test-body {
+				border-top: 1px solid #dbe3ec;
+				padding: 20px;
+			}
+			.test-actions {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 12px;
+				margin-top: 16px;
+			}
+			.copy-entry {
+				width: 100%;
+				min-height: 150px;
+				font:
+					0.85rem/1.6 ui-monospace,
+					SFMono-Regular,
+					Consolas,
+					monospace;
+			}
+			.values {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 16px;
+			}
+			.field {
+				min-width: 0;
+				margin-bottom: 16px;
+			}
+			.field h3 {
+				font-size: 0.8rem;
+				color: #576880;
+				margin: 0 0 8px;
+			}
+			pre {
+				font:
+					0.85rem/1.6 ui-monospace,
+					SFMono-Regular,
+					Consolas,
+					monospace;
+				white-space: pre-wrap;
+				overflow-wrap: anywhere;
+				background: #f3f6fa;
+				padding: 12px;
+				border-radius: 6px;
+				margin: 0;
+				max-height: 400px;
+				overflow: auto;
+			}
+			[hidden] {
+				display: none !important;
+			}
+			@media (max-width: 650px) {
+				main {
+					padding: 24px 12px;
+				}
+				.panel {
+					padding: 16px;
+				}
+				.stats {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				.filters,
+				.metadata,
+				.values {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="eyebrow">CQL tests runner</div>
+			<h1>Test results explorer</h1>
+			<p class="muted">
+				A closer look at your test run, from the big picture to each expression.
+			</p>
+			<section class="panel picker" aria-label="Open results">
+				<label for="file">Choose a results JSON file</label>
+				<input id="file" type="file" accept=".json,application/json" />
+				<p class="muted">
+					Open a file from your results folder. Your data stays in this browser; nothing
+					is uploaded.
+				</p>
+				<span id="load-status" role="status"></span>
+			</section>
+			<p id="error" role="alert" hidden></p>
+			<div id="report" hidden>
+				<section class="panel" aria-label="Run information">
+					<h2 id="filename"></h2>
+					<p id="description"></p>
+					<dl id="metadata" class="metadata"></dl>
+				</section>
+				<section id="stats" class="stats" aria-label="Result totals"></section>
+				<p id="rate" class="muted"></p>
+				<p id="warning" class="muted" hidden></p>
+				<section class="panel" aria-label="Filter results">
+					<div class="filters">
+						<label for="search"
+							>Search tests<input
+								id="search"
+								type="search"
+								placeholder="Name, expression, value, or error…"
+						/></label>
+						<label for="status"
+							>Status<select id="status">
+								<option value="all">All statuses</option>
+								<option value="issues">Failures &amp; errors</option>
+								<option value="fail">Failed</option>
+								<option value="error">Errors</option>
+								<option value="pass">Passed</option>
+								<option value="skip">Skipped</option>
+							</select></label
+						>
+						<label for="suite"
+							>Test suite<select id="suite">
+								<option value="">All suites</option>
+							</select></label
+						>
+					</div>
+				</section>
+				<div class="list-heading">
+					<span id="count" role="status"></span
+					><button id="reset" type="button">Reset filters</button>
+				</div>
+				<div id="tests"></div>
+				<p id="empty" class="panel" hidden>
+					No tests match these filters. Try another search or reset the filters.
+				</p>
+				<nav class="pagination" aria-label="Results pages">
+					<button id="previous" type="button">Previous</button><span id="page"></span
+					><button id="next" type="button">Next</button>
+				</nav>
+			</div>
+		</main>
+		<script>
+			'use strict';
+			const $ = id => document.getElementById(id);
+			const labels = { pass: 'Passed', fail: 'Failed', skip: 'Skipped', error: 'Errors' };
+			const pageSize = 50;
+			let rows = [];
+			let page = 0;
+			let loadVersion = 0;
+
+			// File content is always rendered as text, never interpreted as HTML.
+			function element(tag, text, className) {
+				const node = document.createElement(tag);
+				if (text !== undefined) node.textContent = text;
+				if (className) node.className = className;
+				return node;
+			}
+			function display(value) {
+				if (value === undefined) return 'Not provided';
+				return typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+			}
+			function validate(data) {
+				if (!data || typeof data !== 'object' || !Array.isArray(data.results)) {
+					throw new Error('Choose a CQL results file containing a "results" array.');
+				}
+				data.results.forEach((test, index) => {
+					if (
+						!test ||
+						typeof test !== 'object' ||
+						Array.isArray(test) ||
+						!['testsName', 'groupName', 'testName', 'expression'].every(
+							key => typeof test[key] === 'string'
+						) ||
+						(test.testStatus !== undefined && !Object.hasOwn(labels, test.testStatus))
+					) {
+						throw new Error(
+							`Result ${index + 1} is invalid. Each test needs suite, group, name, and expression strings, and a supported status (pass, fail, skip, error) when present.`
+						);
+					}
+				});
+				return data;
+			}
+			function field(title, value) {
+				const wrapper = element('div', undefined, 'field');
+				wrapper.append(element('h3', title), element('pre', display(value)));
+				return wrapper;
+			}
+			function testActions(test) {
+				const actions = element('div', undefined, 'test-actions');
+				const feedback = element('span', '', 'muted');
+				feedback.setAttribute('role', 'status');
+				const manualCopy = element('textarea', undefined, 'copy-entry');
+				manualCopy.readOnly = true;
+				manualCopy.hidden = true;
+				manualCopy.setAttribute('aria-label', 'Configuration entry to copy manually');
+				for (const list of ['SkipList', 'OnlyList']) {
+					const button = element('button', `Copy ${list} entry`);
+					button.type = 'button';
+					button.addEventListener('click', async () => {
+						const entry = {
+							testsName: test.testsName,
+							groupName: test.groupName,
+							testName: test.testName,
+						};
+						if (list === 'SkipList') entry.reason = '';
+						const text = JSON.stringify(entry, null, 2);
+						manualCopy.hidden = true;
+						feedback.textContent = '';
+						try {
+							await navigator.clipboard.writeText(text);
+							feedback.textContent = `${list} entry copied.`;
+						} catch {
+							// Support local-file browsers that do not expose the Clipboard API.
+							manualCopy.value = text;
+							manualCopy.hidden = false;
+							manualCopy.focus();
+							manualCopy.select();
+							let copied = false;
+							try {
+								copied = document.execCommand('copy');
+							} catch {
+								// Leave the selected entry available for manual copying.
+							}
+							if (copied) {
+								manualCopy.hidden = true;
+								button.focus();
+								feedback.textContent = `${list} entry copied.`;
+							} else {
+								feedback.textContent =
+									'Automatic copying is unavailable. Copy the selected entry below with Ctrl+C or ⌘C.';
+							}
+						}
+					});
+					actions.append(button);
+				}
+				actions.append(feedback, manualCopy);
+				return actions;
+			}
+			function renderTest({ test, status }) {
+				const details = element('details', undefined, 'test');
+				const summary = element('summary');
+				summary.append(
+					element('span', labels[status], `badge ${status}`),
+					element('strong', test.testName)
+				);
+				if (test.invalid === 'true' || test.invalid === 'semantic') {
+					const badge = element(
+						'span',
+						test.invalid === 'semantic' ? 'Invalid (semantic)' : 'Invalid',
+						'badge invalid'
+					);
+					badge.title =
+						test.invalid === 'semantic' ? 'Semantic error expected' : 'Error expected';
+					summary.append(badge);
+				}
+				summary.append(element('span', `${test.testsName} / ${test.groupName}`, 'path'));
+				details.append(summary);
+				// Build large expressions and error stacks only when opened.
+				details.addEventListener('toggle', () => {
+					if (!details.open || details.childElementCount > 1) return;
+					const body = element('div', undefined, 'test-body');
+					body.append(field('CQL expression', test.expression));
+					const values = element('div', undefined, 'values');
+					values.append(field('Expected', test.expected), field('Actual', test.actual));
+					body.append(values);
+					if (test.invalid === 'true' || test.invalid === 'semantic') {
+						body.append(
+							field(
+								'Expected invalid expression',
+								test.invalid === 'semantic'
+									? 'Semantic error expected'
+									: 'Error expected'
+							)
+						);
+					}
+					for (const [key, title] of [
+						['skipMessage', 'Skip reason'],
+						['error', 'Error details'],
+						['responseStatus', 'Response status'],
+					]) {
+						if (test[key] !== undefined) body.append(field(title, test[key]));
+					}
+					if (test.testStatus === undefined)
+						body.append(
+							field(
+								'Status note',
+								'No status recorded; counted as skipped, matching the test runner.'
+							)
+						);
+					const raw = element('details');
+					raw.append(
+						element('summary', 'Raw test JSON'),
+						element('pre', JSON.stringify(test, null, 2))
+					);
+					body.append(raw, testActions(test));
+					details.append(body);
+				});
+				return details;
+			}
+			function renderResults() {
+				const query = $('search').value.trim().toLowerCase();
+				const status = $('status').value;
+				const suite = $('suite').value;
+				const filtered = rows.filter(
+					row =>
+						(status === 'all' ||
+							(status === 'issues'
+								? ['fail', 'error'].includes(row.status)
+								: row.status === status)) &&
+						(!suite || row.test.testsName === suite) &&
+						(!query || row.search.includes(query))
+				);
+				const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
+				page = Math.min(page, pages - 1);
+				const start = page * pageSize;
+				$('tests').replaceChildren(
+					...filtered.slice(start, start + pageSize).map(renderTest)
+				);
+				$('count').textContent = filtered.length
+					? `${start + 1}–${Math.min(start + pageSize, filtered.length)} of ${filtered.length.toLocaleString()} matching tests (${rows.length.toLocaleString()} total)`
+					: `0 matching tests (${rows.length.toLocaleString()} total)`;
+				$('empty').hidden = filtered.length !== 0;
+				$('page').textContent = `Page ${page + 1} of ${pages}`;
+				$('previous').disabled = page === 0;
+				$('next').disabled = page + 1 === pages;
+			}
+			function resetFilters() {
+				$('search').value = '';
+				$('status').value = 'all';
+				$('suite').value = '';
+				page = 0;
+				renderResults();
+			}
+			function showReport(data, filename) {
+				rows = data.results.map(test => ({
+					test,
+					status: test.testStatus ?? 'skip',
+					search: JSON.stringify(test).toLowerCase(),
+				}));
+				$('filename').textContent = filename;
+				$('description').textContent = display(data.testsRunDescription ?? '');
+				const engine = data.cqlengine ?? {};
+				const date = new Date(data.testsRunDateTime);
+				const metadata = [
+					[
+						'Run date',
+						Number.isNaN(date.getTime())
+							? data.testsRunDateTime
+							: date.toLocaleString(),
+					],
+					[
+						'Engine',
+						[engine.cqlEngine, engine.cqlEngineVersion].filter(Boolean).join(' ') ||
+							undefined,
+					],
+					[
+						'Translator',
+						[engine.cqlTranslator, engine.cqlTranslatorVersion]
+							.filter(Boolean)
+							.join(' ') || undefined,
+					],
+					['CQL version', engine.cqlVersion],
+					['API URL', engine.apiUrl],
+				];
+				$('metadata').replaceChildren(
+					...metadata.map(([key, value]) => {
+						const item = element('div');
+						item.append(element('dt', key), element('dd', display(value)));
+						return item;
+					})
+				);
+				const counts = { pass: 0, fail: 0, skip: 0, error: 0 };
+				rows.forEach(row => counts[row.status]++);
+				$('stats').replaceChildren(
+					...[
+						['total', 'Total tests', rows.length],
+						...Object.entries(labels).map(([key, label]) => [key, label, counts[key]]),
+					].map(([key, label, count]) => {
+						const card = element('div', undefined, `stat ${key}`);
+						card.append(
+							element('span', label),
+							element('strong', count.toLocaleString())
+						);
+						return card;
+					})
+				);
+				const executed = rows.length - counts.skip;
+				$('rate').textContent = executed
+					? `${((100 * counts.pass) / executed).toFixed(1)}% passed among ${executed.toLocaleString()} executed tests · Skipped tests excluded`
+					: 'No executed tests in this file.';
+				const mismatch =
+					data.testResultsSummary &&
+					Object.keys(counts).some(
+						key => data.testResultsSummary[key + 'Count'] !== counts[key]
+					);
+				$('warning').hidden = !mismatch;
+				$('warning').textContent =
+					'The saved summary differs from the individual results. Totals above are calculated from the tests in this file.';
+				const allSuites = element('option', 'All suites');
+				allSuites.value = '';
+				$('suite').replaceChildren(
+					allSuites,
+					...[...new Set(rows.map(row => row.test.testsName))].sort().map(suite => {
+						const option = element('option', suite);
+						option.value = suite;
+						return option;
+					})
+				);
+				resetFilters();
+				$('report').hidden = false;
+			}
+			$('file').addEventListener('change', async event => {
+				const file = event.target.files[0];
+				if (!file) return;
+				const version = ++loadVersion;
+				$('error').hidden = true;
+				$('report').hidden = true;
+				$('load-status').textContent = 'Reading results…';
+				try {
+					const contents = await file.text();
+					if (version !== loadVersion) return;
+					const data = validate(JSON.parse(contents));
+					showReport(data, file.name);
+					$('load-status').textContent =
+						`Loaded ${data.results.length.toLocaleString()} tests.`;
+				} catch (error) {
+					if (version !== loadVersion) return;
+					$('report').hidden = true;
+					$('error').textContent =
+						error instanceof SyntaxError
+							? 'This file is not valid JSON. Choose a results JSON file and try again.'
+							: `Could not open results: ${error.message}`;
+					$('error').hidden = false;
+					$('load-status').textContent = '';
+				}
+			});
+			$('search').addEventListener('input', () => {
+				page = 0;
+				renderResults();
+			});
+			for (const id of ['status', 'suite'])
+				$(id).addEventListener('change', () => {
+					page = 0;
+					renderResults();
+				});
+			$('reset').addEventListener('click', resetFilters);
+			$('previous').addEventListener('click', () => {
+				page--;
+				renderResults();
+			});
+			$('next').addEventListener('click', () => {
+				page++;
+				renderResults();
+			});
+		</script>
+	</body>
+</html>

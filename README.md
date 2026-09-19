@@ -15,6 +15,8 @@ The application runs all the tests in the repository and outputs the results as 
 
 Results output from running these tests can be posted to the [CQL Tests Results](https://github.com/cqframework/cql-tests-results) repository.
 
+To explore a results file, open [results-viewer.html](results-viewer.html) in your browser and choose a local JSON file from the `results` directory. The viewer shows run details and totals, supports search and status/suite filters, and expands individual tests to show expressions, expected and actual values, skip reasons, and errors. It works offline without a server or installation; selected files stay in your browser.
+
 ## Setting up the Environment
 
 This application requires Node v25 and makes use of the [Axios](https://axios-http.com/docs/intro) framework for HTTP request/response processing. [Node Download](https://nodejs.org/en/download)
@@ -382,4 +384,3 @@ To release:
 * Create a github release with a version tag `v[X.Y.Z]` (e.g. `v1.0.0`)
 * Mark any issues fixed that were included in the release
 * Update the version in `package.json` to the next version (incrementing at least the minor version), including the `-draft` label
-
