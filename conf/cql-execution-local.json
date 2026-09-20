@@ -39,6 +39,18 @@
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Power",
+				"testName": "Power2LTo2L",
+				"reason": "Invalid Test: CQL 2.0 specifies that Power always returns Decimal: https://github.com/cqframework/cql-tests/pull/151"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Power",
+				"testName": "Power2LTo3L",
+				"reason": "Invalid Test: CQL 2.0 specifies that Power always returns Decimal: https://github.com/cqframework/cql-tests/pull/151"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "Predecessor",
 				"testName": "PredecessorOf1D",
 				"reason": "Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
@@ -54,6 +66,48 @@
 				"groupName": "Predecessor",
 				"testName": "PredecessorOf1QCM",
 				"reason": "Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Successor",
+				"testName": "SuccessorOf1D",
+				"reason": "Invalid Test: Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Successor",
+				"testName": "SuccessorOf101D",
+				"reason": "Invalid Test: Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Truncated Divide",
+				"testName": "TruncatedDivide10d1ByNeg3D1Quantity",
+				"reason": "Invalid Test: Test expects wrong unit for Truncated Divide: https://github.com/cqframework/cql-tests/pull/148"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Truncated Divide",
+				"testName": "TruncatedDivide10By5DQuantity",
+				"reason": "Invalid Test: Test expects wrong unit for Truncated Divide: https://github.com/cqframework/cql-tests/pull/148"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Truncated Divide",
+				"testName": "TruncatedDivide414By206DQuantity",
+				"reason": "Invalid Test: Test expects wrong unit for Truncated Divide: https://github.com/cqframework/cql-tests/pull/148"
+			},
+			{
+				"testsName": "CqlComparisonOperatorsTest",
+				"groupName": "Equal",
+				"testName": "TupleEqDifferentNamesWithOneNullId",
+				"reason": "Invalid Test: Test assumes incorrect equality semantics: https://jira.hl7.org/browse/FHIR-58836"
+			},
+			{
+				"testsName": "CqlComparisonOperatorsTest",
+				"groupName": "Not Equal",
+				"testName": "TupleNotEqDifferingNamesWithOneNullId",
+				"reason": "Invalid Test: Test assumes incorrect equality semantics: https://jira.hl7.org/browse/FHIR-58836"
 			},
 			{
 				"testsName": "CqlDateTimeOperatorsTest",
@@ -238,6 +292,42 @@
 			{
 				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "Expand",
+				"testName": "ExpandPerHourIntervalOverload",
+				"reason": "Test Runner does not honor the time-precision extension on dateTime, time and Period boundaries: https://github.com/cqframework/cql-tests-runner/pull/135"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPerHourOpenIntervalOverload",
+				"reason": "Test Runner does not honor the time-precision extension on dateTime, time and Period boundaries: https://github.com/cqframework/cql-tests-runner/pull/135"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPer0D1",
+				"reason": "Invalid Test: Expected output is incorrect: https://jira.hl7.org/browse/FHIR-58705"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPer0D1IntervalOverload",
+				"reason": "Invalid Test: Expected output is incorrect: https://jira.hl7.org/browse/FHIR-58705"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Except",
+				"testName": "DecimalIntervalExcept1to3",
+				"reason": "Invalid Test: Expected output may be incorrect based on CQL 2.0 Decimal semantics: https://jira.hl7.org/browse/FHIR-59229"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Except",
+				"testName": "QuantityIntervalExcept1to4",
+				"reason": "Invalid Test: Expected output may be incorrect based on CQL 2.0 Decimal semantics: https://jira.hl7.org/browse/FHIR-59229"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
 				"testName": "ExpandPerHourOpen",
 				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
 			},
@@ -264,6 +354,30 @@
 				"groupName": "Interval",
 				"testName": "DateTimeIntervalTest",
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "ProperContains",
+				"testName": "TimeProperContainsFalse",
+				"reason": "Invalid Test: Wrong Expected Output for Properly Includes And Properly Included In for Boundary Values: https://github.com/cqframework/cql-tests/issues/152"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "ProperContains",
+				"testName": "TimeProperContainsPrecisionFalse",
+				"reason": "Invalid Test: Wrong Expected Output for Properly Includes And Properly Included In for Boundary Values: https://github.com/cqframework/cql-tests/issues/152"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "ProperIn",
+				"testName": "TimeProperInFalse",
+				"reason": "Invalid Test: Wrong Expected Output for Properly Includes And Properly Included In for Boundary Values: https://github.com/cqframework/cql-tests/issues/152"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "ProperIn",
+				"testName": "TimeProperInPrecisionFalse",
+				"reason": "Invalid Test: Wrong Expected Output for Properly Includes And Properly Included In for Boundary Values: https://github.com/cqframework/cql-tests/issues/152"
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
@@ -309,9 +423,21 @@
 			},
 			{
 				"testsName": "CqlStringOperatorsTest",
+				"groupName": "Substring",
+				"testName": "SubstringEmptyAnd0",
+				"reason": "Invalid Test: Likely wrong answer since index is out of range: https://github.com/cqframework/cql-tests/issues/149 "
+			},
+			{
+				"testsName": "CqlStringOperatorsTest",
 				"groupName": "toString tests",
 				"testName": "DateTimeToString2",
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "CqlStringOperatorsTest",
+				"groupName": "toString tests",
+				"testName": "QuantityToString",
+				"reason": "Invalid Test: Potentially incorrect expected answer `125 'cm'` since decimal toString requires at least one decimal (e.g., `125.0 'cm'): Link TBD"
 			},
 			{
 				"testsName": "CqlTypeOperatorsTest",
