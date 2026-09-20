@@ -6,12 +6,12 @@
 	"Build": {
 		"CqlFileVersion": "1.0.000",
 		"CqlOutputPath": "./cql",
-		"CqlVersion": "1.5",
+		"CqlVersion": "2.0",
 		"testsRunDescription": "JavaScript CQL Execution Framework local test run. See: https://github.com/cqframework/cql-execution",
 		"cqlTranslator": "Java CQFramework Translator",
-		"cqlTranslatorVersion": "4.2.0",
+		"cqlTranslatorVersion": "5.2.0",
 		"cqlEngine": "JavaScript CQL Execution Framework",
-		"cqlEngineVersion": "3.3.0"
+		"cqlEngineVersion": "4.0.0-beta.1"
 	},
 	"Debug": {
 		"QuickTest": false
@@ -20,34 +20,76 @@
 		"ResultsPath": "./results",
 		"SkipList": [
 			{
-				"testsName": "CqlAggregateFunctionsTest",
-				"groupName": "Max",
-				"testName": "MaxTestLong",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
-			},
-			{
-				"testsName": "CqlAggregateFunctionsTest",
-				"groupName": "Min",
-				"testName": "MinTestLong",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
-			},
-			{
-				"testsName": "CqlAggregateFunctionsTest",
-				"groupName": "Product",
-				"testName": "ProductLong",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
-			},
-			{
 				"testsName": "CqlAggregateTest",
 				"groupName": "AggregateTests",
 				"testName": "RolledOutIntervals",
-				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
+				"reason": "Invalid Test: Incorrectly casts starting expression to List<Interval<DateTime>>: https://github.com/cqframework/cql-tests/pull/146"
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Abs",
-				"testName": "AbsLong",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+				"groupName": "Exp",
+				"testName": "Exp1000",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Exp",
+				"testName": "Exp1000D",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Ln",
+				"testName": "Ln0",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Ln",
+				"testName": "LnNeg0",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Predecessor",
+				"testName": "PredecessorUnderflowDt",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Predecessor",
+				"testName": "PredecessorUnderflowT",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Successor",
+				"testName": "SuccessorOverflowDt",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Successor",
+				"testName": "SuccessorOverflowT",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAddInvalidYears",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtractInvalidYears",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "MinValue",
+				"testName": "DateTimeMinValue",
+				"reason": "Test Runner Not Detecting Equal DateTimes (+00:00 vs Z): https://github.com/cqframework/cql-tests-runner/issues/83"
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
@@ -57,51 +99,27 @@
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Modulo",
-				"testName": "Modulo4LBy2L",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Multiply",
-				"testName": "Multiply2LBy3L",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Negate",
-				"testName": "Negate1L",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Negate",
-				"testName": "NegateNeg1L",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "Power",
 				"testName": "Power2LTo2L",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+				"reason": "Invalid Test: CQL 2.0 specifies that Power always returns Decimal: https://github.com/cqframework/cql-tests/pull/151"
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "Power",
 				"testName": "Power2LTo3L",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+				"reason": "Invalid Test: CQL 2.0 specifies that Power always returns Decimal: https://github.com/cqframework/cql-tests/pull/151"
 			},
 			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Subtract",
-				"testName": "Subtract1LAnd1L",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+				"testsName": "CqlComparisonOperatorsTest",
+				"groupName": "Equal",
+				"testName": "TupleEqDifferentNamesWithOneNullId",
+				"reason": "Invalid Test: Test assumes incorrect equality semantics: https://jira.hl7.org/browse/FHIR-58836"
 			},
 			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Truncated Divide",
-				"testName": "TruncatedDivide10LBy3L",
-				"reason": "Test Runner Not Detecting Equal Long Values: https://github.com/cqframework/cql-tests-runner/issues/79"
+				"testsName": "CqlComparisonOperatorsTest",
+				"groupName": "Not Equal",
+				"testName": "TupleNotEqDifferingNamesWithOneNullId",
+				"reason": "Invalid Test: Test assumes incorrect equality semantics: https://jira.hl7.org/browse/FHIR-58836"
 			},
 			{
 				"testsName": "CqlDateTimeOperatorsTest",
@@ -261,27 +279,9 @@
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Collapse",
-				"testName": "DateTimeCollapse2",
-				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "End",
 				"testName": "DateTimeIntervalEnd",
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Except",
-				"testName": "DecimalIntervalExcept1to3",
-				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Except",
-				"testName": "Except12",
-				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
@@ -297,21 +297,51 @@
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPerHour",
+				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPerHourIntervalOverload",
+				"reason": "Test Runner does not honor the time-precision extension on dateTime, time and Period boundaries: https://github.com/cqframework/cql-tests-runner/pull/135"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPerHourOpenIntervalOverload",
+				"reason": "Test Runner does not honor the time-precision extension on dateTime, time and Period boundaries: https://github.com/cqframework/cql-tests-runner/pull/135"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPer0D1",
+				"reason": "Invalid Test: Expected output is incorrect: https://jira.hl7.org/browse/FHIR-58705"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Expand",
+				"testName": "ExpandPer0D1IntervalOverload",
+				"reason": "Invalid Test: Expected output is incorrect: https://jira.hl7.org/browse/FHIR-58705"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "Except",
-				"testName": "IntegerIntervalExcept1to3",
-				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
+				"testName": "DecimalIntervalExcept1to3",
+				"reason": "Invalid Test: Expected output may be incorrect based on CQL 2.0 Decimal semantics: https://jira.hl7.org/browse/FHIR-59229"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "Except",
+				"testName": "QuantityIntervalExcept1to4",
+				"reason": "Invalid Test: Expected output may be incorrect based on CQL 2.0 Decimal semantics: https://jira.hl7.org/browse/FHIR-59229"
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "Expand",
-				"testName": "ExpandPer2Days",
-				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandPerDay",
-				"reason": "Test Runner Not Detecting Equal Lists of Interval<DateTime>/Period: https://github.com/cqframework/cql-tests-runner/issues/80"
+				"testName": "ExpandPerHourOpen",
+				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
@@ -333,45 +363,39 @@
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Intersect",
-				"testName": "TestIntersectNull",
-				"reason": "Possibly Invalid Test: Engine returns Interval[5, Uncertainty<5, 10>] which is technically more accurate"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "Interval",
 				"testName": "DateTimeIntervalTest",
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "ProperContains",
+				"testName": "TimeProperContainsFalse",
+				"reason": "Invalid Test: Wrong Expected Output for Properly Includes And Properly Included In for Boundary Values: https://github.com/cqframework/cql-tests/issues/152"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "ProperContains",
+				"testName": "TimeProperContainsPrecisionFalse",
+				"reason": "Invalid Test: Wrong Expected Output for Properly Includes And Properly Included In for Boundary Values: https://github.com/cqframework/cql-tests/issues/152"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "ProperIn",
+				"testName": "TimeProperInFalse",
+				"reason": "Invalid Test: Wrong Expected Output for Properly Includes And Properly Included In for Boundary Values: https://github.com/cqframework/cql-tests/issues/152"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
+				"groupName": "ProperIn",
+				"testName": "TimeProperInPrecisionFalse",
+				"reason": "Invalid Test: Wrong Expected Output for Properly Includes And Properly Included In for Boundary Values: https://github.com/cqframework/cql-tests/issues/152"
+			},
+			{
+				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "Start",
 				"testName": "DateTimeIntervalStart",
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
-			},
-			{
-				"testsName": "CqlListOperatorsTest",
-				"groupName": "IncludedIn",
-				"testName": "IncludedInNullLeft",
-				"reason": "Translation Error: Java Translator Chooses Wrong Overload: https://github.com/cqframework/cql-tests/issues/65"
-			},
-			{
-				"testsName": "CqlListOperatorsTest",
-				"groupName": "IncludedIn",
-				"testName": "IncludedInNullRight",
-				"reason": "Translation Error: Java Translator Chooses Wrong Overload: https://github.com/cqframework/cql-tests/issues/65"
-			},
-			{
-				"testsName": "CqlListOperatorsTest",
-				"groupName": "Includes",
-				"testName": "IncludesNullLeft",
-				"reason": "Translation Error: Java Translator Chooses Wrong Overload: https://github.com/cqframework/cql-tests/issues/65"
-			},
-			{
-				"testsName": "CqlListOperatorsTest",
-				"groupName": "Includes",
-				"testName": "IncludesNullRight",
-				"reason": "Translation Error: Java Translator Chooses Wrong Overload: https://github.com/cqframework/cql-tests/issues/65"
 			},
 			{
 				"testsName": "CqlListOperatorsTest",
@@ -411,15 +435,21 @@
 			},
 			{
 				"testsName": "CqlStringOperatorsTest",
+				"groupName": "Substring",
+				"testName": "SubstringEmptyAnd0",
+				"reason": "Invalid Test: Likely wrong answer since index is out of range: https://github.com/cqframework/cql-tests/issues/149 "
+			},
+			{
+				"testsName": "CqlStringOperatorsTest",
 				"groupName": "toString tests",
 				"testName": "DateTimeToString2",
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
 			},
 			{
-				"testsName": "CqlTypeOperatorsTest",
-				"groupName": "ToConcept",
-				"testName": "CodeToConcept1",
-				"reason": "Test Runner Not Detecting Equal Concept Values: https://github.com/cqframework/cql-tests-runner/issues/81"
+				"testsName": "CqlStringOperatorsTest",
+				"groupName": "toString tests",
+				"testName": "QuantityToString",
+				"reason": "Invalid Test: Potentially incorrect expected answer `125 'cm'` since decimal toString requires at least one decimal (e.g., `125.0 'cm'): Link TBD"
 			},
 			{
 				"testsName": "CqlTypeOperatorsTest",
@@ -452,10 +482,28 @@
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
 			},
 			{
-				"testsName": "CqlTypesTest",
-				"groupName": "Quantity",
-				"testName": "QuantityTest2",
-				"reason": "Invalid Test: Custom UCUM Units Cannot Have Spaces: https://github.com/cqframework/cql-tests/pull/97"
+				"testsName": "ValueLiteralsAndSelectors",
+				"groupName": "Decimal",
+				"testName": "DecimalTenthStep",
+				"reason": "Invalid Test: CQL allows systems to support more than 8 digits precision: https://github.com/cqframework/cql-tests/issues/153"
+			},
+			{
+				"testsName": "ValueLiteralsAndSelectors",
+				"groupName": "Decimal",
+				"testName": "DecimalPosTenthStep",
+				"reason": "Invalid Test: CQL allows systems to support more than 8 digits precision: https://github.com/cqframework/cql-tests/issues/153"
+			},
+			{
+				"testsName": "ValueLiteralsAndSelectors",
+				"groupName": "Decimal",
+				"testName": "DecimalNegTenthStep",
+				"reason": "Invalid Test: CQL allows systems to support more than 8 digits precision: https://github.com/cqframework/cql-tests/issues/153"
+			},
+			{
+				"testsName": "ValueLiteralsAndSelectors",
+				"groupName": "Integer",
+				"testName": "IntegerNeg2Pow31ToInf1",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
 			}
 		]
 	}
