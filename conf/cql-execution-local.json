@@ -27,6 +27,66 @@
 			},
 			{
 				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Exp",
+				"testName": "Exp1000",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Exp",
+				"testName": "Exp1000D",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Ln",
+				"testName": "Ln0",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Ln",
+				"testName": "LnNeg0",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Predecessor",
+				"testName": "PredecessorUnderflowDt",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Predecessor",
+				"testName": "PredecessorUnderflowT",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Successor",
+				"testName": "SuccessorOverflowDt",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
+				"groupName": "Successor",
+				"testName": "SuccessorOverflowT",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Add",
+				"testName": "DateTimeAddInvalidYears",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlDateTimeOperatorsTest",
+				"groupName": "Subtract",
+				"testName": "DateTimeSubtractInvalidYears",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
+			},
+			{
+				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "MinValue",
 				"testName": "DateTimeMinValue",
 				"reason": "Test Runner Not Detecting Equal DateTimes (+00:00 vs Z): https://github.com/cqframework/cql-tests-runner/issues/83"
@@ -468,6 +528,30 @@
 				"groupName": "DateTime",
 				"testName": "DateTimeProper",
 				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+			},
+			{
+				"testsName": "ValueLiteralsAndSelectors",
+				"groupName": "Decimal",
+				"testName": "DecimalTenthStep",
+				"reason": "Invalid Test: CQL allows systems to support more than 8 digits precision: https://github.com/cqframework/cql-tests/issues/153"
+			},
+			{
+				"testsName": "ValueLiteralsAndSelectors",
+				"groupName": "Decimal",
+				"testName": "DecimalPosTenthStep",
+				"reason": "Invalid Test: CQL allows systems to support more than 8 digits precision: https://github.com/cqframework/cql-tests/issues/153"
+			},
+			{
+				"testsName": "ValueLiteralsAndSelectors",
+				"groupName": "Decimal",
+				"testName": "DecimalNegTenthStep",
+				"reason": "Invalid Test: CQL allows systems to support more than 8 digits precision: https://github.com/cqframework/cql-tests/issues/153"
+			},
+			{
+				"testsName": "ValueLiteralsAndSelectors",
+				"groupName": "Integer",
+				"testName": "IntegerNeg2Pow31ToInf1",
+				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
 			}
 		]
 	}
