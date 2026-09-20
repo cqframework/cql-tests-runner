@@ -11,7 +11,7 @@
 		"cqlTranslator": "Java CQFramework Translator",
 		"cqlTranslatorVersion": "5.2.0",
 		"cqlEngine": "JavaScript CQL Execution Framework",
-		"cqlEngineVersion": "4.0.0"
+		"cqlEngineVersion": "4.0.0-beta.1"
 	},
 	"Debug": {
 		"QuickTest": false
@@ -108,54 +108,6 @@
 				"groupName": "Power",
 				"testName": "Power2LTo3L",
 				"reason": "Invalid Test: CQL 2.0 specifies that Power always returns Decimal: https://github.com/cqframework/cql-tests/pull/151"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Predecessor",
-				"testName": "PredecessorOf1D",
-				"reason": "Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Predecessor",
-				"testName": "PredecessorOf101D",
-				"reason": "Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Predecessor",
-				"testName": "PredecessorOf1QCM",
-				"reason": "Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Successor",
-				"testName": "SuccessorOf1D",
-				"reason": "Invalid Test: Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Successor",
-				"testName": "SuccessorOf101D",
-				"reason": "Invalid Test: Test expects CQL 1.5 successor/predecessor results for 2.0 engine: https://github.com/cqframework/cql-tests/pull/147"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Truncated Divide",
-				"testName": "TruncatedDivide10d1ByNeg3D1Quantity",
-				"reason": "Invalid Test: Test expects wrong unit for Truncated Divide: https://github.com/cqframework/cql-tests/pull/148"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Truncated Divide",
-				"testName": "TruncatedDivide10By5DQuantity",
-				"reason": "Invalid Test: Test expects wrong unit for Truncated Divide: https://github.com/cqframework/cql-tests/pull/148"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Truncated Divide",
-				"testName": "TruncatedDivide414By206DQuantity",
-				"reason": "Invalid Test: Test expects wrong unit for Truncated Divide: https://github.com/cqframework/cql-tests/pull/148"
 			},
 			{
 				"testsName": "CqlComparisonOperatorsTest",
