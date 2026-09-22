@@ -50,7 +50,7 @@ export function createConfigFromData(configData: any): ConfigLoader {
   };
 
   config.Build = {
-      CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.000',
+      CqlFileVersion: process.env.CQL_FILE_VERSION || configData.Build?.CqlFileVersion || '1.0.0',
       CqlOutputPath: process.env.CQL_OUTPUT_PATH || configData.Build?.CqlOutputPath || './cql',
       CqlVersion: process.env.CQL_VERSION || configData.Build?.CqlVersion,
       testsRunDescription: process.env.TESTS_RUN_DESCRIPTION || configData.Build?.testsRunDescription || 'No configuration provided',
