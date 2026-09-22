@@ -3,7 +3,7 @@ import { beforeAll, expect, test } from 'vitest';
 import { ResultExtractor } from '../src/extractors/result-extractor.js';
 import { ValueMap } from '../src/extractors/value-map.js';
 import { buildExtractor } from '../src/server/extractor-builder.js';
-import { getIntervalMeta } from '../src/shared/interval-utils.js';
+import { getIntervalMeta, numericIntervalPointTypeOf } from '../src/shared/interval-utils.js';
 
 const CQL_TYPE_URL = 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType';
 const PRECISION_URL = 'http://hl7.org/fhir/StructureDefinition/quantity-precision';
@@ -215,6 +215,153 @@ test('time response check', () => {
 	).toBe('@T12:30:00.000');
 });
 
+const TIME_PRECISION_URL = 'http://hl7.org/fhir/StructureDefinition/time-precision';
+
+function timePrecision(code: string): any {
+	return { extension: [{ url: TIME_PRECISION_URL, valueCode: code }] };
+}
+
+// FHIR dateTime requires minutes and seconds once an hour is present, so an engine
+// emitting valid FHIR zero-pads an hour- or minute-precision CQL DateTime and declares
+// the real precision in the time-precision extension on the primitive element.
+test('dateTime with hour time-precision drops the padded minutes and seconds', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T10:00:00Z',
+					_valueDateTime: timePrecision('h'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T10Z');
+});
+
+test('dateTime with minute time-precision drops the padded seconds and keeps the offset', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T05:10:00-05:00',
+					_valueDateTime: timePrecision('min'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T05:10-05:00');
+});
+
+test('dateTime with second time-precision drops a padded fraction only', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T05:10:30.000',
+					_valueDateTime: timePrecision('s'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T05:10:30');
+});
+
+test('dateTime with millisecond time-precision is unchanged', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T05:10:30.955Z',
+					_valueDateTime: timePrecision('ms'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T05:10:30.955Z');
+});
+
+test('dateTime with an unknown time-precision code is unchanged', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10T10:00:00Z',
+					_valueDateTime: timePrecision('d'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T10:00:00Z');
+});
+
+test('date-only dateTime ignores a time-precision extension', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueDateTime: '2005-05-10',
+					_valueDateTime: timePrecision('h'),
+				},
+			],
+		})
+	).toBe('@2005-05-10T');
+});
+
+test('time with hour time-precision drops the padded minutes and seconds', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueTime: '10:00:00',
+					_valueTime: timePrecision('h'),
+				},
+			],
+		})
+	).toBe('@T10');
+});
+
+test('time with minute time-precision drops the padded seconds', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valueTime: '10:30:00',
+					_valueTime: timePrecision('min'),
+				},
+			],
+		})
+	).toBe('@T10:30');
+});
+
+test('list of times with hour time-precision yields hour literals', () => {
+	const hourTime = (value: string) => ({
+		name: 'return',
+		extension: [{ url: CQL_TYPE_URL, valueString: 'List<System.Time>' }],
+		valueTime: value,
+		_valueTime: timePrecision('h'),
+	});
+	expect(
+		extractor!.extract(
+			{
+				resourceType: 'Parameters',
+				parameter: [hourTime('10:00:00'), hourTime('11:00:00'), hourTime('12:00:00')],
+			},
+			{ singletonListKeys: new Set(['return']) }
+		)
+	).toStrictEqual(['@T10', '@T11', '@T12']);
+});
+
 test('quantity response check', () => {
 	expect(
 		extractor!.extract({
@@ -388,6 +535,57 @@ test('period datetime response check', () => {
 	});
 });
 
+// A Period boundary coarser than seconds is zero-padded like any FHIR dateTime, with the
+// real precision declared on the `_start`/`_end` companion element.
+test('period boundaries honour a time-precision extension on _start and _end', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valuePeriod: {
+						start: '2012-01-01T10:00:00Z',
+						_start: timePrecision('h'),
+						end: '2012-01-01T12:30:00Z',
+						_end: timePrecision('min'),
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		low: '@2012-01-01T10Z',
+		lowClosed: true,
+		high: '@2012-01-01T12:30Z',
+		highClosed: true,
+	});
+});
+
+test('Interval<System.Time> period boundaries honour a time-precision extension', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Time>' }],
+					valuePeriod: {
+						start: '0001-01-01T10:00:00Z',
+						_start: timePrecision('h'),
+						end: '0001-01-01T10:00:00Z',
+						_end: timePrecision('h'),
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		low: '@T10',
+		lowClosed: true,
+		high: '@T10',
+		highClosed: true,
+	});
+});
+
 // FHIR Period boundaries are dateTimes, so an Interval<System.Time> arrives with its
 // times anchored to a placeholder date; the cqf-cqlType extension identifies the real
 // point type and the date anchor is stripped back off.
@@ -539,7 +737,7 @@ test('list of date intervals (ExpandPerDay) yields date-literal boundaries', () 
 		extension: [
 			{
 				url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
-				valueString: 'Interval<System.Date>',
+				valueString: 'List<Interval<System.Date>>',
 			},
 		],
 		valuePeriod: { start: start, end: end },
@@ -574,6 +772,67 @@ test('period with a non-time cqlType still yields datetime literals', () => {
 						{
 							url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
 							valueString: 'Interval<System.DateTime>',
+						},
+					],
+					valuePeriod: {
+						start: '2025-01-01T00:00:00-05:00',
+						end: '2025-12-31T00:00:00-05:00',
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		lowClosed: true,
+		low: '@2025-01-01T00:00:00-05:00',
+		highClosed: true,
+		high: '@2025-12-31T00:00:00-05:00',
+	});
+});
+
+test('singleton list of time intervals yields time-literal boundaries', () => {
+	expect(
+		extractor!.extract(
+			{
+				resourceType: 'Parameters',
+				parameter: [
+					{
+						name: 'return',
+						extension: [
+							{
+								url: CQL_TYPE_URL,
+								valueString: 'List<Interval<Time>>',
+							},
+						],
+						valuePeriod: {
+							start: '0001-01-01T00:00:00.000+00:00',
+							end: '0001-01-01T23:59:59.599Z',
+						},
+					},
+				],
+			},
+			{ singletonListKeys: new Set(['return']) }
+		)
+	).toStrictEqual([
+		{
+			lowClosed: true,
+			low: '@T00:00:00.000',
+			highClosed: true,
+			high: '@T23:59:59.599',
+		},
+	]);
+});
+
+test('list of datetime intervals yields datetime-literal boundaries', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [
+						{
+							url: CQL_TYPE_URL,
+							valueString: 'List<Interval<System.DateTime>>',
 						},
 					],
 					valuePeriod: {
@@ -842,6 +1101,24 @@ test('nested list of integers response check', () => {
 
 // Numeric intervals mapped to Range with unity-coded boundaries (FHIR-56226)
 
+test('numeric range point types support scalar, interval, and one direct List wrapper', () => {
+	expect(numericIntervalPointTypeOf('System.Integer')).toBe('Integer');
+	expect(numericIntervalPointTypeOf('Decimal')).toBe('Decimal');
+	expect(numericIntervalPointTypeOf('System.Long')).toBe('Long');
+	expect(numericIntervalPointTypeOf('List<System.Integer>')).toBe('Integer');
+	expect(numericIntervalPointTypeOf('List<Decimal>')).toBe('Decimal');
+	expect(numericIntervalPointTypeOf('List<System.Long>')).toBe('Long');
+	expect(numericIntervalPointTypeOf('List<Interval<System.Integer>>')).toBe('Integer');
+	expect(numericIntervalPointTypeOf('List<Interval<Decimal>>')).toBe('Decimal');
+	expect(numericIntervalPointTypeOf('List<Interval<System.Long>>')).toBe('Long');
+	expect(numericIntervalPointTypeOf('System.Quantity')).toBeUndefined();
+	expect(numericIntervalPointTypeOf('List<System.Quantity>')).toBeUndefined();
+	expect(numericIntervalPointTypeOf('List<Interval<System.Quantity>>')).toBeUndefined();
+	expect(numericIntervalPointTypeOf('List<List<System.Integer>>')).toBeUndefined();
+	expect(numericIntervalPointTypeOf('List<List<Interval<System.Integer>>>')).toBeUndefined();
+	expect(numericIntervalPointTypeOf('List<Interval<System.Integer>')).toBeUndefined();
+});
+
 test('decimal interval response check (precision extension on the quantity)', () => {
 	const result = extractRange(
 		{
@@ -906,6 +1183,159 @@ test('integer interval response check (typed by the cqlType extension)', () => {
 	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Integer' });
 });
 
+test('integer uncertainty range uses its scalar declared point type', () => {
+	const result = extractRange(
+		{
+			low: { value: 18, system: UCUM_SYSTEM, code: '1' },
+			high: { value: 49, system: UCUM_SYSTEM, code: '1' },
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'System.Integer' }]
+	);
+
+	expect(result).toStrictEqual({ lowClosed: true, low: 18, highClosed: true, high: 49 });
+	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Integer' });
+});
+
+test('decimal and long uncertainty ranges preserve point-specific conversion', () => {
+	const decimalResult = extractRange(
+		{
+			low: {
+				value: '1.0',
+				system: UCUM_SYSTEM,
+				code: '1',
+				_value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] },
+			},
+			high: {
+				value: '1.40',
+				system: UCUM_SYSTEM,
+				code: '1',
+				_value: { extension: [{ url: PRECISION_URL, valueInteger: 2 }] },
+			},
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'System.Decimal' }]
+	);
+	expect(decimalResult).toStrictEqual({
+		lowClosed: true,
+		low: 1.0,
+		highClosed: true,
+		high: 1.4,
+	});
+	expect(getIntervalMeta(decimalResult)).toStrictEqual({
+		pointType: 'Decimal',
+		lowPrecision: 1,
+		highPrecision: 2,
+	});
+
+	const longResult = extractRange(
+		{
+			low: { value: '1', system: UCUM_SYSTEM, code: '1' },
+			high: { value: '9007199254740995', system: UCUM_SYSTEM, code: '1' },
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'System.Long' }]
+	);
+	expect(longResult).toStrictEqual({
+		lowClosed: true,
+		low: 1n,
+		highClosed: true,
+		high: 9007199254740995n,
+	});
+	expect(getIntervalMeta(longResult)).toStrictEqual({ pointType: 'Long' });
+});
+
+test('ordinary numeric scalar with a cqlType extension remains scalar', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [{ url: CQL_TYPE_URL, valueString: 'System.Integer' }],
+					valueInteger: 18,
+				},
+			],
+		})
+	).toBe(18);
+});
+
+test('lists of integer uncertainties retain singleton and repeated cardinality', () => {
+	const rangeParameter = (low: number, high: number) => ({
+		name: 'return',
+		extension: [{ url: CQL_TYPE_URL, valueString: 'List<System.Integer>' }],
+		valueRange: {
+			low: { value: low, system: UCUM_SYSTEM, code: '1' },
+			high: { value: high, system: UCUM_SYSTEM, code: '1' },
+		},
+	});
+
+	const singleton = extractor!.extract(
+		{ resourceType: 'Parameters', parameter: [rangeParameter(18, 49)] },
+		{ singletonListKeys: new Set(['return']) }
+	);
+	expect(singleton).toStrictEqual([{ lowClosed: true, low: 18, highClosed: true, high: 49 }]);
+	expect(getIntervalMeta(singleton[0])).toStrictEqual({ pointType: 'Integer' });
+
+	const repeated = extractor!.extract({
+		resourceType: 'Parameters',
+		parameter: [rangeParameter(1, 3), rangeParameter(5, 8)],
+	});
+	expect(repeated).toStrictEqual([
+		{ lowClosed: true, low: 1, highClosed: true, high: 3 },
+		{ lowClosed: true, low: 5, highClosed: true, high: 8 },
+	]);
+	expect(repeated.map(getIntervalMeta)).toStrictEqual([
+		{ pointType: 'Integer' },
+		{ pointType: 'Integer' },
+	]);
+});
+
+test('singleton list of integer intervals extracts numeric boundaries and precision', () => {
+	const result = extractor!.extract(
+		{
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [
+						{ url: CQL_TYPE_URL, valueString: 'List<Interval<System.Integer>>' },
+					],
+					valueRange: {
+						low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+						high: { value: 19, system: UCUM_SYSTEM, code: '1' },
+					},
+				},
+			],
+		},
+		{ singletonListKeys: new Set(['return']) }
+	);
+
+	expect(result).toStrictEqual([{ lowClosed: true, low: 1, highClosed: true, high: 19 }]);
+	expect(getIntervalMeta(result[0])).toStrictEqual({ pointType: 'Integer' });
+});
+
+test('repeated list interval parameters each extract as numeric intervals', () => {
+	const rangeParameter = (low: number, high: number) => ({
+		name: 'return',
+		extension: [{ url: CQL_TYPE_URL, valueString: 'List<Interval<System.Integer>>' }],
+		valueRange: {
+			low: { value: low, system: UCUM_SYSTEM, code: '1' },
+			high: { value: high, system: UCUM_SYSTEM, code: '1' },
+		},
+	});
+	const result = extractor!.extract({
+		resourceType: 'Parameters',
+		parameter: [rangeParameter(1, 3), rangeParameter(5, 8)],
+	});
+
+	expect(result).toStrictEqual([
+		{ lowClosed: true, low: 1, highClosed: true, high: 3 },
+		{ lowClosed: true, low: 5, highClosed: true, high: 8 },
+	]);
+	expect(result.map(getIntervalMeta)).toStrictEqual([
+		{ pointType: 'Integer' },
+		{ pointType: 'Integer' },
+	]);
+});
+
 test('numeric interval response check with string-encoded boundary values', () => {
 	const result = extractRange(
 		{
@@ -960,6 +1390,43 @@ test('quantity interval declared by cqlType is not treated as numeric', () => {
 	});
 	expect(getIntervalMeta(result)).toBeUndefined();
 });
+
+test('list of quantity intervals is not treated as numeric', () => {
+	const result = extractRange(
+		{
+			low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+			high: { value: 2, system: UCUM_SYSTEM, code: '1' },
+		},
+		[{ url: CQL_TYPE_URL, valueString: 'List<Interval<System.Quantity>>' }]
+	);
+	expect(result).toStrictEqual({
+		lowClosed: true,
+		low: { value: 1, unit: '1' },
+		highClosed: true,
+		high: { value: 2, unit: '1' },
+	});
+	expect(getIntervalMeta(result)).toBeUndefined();
+});
+
+test.each(['System.Quantity', 'List<System.Quantity>'])(
+	'%s uncertainty range is not treated as numeric',
+	declaredType => {
+		const result = extractRange(
+			{
+				low: { value: 1, system: UCUM_SYSTEM, code: '1' },
+				high: { value: 2, system: UCUM_SYSTEM, code: '1' },
+			},
+			[{ url: CQL_TYPE_URL, valueString: declaredType }]
+		);
+		expect(result).toStrictEqual({
+			lowClosed: true,
+			low: { value: 1, unit: '1' },
+			highClosed: true,
+			high: { value: 2, unit: '1' },
+		});
+		expect(getIntervalMeta(result)).toBeUndefined();
+	}
+);
 
 test('unity-coded range without a cqlType extension stays a quantity interval', () => {
 	// Strict detection: unity coding alone does not identify a numeric interval, so the
@@ -1087,6 +1554,21 @@ test('part-form interval takes the point type from the cqlType extension when de
 
 	expect(result).toStrictEqual({ low: '1', lowClosed: true, high: '4', highClosed: false });
 	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Long' });
+});
+
+test('part-form uncertainty takes the point type from a scalar cqlType declaration', () => {
+	const result = extractIntervalParts(
+		[
+			{ name: 'low', valueInteger: 18 },
+			{ name: 'lowClosed', valueBoolean: true },
+			{ name: 'high', valueInteger: 49 },
+			{ name: 'highClosed', valueBoolean: true },
+		],
+		[{ url: CQL_TYPE_URL, valueString: 'System.Integer' }]
+	);
+
+	expect(result).toStrictEqual({ low: 18, lowClosed: true, high: 49, highClosed: true });
+	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Integer' });
 });
 
 test('part-form interval with mixed boundary element types derives nothing', () => {
