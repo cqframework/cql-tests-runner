@@ -88,6 +88,29 @@ function normalizeForComparison(value: any): any {
 	return value;
 }
 
+/**
+ * A CQL DateTime or Time literal (`@`-prefixed) ending in a UTC designator. ISO 8601 allows UTC to
+ * be written either as `Z` or as `+00:00`, so an engine may return one where a test declares the
+ * other. Anchored to the end so only the offset is considered.
+ */
+const UTC_DESIGNATOR = /^@[\dT:.\-]+(?:Z|\+00:00)$/;
+
+/**
+ * Equates two temporal literals that differ only in how they spell UTC. `Z` and `+00:00` denote the
+ * same instant, so a test declaring one must not fail against an engine that returns the other.
+ *
+ * Deliberately narrow: both sides must be `@`-prefixed temporal literals ending in a UTC
+ * designator, so a genuine String result of "Z" — or any other string — is never rewritten. The
+ * comparison normalizes; the value is still reported exactly as the engine returned it.
+ */
+function temporalLiteralsEqual(expected: string, actual: string): boolean {
+	if (!UTC_DESIGNATOR.test(expected) || !UTC_DESIGNATOR.test(actual)) {
+		return false;
+	}
+	const toUtcOffset = (literal: string) => literal.replace(/Z$/, '+00:00');
+	return toUtcOffset(expected) === toUtcOffset(actual);
+}
+
 function resultsEqualNormalized(expected: any, actual: any): boolean {
 	if (expected === undefined && actual === undefined) {
 		return true;
@@ -107,6 +130,10 @@ function resultsEqualNormalized(expected: any, actual: any): boolean {
 
 	if (expected === actual) {
 		return true;
+	}
+
+	if (typeof expected === 'string' && typeof actual === 'string') {
+		return temporalLiteralsEqual(expected, actual);
 	}
 
 	if (
