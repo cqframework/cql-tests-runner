@@ -5,6 +5,7 @@ import type { TestResult, InternalTestResult } from '../models/test-types.js';
 import type { TestResultsSummary, CQLTestResultsData } from '../models/results-types.js';
 import { ResultsValidator } from '../conf/results-validator.js';
 import { isIntervalShaped } from '../shared/interval-utils.js';
+import type { InvalidKind } from '../shared/invalid-utils.js';
 
 /**
  * Formats an actual value for report output. Structured CQL values are rendered in
@@ -209,7 +210,7 @@ export class CQLTestResults {
 				}),
 				...(result.invalid &&
 					result.invalid !== 'undefined' && {
-						invalid: result.invalid as 'false' | 'true' | 'semantic',
+						invalid: result.invalid as InvalidKind,
 					}),
 				...(result.capability &&
 					result.capability.length > 0 && { capabilities: result.capability }),

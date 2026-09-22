@@ -4,6 +4,7 @@ import * as path from 'node:path';
 import { ConfigLoader } from '../conf/config-loader.js';
 import { TestLoader } from '../loaders/test-loader.js';
 import { generateEmptyResults } from '../shared/results-shared.js';
+import { preventsTranslation } from '../shared/invalid-utils.js';
 
 export class BuildCommand {
 	async execute(options: any): Promise<void> {
@@ -50,7 +51,9 @@ export class BuildCommand {
 				continue;
 			}
 
-			if (r.invalid !== 'semantic') {
+			// A define that cannot be translated would fail the whole generated library, so
+			// expressions expected to produce a syntax or semantic error are left out.
+			if (!preventsTranslation(r.invalid)) {
 				const defineVal = `define "${r.groupName}.${r.testName}": ${r.expression}`;
 				const key = `${r.testsName}-${r.groupName}-${r.testName}`;
 				let reason = '';

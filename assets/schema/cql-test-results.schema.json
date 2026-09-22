@@ -71,7 +71,8 @@
           },
           "invalid": {
             "type": "string",
-            "enum": ["true", "false", "semantic"]
+            "description": "The test's expected outcome, per InvalidType in testSchema.xsd: false to evaluate successfully, or the kind of error expected.",
+            "enum": ["false", "syntax", "semantic", "execution", "true"]
           },
           "capabilities": {
             "type": "array",
