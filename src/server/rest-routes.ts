@@ -161,7 +161,10 @@ export function setupRestRoutes(deps: RestRoutesDependencies): void {
   });
 
   // GET /jobs/:id endpoint - Get job status and results
-  app.get('/jobs/:id', async (req: Request, res: Response) => {
+  // The route's parameters are declared so `id` is a string: Express types an undeclared
+  // `req.params` entry as `string | string[]`, because a path can bind a parameter repeatedly.
+  // `/jobs/:id` binds it once, and jobManager.getJobStatus takes a string.
+  app.get('/jobs/:id', async (req: Request<{ id: string }>, res: Response) => {
     try {
       const jobId = req.params.id;
       
