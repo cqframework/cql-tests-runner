@@ -77,6 +77,10 @@
         "QuickTest": {
           "type": "boolean",
           "description": "Whether to run quick tests only"
+        },
+        "DecodeCqfCqlText": {
+          "type": "boolean",
+          "description": "Whether to decode interval results an engine returns as CQL text flagged with the cqf-cqlText extension. This is a CQF-implementation-specific workaround, not part of the CQL specification. Defaults to true."
         }
       },
       "required": ["QuickTest"],

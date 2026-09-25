@@ -57,7 +57,16 @@ export async function createExecutionContext(configData: any): Promise<Execution
 	const cvl = cvlModule.default;
 
 	const tests = TestLoader.load();
-	const resultExtractor = buildExtractor();
+	const decodeCqfCqlText = config.Debug?.DecodeCqfCqlText ?? true;
+	if (decodeCqfCqlText) {
+		console.log(
+			'Decoding cqf-cqlText interval results (CQF-specific, not part of the CQL specification; ' +
+				'set Debug.DecodeCqfCqlText to false to disable)'
+		);
+	}
+	const resultExtractor = buildExtractor(
+		decodeCqfCqlText ? { cqlTextParser: (text: string) => cvl.parse(text) } : {}
+	);
 	const skipMap = config.skipListMap();
 	const onlySet = config.onlyListSet();
 

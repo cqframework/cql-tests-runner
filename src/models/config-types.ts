@@ -35,6 +35,8 @@ export interface Config {
 	};
 	Debug: {
 		QuickTest: boolean;
+		/** Decode `cqf-cqlText` interval results (CQF-specific, not CQL spec). Defaults to true. */
+		DecodeCqfCqlText?: boolean;
 	};
 	// Runtime-only fields (not in schema, computed from Config)
 	CqlEndpoint?: string;

@@ -3,6 +3,7 @@ import * as path from 'node:path';
 import type { Config, SkipItem, OnlyItem } from '../models/config-types.js';
 import { ConfigValidator } from './config-validator.js';
 import type { ValidationError } from './config-validator.js';
+import { decodeCqfCqlTextSetting } from './debug-settings.js';
 
 export class ConfigLoader implements Config {
 	FhirServer: {
@@ -26,6 +27,7 @@ export class ConfigLoader implements Config {
 	};
 	Debug: {
 		QuickTest: boolean;
+		DecodeCqfCqlText: boolean;
 	};
 	CqlEndpoint: string;
 
@@ -101,6 +103,7 @@ export class ConfigLoader implements Config {
 
 		this.Debug = {
 			QuickTest: this.#setQuickTestSetting(configData),
+			DecodeCqfCqlText: decodeCqfCqlTextSetting(configData),
 		};
 
 		this.CqlEndpoint = this.#cqlEndPoint();
