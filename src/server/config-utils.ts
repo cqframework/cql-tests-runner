@@ -1,4 +1,5 @@
 import { ConfigLoader } from '../conf/config-loader.js';
+import { decodeCqfCqlTextSetting } from '../conf/debug-settings.js';
 
 /**
  * Removes trailing slash from a URL string
@@ -93,7 +94,8 @@ export function createConfigFromData(configData: any): ConfigLoader {
   };
 
   config.Debug = {
-    QuickTest: setQuickTestSetting(configData)
+    QuickTest: setQuickTestSetting(configData),
+    DecodeCqfCqlText: decodeCqfCqlTextSetting(configData)
   };
 
   config.CqlEndpoint = cqlEndPoint(config.FhirServer.CqlOperation);

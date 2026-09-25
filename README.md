@@ -107,6 +107,26 @@ To run only a specified set of tests (and skip all others), add entries to the `
 }
 ```
 
+Some engines return intervals they cannot map to a FHIR type (for example an `Interval<Integer>`,
+`Interval<Decimal>` or `Interval<Time>`) as CQL text in `valueString`, flagged by the
+`cqf-cqlText` extension. By default the runner decodes that text back into an interval so it can
+be compared with the expected value. **This is a CQF-implementation-specific workaround, not part
+of the CQL specification** (see
+[clinical_quality_language#1832](https://github.com/cqframework/clinical_quality_language/issues/1832)).
+Set `Debug.DecodeCqfCqlText` to `false` to compare such results as plain strings instead:
+
+```jsonc
+{
+  "FhirServer": {/* omitted */},
+  "Build": {/* omitted */},
+  "Tests": {/* omitted */},
+  "Debug": {
+    "QuickTest": false,
+    "DecodeCqfCqlText": false
+  }
+}
+```
+
 Create your own configuration file and reference it when running the commands. You can use `conf/localhost.json` as a template for a new configuration with your own settings.
 
 ### Running the tests
@@ -190,7 +210,10 @@ You can still override specific settings using environment variables:
 export SERVER_BASE_URL=http://fhirServerBaseEndpoint
 export CQL_OPERATION=$cql
 export CQL_TESTS_PATH=cql-tests/tests/cql
+export DECODE_CQF_CQLTEXT=false
 ```
+
+`DECODE_CQF_CQLTEXT` overrides `Debug.DecodeCqfCqlText` (see above).
 
 `CQL_TESTS_PATH` sets the directory the test loader reads test XML from, defaulting to
 `cql-tests/tests/cql`. Point it at another directory in the `cql-tests` submodule — for
