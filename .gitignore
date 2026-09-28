@@ -1,11 +1,15 @@
 /node_modules
 /results
+/local_results
 .vs
 .vscode
+.idea/
+*.iml
 /config/production.json
 .cursorrules
 /cql
 /dist
 /jobs
+*.zip
 
 .DS_Store
