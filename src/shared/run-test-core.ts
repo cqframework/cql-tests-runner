@@ -12,6 +12,8 @@ import { resultsEqual } from './results-utils.js';
 import { formatActualValue } from '../test-results/cql-test-results.js';
 import { publishTestLibrary } from './library-publisher.js';
 import type { PublishedLibrary } from './library-publisher.js';
+import { TIMEZONE_HEADER_NAME, resolveEvaluationTiming } from './evaluation-context.js';
+import { probeEvaluationRequestSupport } from './evaluation-request-probe.js';
 
 /**
  * Shared execution state for a test run: the resolved config, the engine, the CVL parser,
@@ -26,6 +28,8 @@ export interface ExecutionContext {
 	resultExtractor: ResultExtractor;
 	skipMap: Map<string, string>;
 	onlySet: Set<string>;
+	/** The start of the run: the evaluation request timestamp of every test that does not set one. */
+	runInstant: Date;
 }
 
 /**
@@ -52,6 +56,20 @@ export async function createExecutionContext(configData: any): Promise<Execution
 	);
 	cqlEngine.cqlVersion = config.Build?.CqlVersion || '1.5';
 
+	cqlEngine.evaluationRequestSupport = await probeEvaluationRequestSupport(
+		cqlEngine.apiUrl!,
+		config.FhirServer.CqlOperation
+	);
+	const { defaultTimezoneOffset, timestampParameterHonored, timezoneHeaderHonored } =
+		cqlEngine.evaluationRequestSupport;
+	const describe = (honored: boolean | null) =>
+		honored === null ? 'unknown' : honored ? 'yes' : 'no';
+	console.log(
+		`Evaluation requests default to timezone offset ${defaultTimezoneOffset}; server honours ` +
+			`timestamp parameter: ${describe(timestampParameterHonored)}, ` +
+			`Timezone header: ${describe(timezoneHeaderHonored)}`
+	);
+
 	// @ts-expect-error - cvl.mjs has no declaration file
 	const cvlModule = await import('../../cvl/cvl.mjs');
 	const cvl = cvlModule.default;
@@ -61,7 +79,16 @@ export async function createExecutionContext(configData: any): Promise<Execution
 	const skipMap = config.skipListMap();
 	const onlySet = config.onlyListSet();
 
-	return { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet };
+	return {
+		config,
+		cqlEngine,
+		cvl,
+		tests,
+		resultExtractor,
+		skipMap,
+		onlySet,
+		runInstant: new Date(),
+	};
 }
 
 /**
@@ -131,7 +158,7 @@ export async function runTest(
 	result: InternalTestResult,
 	ctx: ExecutionContext
 ): Promise<InternalTestResult> {
-	const { config, cqlEngine, cvl, resultExtractor, skipMap, onlySet } = ctx;
+	const { config, cqlEngine, cvl, resultExtractor, skipMap, onlySet, runInstant } = ctx;
 	const apiUrl = cqlEngine.apiUrl!;
 	const key = `${result.testsName}-${result.groupName}-${result.testName}`;
 
@@ -171,6 +198,24 @@ export async function runTest(
 		return result;
 	}
 
+	// The evaluation request timestamp: the test's own, or the run's start in the test's offset
+	// (UTC unless the test says otherwise). An unusable timing attribute is a defect in the test.
+	const timing = resolveEvaluationTiming(result, runInstant);
+	if (!timing.ok) {
+		result.testStatus = 'error';
+		result.error = { message: timing.message, name: 'InvalidTestDefinition' };
+		console.log(
+			'Test %s:%s:%s status: %s error: %s',
+			result.testsName,
+			result.groupName,
+			result.testName,
+			result.testStatus,
+			timing.message
+		);
+		return result;
+	}
+	result.evaluationTimestamp = timing.timestamp;
+
 	let publishedLibrary: PublishedLibrary | undefined;
 
 	try {
@@ -185,13 +230,17 @@ export async function runTest(
 		const data = generateParametersResource(
 			result,
 			config.FhirServer.CqlOperation,
-			publishedLibrary?.canonical
+			publishedLibrary?.canonical,
+			timing.timestamp
 		);
 
+		// The timestamp goes both as the operation's `timestamp` input and as the client-timezone
+		// header Using CQL With FHIR recommends; a server that supports neither ignores both.
 		const response = await fetch(apiUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				[TIMEZONE_HEADER_NAME]: timing.timestamp,
 			},
 			body: JSON.stringify(data),
 		});

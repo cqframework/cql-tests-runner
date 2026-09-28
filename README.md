@@ -109,6 +109,24 @@ To run only a specified set of tests (and skip all others), add entries to the `
 
 Create your own configuration file and reference it when running the commands. You can use `conf/localhost.json` as a template for a new configuration with your own settings.
 
+### Evaluation timestamp and timezone offset
+
+CQL evaluates every request against an _evaluation request timestamp_: `Now()`, `Today()` and `TimeOfDay()` return it, and a DateTime written without a timezone offset (such as `@2012-04-01T00:00`) takes its offset. The runner sets this timestamp for every test instead of leaving it to the server's clock and zone:
+
+- By default, a test is evaluated at the start of the run, **in UTC**.
+- A test can fix the timestamp with an `evaluationDateTime` attribute, or only its offset with an `evaluationTimezoneOffset` attribute ([cql-tests#28](https://github.com/cqframework/cql-tests/issues/28)). Offsets may be written `Z`, `±HH:MM`, or in CQL's decimal hours (`-6.0`). Specifying both is an error, because an `evaluationDateTime` already carries its offset.
+
+```xml
+<test name="NowIsTheRequestTimestamp" evaluationDateTime="2014-01-01T00:00:00.000Z">
+  <expression>Now()</expression>
+  <output>@2014-01-01T00:00:00.000Z</output>
+</test>
+```
+
+The timestamp is sent both as the `timestamp` input parameter of `$cql` and `Library/$evaluate`, as defined in [Using CQL With FHIR](https://build.fhir.org/ig/HL7/cql-ig/), and as the `Timezone` client-timezone header ([FHIR HTTP: Client Timezone](https://hl7.org/fhir/R5/http.html#timezones)). A server that supports neither ignores them.
+
+At the start of each run the runner checks whether the server acts on each mechanism, and logs the answer. The results file records it under `evaluationRequest`, and records each test's timestamp as `evaluationTimestamp`. Against a server that honours neither, DateTime results are computed in the server's own timezone, whatever the test requested.
+
 ### Running the tests
 
 The CLI now requires a configuration file path as an argument. Run the tests with the following commands:

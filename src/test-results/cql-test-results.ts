@@ -213,6 +213,9 @@ export class CQLTestResults {
 					}),
 				...(result.capability &&
 					result.capability.length > 0 && { capabilities: result.capability }),
+				...(result.evaluationTimestamp && {
+					evaluationTimestamp: result.evaluationTimestamp,
+				}),
 			};
 			return transformed;
 		});
@@ -227,6 +230,9 @@ export class CQLTestResults {
 				errorCount: this.counts.error,
 			},
 			testsRunDescription: this._testsRunDescription || undefined,
+			...(this._cqlengine.evaluationRequestSupport && {
+				evaluationRequest: this._cqlengine.evaluationRequestSupport,
+			}),
 			results: transformedResults,
 		};
 	}

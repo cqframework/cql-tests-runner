@@ -1,4 +1,5 @@
 import type { TestResult } from './test-types.js';
+import type { EvaluationRequestSupport } from '../shared/evaluation-request-probe.js';
 
 export interface TestResultsSummary {
 	pass: number;
@@ -17,6 +18,8 @@ export interface CQLTestResultsData {
 		errorCount: number;
 	};
 	testsRunDescription?: string;
+	/** How evaluation requests were timed, and whether the server acted on it. */
+	evaluationRequest?: EvaluationRequestSupport;
 	results: TestResult[];
 }
 
