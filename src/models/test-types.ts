@@ -42,6 +42,10 @@ export interface Test {
 	/** One <capability> element parses to a bare object; two or more to an array. */
 	capability?: CapabilityKV | CapabilityKV[];
 	output?: string | TestOutput | string[] | TestOutput[];
+	/** The evaluation request timestamp the test runs at (cqframework/cql-tests#28). */
+	evaluationDateTime?: string;
+	/** The timezone offset the test runs in, when only the offset matters (cql-tests#28). */
+	evaluationTimezoneOffset?: string;
 }
 
 export interface TestGroup {
@@ -96,6 +100,10 @@ export interface InternalTestResult {
 	// result is compared.)
 	library?: string;
 	capability?: CapabilityKV[];
+	evaluationDateTime?: string;
+	evaluationTimezoneOffset?: string;
+	/** The evaluation request timestamp actually sent to the server. */
+	evaluationTimestamp?: string;
 }
 
 // Schema-compliant TestResult type (strictly matches cql-test-results.schema.json)
@@ -116,4 +124,5 @@ export interface TestResult {
 	invalid?: 'false' | 'true' | 'semantic';
 	capabilities?: CapabilityKV[];
 	expression: string;
+	evaluationTimestamp?: string;
 }

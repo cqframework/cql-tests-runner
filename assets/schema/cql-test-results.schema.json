@@ -33,6 +33,25 @@
     "testsRunDescription": {
       "type":  "string"
     },
+    "evaluationRequest": {
+      "type": "object",
+      "description": "How evaluation requests were timed, and whether the server acted on it. Probed once per run; null means it could not be determined.",
+      "properties": {
+        "defaultTimezoneOffset": {
+          "type": "string",
+          "description": "The timezone offset used for tests that specify neither evaluationDateTime nor evaluationTimezoneOffset."
+        },
+        "timestampParameterHonored": {
+          "type": ["boolean", "null"],
+          "description": "Whether the server used the timestamp operation parameter as the evaluation request timestamp."
+        },
+        "timezoneHeaderHonored": {
+          "type": ["boolean", "null"],
+          "description": "Whether the server used the Timezone (client-timezone) HTTP header as the evaluation timezone offset."
+        }
+      },
+      "required": ["defaultTimezoneOffset", "timestampParameterHonored", "timezoneHeaderHonored"]
+    },
     "results": {
       "type": "array",
       "items": {
@@ -98,6 +117,11 @@
           },
           "expression": {
             "type": "string"
+          },
+          "evaluationTimestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The evaluation request timestamp sent to the server for this test."
           }
         },
         "required": ["testsName", "groupName", "testName", "expression"]

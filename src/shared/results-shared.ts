@@ -1,5 +1,6 @@
 import type { Tests, Test, InternalTestResult, CapabilityKV } from '../models/test-types.js';
 import type { Parameters } from 'fhir/r4';
+import { TIMESTAMP_PARAMETER_NAME } from './evaluation-context.js';
 
 /**
  * The XML parser yields a bare object when an element declares exactly one <capability>
@@ -35,6 +36,9 @@ export class Result implements InternalTestResult {
 	expression: string;
 	library?: string;
 	capability: CapabilityKV[] = [];
+	evaluationDateTime?: string;
+	evaluationTimezoneOffset?: string;
+	evaluationTimestamp?: string;
 
 	constructor(
 		testsName: string,
@@ -47,6 +51,8 @@ export class Result implements InternalTestResult {
 		this.testName = test.name;
 		this.testVersion = test.version;
 		this.testVersionTo = test.versionTo;
+		this.evaluationDateTime = test.evaluationDateTime;
+		this.evaluationTimezoneOffset = test.evaluationTimezoneOffset;
 
 		if (test.library !== undefined) {
 			// Library-style test: the whole CQL library is sent to Library/$evaluate as an inline
@@ -186,7 +192,25 @@ export function responseIndicatesError(status: number | undefined, responseBody:
 	return false;
 }
 
+/**
+ * Builds the operation's input Parameters. `timestamp`, when given, is sent as the evaluation
+ * request timestamp (the `timestamp` input of $cql and Library/$evaluate in Using CQL With FHIR);
+ * a server that does not define the parameter ignores it.
+ */
 export function generateParametersResource(
+	result: InternalTestResult,
+	cqlEndpoint: string,
+	libraryCanonical?: string,
+	timestamp?: string
+): Parameters {
+	const data = buildOperationParameters(result, cqlEndpoint, libraryCanonical);
+	if (timestamp !== undefined) {
+		data.parameter!.push({ name: TIMESTAMP_PARAMETER_NAME, valueDateTime: timestamp });
+	}
+	return data;
+}
+
+function buildOperationParameters(
 	result: InternalTestResult,
 	cqlEndpoint: string,
 	libraryCanonical?: string

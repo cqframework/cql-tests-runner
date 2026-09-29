@@ -3,6 +3,16 @@ import { TestRunner } from '../src/services/test-runner.js';
 import * as ResultsUtils from '../src/shared/results-utils.js';
 import * as ResultsShared from '../src/shared/results-shared.js';
 
+// The run-start probe of evaluation-request support makes its own requests; these tests count and
+// sequence fetch calls, so it is replaced with a fixed answer (it has its own tests).
+vi.mock('../src/shared/evaluation-request-probe', () => ({
+  probeEvaluationRequestSupport: vi.fn().mockResolvedValue({
+    defaultTimezoneOffset: 'Z',
+    timestampParameterHonored: null,
+    timezoneHeaderHonored: null,
+  }),
+}));
+
 vi.mock('../src/loaders/test-loader', () => ({
   TestLoader: { load: vi.fn().mockReturnValue([]) },
 }));
@@ -418,7 +428,8 @@ describe('Library-style tests (TestRunner)', () => {
     expect(ResultsShared.generateParametersResource).toHaveBeenCalledWith(
       expect.objectContaining({ expression: 'output' }),
       '$evaluate',
-      'https://hl7.org/fhir/uv/cql/Library/SimpleOverloadMatching|1.0.0'
+      'https://hl7.org/fhir/uv/cql/Library/SimpleOverloadMatching|1.0.0',
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)
     );
 
     // The library is published before evaluation and removed afterwards.

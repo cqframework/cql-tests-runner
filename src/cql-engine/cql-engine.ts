@@ -1,6 +1,7 @@
 import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 import type { CQLEngineInfo } from '../models/results-types.js';
+import type { EvaluationRequestSupport } from '../shared/evaluation-request-probe.js';
 
 /**
  * Represents a CQL Engine.
@@ -40,6 +41,12 @@ export class CQLEngine {
 	private baseURL?: string;
 	private metadata?: any;
 	private description?: string;
+
+	/**
+	 * Whether the server acts on the evaluation request timestamp and timezone, as probed at the
+	 * start of a run. Reported in the results alongside, not inside, the engine description.
+	 */
+	evaluationRequestSupport?: EvaluationRequestSupport;
 
   /**
    * Creates an instance of CQLEngine.
