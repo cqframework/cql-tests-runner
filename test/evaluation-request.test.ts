@@ -240,6 +240,8 @@ describe('probeEvaluationRequestSupport', () => {
 			defaultTimezoneOffset: 'Z',
 			timestampParameterHonored: false,
 			timezoneHeaderHonored: false,
+			// It ignores both, so its own offset is what every request is evaluated at.
+			serverTimezoneOffset: '-06:00',
 		});
 	});
 
@@ -248,6 +250,8 @@ describe('probeEvaluationRequestSupport', () => {
 		expect(await probeEvaluationRequestSupport('http://x/$cql', '$cql')).toMatchObject({
 			timestampParameterHonored: true,
 			timezoneHeaderHonored: false,
+			// The timestamp carries the requested offset, so the server's own offset never applies.
+			serverTimezoneOffset: null,
 		});
 		vi.restoreAllMocks();
 		server({ honourTimestamp: false, honourHeader: true });
@@ -269,6 +273,7 @@ describe('probeEvaluationRequestSupport', () => {
 			defaultTimezoneOffset: 'Z',
 			timestampParameterHonored: null,
 			timezoneHeaderHonored: null,
+			serverTimezoneOffset: null,
 		});
 	});
 });
@@ -280,6 +285,7 @@ describe('results file', () => {
 			defaultTimezoneOffset: 'Z',
 			timestampParameterHonored: false,
 			timezoneHeaderHonored: null,
+			serverTimezoneOffset: null,
 		};
 		const results = new CQLTestResults(engine);
 		const result = new Result('Suite', 'Group', {

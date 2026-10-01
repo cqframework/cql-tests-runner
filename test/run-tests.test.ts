@@ -5,11 +5,13 @@ import * as ResultsShared from '../src/shared/results-shared.js';
 
 // The run-start probe of evaluation-request support makes its own requests; these tests count and
 // sequence fetch calls, so it is replaced with a fixed answer (it has its own tests).
-vi.mock('../src/shared/evaluation-request-probe', () => ({
+vi.mock('../src/shared/evaluation-request-probe', async orig => ({
+  ...(await orig<typeof import('../src/shared/evaluation-request-probe.js')>()),
   probeEvaluationRequestSupport: vi.fn().mockResolvedValue({
     defaultTimezoneOffset: 'Z',
     timestampParameterHonored: null,
     timezoneHeaderHonored: null,
+    serverTimezoneOffset: null,
   }),
 }));
 

@@ -4,6 +4,17 @@ import {
 	isIntervalShaped,
 	type IntervalMeta,
 } from './interval-utils.js';
+import { dateTimeLiteralsEqual } from './datetime-comparison.js';
+
+/** Context a comparison needs beyond the two values. */
+export interface ComparisonOptions {
+	/**
+	 * The timezone offset, in minutes east of UTC, the evaluation actually ran at. A DateTime written
+	 * without an offset is read at this offset. When undefined, such a DateTime only equals another
+	 * without an offset.
+	 */
+	evaluationOffsetMinutes?: number;
+}
 
 /** Numeric tolerance for scalar comparison (interval boundaries use half their step). */
 const EPSILON = 0.00000001;
@@ -41,10 +52,11 @@ function longEquals(expected: bigint, actual: any): boolean {
  *   values, such as system/version/display. Those should not make an object
  *   unequal to the same object with those properties omitted.
  */
-export function resultsEqual(expected: any, actual: any): boolean {
+export function resultsEqual(expected: any, actual: any, options: ComparisonOptions = {}): boolean {
 	return resultsEqualNormalized(
 		normalizeForComparison(expected),
-		normalizeForComparison(actual)
+		normalizeForComparison(actual),
+		options
 	);
 }
 
@@ -88,7 +100,7 @@ function normalizeForComparison(value: any): any {
 	return value;
 }
 
-function resultsEqualNormalized(expected: any, actual: any): boolean {
+function resultsEqualNormalized(expected: any, actual: any, options: ComparisonOptions): boolean {
 	if (expected === undefined && actual === undefined) {
 		return true;
 	}
@@ -109,6 +121,19 @@ function resultsEqualNormalized(expected: any, actual: any): boolean {
 		return true;
 	}
 
+	// DateTimes are equal when they denote the same instant, reading an offset-less one at the
+	// evaluation offset (`Z` and `+00:00`, or `@…T10:20:30` evaluated at -06:00 and `…-06:00`).
+	if (typeof expected === 'string' && typeof actual === 'string') {
+		const sameDateTime = dateTimeLiteralsEqual(
+			expected,
+			actual,
+			options.evaluationOffsetMinutes
+		);
+		if (sameDateTime !== undefined) {
+			return sameDateTime;
+		}
+	}
+
 	if (
 		typeof expected !== 'object' ||
 		expected === null ||
@@ -119,7 +144,7 @@ function resultsEqualNormalized(expected: any, actual: any): boolean {
 	}
 
 	if (isIntervalShaped(expected) && isIntervalShaped(actual)) {
-		return intervalsEqual(expected, actual);
+		return intervalsEqual(expected, actual, options);
 	}
 
 	const expectedKeys = Object.keys(expected);
@@ -128,7 +153,10 @@ function resultsEqualNormalized(expected: any, actual: any): boolean {
 	if (expectedKeys.length !== actualKeys.length) return false;
 
 	for (const key of expectedKeys) {
-		if (!actualKeys.includes(key) || !resultsEqualNormalized(expected[key], actual[key])) {
+		if (
+			!actualKeys.includes(key) ||
+			!resultsEqualNormalized(expected[key], actual[key], options)
+		) {
 			return false;
 		}
 	}
@@ -150,7 +178,11 @@ function resultsEqualNormalized(expected: any, actual: any): boolean {
  * back to the pre-existing structural comparison: closed flags must match and the values
  * must be `resultsEqual`.
  */
-export function intervalsEqual(expected: any, actual: any): boolean {
+export function intervalsEqual(
+	expected: any,
+	actual: any,
+	options: ComparisonOptions = {}
+): boolean {
 	const meta = getIntervalMeta(actual);
 
 	return (
@@ -160,7 +192,8 @@ export function intervalsEqual(expected: any, actual: any): boolean {
 			actual.low,
 			actual.lowClosed === true,
 			'low',
-			stepFor('low', meta)
+			stepFor('low', meta),
+			options
 		) &&
 		boundariesEqual(
 			expected.high,
@@ -168,7 +201,8 @@ export function intervalsEqual(expected: any, actual: any): boolean {
 			actual.high,
 			actual.highClosed === true,
 			'high',
-			stepFor('high', meta)
+			stepFor('high', meta),
+			options
 		)
 	);
 }
@@ -236,7 +270,8 @@ function boundariesEqual(
 	actualBoundary: any,
 	actualClosed: boolean,
 	side: 'low' | 'high',
-	step: number
+	step: number,
+	options: ComparisonOptions
 ): boolean {
 	const expectedValue = numericValueOf(expectedBoundary);
 	const actualValue = numericValueOf(actualBoundary);
@@ -252,7 +287,10 @@ function boundariesEqual(
 	// Non-numeric boundaries (date/time strings, coded values, ...) keep the pre-existing
 	// structural comparison; predecessor/successor logic for those is out of scope.
 	if (expectedValue === undefined || actualValue === undefined) {
-		return expectedClosed === actualClosed && resultsEqual(expectedBoundary, actualBoundary);
+		return (
+			expectedClosed === actualClosed &&
+			resultsEqual(expectedBoundary, actualBoundary, options)
+		);
 	}
 
 	const expectedIsQuantity = isQuantityBoundary(expectedBoundary);
@@ -270,7 +308,7 @@ function boundariesEqual(
 			if (key === 'value' || key === 'unit') continue;
 			if (
 				!actualKeys.includes(key) ||
-				!resultsEqual(expectedBoundary[key], actualBoundary[key])
+				!resultsEqual(expectedBoundary[key], actualBoundary[key], options)
 			) {
 				return false;
 			}

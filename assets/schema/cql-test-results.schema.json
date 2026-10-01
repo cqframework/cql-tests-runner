@@ -48,6 +48,10 @@
         "timezoneHeaderHonored": {
           "type": ["boolean", "null"],
           "description": "Whether the server used the Timezone (client-timezone) HTTP header as the evaluation timezone offset."
+        },
+        "serverTimezoneOffset": {
+          "type": ["string", "null"],
+          "description": "The offset the server evaluates at when it honours neither mechanism, as observed by the probe. When set, DateTimes a test writes without an offset are compared at this offset, since it is the one the evaluation actually ran at."
         }
       },
       "required": ["defaultTimezoneOffset", "timestampParameterHonored", "timezoneHeaderHonored"]
