@@ -4,6 +4,7 @@ import {
 	TIMEZONE_HEADER_NAME,
 	formatInstantAtOffset,
 	formatTimezoneOffset,
+	parseTimezoneOffset,
 } from './evaluation-context.js';
 
 /**
@@ -17,6 +18,12 @@ export interface EvaluationRequestSupport {
 	defaultTimezoneOffset: string;
 	timestampParameterHonored: boolean | null;
 	timezoneHeaderHonored: boolean | null;
+	/**
+	 * The offset the server evaluates at when it honours neither mechanism, as observed from a
+	 * DateTime written without an offset. `null` when the server honours the request (so the
+	 * requested offset applies) or when it could not be determined.
+	 */
+	serverTimezoneOffset: string | null;
 }
 
 const PROBE_TIMEOUT_MS = 10_000;
@@ -62,16 +69,25 @@ async function probeTimestampParameter(apiUrl: string): Promise<boolean | null> 
 	}
 }
 
-/** A DateTime written without an offset takes the request's offset, so it shows whether the header was used. */
-async function probeTimezoneHeader(apiUrl: string): Promise<boolean | null> {
+/**
+ * A DateTime written without an offset takes the request's offset, so it shows whether the header
+ * was used, and, when it was not, which offset the server evaluates at instead.
+ */
+async function probeTimezoneHeader(
+	apiUrl: string
+): Promise<{ honored: boolean | null; observedOffset: string | null }> {
 	try {
 		const value = await evaluate(apiUrl, '@2005-05-10T10:20:30', [], {
 			[TIMEZONE_HEADER_NAME]: formatInstantAtOffset(new Date(), PROBE_OFFSET_MINUTES),
 		});
-		if (value === undefined) return null;
-		return value.endsWith(formatTimezoneOffset(PROBE_OFFSET_MINUTES));
+		const offset = value?.match(/(?:Z|[+-]\d{2}:\d{2})$/)?.[0];
+		if (offset === undefined) return { honored: null, observedOffset: null };
+		return {
+			honored: offset === formatTimezoneOffset(PROBE_OFFSET_MINUTES),
+			observedOffset: formatTimezoneOffset(parseTimezoneOffset(offset)!),
+		};
 	} catch {
-		return null;
+		return { honored: null, observedOffset: null };
 	}
 }
 
@@ -89,11 +105,36 @@ export async function probeEvaluationRequestSupport(
 			defaultTimezoneOffset,
 			timestampParameterHonored: null,
 			timezoneHeaderHonored: null,
+			serverTimezoneOffset: null,
 		};
 	}
-	const [timestampParameterHonored, timezoneHeaderHonored] = await Promise.all([
+	const [timestampParameterHonored, header] = await Promise.all([
 		probeTimestampParameter(apiUrl),
 		probeTimezoneHeader(apiUrl),
 	]);
-	return { defaultTimezoneOffset, timestampParameterHonored, timezoneHeaderHonored };
+	// The server's own offset only matters when it ignores both mechanisms; then it is the offset
+	// every request is actually evaluated at.
+	const ignoresRequest = timestampParameterHonored === false && header.honored === false;
+	return {
+		defaultTimezoneOffset,
+		timestampParameterHonored,
+		timezoneHeaderHonored: header.honored,
+		serverTimezoneOffset: ignoresRequest ? header.observedOffset : null,
+	};
+}
+
+/**
+ * The offset a test's evaluation actually ran at: the one requested, unless the server is known to
+ * ignore requested offsets, in which case its own. Used to read expected DateTimes written without
+ * an offset, so a result is judged against the evaluation that produced it.
+ */
+export function effectiveEvaluationOffsetMinutes(
+	support: EvaluationRequestSupport | undefined,
+	requestedOffsetMinutes: number
+): number {
+	const serverOffset =
+		support?.serverTimezoneOffset != null
+			? parseTimezoneOffset(support.serverTimezoneOffset)
+			: undefined;
+	return serverOffset ?? requestedOffsetMinutes;
 }
