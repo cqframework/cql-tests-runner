@@ -1,14 +1,16 @@
+// A SkipList/OnlyList entry selects a whole suite when only `testsName` is given, a group when
+// `groupName` is also given, and a single test when `testName` is given as well.
 export interface SkipItem {
 	testsName: string;
-	groupName: string;
-	testName: string;
+	groupName?: string;
+	testName?: string;
 	reason: string;
 }
 
 export interface OnlyItem {
 	testsName: string;
-	groupName: string;
-	testName: string;
+	groupName?: string;
+	testName?: string;
 }
 
 // Schema-compliant Config type (strictly matches cql-test-configuration.schema.json)

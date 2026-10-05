@@ -2,6 +2,7 @@ import * as os from 'node:os';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { ConfigLoader } from '../conf/config-loader.js';
+import type { SkipSelection } from '../conf/test-selection.js';
 import { TestLoader } from '../loaders/test-loader.js';
 import { generateEmptyResults } from '../shared/results-shared.js';
 
@@ -11,14 +12,14 @@ export class BuildCommand {
 		const outputPath = options.output || config.Build.CqlOutputPath;
 		const tests = TestLoader.load();
 		const quickTest = config.Debug.QuickTest;
-		const skipMap = config.skipListMap();
+		const skip = config.skipSelection();
 
 		console.log('Building CQL libraries from test definitions...');
 
 		const emptyResults = await generateEmptyResults(tests, quickTest);
 
 		for (const testFile of emptyResults) {
-			await this.generateLibrariesFromTests(testFile, skipMap, config, outputPath);
+			await this.generateLibrariesFromTests(testFile, skip, config, outputPath);
 		}
 
 		console.log('CQL library generation complete!');
@@ -26,7 +27,7 @@ export class BuildCommand {
 
 	private async generateLibrariesFromTests(
 		group: any[],
-		skipMap: Map<string, string>,
+		skip: SkipSelection,
 		config: ConfigLoader,
 		outputPath: string
 	): Promise<void> {
@@ -53,14 +54,15 @@ export class BuildCommand {
 			if (r.invalid !== 'semantic') {
 				const defineVal = `define "${r.groupName}.${r.testName}": ${r.expression}`;
 				const key = `${r.testsName}-${r.groupName}-${r.testName}`;
+				const skipReason = skip.reasonFor(r);
 				let reason = '';
 
 				if (r.testStatus === 'skip') {
 					console.log(`Skipping ${key}`);
 					reason = 'Skipped by cql-tests-runner';
-				} else if (skipMap.has(key)) {
+				} else if (skipReason !== undefined) {
 					console.log(`Skipping ${key}`);
-					reason = skipMap.get(key) || '';
+					reason = skipReason;
 				}
 
 				if (reason) {
