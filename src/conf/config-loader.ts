@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import type { Config, SkipItem, OnlyItem } from '../models/config-types.js';
+import { OnlySelection, SkipSelection } from './test-selection.js';
 import { ConfigValidator } from './config-validator.js';
 import type { ValidationError } from './config-validator.js';
 
@@ -160,24 +161,12 @@ export class ConfigLoader implements Config {
 		return true;
 	}
 
-	skipListMap(): Map<string, string> {
-		const skipList = this.Tests.SkipList;
-		const skipMap = new Map(
-			skipList.map(skipItem => [
-				`${skipItem.testsName}-${skipItem.groupName}-${skipItem.testName}`,
-				skipItem.reason,
-			])
-		);
-		return skipMap;
+	skipSelection(): SkipSelection {
+		return new SkipSelection(this.Tests.SkipList);
 	}
 
-	onlyListSet(): Set<string> {
-		const onlyList = this.Tests.OnlyList ?? [];
-		return new Set(
-			onlyList.map(
-				onlyItem => `${onlyItem.testsName}-${onlyItem.groupName}-${onlyItem.testName}`
-			)
-		);
+	onlySelection(): OnlySelection {
+		return new OnlySelection(this.Tests.OnlyList ?? []);
 	}
 
 	#validateConfig(configPath: string, configData: any): void {

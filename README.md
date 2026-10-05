@@ -63,7 +63,7 @@ Configuration settings are set in a JSON configuration file. The file `conf/loca
 }
 ```
 
-To skip tests, add entries to the `SkipList` with the corresponding `testsName`, `groupName`, `testName`, and `reason`.
+To skip tests, add entries to the `SkipList` with a `testsName` and a `reason`. An entry with only `testsName` skips the whole test file; add `groupName` to skip one group, and `testName` as well to skip one test. When more than one entry matches a test, the most specific one's `reason` is reported.
 
 ```jsonc
 {
@@ -78,6 +78,15 @@ To skip tests, add entries to the `SkipList` with the corresponding `testsName`,
         "testName": "RolledOutIntervals",
         "reason": "CQLtoELM - Could not resolve identifier MedicationRequestIntervals in the current library"
       },
+      {
+        "testsName": "CqlTypesTest",
+        "reason": "Skips every test in the file"
+      },
+      {
+        "testsName": "CqlListOperatorsTest",
+        "groupName": "ProperContains",
+        "reason": "Skips every test in the group"
+      },
       // add more tests to skip as necessary...
     ]
   },
@@ -85,7 +94,7 @@ To skip tests, add entries to the `SkipList` with the corresponding `testsName`,
 }
 ```
 
-To run only a specified set of tests (and skip all others), add entries to the `OnlyList` with the corresponding `testsName`, `groupName`, and `testName`.
+To run only a specified set of tests (and skip all others), add entries to the `OnlyList`. As with the `SkipList`, `testsName` alone selects a whole file, adding `groupName` selects a group, and adding `testName` selects one test.
 
 ```jsonc
 {

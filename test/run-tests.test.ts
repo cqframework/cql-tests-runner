@@ -115,6 +115,63 @@ describe('RunTests filtering (TestRunner)', () => {
     });
   });
 
+  it('skips every test in a suite named without group or test', async () => {
+    const config = {
+      ...baseConfig,
+      Tests: { ...baseConfig.Tests, SkipList: [{ testsName: 'Suite1', reason: 'Whole suite' }] },
+    };
+
+    const results = await runner.runTests(config, { useAxios: false });
+    expect(results.results.map(r => [r.testStatus, r.skipMessage])).toEqual([
+      ['skip', 'Skipped by config: Whole suite'],
+      ['skip', 'Skipped by config: Whole suite'],
+    ]);
+    expect(fetchSpy).not.toHaveBeenCalledWith(expect.stringContaining('$cql'), expect.anything());
+  });
+
+  it('reports the test-level reason over a group-level one', async () => {
+    const config = {
+      ...baseConfig,
+      Tests: {
+        ...baseConfig.Tests,
+        SkipList: [
+          { testsName: 'Suite1', groupName: 'Group1', reason: 'Whole group' },
+          { testsName: 'Suite1', groupName: 'Group1', testName: 'Test2', reason: 'Just Test2' },
+        ],
+      },
+    };
+
+    const results = await runner.runTests(config, { useAxios: false });
+    const messages = Object.fromEntries(results.results.map(r => [r.testName, r.skipMessage]));
+    expect(messages).toEqual({
+      Test1: 'Skipped by config: Whole group',
+      Test2: 'Skipped by config: Just Test2',
+    });
+  });
+
+  it('runs every test in a group named in OnlyList', async () => {
+    const config = {
+      ...baseConfig,
+      Tests: { ...baseConfig.Tests, OnlyList: [{ testsName: 'Suite1', groupName: 'Group1' }] },
+    };
+
+    const results = await runner.runTests(config, { useAxios: false });
+    expect(results.results.map(r => r.testStatus)).toEqual(['pass', 'pass']);
+  });
+
+  it('skips tests outside a suite named in OnlyList', async () => {
+    const config = {
+      ...baseConfig,
+      Tests: { ...baseConfig.Tests, OnlyList: [{ testsName: 'Suite2' }] },
+    };
+
+    const results = await runner.runTests(config, { useAxios: false });
+    expect(results.results.map(r => [r.testStatus, r.skipMessage])).toEqual([
+      ['skip', 'Skipped by OnlyList filter'],
+      ['skip', 'Skipped by OnlyList filter'],
+    ]);
+  });
+
   it('runs only tests in OnlyList (others skipped)', async () => {
     const config = {
       ...baseConfig,

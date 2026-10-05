@@ -44,8 +44,8 @@ vi.mock('../src/conf/config-loader', () => ({
     this.Debug = {
       QuickTest: configData?.Debug?.QuickTest || false,
     };
-    this.skipListMap = vi.fn().mockReturnValue(new Map());
-    this.onlyListSet = vi.fn().mockReturnValue(new Set());
+    this.skipSelection = vi.fn().mockReturnValue({ reasonFor: () => undefined });
+    this.onlySelection = vi.fn().mockReturnValue({ isEmpty: true, includes: () => true });
     return this;
   }),
 }));

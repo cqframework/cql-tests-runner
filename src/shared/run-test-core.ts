@@ -12,6 +12,7 @@ import { resultsEqual } from './results-utils.js';
 import { formatActualValue } from '../test-results/cql-test-results.js';
 import { publishTestLibrary } from './library-publisher.js';
 import type { PublishedLibrary } from './library-publisher.js';
+import type { OnlySelection, SkipSelection } from '../conf/test-selection.js';
 
 /**
  * Shared execution state for a test run: the resolved config, the engine, the CVL parser,
@@ -24,8 +25,8 @@ export interface ExecutionContext {
 	cvl: any;
 	tests: Tests[];
 	resultExtractor: ResultExtractor;
-	skipMap: Map<string, string>;
-	onlySet: Set<string>;
+	skip: SkipSelection;
+	only: OnlySelection;
 }
 
 /**
@@ -58,10 +59,10 @@ export async function createExecutionContext(configData: any): Promise<Execution
 
 	const tests = TestLoader.load();
 	const resultExtractor = buildExtractor();
-	const skipMap = config.skipListMap();
-	const onlySet = config.onlyListSet();
+	const skip = config.skipSelection();
+	const only = config.onlySelection();
 
-	return { config, cqlEngine, cvl, tests, resultExtractor, skipMap, onlySet };
+	return { config, cqlEngine, cvl, tests, resultExtractor, skip, only };
 }
 
 /**
@@ -131,9 +132,9 @@ export async function runTest(
 	result: InternalTestResult,
 	ctx: ExecutionContext
 ): Promise<InternalTestResult> {
-	const { config, cqlEngine, cvl, resultExtractor, skipMap, onlySet } = ctx;
+	const { config, cqlEngine, cvl, resultExtractor, skip, only } = ctx;
 	const apiUrl = cqlEngine.apiUrl!;
-	const key = `${result.testsName}-${result.groupName}-${result.testName}`;
+	const skipReason = skip.reasonFor(result);
 
 	// Skip precedence.
 	if (result.testStatus === 'skip') {
@@ -142,14 +143,14 @@ export async function runTest(
 		}
 		logSkip(result);
 		return result;
-	} else if (onlySet.size > 0 && !onlySet.has(key)) {
+	} else if (!only.includes(result)) {
 		result.testStatus = 'skip';
 		result.skipMessage = 'Skipped by OnlyList filter';
 		logSkip(result);
 		return result;
-	} else if (skipMap.has(key)) {
+	} else if (skipReason !== undefined) {
 		result.testStatus = 'skip';
-		result.skipMessage = `Skipped by config: ${skipMap.get(key) || ''}`;
+		result.skipMessage = `Skipped by config: ${skipReason}`;
 		logSkip(result);
 		return result;
 	} else if (result.library !== undefined && config.FhirServer.CqlOperation !== '$evaluate') {

@@ -92,7 +92,7 @@
         },
         "SkipList": {
           "type": "array",
-          "description": "List of tests to skip",
+          "description": "List of tests to skip. An entry with only testsName skips the whole suite; adding groupName skips that group; adding testName skips that test.",
           "items": {
             "type": "object",
             "properties": {
@@ -113,13 +113,13 @@
                 "description": "Reason for skipping the test"
               }
             },
-            "required": ["testsName", "groupName", "testName", "reason"],
+            "required": ["testsName", "reason"],
             "additionalProperties": false
           }
         },
         "OnlyList": {
           "type": "array",
-          "description": "List of tests to run exclusively",
+          "description": "List of tests to run exclusively. An entry with only testsName selects the whole suite; adding groupName selects that group; adding testName selects that test.",
           "items": {
             "type": "object",
             "properties": {
@@ -136,7 +136,7 @@
                 "description": "Name of the specific test"
               }
             },
-            "required": ["testsName", "groupName", "testName"],
+            "required": ["testsName"],
             "additionalProperties": false
           }
         }
