@@ -20,12 +20,6 @@
 		"ResultsPath": "./results",
 		"SkipList": [
 			{
-				"testsName": "CqlAggregateTest",
-				"groupName": "AggregateTests",
-				"testName": "RolledOutIntervals",
-				"reason": "Invalid Test: Incorrectly casts starting expression to List<Interval<DateTime>>: https://github.com/cqframework/cql-tests/pull/146"
-			},
-			{
 				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "Exp",
 				"testName": "Exp1000",
