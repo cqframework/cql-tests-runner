@@ -146,8 +146,11 @@ function resultsEqualNormalized(expected: any, actual: any): boolean {
  * normalized to closed boundaries by moving an open boundary one step inwards, and the
  * closed flags are consumed by that normalization rather than compared directly.
  *
- * Boundaries that are not numeric (date/time strings, non-numeric quantity values) fall
- * back to the pre-existing structural comparison: closed flags must match and the values
+ * Time boundaries (`@T…` literals) are equated the same way, one unit of the boundary's own
+ * precision apart (issue #85): `[@T05:00, @T09:00)` equals `[@T05:00, @T08:59]`.
+ *
+ * Other boundaries that are not numeric (date/datetime strings, non-numeric quantity values)
+ * fall back to the pre-existing structural comparison: closed flags must match and the values
  * must be `resultsEqual`.
  */
 export function intervalsEqual(expected: any, actual: any): boolean {
@@ -249,9 +252,23 @@ function boundariesEqual(
 		return false;
 	}
 
-	// Non-numeric boundaries (date/time strings, coded values, ...) keep the pre-existing
-	// structural comparison; predecessor/successor logic for those is out of scope.
 	if (expectedValue === undefined || actualValue === undefined) {
+		if (expectedClosed !== actualClosed) {
+			const expectedTime = parseTimeBoundary(expectedBoundary);
+			const actualTime = parseTimeBoundary(actualBoundary);
+			if (expectedTime !== undefined && actualTime !== undefined) {
+				return timeBoundariesEqual(
+					expectedTime,
+					expectedClosed,
+					actualTime,
+					actualClosed,
+					side
+				);
+			}
+		}
+
+		// Other non-numeric boundaries (date/datetime strings, coded values, ...) keep the
+		// pre-existing structural comparison; predecessor/successor logic for those is out of scope.
 		return expectedClosed === actualClosed && resultsEqual(expectedBoundary, actualBoundary);
 	}
 
@@ -304,6 +321,59 @@ function unitsEqual(expectedUnit: any, actualUnit: any): boolean {
 	const expected = expectedUnit === undefined ? null : expectedUnit;
 	const actual = actualUnit === undefined ? null : actualUnit;
 	return expected === actual;
+}
+
+// A CQL Time literal: hour, then optional minute, second and millisecond (up to 3 digits).
+const TIME_LITERAL = /^@T(\d{2})(?::(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?)?$/;
+// Milliseconds in one unit of each Time precision: hour, minute, second, millisecond.
+const TIME_UNIT_MS = [3_600_000, 60_000, 1_000, 1];
+const MS_PER_DAY = 86_400_000;
+
+/** A Time boundary as milliseconds since midnight, with the index of its precision. */
+interface TimeBoundary {
+	precision: number;
+	ms: number;
+}
+
+/** Parses a `@T…` Time literal boundary, or returns undefined for anything else. */
+function parseTimeBoundary(boundary: any): TimeBoundary | undefined {
+	if (typeof boundary !== 'string') return undefined;
+	const match = TIME_LITERAL.exec(boundary);
+	if (match === null) return undefined;
+
+	const [, hour, minute, second, fraction] = match;
+	const fields = [hour, minute, second].filter(field => field !== undefined).map(Number);
+	const ms =
+		fields.reduce((total, field, i) => total + field * TIME_UNIT_MS[i], 0) +
+		(fraction === undefined ? 0 : Number(fraction.padEnd(3, '0')));
+	return { precision: fraction === undefined ? fields.length - 1 : 3, ms };
+}
+
+/**
+ * Compares Time boundaries when exactly one is open. The predecessor/successor of a Time is
+ * one unit of its lowest specified precision (CQL Predecessor/Successor), so the open
+ * boundary is moved that far inwards. Boundaries at different precisions are not equated,
+ * and neither is a boundary whose move would leave the day (there is no such point).
+ */
+function timeBoundariesEqual(
+	expected: TimeBoundary,
+	expectedClosed: boolean,
+	actual: TimeBoundary,
+	actualClosed: boolean,
+	side: 'low' | 'high'
+): boolean {
+	if (expected.precision !== actual.precision) return false;
+
+	const close = (time: TimeBoundary, closed: boolean): number | undefined => {
+		if (closed) return time.ms;
+		const step = TIME_UNIT_MS[time.precision];
+		const moved = side === 'high' ? time.ms - step : time.ms + step;
+		return moved >= 0 && moved < MS_PER_DAY ? moved : undefined;
+	};
+
+	const normalizedExpected = close(expected, expectedClosed);
+	const normalizedActual = close(actual, actualClosed);
+	return normalizedExpected !== undefined && normalizedExpected === normalizedActual;
 }
 
 /** Converts an open boundary to its closed equivalent by moving it one step inwards. */
