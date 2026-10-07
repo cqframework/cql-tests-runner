@@ -298,24 +298,6 @@
 			{
 				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "Expand",
-				"testName": "ExpandPerHour",
-				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandPerHourIntervalOverload",
-				"reason": "Test Runner does not honor the time-precision extension on dateTime, time and Period boundaries: https://github.com/cqframework/cql-tests-runner/pull/135"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandPerHourOpenIntervalOverload",
-				"reason": "Test Runner does not honor the time-precision extension on dateTime, time and Period boundaries: https://github.com/cqframework/cql-tests-runner/pull/135"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
 				"testName": "ExpandPer0D1",
 				"reason": "Invalid Test: Expected output is incorrect: https://jira.hl7.org/browse/FHIR-58705"
 			},
@@ -336,18 +318,6 @@
 				"groupName": "Except",
 				"testName": "QuantityIntervalExcept1to4",
 				"reason": "Invalid Test: Expected output may be incorrect based on CQL 2.0 Decimal semantics: https://jira.hl7.org/browse/FHIR-59229"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Expand",
-				"testName": "ExpandPerHourOpen",
-				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "In",
-				"testName": "TestInNullBoundaries",
-				"reason": "Invalid Test: Wrong Expected Result: https://github.com/cqframework/cql-tests/issues/69"
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
@@ -443,7 +413,7 @@
 				"testsName": "CqlStringOperatorsTest",
 				"groupName": "toString tests",
 				"testName": "DateTimeToString2",
-				"reason": "Test Runner Not Detecting Equal DateTimes (Offset vs No Offset): https://github.com/cqframework/cql-tests-runner/issues/84"
+				"reason": "Invalid Test: Wrong Expected Outcome for ToString of DateTime with No Offset Specified: https://github.com/cqframework/cql-tests/issues/73"
 			},
 			{
 				"testsName": "CqlStringOperatorsTest",
