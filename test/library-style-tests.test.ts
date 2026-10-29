@@ -76,6 +76,30 @@ describe('library-style test results', () => {
 		expect(result.testStatus).toBe('skip');
 		expect(result.skipMessage).toMatch(/more than one named output/);
 	});
+
+	test('runs a negative test that has no output', () => {
+		const result = new Result(
+			'OverloadMatching',
+			'OverloadMatching',
+			libraryTest({ library: { text: libraryCql, invalid: 'semantic' }, output: undefined })
+		);
+
+		expect(result.testStatus).toBeUndefined();
+		expect(result.invalid).toBe('semantic');
+		expect(result.expression).toBe('');
+		expect(result.expected).toBeUndefined();
+	});
+
+	test('skips a test with no output that does not expect an error', () => {
+		const result = new Result(
+			'OverloadMatching',
+			'OverloadMatching',
+			libraryTest({ output: undefined })
+		);
+
+		expect(result.testStatus).toBe('skip');
+		expect(result.skipMessage).toBe('No output specified');
+	});
 });
 
 describe('CQLLibrary resource', () => {
@@ -185,6 +209,18 @@ describe('Library/$evaluate parameters', () => {
 		expect(parameters.parameter!.map(p => p.name)).toEqual(['url', 'expression']);
 		expect(parameters.parameter![0].valueCanonical).toBe(canonical);
 		expect(parameters.parameter![1].valueString).toBe('output');
+	});
+
+	test('evaluates the whole library when no define is named', () => {
+		const result = new Result(
+			'OverloadMatching',
+			'OverloadMatching',
+			libraryTest({ library: { text: libraryCql, invalid: 'semantic' }, output: undefined })
+		);
+		const parameters = generateParametersResource(result, '$evaluate', canonical);
+
+		expect(parameters.parameter!.map(p => p.name)).toEqual(['url']);
+		expect(parameters.parameter![0].valueCanonical).toBe(canonical);
 	});
 
 	test('refuses to send a library test to the $cql operation', () => {
