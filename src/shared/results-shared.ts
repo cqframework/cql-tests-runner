@@ -62,7 +62,11 @@ export class Result implements InternalTestResult {
 
 			this.expression = '';
 			const outputs = Array.isArray(test.output) ? test.output : [test.output];
-			if (outputs.length > 1) {
+			if (test.output === undefined) {
+				// A negative test has no output and so no define to name: the whole library is
+				// evaluated and the engine is expected to report the error. Whether a missing
+				// output is allowed depends on `invalid`, which the shared check below decides.
+			} else if (outputs.length > 1) {
 				// The schema allows one output per define; the result model holds a single
 				// expected value, so multi-define libraries can't be compared yet.
 				this.testStatus = 'skip';
@@ -219,10 +223,10 @@ export function generateParametersResource(
 					valueCanonical: libraryCanonical,
 				},
 				// `expression` (0..*) names the define to evaluate; the response is keyed by that name.
-				{
-					name: 'expression',
-					valueString: result.expression,
-				},
+				// A negative test names no define, so the whole library is evaluated.
+				...(result.expression
+					? [{ name: 'expression', valueString: result.expression }]
+					: []),
 			],
 		};
 	}

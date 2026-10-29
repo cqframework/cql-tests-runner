@@ -369,6 +369,17 @@ describe('Library-style tests (TestRunner)', () => {
     capability: [],
   });
 
+  // A negative test: no output, so no define is named and the engine is expected to error.
+  const negativeLibraryResult = () => ({
+    ...libraryResult(),
+    testName: 'AmbiguousOverload',
+    expression: '',
+    expected: undefined,
+    invalid: 'semantic',
+  });
+
+  let nextResult: () => any = libraryResult;
+
   beforeEach(() => {
     fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
       status: 200,
@@ -376,7 +387,7 @@ describe('Library-style tests (TestRunner)', () => {
     } as Response);
     vi.spyOn(ResultsUtils, 'resultsEqual').mockReturnValue(true);
     vi.mocked(ResultsShared.generateEmptyResults).mockImplementationOnce(async () => [
-      [libraryResult()],
+      [nextResult()],
     ]);
     vi.mocked(ResultsShared.generateParametersResource).mockClear();
     runner = new TestRunner();
@@ -384,6 +395,41 @@ describe('Library-style tests (TestRunner)', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    nextResult = libraryResult;
+  });
+
+  const evaluateConfig = {
+    ...baseConfig,
+    FhirServer: { ...baseConfig.FhirServer, CqlOperation: '$evaluate' },
+  };
+
+  it('passes a negative library-style test when the engine reports an error', async () => {
+    nextResult = negativeLibraryResult;
+    fetchSpy.mockImplementation(async (url: any) =>
+      String(url).endsWith('/Library/$evaluate')
+        ? ({
+            status: 400,
+            json: () => Promise.resolve({ resourceType: 'OperationOutcome', issue: [] }),
+          } as Response)
+        : ({ status: 200, json: () => Promise.resolve({}) } as Response)
+    );
+
+    const results = await runner.runTests(evaluateConfig, { useAxios: false });
+
+    expect(results.results[0].testStatus).toBe('pass');
+    expect(ResultsShared.generateParametersResource).toHaveBeenCalledWith(
+      expect.objectContaining({ expression: '', invalid: 'semantic' }),
+      '$evaluate',
+      'https://hl7.org/fhir/uv/cql/Library/SimpleOverloadMatching|1.0.0'
+    );
+  });
+
+  it('fails a negative library-style test when the library evaluates', async () => {
+    nextResult = negativeLibraryResult;
+
+    const results = await runner.runTests(evaluateConfig, { useAxios: false });
+
+    expect(results.results[0].testStatus).toBe('fail');
   });
 
   it('skips a library-style test when the server is configured for $cql', async () => {
