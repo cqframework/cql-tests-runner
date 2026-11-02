@@ -285,18 +285,6 @@
 			},
 			{
 				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Except",
-				"testName": "ExceptTime2",
-				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
-				"groupName": "Except",
-				"testName": "ExceptTimeInterval",
-				"reason": "Test Runner Not Detecting Equal Intervals (Open vs Closed Boundaries): https://github.com/cqframework/cql-tests-runner/issues/85"
-			},
-			{
-				"testsName": "CqlIntervalOperatorsTest",
 				"groupName": "Expand",
 				"testName": "ExpandPerHour",
 				"reason": "Test Runner Not Detecting Equal Lists on Interval<Time>: https://github.com/cqframework/cql-tests-runner/issues/94"
