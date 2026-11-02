@@ -289,6 +289,147 @@ test('date/time intervals keep the structural comparison', () => {
 	).toBe(false);
 });
 
+// Issue #85 for Time intervals: an open Time boundary equals the closed boundary one unit of
+// its own precision inwards (CQL predecessor/successor of a Time).
+test('time interval: open actual high equals closed expected high one millisecond earlier', () => {
+	// CqlIntervalOperatorsTest ExceptTimeInterval, as returned by cql-execution.
+	const expected = {
+		lowClosed: true,
+		low: '@T05:59:59.999',
+		highClosed: true,
+		high: '@T08:59:59.998',
+	};
+	const actual = {
+		lowClosed: true,
+		low: '@T05:59:59.999',
+		highClosed: false,
+		high: '@T08:59:59.999',
+	};
+
+	expect(resultsEqual(expected, actual)).toBe(true);
+	expect(resultsEqual(actual, expected)).toBe(true);
+});
+
+test('time interval: open actual low equals closed expected low one millisecond later', () => {
+	// CqlIntervalOperatorsTest ExceptTime2, as returned by cql-execution.
+	const expected = {
+		lowClosed: true,
+		low: '@T11:00:00.000',
+		highClosed: true,
+		high: '@T11:59:59.999',
+	};
+	const actual = {
+		lowClosed: false,
+		low: '@T10:59:59.999',
+		highClosed: true,
+		high: '@T11:59:59.999',
+	};
+
+	expect(resultsEqual(expected, actual)).toBe(true);
+});
+
+test('time interval: the step is one unit of the boundary precision', () => {
+	const closed = (low: string, high: string) => ({
+		lowClosed: true,
+		low,
+		highClosed: true,
+		high,
+	});
+	const openHigh = (low: string, high: string) => ({
+		lowClosed: true,
+		low,
+		highClosed: false,
+		high,
+	});
+
+	expect(resultsEqual(closed('@T05', '@T08'), openHigh('@T05', '@T09'))).toBe(true);
+	expect(resultsEqual(closed('@T05:00', '@T08:59'), openHigh('@T05:00', '@T09:00'))).toBe(true);
+	expect(
+		resultsEqual(closed('@T05:00:00', '@T08:59:59'), openHigh('@T05:00:00', '@T09:00:00'))
+	).toBe(true);
+	// One fractional digit is still millisecond precision: .1 is 100 ms, so its predecessor is .099.
+	expect(
+		resultsEqual(
+			closed('@T05:00:00.0', '@T08:59:59.099'),
+			openHigh('@T05:00:00.0', '@T08:59:59.1')
+		)
+	).toBe(true);
+
+	// A step of the wrong size is not equal.
+	expect(resultsEqual(closed('@T05:00', '@T08:59:59'), openHigh('@T05:00', '@T09:00'))).toBe(
+		false
+	);
+	expect(
+		resultsEqual(
+			closed('@T05:00:00.000', '@T08:59:59.997'),
+			openHigh('@T05:00:00.000', '@T08:59:59.999')
+		)
+	).toBe(false);
+});
+
+test('time interval: boundaries at different precisions are not equated', () => {
+	const expected = { lowClosed: true, low: '@T05:00', highClosed: true, high: '@T08:59:59' };
+	const actual = { lowClosed: true, low: '@T05:00', highClosed: false, high: '@T09:00' };
+
+	expect(resultsEqual(expected, actual)).toBe(false);
+});
+
+test('time interval: an open boundary cannot be moved outside the day', () => {
+	const expected = {
+		lowClosed: true,
+		low: '@T00:00:00.000',
+		highClosed: true,
+		high: '@T23:59:59.999',
+	};
+
+	// There is no Time before @T00:00:00.000 or after @T23:59:59.999.
+	expect(
+		resultsEqual(expected, {
+			lowClosed: true,
+			low: '@T00:00:00.000',
+			highClosed: false,
+			high: '@T00:00:00.000',
+		})
+	).toBe(false);
+	expect(
+		resultsEqual(
+			{ lowClosed: false, low: '@T23:59:59.999', highClosed: true, high: '@T23:59:59.999' },
+			{ lowClosed: true, low: '@T00:00:00.000', highClosed: true, high: '@T23:59:59.999' }
+		)
+	).toBe(false);
+});
+
+test('time interval: same flags still compare structurally', () => {
+	const expected = { lowClosed: true, low: '@T05:00', highClosed: false, high: '@T09:00' };
+
+	expect(
+		resultsEqual(expected, {
+			lowClosed: true,
+			low: '@T05:00',
+			highClosed: false,
+			high: '@T09:00',
+		})
+	).toBe(true);
+	expect(
+		resultsEqual(expected, {
+			lowClosed: true,
+			low: '@T05:00',
+			highClosed: false,
+			high: '@T08:59',
+		})
+	).toBe(false);
+});
+
+test('time interval: date and datetime boundaries are unaffected', () => {
+	// Only Time literals are equated across open/closed forms; dates keep the structural rule.
+	expect(
+		resultsEqual(
+			{ lowClosed: true, low: '@2012-01-01', highClosed: true, high: '@2012-01-30' },
+			{ lowClosed: true, low: '@2012-01-01', highClosed: false, high: '@2012-01-31' }
+		)
+	).toBe(false);
+});
+
 test('lists of intervals compare element-wise', () => {
 	const expected = [
 		{ lowClosed: true, low: 1, highClosed: false, high: 4 },
