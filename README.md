@@ -127,6 +127,17 @@ The timestamp is sent both as the `timestamp` input parameter of `$cql` and `Lib
 
 At the start of each run the runner checks whether the server acts on each mechanism, and logs the answer. The results file records it under `evaluationRequest`, and records each test's timestamp as `evaluationTimestamp`. Against a server that honours neither, DateTime results are computed in the server's own timezone, whatever the test requested.
 
+#### How DateTime results are compared
+
+Two DateTimes are equal when, at the same precision, they denote the same instant. So `@2005-05-10T10:20:30Z` equals `@2005-05-10T10:20:30+00:00`, and `@2005-05-10T16:20:30Z` equals `@2005-05-10T10:20:30-06:00`. Values at different precisions are never equal.
+
+A DateTime written without an offset, as most expected outputs are, is read at the offset the evaluation actually ran at:
+
+- If the server honours the timestamp or the `Timezone` header, that is the test's requested offset (UTC by default).
+- If it honours neither, it is the server's own offset, which the start-of-run check observes and records as `evaluationRequest.serverTimezoneOffset`. The engine evaluated in that offset, so the expected value is judged against the evaluation that produced the result.
+
+A result carrying the `time-hasOffset` extension set to `false` ([Using CQL With FHIR](https://build.fhir.org/ig/HL7/cql-ig/)) is treated as having no offset: FHIR requires an offset on a `dateTime` with a time, so the extension marks it as an artifact of the representation.
+
 ### Running the tests
 
 The CLI now requires a configuration file path as an argument. Run the tests with the following commands:

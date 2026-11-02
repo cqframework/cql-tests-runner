@@ -72,6 +72,37 @@ export function declaredTimePrecision(element: any): TimePrecision | undefined {
 const TIME_OF_DAY = /^(\d{2})(?::(\d{2}))?(?::(\d{2}))?(\.\d+)?(Z|[+-]\d{2}:\d{2})?$/;
 
 /**
+ * The `time-hasOffset` extension from Using CQL With FHIR
+ * (http://hl7.org/fhir/uv/cql/StructureDefinition/time-hasOffset). FHIR requires a `dateTime` with
+ * a time to carry an offset, even when the CQL DateTime it represents has none; `false` marks that
+ * offset as an artifact of the representation.
+ */
+export const TIME_HAS_OFFSET_URL = 'http://hl7.org/fhir/uv/cql/StructureDefinition/time-hasOffset';
+
+/**
+ * Removes the timezone offset from a FHIR `dateTime` value when its primitive element (`_name`)
+ * declares `time-hasOffset: false`, so the value compares as the offset-less DateTime it stands for.
+ * Values without the extension, or with `true`, are returned unchanged.
+ */
+export function applyDeclaredHasOffset(value: string, primitiveElement: any): string {
+	const extensions = primitiveElement?.extension;
+	const declaresNoOffset =
+		Array.isArray(extensions) &&
+		extensions.some(
+			(e: any) =>
+				e !== null &&
+				typeof e === 'object' &&
+				e.url === TIME_HAS_OFFSET_URL &&
+				e.valueBoolean === false
+		);
+	if (!declaresNoOffset) {
+		return value;
+	}
+	const text = value.toString();
+	return text.includes('T') ? text.replace(/(?:Z|[+-]\d{2}:\d{2})$/, '') : text;
+}
+
+/**
  * Drops the time components a FHIR dateTime or time value carries only because FHIR
  * requires them, so the result reads as the CQL value at its declared precision:
  * `2014-01-01T10:00:00Z` declared at `h` becomes `2014-01-01T10Z`, and `10:00:00`

@@ -1,6 +1,7 @@
 import { BaseExtractor } from '../base-extractor.js';
 import { declaredCqlType } from '../../shared/interval-utils.js';
 import {
+	applyDeclaredHasOffset,
 	applyDeclaredTimePrecision,
 	format_date,
 	format_datetime,
@@ -42,12 +43,13 @@ export class DateTimeIntervalExtractor extends BaseExtractor {
 			// Period boundaries are FHIR dateTimes, so a boundary coarser than seconds arrives
 			// zero-padded with its real precision on the `_start`/`_end` companion element.
 			const period = parameter.valuePeriod;
+			// A boundary marked `time-hasOffset: false` carries an offset only because FHIR requires one.
+			const boundary = (value: string, element: any) =>
+				format(applyDeclaredHasOffset(applyDeclaredTimePrecision(value, element), element));
 			const low = period.hasOwnProperty('start')
-				? format(applyDeclaredTimePrecision(period.start, period._start))
+				? boundary(period.start, period._start)
 				: null;
-			const high = period.hasOwnProperty('end')
-				? format(applyDeclaredTimePrecision(period.end, period._end))
-				: null;
+			const high = period.hasOwnProperty('end') ? boundary(period.end, period._end) : null;
 			return {
 				lowClosed: low !== null,
 				low: low,

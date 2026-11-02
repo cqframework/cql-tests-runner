@@ -13,7 +13,10 @@ import { formatActualValue } from '../test-results/cql-test-results.js';
 import { publishTestLibrary } from './library-publisher.js';
 import type { PublishedLibrary } from './library-publisher.js';
 import { TIMEZONE_HEADER_NAME, resolveEvaluationTiming } from './evaluation-context.js';
-import { probeEvaluationRequestSupport } from './evaluation-request-probe.js';
+import {
+	effectiveEvaluationOffsetMinutes,
+	probeEvaluationRequestSupport,
+} from './evaluation-request-probe.js';
 
 /**
  * Shared execution state for a test run: the resolved config, the engine, the CVL parser,
@@ -60,14 +63,21 @@ export async function createExecutionContext(configData: any): Promise<Execution
 		cqlEngine.apiUrl!,
 		config.FhirServer.CqlOperation
 	);
-	const { defaultTimezoneOffset, timestampParameterHonored, timezoneHeaderHonored } =
-		cqlEngine.evaluationRequestSupport;
+	const {
+		defaultTimezoneOffset,
+		timestampParameterHonored,
+		timezoneHeaderHonored,
+		serverTimezoneOffset,
+	} = cqlEngine.evaluationRequestSupport;
 	const describe = (honored: boolean | null) =>
 		honored === null ? 'unknown' : honored ? 'yes' : 'no';
 	console.log(
 		`Evaluation requests default to timezone offset ${defaultTimezoneOffset}; server honours ` +
 			`timestamp parameter: ${describe(timestampParameterHonored)}, ` +
-			`Timezone header: ${describe(timezoneHeaderHonored)}`
+			`Timezone header: ${describe(timezoneHeaderHonored)}` +
+			(serverTimezoneOffset !== null
+				? `; results are compared at the server's own offset ${serverTimezoneOffset}`
+				: '')
 	);
 
 	// @ts-expect-error - cvl.mjs has no declaration file
@@ -259,7 +269,15 @@ export async function runTest(
 			// The expression is expected to error; it passes only if the engine erred.
 			result.testStatus = erroredOut ? 'pass' : 'fail';
 		} else if (!erroredOut) {
-			result.testStatus = resultsEqual(parsedExpected, result.actual) ? 'pass' : 'fail';
+			// A DateTime the test writes without an offset is read at the offset the evaluation
+			// actually ran at: the requested one, or the server's own if it ignores the request.
+			const evaluationOffsetMinutes = effectiveEvaluationOffsetMinutes(
+				cqlEngine.evaluationRequestSupport,
+				timing.offsetMinutes
+			);
+			result.testStatus = resultsEqual(parsedExpected, result.actual, { evaluationOffsetMinutes })
+				? 'pass'
+				: 'fail';
 		} else {
 			result.testStatus = 'fail';
 		}
