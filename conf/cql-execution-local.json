@@ -20,57 +20,9 @@
 		"ResultsPath": "./results",
 		"SkipList": [
 			{
-				"testsName": "CqlAggregateTest",
-				"groupName": "AggregateTests",
-				"testName": "RolledOutIntervals",
-				"reason": "Invalid Test: Incorrectly casts starting expression to List<Interval<DateTime>>: https://github.com/cqframework/cql-tests/pull/146"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Exp",
-				"testName": "Exp1000",
-				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Exp",
-				"testName": "Exp1000D",
-				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Ln",
-				"testName": "Ln0",
-				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Ln",
-				"testName": "LnNeg0",
-				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Predecessor",
-				"testName": "PredecessorUnderflowDt",
-				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Predecessor",
-				"testName": "PredecessorUnderflowT",
-				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
-			},
-			{
 				"testsName": "CqlArithmeticFunctionsTest",
 				"groupName": "Successor",
 				"testName": "SuccessorOverflowDt",
-				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
-			},
-			{
-				"testsName": "CqlArithmeticFunctionsTest",
-				"groupName": "Successor",
-				"testName": "SuccessorOverflowT",
 				"reason": "Invalid Test: Overflows and Underflows should result in null: https://github.com/cqframework/cql-tests/pull/120"
 			},
 			{
@@ -108,18 +60,6 @@
 				"groupName": "Power",
 				"testName": "Power2LTo3L",
 				"reason": "Invalid Test: CQL 2.0 specifies that Power always returns Decimal: https://github.com/cqframework/cql-tests/pull/151"
-			},
-			{
-				"testsName": "CqlComparisonOperatorsTest",
-				"groupName": "Equal",
-				"testName": "TupleEqDifferentNamesWithOneNullId",
-				"reason": "Invalid Test: Test assumes incorrect equality semantics: https://jira.hl7.org/browse/FHIR-58836"
-			},
-			{
-				"testsName": "CqlComparisonOperatorsTest",
-				"groupName": "Not Equal",
-				"testName": "TupleNotEqDifferingNamesWithOneNullId",
-				"reason": "Invalid Test: Test assumes incorrect equality semantics: https://jira.hl7.org/browse/FHIR-58836"
 			},
 			{
 				"testsName": "CqlDateTimeOperatorsTest",
