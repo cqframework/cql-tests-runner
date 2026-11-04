@@ -842,12 +842,14 @@ test('list of datetime intervals yields datetime-literal boundaries', () => {
 				},
 			],
 		})
-	).toStrictEqual({
-		lowClosed: true,
-		low: '@2025-01-01T00:00:00-05:00',
-		highClosed: true,
-		high: '@2025-12-31T00:00:00-05:00',
-	});
+	).toStrictEqual([
+		{
+			lowClosed: true,
+			low: '@2025-01-01T00:00:00-05:00',
+			highClosed: true,
+			high: '@2025-12-31T00:00:00-05:00',
+		},
+	]);
 });
 
 test('code response check', () => {
@@ -1399,13 +1401,16 @@ test('list of quantity intervals is not treated as numeric', () => {
 		},
 		[{ url: CQL_TYPE_URL, valueString: 'List<Interval<System.Quantity>>' }]
 	);
-	expect(result).toStrictEqual({
-		lowClosed: true,
-		low: { value: 1, unit: '1' },
-		highClosed: true,
-		high: { value: 2, unit: '1' },
-	});
-	expect(getIntervalMeta(result)).toBeUndefined();
+	// A one-element list: the declared List type keeps it a list (issue #150).
+	expect(result).toStrictEqual([
+		{
+			lowClosed: true,
+			low: { value: 1, unit: '1' },
+			highClosed: true,
+			high: { value: 2, unit: '1' },
+		},
+	]);
+	expect(getIntervalMeta(result[0])).toBeUndefined();
 });
 
 test.each(['System.Quantity', 'List<System.Quantity>'])(
@@ -1418,13 +1423,16 @@ test.each(['System.Quantity', 'List<System.Quantity>'])(
 			},
 			[{ url: CQL_TYPE_URL, valueString: declaredType }]
 		);
-		expect(result).toStrictEqual({
+		const range = {
 			lowClosed: true,
 			low: { value: 1, unit: '1' },
 			highClosed: true,
 			high: { value: 2, unit: '1' },
-		});
-		expect(getIntervalMeta(result)).toBeUndefined();
+		};
+		// A declared List type keeps the single range a one-element list (issue #150).
+		const isList = declaredType.startsWith('List<');
+		expect(result).toStrictEqual(isList ? [range] : range);
+		expect(getIntervalMeta(isList ? result[0] : result)).toBeUndefined();
 	}
 );
 
