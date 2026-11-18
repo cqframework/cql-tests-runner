@@ -1183,6 +1183,31 @@ test('integer interval response check (typed by the cqlType extension)', () => {
 	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Integer' });
 });
 
+test('integer interval typed by a cqlType extension on the Range itself', () => {
+	// Using CQL with FHIR 3.0.0-ballot example shape: bare values, no unit or code.
+	const result = extractRange({
+		extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Integer>' }],
+		low: { value: 5 },
+		high: { value: 10 },
+	});
+	expect(result).toStrictEqual({ lowClosed: true, low: 5, highClosed: true, high: 10 });
+	expect(getIntervalMeta(result)).toStrictEqual({ pointType: 'Integer' });
+});
+
+test('decimal interval typed on the Range, with precision on Quantity.value', () => {
+	const result = extractRange({
+		extension: [{ url: CQL_TYPE_URL, valueString: 'Interval<System.Decimal>' }],
+		low: { value: 1.0, _value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] } },
+		high: { value: 1.3, _value: { extension: [{ url: PRECISION_URL, valueInteger: 1 }] } },
+	});
+	expect(result).toStrictEqual({ lowClosed: true, low: 1.0, highClosed: true, high: 1.3 });
+	expect(getIntervalMeta(result)).toStrictEqual({
+		pointType: 'Decimal',
+		lowPrecision: 1,
+		highPrecision: 1,
+	});
+});
+
 test('integer uncertainty range uses its scalar declared point type', () => {
 	const result = extractRange(
 		{
