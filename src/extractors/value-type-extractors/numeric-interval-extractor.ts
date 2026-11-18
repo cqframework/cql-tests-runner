@@ -77,7 +77,7 @@ function boundaryValue(quantity: any, pointType: IntervalPointType): number | bi
  * numeric uncertainty range into the plain-number shape CVL produces:
  * `{lowClosed, low, highClosed, high}`.
  *
- * Detection is strict: the parameter must carry a `cqf-cqlType` extension naming
+ * Detection is strict: the parameter (or the Range) must carry a `cqf-cqlType` extension naming
  * a numeric scalar or interval type, optionally wrapped in one `List` (the `System.`
  * prefix is optional). A scalar type paired with a Range is an uncertainty result; a
  * list wrapper declares parameter cardinality, and each `valueRange` still represents
@@ -98,8 +98,11 @@ export class NumericIntervalExtractor extends BaseExtractor {
 		}
 
 		// The cqlType extension is required and authoritative: without a numeric scalar or
-		// interval type this range is not ours, whatever its boundaries look like.
-		const declaredType = declaredCqlType(parameter);
+		// interval type this range is not ours, whatever its boundaries look like. It is
+		// read from the parameter, as in the Using CQL with FHIR examples, or else from the
+		// Range itself: an engine's FHIR type converter returns only the value, so that is
+		// where it can mark one (as the Java engine marks R4 Long strings).
+		const declaredType = declaredCqlType(parameter) ?? declaredCqlType(range);
 		const pointType =
 			declaredType !== undefined ? numericIntervalPointTypeOf(declaredType) : undefined;
 		if (pointType === undefined) {
