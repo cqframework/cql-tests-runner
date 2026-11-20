@@ -703,6 +703,70 @@ test('period with Interval<System.Date> cqlType yields date literals', () => {
 	});
 });
 
+// The Java engine's FHIR type converter can only mark the Period it returns, not the
+// parameter, so the extension may sit on the Period itself.
+test('period with Interval<System.Date> cqlType on the Period yields date literals', () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					valuePeriod: {
+						extension: [
+							{
+								url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
+								valueString: 'Interval<System.Date>',
+							},
+						],
+						start: '2018-01-01',
+						end: '2018-01-04',
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		lowClosed: true,
+		low: '@2018-01-01',
+		highClosed: true,
+		high: '@2018-01-04',
+	});
+});
+
+test("the parameter's cqlType takes precedence over the Period's", () => {
+	expect(
+		extractor!.extract({
+			resourceType: 'Parameters',
+			parameter: [
+				{
+					name: 'return',
+					extension: [
+						{
+							url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
+							valueString: 'Interval<System.DateTime>',
+						},
+					],
+					valuePeriod: {
+						extension: [
+							{
+								url: 'http://hl7.org/fhir/StructureDefinition/cqf-cqlType',
+								valueString: 'Interval<System.Date>',
+							},
+						],
+						start: '2018-01-01',
+						end: '2018-01-04',
+					},
+				},
+			],
+		})
+	).toStrictEqual({
+		lowClosed: true,
+		low: '@2018-01-01T',
+		highClosed: true,
+		high: '@2018-01-04T',
+	});
+});
+
 test('date interval strips an anchored time part from Period boundaries', () => {
 	expect(
 		extractor!.extract({
